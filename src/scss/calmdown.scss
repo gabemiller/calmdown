@@ -1,0 +1,33 @@
+$colorGreenLighter: #CAD2C5;
+$colorGreenLight: #84A98C;
+
+.calmdown{}
+
+.calmdown-default-theme{
+  display: flex;
+  width: 1024px;
+  height: 768px;
+  background-color: white;
+  border: 1px solid $colorGreenLight;
+  .cd-edit{
+    flex: 1 1 50%;
+    max-width: 50%;
+    padding: 10px;
+    border: 0;
+    border-right: 1px solid $colorGreenLight;
+    &:focus{
+      outline: 0;
+    }
+  }
+  .cd-preview{
+    flex: 1 1 50%;
+    max-width: 50%;
+    padding: 10px;
+    word-wrap: break-word;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .cd-html-input{
+    display: none;
+  }
+}
