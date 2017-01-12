@@ -21,7 +21,7 @@ var gulpConfig = {
             src : './src/js/**/*.js'
         },
         webpack : {
-            src   : './src/js/calmdown.js',
+            src   : './src/js/Calmdown.js',
             dest   : './dist/scripts'
         },
         pug : {
