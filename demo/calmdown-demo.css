@@ -8,3 +8,8 @@ body{
     min-height: 100vh;
     background-color: #CAD2C5;
 }
+
+.cd-demo-container{
+    width: 1024px;
+    height: 768px;
+}
