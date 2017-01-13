@@ -1,15 +1,10 @@
 import { ShowdownConverter } from './ShowdownConverter';
 import { TextareaEditor } from './TextareaEditor';
 import { Preview } from './Preview';
-/**
- *
- */
+import { HTMLElement } from './HTMLElement';
+
 export default class Calmdown{
 
-	/**
-	 *
-	 * @param settings
-	 */
 	constructor(settings = {}){
 		this.setDefaults();
 		this.init();
@@ -40,6 +35,7 @@ export default class Calmdown{
 		this.initEditor();
 		this.initPreview();
 		this.initHiddenHtmlInput();
+		this.initHiddenMarkdownInput();
 		this.addListeners();
 	}
 
@@ -47,13 +43,30 @@ export default class Calmdown{
 	 *
 	 */
 	initHiddenHtmlInput(){
+		if(this.settings.htmlInputSelector != null ) {
+			this.htmlInputElement = new HTMLElement('textarea',
+				this.settings.htmlInputSelector,
+				this.calmdown, {
+					name: this.settings.htmlInputSelector
+				}).getElement;
+		} else {
+			this.htmlInputElement = null;
+		}
+	}
 
-		let htmlInput = document.createElement('textarea');
-		htmlInput.name = this.settings.htmlInputSelector;
-		htmlInput.className = this.settings.htmlInputSelector;
-		this.calmdown.appendChild(htmlInput);
-
-		this.htmlInputElement = document.querySelector(`.${this.settings.htmlInputSelector}`);
+	/**
+	 *
+	 */
+	initHiddenMarkdownInput(){
+		if(this.settings.markdownInputSelector != null ) {
+			this.markdownInputElement = new HTMLElement('textarea',
+				this.settings.markdownInputSelector,
+				this.calmdown, {
+					name: this.settings.markdownInputSelector
+				}).getElement;
+		} else {
+			this.markdownInputElement = null;
+		}
 	}
 
 	/**
@@ -81,8 +94,6 @@ export default class Calmdown{
 	 *
 	 */
 	addListeners(){
-		this.editor.addEventListener('input',()=>{
-			this.preview.getPreview.innerHTML = this.converter.getConverter.makeHtml(this.editor.getEditor.value);
-		});
+		this.editor.previewEventListener(this.preview.getPreview,this.converter.getConverter);
 	}
 }

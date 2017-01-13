@@ -1,16 +1,11 @@
-export class Preview{
-	constructor(className,parent){
-		this.init(className,parent);
-	}
+import { HTMLElement } from './HTMLElement';
 
-	init(className,parent){
-		let cdPreview = document.createElement('div');
-		cdPreview.className = className;
-		parent.appendChild(cdPreview);
-		this._preview = document.querySelector(`.${className}`);
+export class Preview extends HTMLElement{
+	constructor(className,parent){
+		super('div',className,parent);
 	}
 
 	get getPreview(){
-		return this._preview;
+		return this._element;
 	}
 }
