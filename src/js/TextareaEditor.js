@@ -52,16 +52,6 @@ export class TextareaEditor extends HTMLElement{
 	}
 
 	/**
-	 * Create an eventListener for the editor element
-	 *
-	 * @param event (String) - the string value of the event name
-	 * @param closure (Function) - the function that should be run when the event is fired
-	 */
-	addEventListener(event,closure){
-		this._element.addEventListener(event,closure);
-	}
-
-	/**
 	 * Refresh preview automatically if the editor content is changed
 	 *
 	 * @param preview (Element) - the preview element that shows the compiled html content

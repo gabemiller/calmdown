@@ -36,6 +36,16 @@ export class HTMLElement{
 		this._element = document.querySelector(`.${className}`);
 	}
 
+	/**
+	 * Create an eventListener for the html element
+	 *
+	 * @param event (String) - the string value of the event name
+	 * @param closure (Function) - the function that should be run when the event is fired
+	 */
+	addEventListener(event,closure){
+		this._element.addEventListener(event,closure);
+	}
+
 	static createElement(type,className,params){
 		let element = document.createElement(type);
 		element.className = className;

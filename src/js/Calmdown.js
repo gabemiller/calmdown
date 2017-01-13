@@ -1,3 +1,4 @@
+import { Config } from './Config';
 import { ShowdownConverter } from './ShowdownConverter';
 import { TextareaEditor } from './TextareaEditor';
 import { Preview } from './Preview';
@@ -15,15 +16,7 @@ export default class Calmdown{
 	 * @param settings
 	 */
 	setDefaults(settings){
-		this.settings = Object.assign({
-			'selector' : 'calmdown',
-			'editorSelector' : 'cd-editor',
-			'previewSelector' : 'cd-preview',
-			'markdownInputSelector' : 'cd-markdown-input',
-			'htmlInputSelector' : 'cd-html-input',
-			'editorType': 'textarea'
-		}, settings);
-
+		this.settings = Object.assign(Config.settings(), settings);
 		this.calmdown = document.querySelector(`.${this.settings.selector}`);
 	}
 
