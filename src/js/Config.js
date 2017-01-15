@@ -1,12 +1,36 @@
-export class Config{
-	static settings(){
-		return {
-			'selector' : 'calmdown',
-			'editorSelector' : 'cd-editor',
-			'previewSelector' : 'cd-preview',
-			'markdownInputSelector' : 'cd-markdown-input',
-			'htmlInputSelector' : 'cd-html-input',
-			'editorType': 'textarea'
-		};
-	}
-}
+export const CONFIG = {
+	/**
+	 * @type {String}
+	 */
+	'selector' : 'calmdown',
+
+	/**
+	 * @type {String}
+	 */
+	'editorSelector' : 'cd-editor',
+
+	/**
+	 * @type {String|null}
+	 */
+	'previewSelector' : 'cd-preview',
+
+	/**
+	 * @type {String|null}
+	 */
+	'markdownInputSelector' : 'cd-markdown-input',
+
+	/**
+	 * @type {String|null}
+	 */
+	'htmlInputSelector' : 'cd-html-input',
+
+	/**
+	 * @type {String}
+	 */
+	'codeHightlightStyle' : 'cd-highlight-default',
+
+	/**
+	 * @type {String}
+	 */
+	'editorType': 'textarea'
+};

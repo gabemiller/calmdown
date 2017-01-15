@@ -2,6 +2,13 @@ import { HTMLElement } from './HTMLElement';
 
 export class TextareaEditor extends HTMLElement{
 
+	/**
+	 * Represents TextareaEditor
+	 *
+	 * @constructor
+	 * @param {String} className
+	 * @param {Element} parent
+	 */
 	constructor(className,parent){
 		super('textarea',className,parent);
 	}
@@ -9,7 +16,7 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Get the initialized editor element
 	 *
-	 * @returns {Element|*} - element of the editor
+	 * @returns {Element} - element of the editor
 	 */
 	get getEditor(){
 		return this._element;
@@ -18,7 +25,7 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Get the content of the editor
 	 *
-	 * @returns (String) - the content of editor
+	 * @returns {String} - the content of editor
 	 */
 	getContent(){
 		return this._element.value;
@@ -27,7 +34,7 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Set the content of the editor
 	 *
-	 * @param content (String) - content for the editor
+	 * @param {String} content - content for the editor
 	 */
 	setContent(content){
 		this._element.value = content;
@@ -36,7 +43,7 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Append the given value to the content of the editor
 	 *
-	 * @param content (String) - additional content for the editor
+	 * @param {String} content - additional content for the editor
 	 */
 	appendContent(content){
 		this._element.value = this._editor.value + content;
@@ -45,7 +52,7 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Prepend the given value to the content of the editor
 	 *
-	 * @param content (String) - additional content for the editor
+	 * @param {String} content - additional content for the editor
 	 */
 	prependContent(content){
 		this._element.value = content + this._editor.value;
@@ -54,12 +61,17 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Refresh preview automatically if the editor content is changed
 	 *
-	 * @param preview (Element) - the preview element that shows the compiled html content
-	 * @param converter (Converter) - the converter that converts the markdown to html
+	 * @param {Element} element - the element that will contain the compiled html content
+	 * @param {Converter} converter - the converter that converts the markdown to html
+	 * @param {highlight} highlighter - the highlighter that highlights the syntax in the code tags
 	 */
-	previewEventListener(preview, converter){
+	convertMarkdownToHtmlEventListener(element, converter, highlighter){
 		this.addEventListener('input',()=>{
-			preview.innerHTML = converter.makeHtml(this.getContent());
+			element.innerHTML = converter.makeHtml(this.getContent());
+			let preList = element.getElementsByTagName('pre');
+			for (let i=0; i < preList.length; i++) {
+				highlighter.highlightBlock(preList[i]);
+			}
 		});
 	}
 }

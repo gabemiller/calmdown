@@ -1,4 +1,14 @@
 export class HTMLElement{
+
+	/**
+	 * Represents a HTMLElement
+	 *
+	 * @constructor
+	 * @param {String} type - the string value of the html tag
+	 * @param {String} className - the name of the html element
+	 * @param {Element} parent - the parent element of the created element
+	 * @param {Object} params - additional parameters for the created element
+	 */
 	constructor(type, className, parent, params = {}){
 		this.init(type, className, parent, params);
 	}
@@ -8,10 +18,10 @@ export class HTMLElement{
 	 * Get a type, a className and additional params to create a html element
 	 * and append the created element to the parent
 	 *
-	 * @param type (String) - the string value of the html tag
-	 * @param className (String) - the name of the html element
-	 * @param parent (Element) - the parent element of the created element
-	 * @param params (Object) - additional parameters for the created element
+	 * @param {String} type - the string value of the html tag
+	 * @param {String} className - the name of the html element
+	 * @param {Element} parent - the parent element of the created element
+	 * @param {Object} params - additional parameters for the created element
 	 */
 	init(type, className, parent, params){
 		// Create element
@@ -21,31 +31,54 @@ export class HTMLElement{
 		HTMLElement.appendElementToParent(element,parent);
 
 		// Get the element from the dom
-		this.setDOMElement(className);
+		this.setElementByClassName(className);
 	}
 
+	/**
+	 * Get the element
+	 *
+	 * @returns {Element} - the element
+	 */
 	get getElement(){
 		return this._element;
 	}
 
+	/**
+	 * Set the element
+	 *
+	 * @param {Element} element - the new value of the element
+	 */
 	set setElement(element){
 		this._element = element;
 	}
 
-	setDOMElement(className){
+	/**
+	 * Get the element by the class name with querySelector
+	 *
+	 * @param {String} className - the string value of the class name without dot
+	 */
+	setElementByClassName(className){
 		this._element = document.querySelector(`.${className}`);
 	}
 
 	/**
 	 * Create an eventListener for the html element
 	 *
-	 * @param event (String) - the string value of the event name
-	 * @param closure (Function) - the function that should be run when the event is fired
+	 * @param {String} event - the string value of the event name
+	 * @param {Function} closure - the function that should be run when the event is fired
 	 */
 	addEventListener(event,closure){
 		this._element.addEventListener(event,closure);
 	}
 
+	/**
+	 * Create a new element of given type with class name and parameters
+	 *
+	 * @param {String} type - the string value of type of the new element
+	 * @param {String} className - the string value of the class attribute of the element without dot
+	 * @param {Object} params - parameter object to set attribute of the element
+	 * @returns {Element} - return a new element
+	 */
 	static createElement(type,className,params){
 		let element = document.createElement(type);
 		element.className = className;
@@ -57,6 +90,12 @@ export class HTMLElement{
 		return element;
 	}
 
+	/**
+	 * Append the element to the parent element as a child
+	 *
+	 * @param {Element} element - the element that will be appended to the parent
+	 * @param {Element} parent - the parent element that will contain the given element
+	 */
 	static appendElementToParent(element,parent){
 		parent.appendChild(element);
 	}
