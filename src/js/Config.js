@@ -27,7 +27,7 @@ export const CONFIG = {
 	/**
 	 * @type {String}
 	 */
-	'codeHightlightStyle' : 'cd-highlight-default',
+	'codeHighlightStyle' : 'cd-highlight-default',
 
 	/**
 	 * @type {String}

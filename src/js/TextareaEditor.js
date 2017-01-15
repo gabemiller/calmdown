@@ -41,6 +41,26 @@ export class TextareaEditor extends HTMLElement{
 	}
 
 	/**
+	 * Alternative for getContent()
+	 * @see getContent
+	 *
+	 * @returns {String} - the content of editor
+	 */
+	getMarkdown(){
+		return this.getContent();
+	}
+
+	/**
+	 * Alternative for setContent()
+	 * @see setContent
+	 *
+	 * @param {String} markdown - content for the editor
+	 */
+	setMarkdown(markdown){
+		this.setContent(markdown);
+	}
+
+	/**
 	 * Append the given value to the content of the editor
 	 *
 	 * @param {String} content - additional content for the editor
@@ -61,17 +81,36 @@ export class TextareaEditor extends HTMLElement{
 	/**
 	 * Refresh preview automatically if the editor content is changed
 	 *
-	 * @param {Element} element - the element that will contain the compiled html content
+	 * @param {Element|Array} element - the element or array of elements that will contain the compiled html content
 	 * @param {Converter} converter - the converter that converts the markdown to html
-	 * @param {highlight} highlighter - the highlighter that highlights the syntax in the code tags
 	 */
-	convertMarkdownToHtmlEventListener(element, converter, highlighter){
+	convertMarkdownToHtmlEventListener(element, converter){
 		this.addEventListener('input',()=>{
-			element.innerHTML = converter.makeHtml(this.getContent());
-			let preList = element.getElementsByTagName('pre');
-			for (let i=0; i < preList.length; i++) {
-				highlighter.highlightBlock(preList[i]);
+			let html = converter.makeHtml(this.getContent());
+			if(element instanceof Array) {
+				for(let e of element) {
+					e.innerHTML = html;
+				}
+			} else {
+				element.innerHTML = html;
 			}
 		});
+	}
+
+	/**
+	 * Copy content of editor to hidden input automatically
+	 *
+	 * @param {Element} element - this element gets the content of the editor
+	 */
+	copyMarkdownContentToHiddenInputEventListener(element){
+		this.addEventListener('input',() => element.innerHTML = this.getContent());
+	}
+
+	/**
+	 * Process the content by triggering the input event
+	 */
+	processContent(){
+		let e = new Event('input');
+		this._element.dispatchEvent(e);
 	}
 }

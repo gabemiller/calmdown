@@ -3,7 +3,7 @@ import { ShowdownConverter } from './ShowdownConverter';
 import { TextareaEditor } from './TextareaEditor';
 import { Preview } from './Preview';
 import { HTMLElement } from './HTMLElement';
-import * as hljs from 'highlight.js';
+import * as Prism from 'prismjs';
 
 export default class Calmdown{
 
@@ -26,7 +26,8 @@ export default class Calmdown{
 	setDefaults(settings){
 		this.settings = Object.assign(CONFIG, settings);
 		this.calmdown = document.querySelector(`.${this.settings.selector}`);
-		this.codeHighlight = hljs;
+		//this.codeHighlighter = hljs;
+		this.codeHighlighter = Prism;
 	}
 
 	/**
@@ -47,7 +48,7 @@ export default class Calmdown{
 	 * Initialize code higlighting
 	 */
 	initCodeHightlight(){
-		this.calmdown.className += ` ${this.settings.codeHightlightStyle}`;
+		this.calmdown.className += ` ${this.settings.codeHighlightStyle}`;
 	}
 
 	/**
@@ -86,7 +87,7 @@ export default class Calmdown{
 	 * Initialize markdown converter
 	 */
 	initConverter(){
-		this.converter = new ShowdownConverter();
+		this.converter = new ShowdownConverter(this.codeHighlighter);
 	}
 
 	/**
@@ -134,11 +135,11 @@ public void static main(){
 	 * Initialize event listeners
 	 */
 	initEventListeners(){
-		this.editor.convertMarkdownToHtmlEventListener(this.preview.getPreview,this.converter.getConverter,this.codeHighlight);
+		this.editor.convertMarkdownToHtmlEventListener([this.preview.getPreview,this.htmlInputElement],this.converter);
 	}
 
 	triggerEvents(){
-		this.editor.getElement;
+		this.editor.processContent();
 	}
 
 	/**
@@ -157,6 +158,7 @@ public void static main(){
 	 */
 	setContent(content){
 		this.editor.setContent(content);
+		this.editor.processContent();
 	}
 
 }
