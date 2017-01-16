@@ -133,8 +133,13 @@ public void static main(){
 	 */
 	initEventListeners(){
 		this.editor.convertMarkdownToHtmlEventListener([this.preview.getPreview,this.htmlInputElement],this.converter);
+		this.editor.copyMarkdownContentToHiddenInputEventListener(this.markdownInputElement);
+		this.editor.addKeyCommandsEventListener();
 	}
 
+	/**
+	 *
+	 */
 	triggerEvents(){
 		this.editor.processContent();
 	}

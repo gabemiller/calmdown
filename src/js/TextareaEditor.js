@@ -107,6 +107,68 @@ export class TextareaEditor extends HTMLElement{
 	}
 
 	/**
+	 *
+	 */
+	addKeyCommandsEventListener(){
+		this.addEventListener('keydown',(e) => {
+			if(e.keyCode == 9){ // tab
+				e.preventDefault();
+				this.setSelectedContent('\t');
+			}
+			if(e.ctrlKey){
+				switch(e.keyCode){
+				case 66: // b
+					let saveCursorPosition = this.getCursorPosition();
+					this.setSelectedContent('**'+this.getSelectedContent()+'**');
+					if(this.getSelectedContent().length == 0){
+						this.setCursorPosition(saveCursorPosition);
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		});
+	}
+
+	/**
+	 *
+	 * @returns {string}
+	 */
+	getSelectedContent(){
+		let start = this._element.selectionStart;
+		let end = this._element.selectionEnd;
+		return this._element.value.substring(start,end);
+	}
+
+	/**
+	 *
+	 * @param content
+	 */
+	setSelectedContent(content){
+		let start = this._element.selectionStart;
+		let end = this._element.selectionEnd;
+		this._element.value = this._element.value.substring(0,start) + content +  this._element.value.substring(end);
+	}
+
+	/**
+	 *
+	 * @returns {Number}
+	 */
+	getCursorPosition(){
+		return this._element.selectionStart;
+	}
+
+	/**
+	 *
+	 * @param {Number} position
+	 */
+	setCursorPosition(position){
+		this._element.selectionStart = position;
+		this._element.selectionEnd = position;
+	}
+
+	/**
 	 * Process the content by triggering the input event
 	 */
 	processContent(){
