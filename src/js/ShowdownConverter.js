@@ -1,18 +1,17 @@
 import * as showdown from 'showdown';
+import { SyntaxHighlighter } from './SyntaxHighlighter';
 
 export class ShowdownConverter{
 
 	/**
 	 * Represents ShowdownConverter
 	 *
-	 * @param {highlight|null} codeHighlighter - highlights the syntax in the code tags
 	 * @param {String} flavor - flavor of the converter
-	 * @default 'github'
  	 */
-	constructor(codeHighlighter = null, flavor = 'github'){
+	constructor(flavor = 'github'){
 		this._converter = new showdown.Converter();
 		this.setFlavor(flavor);
-		this._codeHighlighter = codeHighlighter;
+		this._codeHighlighter = new SyntaxHighlighter().getHighlighter;
 	}
 
 	/**

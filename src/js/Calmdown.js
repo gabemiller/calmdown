@@ -3,7 +3,6 @@ import { ShowdownConverter } from './ShowdownConverter';
 import { TextareaEditor } from './TextareaEditor';
 import { Preview } from './Preview';
 import { HTMLElement } from './HTMLElement';
-import * as Prism from 'prismjs';
 
 export default class Calmdown{
 
@@ -26,8 +25,6 @@ export default class Calmdown{
 	setDefaults(settings){
 		this.settings = Object.assign(CONFIG, settings);
 		this.calmdown = document.querySelector(`.${this.settings.selector}`);
-		//this.codeHighlighter = hljs;
-		this.codeHighlighter = Prism;
 	}
 
 	/**
@@ -87,7 +84,7 @@ export default class Calmdown{
 	 * Initialize markdown converter
 	 */
 	initConverter(){
-		this.converter = new ShowdownConverter(this.codeHighlighter);
+		this.converter = new ShowdownConverter();
 	}
 
 	/**
