@@ -1,4 +1,5 @@
 import { HTMLElement } from './HTMLElement';
+import { UserInteraction } from './UserInteraction';
 
 export class TextareaEditor extends HTMLElement{
 
@@ -11,6 +12,7 @@ export class TextareaEditor extends HTMLElement{
 	 */
 	constructor(className,parent){
 		super('textarea',className,parent);
+		this.userInteraction = new UserInteraction(this);
 	}
 
 	/**
@@ -110,25 +112,9 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 */
 	addKeyCommandsEventListener(){
-		this.addEventListener('keydown',(e) => {
-			if(e.keyCode == 9){ // tab
-				e.preventDefault();
-				this.setSelectedContent('\t');
-			}
-			if(e.ctrlKey){
-				switch(e.keyCode){
-				case 66: // b
-					let saveCursorPosition = this.getCursorPosition();
-					this.setSelectedContent('**'+this.getSelectedContent()+'**');
-					if(this.getSelectedContent().length == 0){
-						this.setCursorPosition(saveCursorPosition);
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		});
+		this.userInteraction.addKeyDownInsertContent('ctrl+b','**','**');
+		this.userInteraction.addKeyDownInsertContent('ctrl+i','_','_');
+		this.userInteraction.addKeyDownInsertContent('tab','\t');
 	}
 
 	/**

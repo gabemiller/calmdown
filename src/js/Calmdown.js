@@ -13,7 +13,7 @@ export default class Calmdown{
 	 * @param {Object} settings
 	 */
 	constructor(settings = {}){
-		this.setDefaults();
+		this.setDefaults(settings);
 		this.init();
 	}
 
