@@ -46,6 +46,7 @@
   },
   "homepage": "https://github.com/gabemiller/web-development-bootstrap#readme",
   "dependencies": {
+    "mousetrap": "^1.6.0",
     "prismjs": "^1.6.0",
     "showdown": "^1.6.0"
   }
