@@ -2,37 +2,71 @@ $colorGrayLighter: #f8f8f8;
 $colorGrayLight: #d1d1d1;
 $colorGrayDark: #484848;
 
-
-.calmdown{}
-
 .calmdown-default-theme{
   display: flex;
-  width: 100%;
-  height: 100%;
-  background-color: white;
   border: 1px solid $colorGrayLight;
-  .cd-editor{
-    flex: 1 1 50%;
-    max-width: 50%;
-    padding: 10px;
-    border: 0;
-    border-right: 1px solid $colorGrayLight;
-    resize: none;
-    &:focus{
-      outline: 0;
+  flex-direction: column;
+  .cd-toolbar{
+    padding: 5px;
+    background-color: $colorGrayLighter;
+    border-bottom: 1px solid $colorGrayLight;
+  }
+  .cd-body{
+    flex: 1;
+    display: flex;
+    .cd-editor{
+      flex: 1 1 50%;
+      max-width: 50%;
+      padding: 10px;
+      border: 0;
+      background-color: white;
+      border-right: 1px solid $colorGrayLight;
+      resize: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+      &:focus{
+        outline: 0;
+      }
+    }
+    .cd-preview{
+      flex: 1 1 50%;
+      max-width: 50%;
+      padding: 10px;
+      background-color: white;
+      word-wrap: break-word;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
-  .cd-preview{
-    flex: 1 1 50%;
-    max-width: 50%;
-    padding: 10px;
-    word-wrap: break-word;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  .cd-html-input,
-  .cd-markdown-input{
-    display: none;
+  .cd-resize{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10.5px;
+    background-color: $colorGrayLighter;
+    border-top: 1px solid $colorGrayLight;
+    cursor: s-resize;
+    .cd-bars{
+      width: 25px;
+      height: 1px;
+      position: relative;
+      background-color: $colorGrayLight;
+      &:before,
+      &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        width: 25px;
+        height: 1px;
+        background-color: $colorGrayLight;
+      }
+      &:before{
+       top: -2px;
+      }
+      &:after{
+        bottom: -2px;
+      }
+    }
   }
 }
 

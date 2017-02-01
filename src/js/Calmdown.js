@@ -22,9 +22,10 @@ export default class Calmdown{
 	 *
 	 * @param {Object} settings
 	 */
-	setDefaults(settings){
+	setDefaults(settings) {
 		this.settings = Object.assign(CONFIG, settings);
 		this.calmdown = document.querySelector(`.${this.settings.selector}`);
+		this.calmdown.style = `width: ${this.settings.width}; height: ${this.settings.height};`;
 	}
 
 	/**
@@ -33,6 +34,8 @@ export default class Calmdown{
 	init(){
 		this.initCodeHightlight();
 		this.initConverter();
+		this.initBody();
+		this.initResize();
 		this.initEditor();
 		this.initPreview();
 		this.initHiddenHtmlInput();
@@ -49,6 +52,45 @@ export default class Calmdown{
 	}
 
 	/**
+	 * Initialize toolbar
+	 */
+	initToolbar(){
+		this.toolbar = new HTMLElement('div', this.settings.bodySelector, this.calmdown).getElement;
+	}
+
+	/**
+	 * Initialize body
+	 */
+	initBody(){
+		this.calmdownBody = new HTMLElement('div', this.settings.bodySelector, this.calmdown).getElement;
+	}
+
+	/**
+	 * Initialize resizer div
+	 */
+	initResize(){
+		this.resize = new HTMLElement('div', 'cd-resize', this.calmdown).getElement;
+		new HTMLElement('span','cd-bars',this.resize);
+
+		let isResizing = false;
+		let startY;
+		this.resize.addEventListener('mousedown',(e)=>{
+			e.preventDefault();
+			isResizing = true;
+		});
+		document.addEventListener('mousemove',(e)=>{
+			e.preventDefault();
+			if(isResizing) {
+				this.calmdown.style.height = (e.clientY - this.calmdown.offsetTop + 5.25)+'px';
+			}
+		});
+		this.resize.addEventListener('mouseup',(e)=>{
+			e.preventDefault();
+			isResizing = false;
+		});
+	}
+
+	/**
 	 * Initialize hidden html input
 	 *
 	 * This textarea value can be sent through some http methods
@@ -59,7 +101,8 @@ export default class Calmdown{
 			this.htmlInputElement = new HTMLElement('textarea',
 				this.settings.htmlInputSelector,
 				this.calmdown, {
-					name: this.settings.htmlInputSelector
+					name: this.settings.htmlInputSelector,
+					style: 'display: none;'
 				}).getElement;
 		}
 	}
@@ -75,7 +118,8 @@ export default class Calmdown{
 			this.markdownInputElement = new HTMLElement('textarea',
 				this.settings.markdownInputSelector,
 				this.calmdown, {
-					name: this.settings.markdownInputSelector
+					name: this.settings.markdownInputSelector,
+					style: 'display: none;'
 				}).getElement;
 		}
 	}
@@ -91,41 +135,15 @@ export default class Calmdown{
 	 * Initialize editor area
 	 */
 	initEditor(){
-		this.editor = new TextareaEditor(this.settings.editorSelector,this.calmdown);
-		this.editor.getEditor.value = `\`\`\`html 
-<div class="hello">Hello, World!</div> 
-\`\`\`
-`;
-		this.editor.getEditor.value += `\`\`\`javascript 
-console.log("Hello, World!"); 
-\`\`\`
-`;
-		this.editor.getEditor.value += `\`\`\`java 
-public void static main(){		
-	System.out.println("Hello, World!");
-}
-\`\`\`
-`;
-		this.editor.getEditor.value += `\`\`\`php
-<?php		
-	echo "Hello, World!";
-\`\`\`
-`;
-		this.editor.getEditor.value += `\`\`\`css 
-.hello {
-	content: "world";
-	font-size: 1rem;
-	color: #000;
-} 
-\`\`\`
-`;
+		this.editor = new TextareaEditor(this.settings.editorSelector,this.calmdownBody);
+		this.editor.getEditor.value = this.settings.defaultContent;
 	}
 
 	/**
 	 * Initialize preview area
 	 */
 	initPreview(){
-		this.preview = new Preview(this.settings.previewSelector,this.calmdown);
+		this.preview = new Preview(this.settings.previewSelector,this.calmdownBody);
 	}
 
 	/**

@@ -1,8 +1,24 @@
 export const CONFIG = {
+
+	/**
+	 * @type {String}
+	 */
+	'width' : '100%',
+
+	/**
+	 * @type {String}
+	 */
+	'height' : '500px',
+
 	/**
 	 * @type {String}
 	 */
 	'selector' : 'calmdown',
+
+	/**
+	 * @type {String}
+	 */
+	'bodySelector': 'cd-body',
 
 	/**
 	 * @type {String}

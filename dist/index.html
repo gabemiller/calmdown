@@ -8,16 +8,20 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="demo/normalize.css" type="text/css">
     <link rel="stylesheet" href="demo/calmdown-demo.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="css/calmdown.min.css" type="text/css">
   </head>
 
   <body>
-    <div class="cd-demo-container">
-      <div class="calmdown calmdown-default-theme"></div>
-    </div>
+    <div class="calmdown calmdown-default-theme"></div>
     <script src="scripts/calmdown.min.js"></script>
     <script>
-      new Calmdown();
+      new Calmdown(
+      {
+        'width': '1024px',
+        'height': '768px',
+        'defaultContent': '# Calmdown! It\'s just the beginning'
+      });
     </script>
   </body>
 

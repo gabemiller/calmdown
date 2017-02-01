@@ -3,13 +3,8 @@
 }
 body{
     display: flex;
-    align-items: center;
     justify-content: center;
+    padding-top: 100px;
     min-height: 100vh;
     background-color: white;
-}
-
-.cd-demo-container{
-    width: 1024px;
-    height: 768px;
 }

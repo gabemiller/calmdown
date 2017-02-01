@@ -8,10 +8,14 @@ html
         link(rel='icon',href='favicon.ico',type='image/x-icon')
         link(rel='stylesheet',href='demo/normalize.css',type='text/css')
         link(rel='stylesheet',href='demo/calmdown-demo.css',type='text/css')
+        link(rel='stylesheet',href='css/font-awesome.min.css',type='text/css')
         link(rel='stylesheet',href='css/calmdown.min.css',type='text/css')
     body
-        .cd-demo-container
-            .calmdown.calmdown-default-theme
+        .calmdown.calmdown-default-theme
         script(src='scripts/calmdown.min.js')
         script
-            | new Calmdown();
+            | new Calmdown({
+            |   'width':'1024px',
+            |   'height':'768px',
+            |   'defaultContent':'# Calmdown! It\'s just the beginning'
+            |});
