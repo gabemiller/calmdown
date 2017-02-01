@@ -112,9 +112,13 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 */
 	addKeyCommandsEventListener(){
-		this.userInteraction.addKeyDownInsertContent('ctrl+b','**','**');
-		this.userInteraction.addKeyDownInsertContent('ctrl+i','_','_');
-		this.userInteraction.addKeyDownInsertContent('tab','\t');
+		this.userInteraction.addInsertKeyboardEvent('ctrl+b','**','**');
+		this.userInteraction.addInsertKeyboardEvent('ctrl+i','_','_');
+		this.userInteraction.addInsertKeyboardEvent('tab','\t');
+		this.userInteraction.addInsertKeyboardEvent('ctrl+shift+i','![',']()');
+		this.userInteraction.addInsertKeyboardEvent('ctrl+l','[',']()');
+		this.userInteraction.addInsertKeyboardEvent('ctrl+k','\`\`\`','\n\`\`\`');
+		this.userInteraction.addInsertKeyboardEvent('ctrl+shift+k','\`','\`');
 	}
 
 	/**

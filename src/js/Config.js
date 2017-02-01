@@ -32,5 +32,10 @@ export const CONFIG = {
 	/**
 	 * @type {String}
 	 */
-	'editorType': 'textarea'
+	'editorType': 'textarea',
+
+	/**
+	 * @type {String}
+	 */
+	'defaultContent': ''
 };
