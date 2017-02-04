@@ -1,13 +1,23 @@
 {
-  "name": "web-development-bootstrap",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "Calmdown",
+  "description": "Lightweight markdown editor",
+  "version": "0.5.0-beta",
+  "keywords": [
+    "markdown",
+    "markdowneditor",
+    "editor",
+    "wysiwyg",
+    "showdown",
+    "syntaxhightlight"
+  ],
   "author": "Gabor Molnar <gabormolnar92@gmail.com>",
   "license": "MIT",
-  "description": "Bootstrap for web development",
+  "scripts": {
+    "dev": "gulp init"
+  },
+  "style": "dist/css/calmdown.min.css",
+  "sass": "src/scss/calmdown.scss",
+  "main": "dist/scripts/calmdown.min.js",
   "devDependencies": {
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
@@ -35,20 +45,17 @@
     "vinyl-named": "^1.1.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2",
-    "webpack-stream": "^3.2.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gabemiller/web-development-bootstrap.git"
-  },
-  "bugs": {
-    "url": "https://github.com/gabemiller/web-development-bootstrap/issues"
-  },
-  "homepage": "https://github.com/gabemiller/web-development-bootstrap#readme",
-  "dependencies": {
-    "font-awesome": "^4.7.0",
+    "webpack-stream": "^3.2.0",
     "mousetrap": "^1.6.0",
     "prismjs": "^1.6.0",
     "showdown": "^1.6.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabemiller/calmdown.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gabemiller/calmdown/issues"
+  },
+  "homepage": "https://github.com/gabemiller/calmdown#readme"
 }
