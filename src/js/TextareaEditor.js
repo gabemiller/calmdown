@@ -1,5 +1,4 @@
 import { HTMLElement } from './HTMLElement';
-import { UserInteraction } from './UserInteraction';
 
 export class TextareaEditor extends HTMLElement{
 
@@ -12,7 +11,6 @@ export class TextareaEditor extends HTMLElement{
 	 */
 	constructor(className,parent){
 		super('textarea',className,parent);
-		this.userInteraction = new UserInteraction(this);
 	}
 
 	/**
@@ -106,19 +104,6 @@ export class TextareaEditor extends HTMLElement{
 	 */
 	copyMarkdownContentToHiddenInputEventListener(element){
 		this.addEventListener('input',() => element.innerHTML = this.getContent());
-	}
-
-	/**
-	 *
-	 */
-	addKeyCommandsEventListener(){
-		this.userInteraction.addInsertKeyboardEvent('ctrl+b','**','**');
-		this.userInteraction.addInsertKeyboardEvent('ctrl+i','_','_');
-		this.userInteraction.addInsertKeyboardEvent('tab','\t');
-		this.userInteraction.addInsertKeyboardEvent('ctrl+shift+i','![',']()');
-		this.userInteraction.addInsertKeyboardEvent('ctrl+l','[',']()');
-		this.userInteraction.addInsertKeyboardEvent('ctrl+k','\`\`\`','\n\`\`\`');
-		this.userInteraction.addInsertKeyboardEvent('ctrl+shift+k','\`','\`');
 	}
 
 	/**

@@ -6,6 +6,7 @@ $colorGrayDark: #484848;
   display: flex;
   border: 1px solid $colorGrayLight;
   flex-direction: column;
+  overflow: hidden;
   .cd-toolbar{
     padding: 5px;
     background-color: $colorGrayLighter;

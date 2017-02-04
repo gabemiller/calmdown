@@ -65,10 +65,10 @@ export class HTMLElement{
 	 * Create an eventListener for the html element
 	 *
 	 * @param {String} event - the string value of the event name
-	 * @param {Function} closure - the function that should be run when the event is fired
+	 * @param {Function} callback - the function that should be run when the event is fired
 	 */
-	addEventListener(event,closure){
-		this._element.addEventListener(event,closure);
+	addEventListener(event,callback){
+		this._element.addEventListener(event,callback);
 	}
 
 	/**
