@@ -23,6 +23,7 @@ or reset before use Calmdown. In the demo project I used normalize.css.
     <div class="calmdown"></div> 
    ```
 1. Initialize a new instance of the Calmdown under the calmdown.min.js script tag
+   
    ```html
     <script>
        new Calmdown({
