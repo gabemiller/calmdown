@@ -47,6 +47,11 @@ gulp.task('scss', function() {
         .pipe(connect.reload());
 });
 
+/**
+ * Gulp task
+ *
+ * Lint the es files
+ */
 gulp.task('eslint', function(){
     return gulp.src(path.eslint.src)
         .pipe(eslint())

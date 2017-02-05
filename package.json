@@ -41,7 +41,6 @@
     "gulp-sourcemaps": "^2.1.1",
     "gulp-uglify": "^1.5.4",
     "gulp-util": "^3.0.7",
-    "normalize.css": "^5.0.0",
     "vinyl-named": "^1.1.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2",
@@ -57,5 +56,8 @@
   "bugs": {
     "url": "https://github.com/gabemiller/calmdown/issues"
   },
-  "homepage": "https://github.com/gabemiller/calmdown#readme"
+  "homepage": "https://github.com/gabemiller/calmdown#readme",
+  "dependencies": {
+    "normalize.css": "^5.0.0"
+  }
 }
