@@ -26,9 +26,9 @@ or reset before use Calmdown. In the demo project I used normalize.css.
    
    ```html
     <script>
-       new Calmdown({
+       var cd = new Calmdown({
     	    // optional configuration
-       })
+       });
     </script>
    ```
    
