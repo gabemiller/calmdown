@@ -28,6 +28,9 @@ var gulpConfig = {
             src : './src/views/*.pug',
             dest: './dist'
         },
+        ghPages : {
+            src : './dist/**/*'
+        },
         webserver : {
             root: 'dist'
         },

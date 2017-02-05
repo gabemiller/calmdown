@@ -21,6 +21,7 @@ var rename = require('gulp-rename');
 var cleanCss = require('gulp-clean-css');
 var named = require('vinyl-named');
 var eslint = require('gulp-eslint');
+var ghPages = require('gulp-gh-pages');
 
 /**
  *  Gulp config
@@ -91,6 +92,17 @@ gulp.task('pug', function () {
         }))
         .pipe(gulp.dest(path.pug.dest))
         .pipe(connect.reload());
+});
+
+/**
+ * Gulp Task
+ *
+ * Deploy to github pages
+ */
+
+gulp.task('deploy', function() {
+	return gulp.src(path.ghPages.src)
+		.pipe(ghPages());
 });
 
 /**
