@@ -34,6 +34,8 @@ or reset before use Calmdown. In the demo project I used normalize.css.
    
 ## Version history
 
+- **0.5.3**
+    + Fix firefox scrollbar issue
 - **0.5.2**
     + Add airbnb js style guide
 - **0.5.1**
