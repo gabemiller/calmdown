@@ -36,7 +36,6 @@ export default class Calmdown {
 	init() {
 		this.initCodeHightlight();
 		this.initConverter();
-		this.initBody();
 		this.initResize();
 		this.initEditor();
 		this.initPreview();
@@ -62,13 +61,6 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Initialize body
-	 */
-	initBody() {
-		this.calmdownBody = new HTMLElement('div', this.settings.bodySelector, this.calmdown).getElement;
-	}
-
-	/**
 	 * Initialize resizer div
 	 */
 	initResize() {
@@ -82,7 +74,8 @@ export default class Calmdown {
 		});
 		document.addEventListener('mousemove', (e) => {
 			if (isResizing) {
-				this.calmdown.style.height = `${(e.clientY - this.calmdown.offsetTop) + (this.resize.offsetHeight / 2)}px`;
+				this.settings.height = `${(e.clientY - this.calmdown.offsetTop) + (this.resize.offsetHeight / 2)}px`;
+				this.calmdown.style.height = this.settings.height;
 			}
 		});
 		this.resize.addEventListener('mouseup', (e) => {
@@ -136,7 +129,7 @@ export default class Calmdown {
 	 * Initialize editor area
 	 */
 	initEditor() {
-		this.editor = new TextareaEditor(this.settings.editorSelector, this.calmdownBody);
+		this.editor = new TextareaEditor(this.settings.editorSelector, this.calmdown);
 		this.editor.getEditor.value = this.settings.defaultContent;
 	}
 
@@ -152,7 +145,7 @@ export default class Calmdown {
 	 * Initialize preview area
 	 */
 	initPreview() {
-		this.preview = new Preview(this.settings.previewSelector, this.calmdownBody);
+		this.preview = new Preview(this.settings.previewSelector, this.calmdown);
 	}
 
 	/**

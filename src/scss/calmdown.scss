@@ -5,48 +5,51 @@ $colorGrayDark: #484848;
 .calmdown-default-theme{
   display: flex;
   border: 1px solid $colorGrayLight;
-  flex-direction: column;
-  overflow: hidden;
+  position: relative;
   .cd-toolbar{
     padding: 5px;
     background-color: $colorGrayLighter;
     border-bottom: 1px solid $colorGrayLight;
   }
-  .cd-body{
-    flex: 1;
-    display: flex;
-    .cd-editor{
-      flex: 1 1 50%;
-      max-width: 50%;
-      padding: 10px;
-      border: 0;
-      background-color: white;
-      border-right: 1px solid $colorGrayLight;
-      resize: none;
-      overflow-y: auto;
-      overflow-x: hidden;
-      &:focus{
-        outline: 0;
-      }
-    }
-    .cd-preview{
-      flex: 1 1 50%;
-      max-width: 50%;
-      padding: 10px;
-      background-color: white;
-      word-wrap: break-word;
-      overflow-y: auto;
-      overflow-x: hidden;
+  .cd-editor{
+    flex: 1 1 50%;
+    max-width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    background-color: white;
+    border-right: 1px solid $colorGrayLight;
+    resize: none;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &:focus{
+      outline: 0;
     }
   }
+  .cd-preview{
+    flex: 1 1 50%;
+    max-width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    word-wrap: break-word;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
   .cd-resize{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 10.5px;
+    height: 10px;
     background-color: $colorGrayLighter;
-    border-top: 1px solid $colorGrayLight;
     cursor: s-resize;
+    border-top: 1px solid $colorGrayLight;
     .cd-bars{
       width: 25px;
       height: 1px;
