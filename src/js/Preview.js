@@ -1,6 +1,6 @@
-import { HTMLElement } from './HTMLElement';
+import HTMLElement from './HTMLElement';
 
-export class Preview extends HTMLElement{
+export default class Preview extends HTMLElement {
 
 	/**
 	 * Represents Preview
@@ -9,8 +9,8 @@ export class Preview extends HTMLElement{
 	 * @param className
 	 * @param parent
 	 */
-	constructor(className,parent){
-		super('div',className,parent);
+	constructor(className, parent) {
+		super('div', className, parent);
 	}
 
 	/**
@@ -18,7 +18,7 @@ export class Preview extends HTMLElement{
 	 *
 	 * @returns {Element} - the preview element
 	 */
-	get getPreview(){
-		return this._element;
+	get getPreview() {
+		return this.element;
 	}
 }

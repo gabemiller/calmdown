@@ -1,4 +1,4 @@
-export class HTMLElement{
+export default class HTMLElement {
 
 	/**
 	 * Represents a HTMLElement
@@ -9,7 +9,7 @@ export class HTMLElement{
 	 * @param {Element} parent - the parent element of the created element
 	 * @param {Object} params - additional parameters for the created element
 	 */
-	constructor(type, className, parent, params = {}){
+	constructor(type, className, parent, params = {}) {
 		this.init(type, className, parent, params);
 	}
 
@@ -23,12 +23,12 @@ export class HTMLElement{
 	 * @param {Element} parent - the parent element of the created element
 	 * @param {Object} params - additional parameters for the created element
 	 */
-	init(type, className, parent, params){
+	init(type, className, parent, params) {
 		// Create element
-		let element = HTMLElement.createElement(type,className,params);
+		const element = HTMLElement.createElement(type, className, params);
 
 		// Append element to parent
-		HTMLElement.appendElementToParent(element,parent);
+		HTMLElement.appendElementToParent(element, parent);
 
 		// Get the element from the dom
 		this.setElementByClassName(className);
@@ -39,8 +39,8 @@ export class HTMLElement{
 	 *
 	 * @returns {Element} - the element
 	 */
-	get getElement(){
-		return this._element;
+	get getElement() {
+		return this.element;
 	}
 
 	/**
@@ -48,8 +48,8 @@ export class HTMLElement{
 	 *
 	 * @param {Element} element - the new value of the element
 	 */
-	set setElement(element){
-		this._element = element;
+	set setElement(element) {
+		this.element = element;
 	}
 
 	/**
@@ -57,8 +57,8 @@ export class HTMLElement{
 	 *
 	 * @param {String} className - the string value of the class name without dot
 	 */
-	setElementByClassName(className){
-		this._element = document.querySelector(`.${className}`);
+	setElementByClassName(className) {
+		this.element = document.querySelector(`.${className}`);
 	}
 
 	/**
@@ -67,8 +67,8 @@ export class HTMLElement{
 	 * @param {String} event - the string value of the event name
 	 * @param {Function} callback - the function that should be run when the event is fired
 	 */
-	addEventListener(event,callback){
-		this._element.addEventListener(event,callback);
+	addEventListener(event, callback) {
+		this.element.addEventListener(event, callback);
 	}
 
 	/**
@@ -79,11 +79,11 @@ export class HTMLElement{
 	 * @param {Object} params - parameter object to set attribute of the element
 	 * @returns {Element} - return a new element
 	 */
-	static createElement(type,className,params){
-		let element = document.createElement(type);
+	static createElement(type, className, params) {
+		const element = document.createElement(type);
 		element.className = className;
 
-		for(let key of Object.keys(params)) {
+		for (const key of Object.keys(params)) {
 			element[key] = params[key];
 		}
 
@@ -96,8 +96,20 @@ export class HTMLElement{
 	 * @param {Element} element - the element that will be appended to the parent
 	 * @param {Element} parent - the parent element that will contain the given element
 	 */
-	static appendElementToParent(element,parent){
+	static appendElementToParent(element, parent) {
 		parent.appendChild(element);
+	}
+
+	/**
+	 *
+	 * @param type
+	 * @param className
+	 * @param parent
+	 * @param params
+	 * @returns {HTMLElement}
+	 */
+	static create(type, className, parent, params = {}) {
+		return new HTMLElement(type, className, parent, params);
 	}
 
 }

@@ -1,7 +1,7 @@
-import * as Mousetrap from 'mousetrap';
+import Mousetrap from 'mousetrap';
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 
-export class UserInteraction{
+export default class UserInteraction {
 
 	/**
 	 * Represents UserInteraction
@@ -9,8 +9,8 @@ export class UserInteraction{
 	 * @constructor
 	 * @param {Element} element
 	 */
-	constructor(element = null){
-		this._mousetrap = new Mousetrap.default(element);
+	constructor(element = null) {
+		this.mousetrap = new Mousetrap(element);
 	}
 
 	/**
@@ -18,8 +18,8 @@ export class UserInteraction{
 	 * @param key
 	 * @param callback
 	 */
-	keyboardEvent(key,callback){
-		this._mousetrap.bind(key,callback);
+	keyboardEvent(key, callback) {
+		this.mousetrap.bind(key, callback);
 	}
 
 	/**
@@ -27,8 +27,8 @@ export class UserInteraction{
 	 * @param key
 	 * @param callback
 	 */
-	keyboardEventGlobal(key,callback){
-		this._mousetrap.bindGlobal(key,callback);
+	keyboardEventGlobal(key, callback) {
+		this.mousetrap.bindGlobal(key, callback);
 	}
 
 }

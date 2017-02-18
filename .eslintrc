@@ -7,10 +7,13 @@
     "browser": true,
     "node": true
   },
-  "rules":{
-    "camelcase": 2,
-    "comma-dangle": 2,
-    "quotes": [2,"single"],
-    "indent":[2,"tab"]
+  "extends": "airbnb",
+  "rules": {
+    "no-tabs": "off",
+    "linebreak-style": ["error", "windows"],
+    "indent": ["error","tab"],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-plusplus": "off",
+    "no-restricted-syntax": "off"
   }
 }

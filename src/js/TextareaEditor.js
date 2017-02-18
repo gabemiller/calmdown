@@ -1,6 +1,6 @@
-import { HTMLElement } from './HTMLElement';
+import HTMLElement from './HTMLElement';
 
-export class TextareaEditor extends HTMLElement{
+export default class TextareaEditor extends HTMLElement {
 
 	/**
 	 * Represents TextareaEditor
@@ -9,8 +9,8 @@ export class TextareaEditor extends HTMLElement{
 	 * @param {String} className
 	 * @param {Element} parent
 	 */
-	constructor(className,parent){
-		super('textarea',className,parent);
+	constructor(className, parent) {
+		super('textarea', className, parent);
 	}
 
 	/**
@@ -18,8 +18,8 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @returns {Element} - element of the editor
 	 */
-	get getEditor(){
-		return this._element;
+	get getEditor() {
+		return this.element;
 	}
 
 	/**
@@ -27,8 +27,8 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @returns {String} - the content of editor
 	 */
-	getContent(){
-		return this._element.value;
+	getContent() {
+		return this.element.value;
 	}
 
 	/**
@@ -36,8 +36,8 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @param {String} content - content for the editor
 	 */
-	setContent(content){
-		this._element.value = content;
+	setContent(content) {
+		this.element.value = content;
 	}
 
 	/**
@@ -46,7 +46,7 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @returns {String} - the content of editor
 	 */
-	getMarkdown(){
+	getMarkdown() {
 		return this.getContent();
 	}
 
@@ -56,7 +56,7 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @param {String} markdown - content for the editor
 	 */
-	setMarkdown(markdown){
+	setMarkdown(markdown) {
 		this.setContent(markdown);
 	}
 
@@ -65,8 +65,8 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @param {String} content - additional content for the editor
 	 */
-	appendContent(content){
-		this._element.value = this._editor.value + content;
+	appendContent(content) {
+		this.element.value = this.editor.value + content;
 	}
 
 	/**
@@ -74,21 +74,21 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @param {String} content - additional content for the editor
 	 */
-	prependContent(content){
-		this._element.value = content + this._editor.value;
+	prependContent(content) {
+		this.element.value = content + this.editor.value;
 	}
 
 	/**
 	 * Refresh preview automatically if the editor content is changed
 	 *
-	 * @param {Element|Array} element - the element or array of elements that will contain the compiled html content
-	 * @param {Converter} converter - the converter that converts the markdown to html
+	 * @param {Element|Array} element - contains the compiled html content
+	 * @param {Converter} converter - converts the markdown to html
 	 */
-	convertMarkdownToHtmlEventListener(element, converter){
-		this.addEventListener('input',()=>{
-			let html = converter.makeHtml(this.getContent());
-			if(element instanceof Array) {
-				for(let e of element) {
+	convertMarkdownToHtmlEventListener(element, converter) {
+		this.addEventListener('input', () => {
+			const html = converter.makeHtml(this.getContent());
+			if (element instanceof Array) {
+				for (const e of element) {
 					e.innerHTML = html;
 				}
 			} else {
@@ -102,52 +102,55 @@ export class TextareaEditor extends HTMLElement{
 	 *
 	 * @param {Element} element - this element gets the content of the editor
 	 */
-	copyMarkdownContentToHiddenInputEventListener(element){
-		this.addEventListener('input',() => element.innerHTML = this.getContent());
+	copyMarkdownContentToHiddenInputEventListener(element) {
+		this.addEventListener('input', () => { element.innerHTML = this.getContent(); });
 	}
 
 	/**
 	 *
 	 * @returns {string}
 	 */
-	getSelectedContent(){
-		let start = this._element.selectionStart;
-		let end = this._element.selectionEnd;
-		return this._element.value.substring(start,end);
+	getSelectedContent() {
+		const start = this.element.selectionStart;
+		const end = this.element.selectionEnd;
+		return this.element.value.substring(start, end);
 	}
 
 	/**
 	 *
 	 * @param content
 	 */
-	setSelectedContent(content){
-		let start = this._element.selectionStart;
-		let end = this._element.selectionEnd;
-		this._element.value = this._element.value.substring(0,start) + content +  this._element.value.substring(end);
+	setSelectedContent(content) {
+		const start = this.element.selectionStart;
+		const end = this.element.selectionEnd;
+		this.element.value =
+			this.element.value.substring(0, start)
+			+ content
+			+ this.element.value.substring(end);
 	}
 
 	/**
 	 *
 	 * @returns {Number}
 	 */
-	getCursorPosition(){
-		return this._element.selectionStart;
+	getCursorPosition() {
+		return this.element.selectionStart;
 	}
 
 	/**
 	 *
 	 * @param {Number} position
 	 */
-	setCursorPosition(position){
-		this._element.selectionStart = position;
-		this._element.selectionEnd = position;
+	setCursorPosition(position) {
+		this.element.selectionStart = position;
+		this.element.selectionEnd = position;
 	}
 
 	/**
 	 * Process the content by triggering the input event
 	 */
-	processContent(){
-		let e = new Event('input');
-		this._element.dispatchEvent(e);
+	processContent() {
+		const e = new Event('input');
+		this.element.dispatchEvent(e);
 	}
 }

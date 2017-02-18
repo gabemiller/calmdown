@@ -1,19 +1,19 @@
-import * as Prism from 'prismjs';
+import Prism from 'prismjs';
 import './SyntaxHighligherLanguages';
 
-export class SyntaxHighlighter{
+export default class SyntaxHighlighter {
 	/**
 	 * @constructor
 	 */
-	constructor(){
-		this._highlighter = Prism;
+	constructor() {
+		this.highlighter = Prism;
 	}
 
 	/**
 	 *
 	 * @returns {Prism} - syntax highlighter
 	 */
-	get getHighlighter(){
-		return this._highlighter;
+	get getHighlighter() {
+		return this.highlighter;
 	}
 }

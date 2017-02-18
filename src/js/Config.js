@@ -1,57 +1,59 @@
-export const CONFIG = {
+const CONFIG = {
 
 	/**
 	 * @type {String}
 	 */
-	'width' : '100%',
+	width: '100%',
 
 	/**
 	 * @type {String}
 	 */
-	'height' : '500px',
+	height: '500px',
 
 	/**
 	 * @type {String}
 	 */
-	'selector' : 'calmdown',
+	selector: 'calmdown',
 
 	/**
 	 * @type {String}
 	 */
-	'bodySelector': 'cd-body',
+	bodySelector: 'cd-body',
 
 	/**
 	 * @type {String}
 	 */
-	'editorSelector' : 'cd-editor',
+	editorSelector: 'cd-editor',
 
 	/**
 	 * @type {String|null}
 	 */
-	'previewSelector' : 'cd-preview',
+	previewSelector: 'cd-preview',
 
 	/**
 	 * @type {String|null}
 	 */
-	'markdownInputSelector' : 'cd-markdown-input',
+	markdownInputSelector: 'cd-markdown-input',
 
 	/**
 	 * @type {String|null}
 	 */
-	'htmlInputSelector' : 'cd-html-input',
+	htmlInputSelector: 'cd-html-input',
 
 	/**
 	 * @type {String}
 	 */
-	'codeHighlightStyle' : 'cd-highlight-default',
+	codeHighlightStyle: 'cd-highlight-default',
 
 	/**
 	 * @type {String}
 	 */
-	'editorType': 'textarea',
+	editorType: 'textarea',
 
 	/**
 	 * @type {String}
 	 */
-	'defaultContent': ''
+	defaultContent: '',
 };
+
+export default CONFIG;

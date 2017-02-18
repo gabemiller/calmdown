@@ -1,6 +1,6 @@
-import { UserInteraction } from'./UserInteraction';
+import UserInteraction from './UserInteraction';
 
-export class EditorUserInteraction extends UserInteraction{
+export default class EditorUserInteraction extends UserInteraction {
 
 	/**
 	 * Represents EditorUserInteraction
@@ -8,9 +8,9 @@ export class EditorUserInteraction extends UserInteraction{
 	 * @constructor
 	 * @param {TextareaEditor} editor
 	 */
-	constructor(editor){
+	constructor(editor) {
 		super(editor.getEditor);
-		this._editor = editor;
+		this.editor = editor;
 	}
 
 	/**
@@ -19,17 +19,20 @@ export class EditorUserInteraction extends UserInteraction{
 	 * @param prefix
 	 * @param suffix
 	 */
-	insertKeyboardEvent(key, prefix = '', suffix = ''){
-		this.keyboardEvent(key, (e,combo) => {
+	insertKeyboardEvent(key, prefix = '', suffix = '') {
+		this.keyboardEvent(key, (e) => {
 			e.preventDefault();
-			let actualPosition = this._editor.getCursorPosition();
-			let value = this._editor.getSelectedContent();
-			this._editor.setSelectedContent(prefix+value+suffix);
+			const actualPosition = this.editor.getCursorPosition();
+			const value = this.editor.getSelectedContent();
+			this.editor.setSelectedContent(prefix + value + suffix);
 
-			let position = value.length == 0 ? actualPosition+prefix.length : actualPosition+(prefix+value+suffix).length;
-			this._editor.setCursorPosition(position);
+			const position =
+				value.length === 0 ?
+					actualPosition + prefix.length :
+					actualPosition + (prefix + value + suffix).length;
+			this.editor.setCursorPosition(position);
 
-			this._editor.processContent();
+			this.editor.processContent();
 		});
 	}
 
