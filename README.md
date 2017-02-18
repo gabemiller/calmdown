@@ -10,12 +10,12 @@ or reset before use Calmdown. In the demo project I used normalize.css.
 1. Add this stylesheet link to head of the html. You can find this in dist/css folder.
 
     ```html
-    <link href="[your_path_to_css]/css/calmdown.min.css" rel="stylesheet" type="text/css">
+    <link href="dist/css/calmdown.min.css" rel="stylesheet" type="text/css">
     ```
 1. Add this script to the bottom of the html before close body tag. You can find this in dist/scripts folder.
     
     ```html
-    <script src="[your_path_to_js]/js/calmdown.min.js"></script>
+    <script src="dist/scripts/calmdown.min.js"></script>
     ```
 1. Create a div with classname .calmdown whereever you want
    
@@ -26,26 +26,30 @@ or reset before use Calmdown. In the demo project I used normalize.css.
    
    ```html
     <script>
-       var cd = new Calmdown({
-    	    // optional configuration
+       const cd = new Calmdown({
+        // optional configuration
        });
     </script>
    ```
    
 ## Version history
 
-- **0.5.0v**
+- **0.5.2**
+    + Add airbnb js style guide
+- **0.5.1**
+    + Add documentation
+- **0.5.0**
     + Refactoring and optimalization
     + Add view key combination events
-- **0.4.0v**
+- **0.4.0**
     + Add Mousetrap js
     + Add insert key combination events
-- **0.3.0v**
+- **0.3.0**
     + Remove HighlightJs
     + Add PrismJs
-- **0.2.0v**
+- **0.2.0**
     + Add HighlightJs
-- **0.1.0v**
+- **0.1.0**
     + Add showdown js
     + Default layout
     + Conversion and copy events
