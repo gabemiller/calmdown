@@ -4,7 +4,7 @@ var webpackConfig = {
     output:{
         libraryTarget : 'var',
         library: 'Calmdown',
-        filename : '[name].min.js'
+        filename : 'calmdown.min.js'
     },
 
     target: 'web',
