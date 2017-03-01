@@ -6,11 +6,13 @@ on showdown js with a bite of github flavor.
 ## Quick start
 
 - Clone the repo
-  ```bash
+  
+  ```shell
   git clone https://github.com/gabemiller/calmdown.git
   ```
 - Install using [npm](https://www.npmjs.com/)
-  ```bash
+  
+  ```shell
   npm install calmdown --save
   ```
 
