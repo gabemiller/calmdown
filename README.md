@@ -82,7 +82,7 @@ Your contributions are truly appriciated!
     
 [MIT license](https://github.com/gabemiller/calmdown/blob/master/LICENSE.md)
 
-## I would like to thank these projects
+## I would like to thank authors and contributors of these projects
 
 - [Showdown](https://github.com/showdownjs/showdown)
 - [Mousetrap](https://github.com/ccampbell/mousetrap)
