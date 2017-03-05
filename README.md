@@ -51,7 +51,7 @@ or reset before use Calmdown. In the demo project I used normalize.css.
 First things first, thank all of you who spend your time to check out Calmdown. If you find a _problem_ or have
 an **idea** to make Calmdown better, just [open a descriptive issue about it.](https://github.com/gabemiller/calmdown/issues/new)
 
-Morover, pull requests are welcome too, just be sure to avoid unrelated commits.
+Moreover, pull requests are welcome too, just be sure to avoid unrelated commits.
 
 Your contributions are truly appriciated! 
   
