@@ -8,28 +8,31 @@
  * Gulp Plugins
  *
  */
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var pug = require('gulp-pug');
-var prettify = require('gulp-prettify');
-var autoprefixer = require('gulp-autoprefixer');
-var concat = require('gulp-concat');
-var connect = require('gulp-connect');
-var webpack = require("webpack-stream");
-var sourcemaps = require('gulp-sourcemaps');
-var rename = require('gulp-rename');
-var cleanCss = require('gulp-clean-css');
-var named = require('vinyl-named');
-var eslint = require('gulp-eslint');
-var ghPages = require('gulp-gh-pages');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const pug = require('gulp-pug');
+const prettify = require('gulp-prettify');
+const autoprefixer = require('gulp-autoprefixer');
+const concat = require('gulp-concat');
+const connect = require('gulp-connect');
+const webpack = require("webpack-stream");
+const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
+const cleanCss = require('gulp-clean-css');
+const named = require('vinyl-named');
+const eslint = require('gulp-eslint');
+const ghPages = require('gulp-gh-pages');
+const gulpif = require('gulp-if');
 
 /**
  *  Gulp config
  */
 
-var path = require('./gulp.config').path;
-var fileName = require('./gulp.config').fileName;
-var webpackConfig = require('./webpack.config.js');
+const path = require('./gulp.config').path;
+const fileName = require('./gulp.config').fileName;
+const webpackConfigDev = require('./webpack.config.dev.js');
+const webpackConfigProd = require('./webpack.config.prod.js');
+const isProd = process.env.NODE_ENV === 'production';
 
 /**
  * Gulp Task
@@ -39,11 +42,11 @@ var webpackConfig = require('./webpack.config.js');
 gulp.task('scss', function() {
     return gulp.src(path.scss.src)
         .pipe(sass().on('error', sass.logError))
-        .pipe(sourcemaps.init())
+        .pipe(gulpif(isProd,sourcemaps.init()))
         .pipe(autoprefixer(['last 2 version', 'ie 10']))
-        .pipe(cleanCss())
-        .pipe(rename(fileName.scss))
-        .pipe(sourcemaps.write('.'))
+        .pipe(gulpif(isProd,cleanCss()))
+        .pipe(gulpif(isProd,rename(fileName.scssProd),rename(fileName.scssDev)))
+        .pipe(gulpif(isProd,sourcemaps.write('.')))
         .pipe(gulp.dest(path.scss.dest))
         .pipe(connect.reload());
 });
@@ -69,7 +72,7 @@ gulp.task('eslint', function(){
 gulp.task('webpack',['eslint'], function () {
     return gulp.src(path.webpack.src)
         .pipe(named())
-        .pipe(webpack(webpackConfig))
+        .pipe(gulpif(isProd,webpack(webpackConfigProd),webpack(webpackConfigDev)))
         .pipe(gulp.dest(path.webpack.dest));
 });
 
@@ -135,3 +138,5 @@ gulp.task('watch', function () {
  * Initialize all tasks and watchers.
  */
 gulp.task('init', ['pug', 'scss', 'webpack','watch', 'webserver']);
+
+gulp.task('build', ['pug', 'scss', 'webpack']);

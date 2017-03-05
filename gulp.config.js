@@ -44,11 +44,16 @@ var gulpConfig = {
      * Output filenames
      */
     fileName : {
-        scss : {
+        scssDev : {
             prefix: '',
             basename : 'calmdown',
-            suffix: '.min'
-        }
+            suffix: ''
+        },
+	    scssProd : {
+		    prefix: '',
+		    basename : 'calmdown',
+		    suffix: '.min'
+	    }
     },
     /**
      * Google fonts

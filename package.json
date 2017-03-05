@@ -13,7 +13,9 @@
   "author": "Gabor Molnar <gabormolnar92@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "gulp init"
+    "start": "gulp init",
+    "dev": "gulp build",
+    "prod": "cross-env NODE_ENV=production gulp build"
   },
   "style": "dist/css/calmdown.min.css",
   "sass": "src/scss/calmdown.scss",
@@ -25,6 +27,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-stage-2": "^6.17.0",
+    "cross-env": "^3.2.3",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
@@ -37,6 +40,7 @@
     "gulp-eslint": "^3.0.1",
     "gulp-gh-pages": "^0.5.4",
     "gulp-google-webfonts": "0.0.14",
+    "gulp-if": "^2.0.2",
     "gulp-imagemin": "^3.0.3",
     "gulp-prettify": "^0.4.0",
     "gulp-pug": "^3.1.0",

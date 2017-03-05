@@ -1,15 +1,13 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
 
-var webpackConfig = {
+const webpackConfig = {
     output:{
         libraryTarget : 'var',
         library: 'Calmdown',
-        filename : 'calmdown.min.js'
+        filename : 'calmdown.js'
     },
 
     target: 'web',
-
-    devtool: 'sourcemap',
 
     resolve: {
         extensions: ['', '.js']
@@ -22,15 +20,7 @@ var webpackConfig = {
                 test: /\.js$/
             }
         ]
-    },
-
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
-    ]
+    }
 };
 
 module.exports = webpackConfig;
