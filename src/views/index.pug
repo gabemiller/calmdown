@@ -10,7 +10,7 @@ html
         link(rel='stylesheet',href='demo/calmdown-demo.css',type='text/css')
         link(rel='stylesheet',href='css/calmdown.min.css',type='text/css')
     body
-        .calmdown.calmdown-default-theme
+        .calmdown.cd-theme-default
         .calmdown-help
             h2 Keyboard commands
             ul
@@ -30,7 +30,8 @@ html
         script(src='scripts/calmdown.min.js')
         script
             | new Calmdown({
-            |   'width':'1024px',
-            |   'height':'768px',
-            |   'defaultContent':'# Calmdown! It\'s just the beginning'
+            |   width:'1024px',
+            |   height:'768px',
+            |   defaultContent:'# Calmdown! It\'s just the beginning',
+            |   codeHighlightStyle: 'cd-highlight-tomorrow'
             |});

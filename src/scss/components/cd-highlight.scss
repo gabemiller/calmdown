@@ -1,0 +1,27 @@
+// Name of code highlight themes given by PrismJS
+// themes: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight
+
+.cd-highlight-default{
+  @import "../../../node_modules/prismjs/themes/prism";
+}
+.cd-highlight-okaidia{
+  @import "../../../node_modules/prismjs/themes/prism-okaidia";
+}
+.cd-highlight-coy {
+  @import "../../../node_modules/prismjs/themes/prism-coy";
+}
+.cd-highlight-dark {
+  @import "../../../node_modules/prismjs/themes/prism-dark";
+}
+.cd-highlight-funky {
+  @import "../../../node_modules/prismjs/themes/prism-funky";
+}
+.cd-highlight-solarizedlight {
+  @import "../../../node_modules/prismjs/themes/prism-solarizedlight";
+}
+.cd-highlight-tomorrow {
+  @import "../../../node_modules/prismjs/themes/prism-tomorrow";
+}
+.cd-highlight-twilight {
+  @import "../../../node_modules/prismjs/themes/prism-twilight";
+}

@@ -41,7 +41,9 @@ const CONFIG = {
 	htmlInputSelector: 'cd-html-input',
 
 	/**
-	 * @type {String}
+	 * Based on the name of code highlight themes given by PrismJS
+	 * themes: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight
+	 * @type {String} - cd-highlight-[theme_name]
 	 */
 	codeHighlightStyle: 'cd-highlight-default',
 
