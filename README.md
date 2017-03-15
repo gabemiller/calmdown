@@ -57,7 +57,7 @@ Your contributions are truly appriciated!
   
 ## Version history
 
-
+[Version history](https://github.com/gabemiller/calmdown/blob/master/VERSION.md)
 
 ## License
     
