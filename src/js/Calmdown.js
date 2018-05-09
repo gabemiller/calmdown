@@ -1,4 +1,10 @@
+// Styles
+import '../scss/calmdown.scss';
+
+// Config
 import CONFIG from './Config';
+
+// Components
 import ShowdownConverter from './ShowdownConverter';
 import TextareaEditor from './TextareaEditor';
 import Preview from './Preview';

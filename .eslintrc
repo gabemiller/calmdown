@@ -7,7 +7,7 @@
     "browser": true,
     "node": true
   },
-  "extends": "airbnb",
+  "extends": "eslint:recommended",
   "rules": {
     "no-tabs": "off",
     "linebreak-style": ["error", "windows"],
