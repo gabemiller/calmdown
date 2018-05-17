@@ -84,7 +84,7 @@ export default class Calmdown {
 				this.calmdown.style.height = this.settings.height;
 			}
 		});
-		this.resize.addEventListener('mouseup', (e) => {
+		document.addEventListener('mouseup', (e) => {
 			e.preventDefault();
 			isResizing = false;
 		});
