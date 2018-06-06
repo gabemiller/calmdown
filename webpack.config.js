@@ -22,8 +22,8 @@ const baseConfig = {
 
 	// Where we want to generate the bundle file
 	output:{
-		path: path.resolve(__dirname, 'dist/js'),
-		filename: 'calmdown.min.js',
+		path: path.resolve(__dirname, 'dist'),
+		filename: './js/calmdown.min.js',
 		libraryTarget : 'var',
 		library: 'Calmdown',
 	},
@@ -71,7 +71,7 @@ const baseConfig = {
 
 	// Plugins
 	plugins:[
-		new ExtractTextPlugin('../css/calmdown.min.css'),
+		new ExtractTextPlugin('./css/calmdown.min.css'),
 		new CleanWebpackPlugin(['dist/css','dist/js'])
 	]
 

@@ -13,7 +13,7 @@
   "author": "Gabor Molnar <gabormolnar92@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack",
+    "start": "webpack-dev-server --hot --inline --content-base dist",
     "build": "cross-env NODE_ENV=production webpack"
   },
   "devDependencies": {
