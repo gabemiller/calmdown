@@ -42,6 +42,7 @@ export default class Calmdown {
 	init() {
 		this.initCodeHightlight();
 		this.initConverter();
+		this.initDefaultContent();
 		this.initResize();
 		this.initEditor();
 		this.initPreview();
@@ -132,11 +133,45 @@ export default class Calmdown {
 	}
 
 	/**
+	 * Initialize default value
+	 */
+	initDefaultContent(){
+		const attributeContent = !this.calmdown.hasAttribute('data-cd-content') ? '' : this.calmdown.getAttribute('data-cd-content');
+		const htmlContent = this.calmdown.textContent.length <= 0 ? '' : this.calmdown.textContent;
+		const settingsContent = this.settings.defaultContent.length <= 0 ? '' : this.settings.defaultContent;
+
+		if(htmlContent.length > 0){
+			this.calmdown.textContent = '';
+		}
+
+		if(attributeContent.length > 0){
+			this.content = attributeContent;
+			if(htmlContent.length > 0){
+				console.warn('Attribute data-cd-content is set. HTML content will be ignored!');
+			}
+			if(settingsContent.length > 0){
+				console.warn('Attribute data-cd-content is set. Settings content will be ignored!');
+			}
+			return;
+		}
+
+		if(htmlContent.length > 0){
+			this.content = htmlContent;
+			if(settingsContent.length > 0){
+				console.warn('HTML content is set. Settings content will be ignored!');
+			}
+			return;
+		}
+
+		this.content = settingsContent;
+	}
+
+	/**
 	 * Initialize editor area
 	 */
 	initEditor() {
 		this.editor = new TextareaEditor(this.settings.editorSelector, this.calmdown);
-		this.editor.getEditor.value = this.settings.defaultContent;
+		this.editor.getEditor.value = this.content;
 	}
 
 	/**
