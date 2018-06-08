@@ -12,8 +12,52 @@
 
   <body>
     <button class="btn btn-dark-theme">dark theme</button>
-    <div class="calmdown cd-theme-default"
-         data-cd-content="# Calmdown __Attribute Content__ works as well!"># Calmdown **HTML Content** works fine!</div>
+    <div class="calmdown cd-theme-default"># Calmdown, it's just the beginning!
+
+Calmdown is a lightweight markdown editor based on showdown js with a bite of github flavor.
+
+## Quick start
+
+- Clone the repo
+
+```shell
+git clone https://github.com/gabemiller/calmdown.git
+```
+- Install using [npm](https://www.npmjs.com/)
+
+```shell
+npm install calmdown --save
+```
+
+## How it works
+
+1. **(Important)** You should use some css normalization
+or reset before use Calmdown. In the demo project I used normalize.css.
+1. Add this stylesheet link to head of the html. You can find this in dist/css folder.
+
+```html
+&#60;link href="dist/css/calmdown.min.css" rel="stylesheet" type="text/css"&#62;
+```
+1. Add this script to the bottom of the html before close body tag. You can find this in dist/scripts folder.
+
+```html
+&#60;script src="dist/scripts/calmdown.min.js"&#62;&#60;/script&#62;
+```
+1. Create a div with classname .calmdown whereever you want
+
+```html
+&#60;div class="calmdown"&#62;&#60;/div&#62;
+```
+1. Initialize a new instance of the Calmdown under the calmdown.min.js script tag
+
+```html
+&#60;script&#62;
+	const cd = new Calmdown({
+		// optional configuration
+	});
+&#60;/script&#62;
+```
+	</div>
     <div class="calmdown-help">
       <h2>Keyboard commands</h2>
       <ul>
@@ -37,9 +81,8 @@
     <script>
       new Calmdown(
       {
-        width: '1024px',
+        width: '1280px',
         height: '768px',
-        defaultContent: '# Calmdown! It\'s just the beginning',
         codeHighlightStyle: 'cd-highlight-tomorrow'
       });
     </script>
