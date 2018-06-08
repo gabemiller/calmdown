@@ -1,6 +1,6 @@
 # Calmdown
 
-![npm](https://img.shields.io/badge/npm-0.5.8-blue.svg?style=flat-square) [![GitHub issues](https://img.shields.io/github/issues/gabemiller/calmdown.svg?style=flat-square)](https://github.com/gabemiller/calmdown/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/gabemiller/calmdown/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/url/https/github.com/gabemiller/calmdown.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20Calmdown%2C%20an%20awesome%2C%20lightweight%20markdown%20editor&url=https%3A%2F%2Fgithub.com%2Fgabemiller%2Fcalmdown)
+![npm](https://img.shields.io/badge/npm-0.5.9-blue.svg?style=flat-square) [![GitHub issues](https://img.shields.io/github/issues/gabemiller/calmdown.svg?style=flat-square)](https://github.com/gabemiller/calmdown/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/gabemiller/calmdown/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/url/https/github.com/gabemiller/calmdown.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20Calmdown%2C%20an%20awesome%2C%20lightweight%20markdown%20editor&url=https%3A%2F%2Fgithub.com%2Fgabemiller%2Fcalmdown)
 
 Calmdown is a lightweight markdown editor based on showdown js with a bite of github flavor.
 
