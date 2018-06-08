@@ -43,7 +43,7 @@
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
     "webpack": "^2.5.0",
-    "webpack-dev-server": "^2.4.5",
+    "webpack-dev-server": "^2.11.2",
     "webpack-merge": "^4.1.0"
   },
   "repository": {
