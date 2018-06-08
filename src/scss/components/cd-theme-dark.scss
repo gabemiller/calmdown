@@ -1,0 +1,28 @@
+.cd-theme-dark{
+  @extend %cd-theme-base;
+  border-color: $cdThemeDarkGrayLight;
+  .cd-toolbar{
+    background-color: $cdThemeDarkGrayDark;
+    border-bottom-color: $cdThemeDarkGrayLight;
+  }
+  .cd-editor{
+    color: $cdThemeDarkWhite;
+    background-color: $cdThemeDarkGray;
+    border-right-color: $cdThemeDarkGrayLight;
+  }
+  .cd-preview{
+    color: $cdThemeDarkWhite;
+    background-color: $cdThemeDarkGray;
+  }
+  .cd-resize{
+    background-color: $cdThemeDarkGrayLight;
+    border-top-color: $cdThemeDarkGray;
+    .cd-bars{
+      background-color: $cdThemeDarkGray;
+      &:before,
+      &:after{
+        background-color: $cdThemeDarkGray;
+      }
+    }
+  }
+}

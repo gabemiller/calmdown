@@ -9,3 +9,31 @@ body{
     background-color: white;
     flex-direction: column;
 }
+
+body.dark{
+    background-color: #1D1D1D;
+}
+
+.btn{
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 15px;
+	padding: 5px 8px;
+	cursor: pointer;
+}
+
+.btn:focus{
+	outline: 0;
+}
+
+.btn-light-theme{
+	border-color: #d1d1d1;
+	color: #4d4d4d;
+	background-color: white;
+}
+
+.btn-dark-theme{
+	border-color: #444444;
+	color: white;
+	background-color: #222222;
+}

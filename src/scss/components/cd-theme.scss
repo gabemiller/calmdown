@@ -1,12 +1,12 @@
-.cd-theme-default{
+%cd-theme-base{
   display: flex;
-  border: 1px solid $colorGrayLight;
+  border: 1px solid transparent;
   position: relative;
   overflow: hidden;
   .cd-toolbar{
     padding: 5px;
-    background-color: $colorGrayLighter;
-    border-bottom: 1px solid $colorGrayLight;
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
   }
   .cd-editor{
     flex: 1 1 50%;
@@ -14,8 +14,8 @@
     padding: 10px;
     margin-bottom: 10px;
     border: 0;
-    background-color: white;
-    border-right: 1px solid $colorGrayLight;
+    background-color: transparent;
+    border-right: 1px solid transparent;
     resize: none;
     height: auto;
     overflow-y: auto;
@@ -29,7 +29,7 @@
     max-width: 50%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: white;
+    background-color: transparent;
     word-wrap: break-word;
     height: auto;
     overflow-y: auto;
@@ -44,14 +44,14 @@
     align-items: center;
     justify-content: center;
     height: 10px;
-    background-color: $colorGrayLighter;
+    background-color: transparent;
     cursor: s-resize;
-    border-top: 1px solid $colorGrayLight;
+    border-top: 1px solid transparent;
     .cd-bars{
       width: 25px;
       height: 1px;
       position: relative;
-      background-color: $colorGrayLight;
+      background-color: transparent;
       &:before,
       &:after{
         content: '';
@@ -59,7 +59,7 @@
         position: absolute;
         width: 25px;
         height: 1px;
-        background-color: $colorGrayLight;
+        background-color: transparent;
       }
       &:before{
         top: -2px;
