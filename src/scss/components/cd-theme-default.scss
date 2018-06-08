@@ -1,0 +1,26 @@
+.cd-theme-default{
+  @extend %cd-theme-base;
+  border-color: $cdThemeDefaultGrayLight;
+  .cd-toolbar{
+    background-color: $cdThemeDefaultGrayLighter;
+    border-bottom-color: $cdThemeDefaultGrayLight;
+  }
+  .cd-editor{
+    background-color: $cdThemeDefaultWhite;
+    border-right-color: $cdThemeDefaultGrayLight;
+  }
+  .cd-preview{
+    background-color: $cdThemeDefaultWhite;
+  }
+  .cd-resize{
+    background-color: $cdThemeDefaultGrayLighter;
+    border-top-color: $cdThemeDefaultGrayLight;
+    .cd-bars{
+      background-color: $cdThemeDefaultGrayLight;
+      &:before,
+      &:after{
+        background-color: $cdThemeDefaultGrayLight;
+      }
+    }
+  }
+}
