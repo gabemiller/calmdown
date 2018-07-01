@@ -1,0 +1,67 @@
+.cd-layout-both {
+  .cd-editor {
+	flex: 0 0 50%;
+  }
+  .cd-preview {
+	flex: 0 0 50%;
+  }
+  .cd-help-dialog {
+	display: none;
+  }
+}
+
+.cd-layout-editor {
+  .cd-editor {
+	flex: 0 0 100%;
+  }
+  .cd-preview {
+	display: none;
+  }
+  .cd-help-dialog {
+	display: none;
+  }
+}
+
+.cd-layout-preview {
+  .cd-editor {
+	display: none;
+  }
+  .cd-preview {
+	flex: 0 0 100%;
+  }
+  .cd-help-dialog {
+	display: none;
+  }
+}
+
+.cd-layout-full {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 9999;
+  .cd-resize{
+	display: none;
+  }
+  .cd-editor,
+  .cd-preview,
+  .cd-help-dialog {
+	margin-bottom: 0;
+  }
+}
+
+.cd-layout-help-dialog {
+  .cd-editor {
+	display: none;
+  }
+  .cd-preview {
+	display: none;
+  }
+  .cd-help-dialog {
+	flex: 0 0 100%;
+  }
+  .cd-help-dialog-button{
+	display: none;
+  }
+}

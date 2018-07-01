@@ -10,7 +10,7 @@
   "extends": "eslint:recommended",
   "rules": {
     "no-tabs": "off",
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": "off",
     "indent": ["error","tab"],
     "no-param-reassign": ["error", { "props": false }],
     "no-plusplus": "off",

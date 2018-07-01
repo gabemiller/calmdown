@@ -40,11 +40,28 @@ const CONFIG = {
 	previewSelector: 'cd-preview',
 
 	/**
+	 * Set the help dialog (div) selector class name
+	 *
+	 * @type {String}
+	 */
+	helpDialogSelector: 'cd-help-dialog',
+
+	/**
+	 * Set the help dialog open button (button) selector class name
+	 */
+	helpDialogBtnOpenSelector: 'cd-help-dialog__btn-open',
+
+	/**
+	 * Set the help dialog close button (button) selector class name
+	 */
+	helpDialogBtnCloseSelector: 'cd-help-dialog__btn-close',
+
+	/**
 	 * Set the hidden markdown textarea selector class name
 	 *
 	 * This textarea should be used when the data sent through
 	 * a synchronous way like a classic http post
-	 * Can be null, but it won't be generated
+	 * Can be null, then it won't be generated
 	 * @type {String|null}
 	 */
 	markdownInputSelector: 'cd-markdown-input',
@@ -54,10 +71,26 @@ const CONFIG = {
 	 *
 	 * This textarea should be used when the data sent through
 	 * a synchronous way like a classic http post
-	 * Can be null, but then it won't be generated
+	 * Can be null, then then it won't be generated
 	 * @type {String|null}
 	 */
 	htmlInputSelector: 'cd-html-input',
+
+	/**
+	 * Set the default theme of the editor
+	 *
+	 * theme_name: cd-theme-default, cd-theme-dark
+	 * @type {String}
+	 */
+	defaultThemeSelector: 'cd-theme-default',
+
+	/**
+	 * Set the default layout of the editor
+	 *
+	 * layout_name: cd-layout-both, cd-layout-editor, cd-layout-preview
+	 * @type {String}
+	 */
+	defaultLayoutSelector: 'cd-layout-both',
 
 	/**
 	 * Based on the name of code highlight themes given by PrismJS
