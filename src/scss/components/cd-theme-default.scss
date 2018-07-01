@@ -3,16 +3,31 @@
   border-color: $cdThemeDefaultGrayLight;
   .cd-toolbar{
     background-color: $cdThemeDefaultGrayLighter;
-    border-bottom-color: $cdThemeDefaultGrayLight;
+    border-color: $cdThemeDefaultGrayLight;
   }
   .cd-editor{
     color: $cdThemeDefaultGrayDark;
     background-color: $cdThemeDefaultWhite;
-    border-right-color: $cdThemeDefaultGrayLight;
+    border-color: $cdThemeDefaultGrayLight;
   }
   .cd-preview{
     color: $cdThemeDefaultGrayDark;
     background-color: $cdThemeDefaultWhite;
+	border-color: $cdThemeDefaultGrayLight;
+  }
+  .cd-help-dialog{
+    background-color: $cdThemeDefaultWhite;
+    // .cd-help-dialog-button
+    &-button{
+      background-color: $cdThemeDefaultWhite;
+      border-color: $cdThemeDefaultGrayLight;
+    }
+    // .cd-help-dialog__command-list
+    &__command-list{
+      .cd-help-dialog__command-item{
+        border-color: $cdThemeDefaultGrayLight;
+      }
+    }
   }
   .cd-resize{
     background-color: $cdThemeDefaultGrayLighter;

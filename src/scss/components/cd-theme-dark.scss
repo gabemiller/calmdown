@@ -3,16 +3,31 @@
   border-color: $cdThemeDarkGrayLight;
   .cd-toolbar{
     background-color: $cdThemeDarkGrayDark;
-    border-bottom-color: $cdThemeDarkGrayLight;
+    border-color: $cdThemeDarkGrayLight;
   }
   .cd-editor{
     color: $cdThemeDarkWhite;
     background-color: $cdThemeDarkGray;
-    border-right-color: $cdThemeDarkGrayLight;
+    border-color: $cdThemeDarkGrayLight;
   }
   .cd-preview{
     color: $cdThemeDarkWhite;
     background-color: $cdThemeDarkGray;
+	border-color: $cdThemeDarkGrayLight;
+  }
+  .cd-help-dialog{
+    background-color: $cdThemeDarkGray;
+    // .cd-help-dialog-button
+    &-button{
+      background-color: $cdThemeDarkGrayLight;
+      border-color: $cdThemeDarkGrayLight;
+    }
+    // .cd-help-dialog__command-list
+    &__command-list{
+      .cd-help-dialog__command-item{
+        border-color: $cdThemeDarkGrayLight;
+      }
+    }
   }
   .cd-resize{
     background-color: $cdThemeDarkGrayLight;

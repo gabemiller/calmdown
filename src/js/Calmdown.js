@@ -11,6 +11,7 @@ import Preview from './Preview';
 import HTMLElement from './HTMLElement';
 import UserInteraction from './UserInteraction';
 import EditorUserInteraction from './EditorUserInteraction';
+import HelpDialog from "./HelpDialog";
 
 export default class Calmdown {
 
@@ -40,6 +41,8 @@ export default class Calmdown {
 	 * Initialize Calmdown
 	 */
 	init() {
+		this.initDefaultTheme();
+		this.initDefaultLayout();
 		this.initCodeHightlight();
 		this.initConverter();
 		this.initDefaultContent();
@@ -48,6 +51,7 @@ export default class Calmdown {
 		this.initPreview();
 		this.initHiddenHtmlInput();
 		this.initHiddenMarkdownInput();
+		this.initHelpDialog();
 		this.initUserInteraction();
 		this.initEventListeners();
 		this.triggerEvents();
@@ -56,8 +60,22 @@ export default class Calmdown {
 	/**
 	 * Initialize code higlighting
 	 */
+	initDefaultTheme() {
+		this.calmdown.classList.add(this.settings.defaultThemeSelector);
+	}
+
+	/**
+	 * Initialize code higlighting
+	 */
+	initDefaultLayout() {
+		this.calmdown.classList.add(this.settings.defaultLayoutSelector);
+	}
+
+	/**
+	 * Initialize code higlighting
+	 */
 	initCodeHightlight() {
-		this.calmdown.className += ` ${this.settings.codeHighlightStyle}`;
+		this.calmdown.classList.add(this.settings.codeHighlightStyle);
 	}
 
 	/**
@@ -175,18 +193,25 @@ export default class Calmdown {
 	}
 
 	/**
+	 * Initialize preview area
+	 */
+	initPreview() {
+		this.preview = new Preview(this.settings.previewSelector, this.calmdown);
+	}
+
+	/**
+	 * Initialize help dialog
+	 */
+	initHelpDialog(){
+		this.helpDialog = new HelpDialog(this.settings.helpDialogSelector,this.calmdown);
+	}
+
+	/**
 	 *
 	 */
 	initUserInteraction() {
 		this.globalUserInteraction = new UserInteraction();
 		this.editorUserInteraction = new EditorUserInteraction(this.editor);
-	}
-
-	/**
-	 * Initialize preview area
-	 */
-	initPreview() {
-		this.preview = new Preview(this.settings.previewSelector, this.calmdown);
 	}
 
 	/**
@@ -220,45 +245,62 @@ export default class Calmdown {
 	 * Set the view to show editor or preview or both
 	 */
 	viewChangeEvents() {
+
+		let selectedLayout = this.settings.defaultLayoutSelector;
+		const cdLayoutEditor = 'cd-layout-editor';
+		const cdLayoutPreview = 'cd-layout-preview';
+		const cdLayoutBoth = 'cd-layout-both';
+		const cdLayoutFull = 'cd-layout-full';
+		const cdLayoutHelpDialog = 'cd-layout-help-dialog';
+
 		// Show editor and preview
 		this.globalUserInteraction.keyboardEventGlobal('alt+1', (e) => {
 			e.preventDefault();
-			this.editor.getEditor.removeAttribute('style');
-			this.preview.getPreview.removeAttribute('style');
+			this.calmdown.classList.remove(cdLayoutHelpDialog);
+			this.calmdown.classList.remove(cdLayoutEditor);
+			this.calmdown.classList.remove(cdLayoutPreview);
+			this.calmdown.classList.add(cdLayoutBoth);
+			selectedLayout = cdLayoutBoth;
 			this.editor.getEditor.focus();
 		});
 
 		// Show only editor
 		this.globalUserInteraction.keyboardEventGlobal('alt+2', (e) => {
 			e.preventDefault();
-			this.editor.getEditor.removeAttribute('style');
-			this.preview.getPreview.removeAttribute('style');
-			this.editor.getEditor.style.maxWidth = '100%';
-			this.editor.getEditor.style.border = '0';
+			this.calmdown.classList.remove(cdLayoutHelpDialog);
+			this.calmdown.classList.remove(cdLayoutPreview);
+			this.calmdown.classList.remove(cdLayoutBoth);
+			this.calmdown.classList.add(cdLayoutEditor);
+			selectedLayout = cdLayoutEditor;
 			this.editor.getEditor.focus();
-			this.preview.getPreview.style.display = 'none';
 		});
 
 		// Show only preview
 		this.globalUserInteraction.keyboardEventGlobal('alt+3', (e) => {
 			e.preventDefault();
-			this.editor.getEditor.removeAttribute('style');
-			this.preview.getPreview.removeAttribute('style');
-			this.editor.getEditor.style.display = 'none';
-			this.preview.getPreview.style.maxWidth = '100%';
+			this.calmdown.classList.remove(cdLayoutHelpDialog);
+			this.calmdown.classList.remove(cdLayoutBoth);
+			this.calmdown.classList.remove(cdLayoutEditor);
+			this.calmdown.classList.add(cdLayoutPreview);
+			selectedLayout = cdLayoutPreview;
 		});
 
-		let fullsize = false;
 		// Set calmdown full screen
-		this.globalUserInteraction.keyboardEventGlobal('alt+enter', () => {
-			if (!fullsize) {
-				this.calmdown.style = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999';
-				this.resize.style.display = 'none';
-			} else {
-				this.calmdown.style = `width: ${this.settings.width}; height: ${this.settings.height};`;
-				this.resize.removeAttribute('style');
+		this.globalUserInteraction.keyboardEventGlobal('alt+enter', (e) => {
+			e.preventDefault();
+			this.calmdown.classList.toggle(cdLayoutFull);
+		});
+
+		// Show help dialog
+		this.globalUserInteraction.keyboardEventGlobal('ctrl+h', (e) => {
+			e.preventDefault();
+			this.calmdown.classList.remove(cdLayoutBoth);
+			this.calmdown.classList.remove(cdLayoutEditor);
+			this.calmdown.classList.remove(cdLayoutPreview);
+			this.calmdown.classList.toggle(cdLayoutHelpDialog);
+			if(!this.calmdown.classList.contains(cdLayoutHelpDialog)){
+				this.calmdown.classList.add(selectedLayout);
 			}
-			fullsize = !fullsize;
 		});
 	}
 

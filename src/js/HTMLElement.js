@@ -27,8 +27,10 @@ export default class HTMLElement {
 		// Create element
 		const element = HTMLElement.createElement(type, className, params);
 
-		// Append element to parent
-		HTMLElement.appendElementToParent(element, parent);
+		if(parent){
+			// Append element to parent
+			HTMLElement.appendElementToParent(element, parent);
+		}
 
 		// Get the element from the dom
 		this.setElementByClassName(className);
@@ -58,7 +60,8 @@ export default class HTMLElement {
 	 * @param {String} className - the string value of the class name without dot
 	 */
 	setElementByClassName(className) {
-		this.element = document.querySelector(`.${className}`);
+		const classNameList = className.split(' ').join('.');
+		this.element = document.querySelector(`.${classNameList}`);
 	}
 
 	/**
@@ -108,7 +111,7 @@ export default class HTMLElement {
 	 * @param params
 	 * @returns {HTMLElement}
 	 */
-	static create(type, className, parent, params = {}) {
+	static create(type, className, parent = null, params = {}) {
 		return new HTMLElement(type, className, parent, params);
 	}
 
