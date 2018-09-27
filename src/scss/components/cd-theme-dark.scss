@@ -1,5 +1,6 @@
 .cd-theme-dark{
   @extend %cd-theme-base;
+  background-color: $cdThemeDarkGray;
   border-color: $cdThemeDarkGrayLight;
   .cd-toolbar{
     background-color: $cdThemeDarkGrayDark;
