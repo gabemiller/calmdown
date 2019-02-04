@@ -62,6 +62,7 @@ import 'prismjs/components/prism-less';
 // import 'prismjs/components/prism-makefile';
 import 'prismjs/components/prism-markdown';
 import 'prismjs/components/prism-markup';
+import 'prismjs/components/prism-markup-templating';
 // import 'prismjs/components/prism-matlab';
 // import 'prismjs/components/prism-mel';
 // import 'prismjs/components/prism-mizar';
