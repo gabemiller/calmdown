@@ -7,8 +7,8 @@
     "markdowneditor",
     "editor",
     "wysiwyg",
-    "showdown",
-    "syntaxhightlight"
+    "marked",
+    "syntaxhighlight"
   ],
   "author": "Gabor Molnar <gabormolnar92@gmail.com>",
   "license": "MIT",
@@ -44,9 +44,8 @@
   },
   "homepage": "https://github.com/gabemiller/calmdown#readme",
   "dependencies": {
-    "mousetrap": "1.6.1",
-    "normalize.css": "8.0.0",
-    "prismjs": "1.14.0",
-    "showdown": "1.8.6"
+    "highlight.js": "^11.11.1",
+    "marked": "^18.0.5",
+    "normalize.css": "8.0.0"
   }
 }

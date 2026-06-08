@@ -5,7 +5,7 @@ import '../scss/calmdown.scss';
 import CONFIG from './Config';
 
 // Components
-import ShowdownConverter from './ShowdownConverter';
+import MarkdownConverter from './MarkdownConverter';
 import TextareaEditor from './TextareaEditor';
 import Preview from './Preview';
 import HTMLElement from './HTMLElement';
@@ -147,7 +147,7 @@ export default class Calmdown {
 	 * Initialize markdown converter
 	 */
 	initConverter() {
-		this.converter = new ShowdownConverter();
+		this.converter = new MarkdownConverter();
 	}
 
 	/**

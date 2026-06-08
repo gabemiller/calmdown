@@ -1,35 +1,25 @@
-import * as showdown from 'showdown';
+import { Marked } from 'marked';
 import SyntaxHighlighter from './SyntaxHighlighter';
 
-export default class ShowdownConverter {
+export default class MarkdownConverter {
 
 	/**
-	 * Represents ShowdownConverter
-	 *
-	 * @param {String} flavor - flavor of the converter
- 	 */
-	constructor(flavor = 'github') {
-		this.converter = new showdown.Converter();
-		this.setFlavor(flavor);
+	 * Represents MarkdownConverter
+	 */
+	constructor() {
+		// Own marked instance (GitHub-flavored markdown is on by default)
+		// so global marked state is left untouched.
+		this.converter = new Marked({ gfm: true });
 		this.codeHighlighter = new SyntaxHighlighter().getHighlighter;
 	}
 
 	/**
-	 * Get the showdown converter
+	 * Get the markdown converter
 	 *
-	 * @returns {showdown.Converter} - showdown markdown converter
+	 * @returns {Marked} - marked markdown converter
 	 */
 	get getConverter() {
 		return this.converter;
-	}
-
-	/**
-	 * Set the flavor of the showdown converter
-	 *
-	 * @param {String} flavor - flavor of the converter
-	 */
-	setFlavor(flavor) {
-		this.converter.setFlavor(flavor);
 	}
 
 	/**
@@ -39,7 +29,7 @@ export default class ShowdownConverter {
 	 * @returns {String} - the generated html
 	 */
 	makeHtml(markdown) {
-		const html = this.converter.makeHtml(markdown);
+		const html = this.converter.parse(markdown);
 		return this.codeHighlighter == null ? html : this.addCodeHighlighting(html);
 	}
 

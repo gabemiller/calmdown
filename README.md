@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/badge/npm-0.6.0-blue.svg?style=flat-square) [![GitHub issues](https://img.shields.io/github/issues/gabemiller/calmdown.svg?style=flat-square)](https://github.com/gabemiller/calmdown/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/gabemiller/calmdown/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/url/https/github.com/gabemiller/calmdown.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20Calmdown%2C%20an%20awesome%2C%20lightweight%20markdown%20editor&url=https%3A%2F%2Fgithub.com%2Fgabemiller%2Fcalmdown)
 
-Calmdown is a lightweight markdown editor based on showdown js with a bite of github flavor.
+Calmdown is a lightweight markdown editor based on marked with a bite of github flavor.
 
 ## Quick start
 
@@ -65,7 +65,6 @@ Your contributions are truly appriciated!
 
 ## I would like to thank authors and contributors of these projects
 
-- [Showdown](https://github.com/showdownjs/showdown)
-- [Mousetrap](https://github.com/ccampbell/mousetrap)
-- [PrismJs](https://github.com/PrismJS/prism)
+- [marked](https://github.com/markedjs/marked)
+- [highlight.js](https://github.com/highlightjs/highlight.js)
 - [Normalize css](https://github.com/necolas/normalize.css/)

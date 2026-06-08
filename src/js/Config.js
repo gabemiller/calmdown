@@ -93,7 +93,7 @@ const CONFIG = {
 	defaultLayoutSelector: 'cd-layout-both',
 
 	/**
-	 * Based on the name of code highlight themes given by PrismJS
+	 * Name of the code highlight theme (highlight.js based)
 	 *
 	 * theme_name: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight
 	 * @type {String} - cd-highlight-[theme_name]

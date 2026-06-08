@@ -1,4 +1,7 @@
-const ge = {
+var Rr = Object.defineProperty;
+var Ar = (n, e, t) => e in n ? Rr(n, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : n[e] = t;
+var U = (n, e, t) => Ar(n, typeof e != "symbol" ? e + "" : e, t);
+const Or = {
   /**
    * Set the width of the editor
    *
@@ -80,7 +83,7 @@ const ge = {
    */
   defaultLayoutSelector: "cd-layout-both",
   /**
-   * Based on the name of code highlight themes given by PrismJS
+   * Name of the code highlight theme (highlight.js based)
    *
    * theme_name: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight
    * @type {String} - cd-highlight-[theme_name]
@@ -100,4790 +103,14181 @@ const ge = {
    */
   defaultContent: ""
 };
-var q = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function J(o) {
-  return o && o.__esModule && Object.prototype.hasOwnProperty.call(o, "default") ? o.default : o;
+function zt() {
+  return { async: !1, breaks: !1, extensions: null, gfm: !0, hooks: null, pedantic: !1, renderer: null, silent: !1, tokenizer: null, walkTokens: null };
 }
-var $ = { exports: {} };
-(function(o) {
-  (function() {
-    function i(e) {
-      var t = {
-        omitExtraWLInCodeBlocks: {
-          defaultValue: !1,
-          describe: "Omit the default extra whiteline added to code blocks",
-          type: "boolean"
-        },
-        noHeaderId: {
-          defaultValue: !1,
-          describe: "Turn on/off generated header id",
-          type: "boolean"
-        },
-        prefixHeaderId: {
-          defaultValue: !1,
-          describe: "Add a prefix to the generated header ids. Passing a string will prefix that string to the header id. Setting to true will add a generic 'section-' prefix",
-          type: "string"
-        },
-        rawPrefixHeaderId: {
-          defaultValue: !1,
-          describe: 'Setting this option to true will prevent showdown from modifying the prefix. This might result in malformed IDs (if, for instance, the " char is used in the prefix)',
-          type: "boolean"
-        },
-        ghCompatibleHeaderId: {
-          defaultValue: !1,
-          describe: "Generate header ids compatible with github style (spaces are replaced with dashes, a bunch of non alphanumeric chars are removed)",
-          type: "boolean"
-        },
-        rawHeaderId: {
-          defaultValue: !1,
-          describe: `Remove only spaces, ' and " from generated header ids (including prefixes), replacing them with dashes (-). WARNING: This might result in malformed ids`,
-          type: "boolean"
-        },
-        headerLevelStart: {
-          defaultValue: !1,
-          describe: "The header blocks level start",
-          type: "integer"
-        },
-        parseImgDimensions: {
-          defaultValue: !1,
-          describe: "Turn on/off image dimension parsing",
-          type: "boolean"
-        },
-        simplifiedAutoLink: {
-          defaultValue: !1,
-          describe: "Turn on/off GFM autolink style",
-          type: "boolean"
-        },
-        excludeTrailingPunctuationFromURLs: {
-          defaultValue: !1,
-          describe: "Excludes trailing punctuation from links generated with autoLinking",
-          type: "boolean"
-        },
-        literalMidWordUnderscores: {
-          defaultValue: !1,
-          describe: "Parse midword underscores as literal underscores",
-          type: "boolean"
-        },
-        literalMidWordAsterisks: {
-          defaultValue: !1,
-          describe: "Parse midword asterisks as literal asterisks",
-          type: "boolean"
-        },
-        strikethrough: {
-          defaultValue: !1,
-          describe: "Turn on/off strikethrough support",
-          type: "boolean"
-        },
-        tables: {
-          defaultValue: !1,
-          describe: "Turn on/off tables support",
-          type: "boolean"
-        },
-        tablesHeaderId: {
-          defaultValue: !1,
-          describe: "Add an id to table headers",
-          type: "boolean"
-        },
-        ghCodeBlocks: {
-          defaultValue: !0,
-          describe: "Turn on/off GFM fenced code blocks support",
-          type: "boolean"
-        },
-        tasklists: {
-          defaultValue: !1,
-          describe: "Turn on/off GFM tasklist support",
-          type: "boolean"
-        },
-        smoothLivePreview: {
-          defaultValue: !1,
-          describe: "Prevents weird effects in live previews due to incomplete input",
-          type: "boolean"
-        },
-        smartIndentationFix: {
-          defaultValue: !1,
-          description: "Tries to smartly fix indentation in es6 strings",
-          type: "boolean"
-        },
-        disableForced4SpacesIndentedSublists: {
-          defaultValue: !1,
-          description: "Disables the requirement of indenting nested sublists by 4 spaces",
-          type: "boolean"
-        },
-        simpleLineBreaks: {
-          defaultValue: !1,
-          description: "Parses simple line breaks as <br> (GFM Style)",
-          type: "boolean"
-        },
-        requireSpaceBeforeHeadingText: {
-          defaultValue: !1,
-          description: "Makes adding a space between `#` and the header text mandatory (GFM Style)",
-          type: "boolean"
-        },
-        ghMentions: {
-          defaultValue: !1,
-          description: "Enables github @mentions",
-          type: "boolean"
-        },
-        ghMentionsLink: {
-          defaultValue: "https://github.com/{u}",
-          description: "Changes the link generated by @mentions. Only applies if ghMentions option is enabled.",
-          type: "string"
-        },
-        encodeEmails: {
-          defaultValue: !0,
-          description: "Encode e-mail addresses through the use of Character Entities, transforming ASCII e-mail addresses into its equivalent decimal entities",
-          type: "boolean"
-        },
-        openLinksInNewWindow: {
-          defaultValue: !1,
-          description: "Open all links in new windows",
-          type: "boolean"
-        },
-        backslashEscapesHTMLTags: {
-          defaultValue: !1,
-          description: "Support for HTML Tag escaping. ex: <div>foo</div>",
-          type: "boolean"
-        },
-        emoji: {
-          defaultValue: !1,
-          description: "Enable emoji support. Ex: `this is a :smile: emoji`",
-          type: "boolean"
-        },
-        underline: {
-          defaultValue: !1,
-          description: "Enable support for underline. Syntax is double or triple underscores: `__underline word__`. With this option enabled, underscores no longer parses into `<em>` and `<strong>`",
-          type: "boolean"
-        },
-        completeHTMLDocument: {
-          defaultValue: !1,
-          description: "Outputs a complete html document, including `<html>`, `<head>` and `<body>` tags",
-          type: "boolean"
-        },
-        metadata: {
-          defaultValue: !1,
-          description: "Enable support for document metadata (defined at the top of the document between `«««` and `»»»` or between `---` and `---`).",
-          type: "boolean"
-        },
-        splitAdjacentBlockquotes: {
-          defaultValue: !1,
-          description: "Split adjacent blockquote blocks",
-          type: "boolean"
-        }
-      };
-      if (e === !1)
-        return JSON.parse(JSON.stringify(t));
-      var r = {};
-      for (var n in t)
-        t.hasOwnProperty(n) && (r[n] = t[n].defaultValue);
-      return r;
-    }
-    function A() {
-      var e = i(!0), t = {};
-      for (var r in e)
-        e.hasOwnProperty(r) && (t[r] = !0);
-      return t;
-    }
-    var a = {}, _ = {}, I = {}, S = i(!0), k = "vanilla", c = {
-      github: {
-        omitExtraWLInCodeBlocks: !0,
-        simplifiedAutoLink: !0,
-        excludeTrailingPunctuationFromURLs: !0,
-        literalMidWordUnderscores: !0,
-        strikethrough: !0,
-        tables: !0,
-        tablesHeaderId: !0,
-        ghCodeBlocks: !0,
-        tasklists: !0,
-        disableForced4SpacesIndentedSublists: !0,
-        simpleLineBreaks: !0,
-        requireSpaceBeforeHeadingText: !0,
-        ghCompatibleHeaderId: !0,
-        ghMentions: !0,
-        backslashEscapesHTMLTags: !0,
-        emoji: !0,
-        splitAdjacentBlockquotes: !0
-      },
-      original: {
-        noHeaderId: !0,
-        ghCodeBlocks: !1
-      },
-      ghost: {
-        omitExtraWLInCodeBlocks: !0,
-        parseImgDimensions: !0,
-        simplifiedAutoLink: !0,
-        excludeTrailingPunctuationFromURLs: !0,
-        literalMidWordUnderscores: !0,
-        strikethrough: !0,
-        tables: !0,
-        tablesHeaderId: !0,
-        ghCodeBlocks: !0,
-        tasklists: !0,
-        smoothLivePreview: !0,
-        simpleLineBreaks: !0,
-        requireSpaceBeforeHeadingText: !0,
-        ghMentions: !1,
-        encodeEmails: !0
-      },
-      vanilla: i(!0),
-      allOn: A()
-    };
-    a.helper = {}, a.extensions = {}, a.setOption = function(e, t) {
-      return S[e] = t, this;
-    }, a.getOption = function(e) {
-      return S[e];
-    }, a.getOptions = function() {
-      return S;
-    }, a.resetOptions = function() {
-      S = i(!0);
-    }, a.setFlavor = function(e) {
-      if (!c.hasOwnProperty(e))
-        throw Error(e + " flavor was not found");
-      a.resetOptions();
-      var t = c[e];
-      k = e;
-      for (var r in t)
-        t.hasOwnProperty(r) && (S[r] = t[r]);
-    }, a.getFlavor = function() {
-      return k;
-    }, a.getFlavorOptions = function(e) {
-      if (c.hasOwnProperty(e))
-        return c[e];
-    }, a.getDefaultOptions = function(e) {
-      return i(e);
-    }, a.subParser = function(e, t) {
-      if (a.helper.isString(e))
-        if (typeof t < "u")
-          _[e] = t;
-        else {
-          if (_.hasOwnProperty(e))
-            return _[e];
-          throw Error("SubParser named " + e + " not registered!");
-        }
-    }, a.extension = function(e, t) {
-      if (!a.helper.isString(e))
-        throw Error("Extension 'name' must be a string");
-      if (e = a.helper.stdExtName(e), a.helper.isUndefined(t)) {
-        if (!I.hasOwnProperty(e))
-          throw Error("Extension named " + e + " is not registered!");
-        return I[e];
-      } else {
-        typeof t == "function" && (t = t()), a.helper.isArray(t) || (t = [t]);
-        var r = b(t, e);
-        if (r.valid)
-          I[e] = t;
-        else
-          throw Error(r.error);
-      }
-    }, a.getAllExtensions = function() {
-      return I;
-    }, a.removeExtension = function(e) {
-      delete I[e];
-    }, a.resetExtensions = function() {
-      I = {};
-    };
-    function b(e, t) {
-      var r = t ? "Error in " + t + " extension->" : "Error in unnamed extension", n = {
-        valid: !0,
-        error: ""
-      };
-      a.helper.isArray(e) || (e = [e]);
-      for (var g = 0; g < e.length; ++g) {
-        var s = r + " sub-extension " + g + ": ", u = e[g];
-        if (typeof u != "object")
-          return n.valid = !1, n.error = s + "must be an object, but " + typeof u + " given", n;
-        if (!a.helper.isString(u.type))
-          return n.valid = !1, n.error = s + 'property "type" must be a string, but ' + typeof u.type + " given", n;
-        var C = u.type = u.type.toLowerCase();
-        if (C === "language" && (C = u.type = "lang"), C === "html" && (C = u.type = "output"), C !== "lang" && C !== "output" && C !== "listener")
-          return n.valid = !1, n.error = s + "type " + C + ' is not recognized. Valid values: "lang/language", "output/html" or "listener"', n;
-        if (C === "listener") {
-          if (a.helper.isUndefined(u.listeners))
-            return n.valid = !1, n.error = s + '. Extensions of type "listener" must have a property called "listeners"', n;
-        } else if (a.helper.isUndefined(u.filter) && a.helper.isUndefined(u.regex))
-          return n.valid = !1, n.error = s + C + ' extensions must define either a "regex" property or a "filter" method', n;
-        if (u.listeners) {
-          if (typeof u.listeners != "object")
-            return n.valid = !1, n.error = s + '"listeners" property must be an object but ' + typeof u.listeners + " given", n;
-          for (var w in u.listeners)
-            if (u.listeners.hasOwnProperty(w) && typeof u.listeners[w] != "function")
-              return n.valid = !1, n.error = s + '"listeners" property must be an hash of [event name]: [callback]. listeners.' + w + " must be a function but " + typeof u.listeners[w] + " given", n;
-        }
-        if (u.filter) {
-          if (typeof u.filter != "function")
-            return n.valid = !1, n.error = s + '"filter" must be a function, but ' + typeof u.filter + " given", n;
-        } else if (u.regex) {
-          if (a.helper.isString(u.regex) && (u.regex = new RegExp(u.regex, "g")), !(u.regex instanceof RegExp))
-            return n.valid = !1, n.error = s + '"regex" property must either be a string or a RegExp object, but ' + typeof u.regex + " given", n;
-          if (a.helper.isUndefined(u.replace))
-            return n.valid = !1, n.error = s + '"regex" extensions must implement a replace string or function', n;
-        }
-      }
-      return n;
-    }
-    a.validateExtension = function(e) {
-      var t = b(e, null);
-      return t.valid ? !0 : (console.warn(t.error), !1);
-    }, a.hasOwnProperty("helper") || (a.helper = {}), a.helper.isString = function(e) {
-      return typeof e == "string" || e instanceof String;
-    }, a.helper.isFunction = function(e) {
-      var t = {};
-      return e && t.toString.call(e) === "[object Function]";
-    }, a.helper.isArray = function(e) {
-      return Array.isArray(e);
-    }, a.helper.isUndefined = function(e) {
-      return typeof e > "u";
-    }, a.helper.forEach = function(e, t) {
-      if (a.helper.isUndefined(e))
-        throw new Error("obj param is required");
-      if (a.helper.isUndefined(t))
-        throw new Error("callback param is required");
-      if (!a.helper.isFunction(t))
-        throw new Error("callback param must be a function/closure");
-      if (typeof e.forEach == "function")
-        e.forEach(t);
-      else if (a.helper.isArray(e))
-        for (var r = 0; r < e.length; r++)
-          t(e[r], r, e);
-      else if (typeof e == "object")
-        for (var n in e)
-          e.hasOwnProperty(n) && t(e[n], n, e);
-      else
-        throw new Error("obj does not seem to be an array or an iterable object");
-    }, a.helper.stdExtName = function(e) {
-      return e.replace(/[_?*+\/\\.^-]/g, "").replace(/\s/g, "").toLowerCase();
-    };
-    function P(e, t) {
-      var r = t.charCodeAt(0);
-      return "¨E" + r + "E";
-    }
-    a.helper.escapeCharactersCallback = P, a.helper.escapeCharacters = function(e, t, r) {
-      var n = "([" + t.replace(/([\[\]\\])/g, "\\$1") + "])";
-      r && (n = "\\\\" + n);
-      var g = new RegExp(n, "g");
-      return e = e.replace(g, P), e;
-    };
-    var y = function(e, t, r, n) {
-      var g = n || "", s = g.indexOf("g") > -1, u = new RegExp(t + "|" + r, "g" + g.replace(/g/g, "")), C = new RegExp(t, g.replace(/g/g, "")), w = [], p, l, h, d, f;
-      do
-        for (p = 0; h = u.exec(e); )
-          if (C.test(h[0]))
-            p++ || (l = u.lastIndex, d = l - h[0].length);
-          else if (p && !--p) {
-            f = h.index + h[0].length;
-            var v = {
-              left: { start: d, end: l },
-              match: { start: l, end: h.index },
-              right: { start: h.index, end: f },
-              wholeMatch: { start: d, end: f }
-            };
-            if (w.push(v), !s)
-              return w;
-          }
-      while (p && (u.lastIndex = l));
-      return w;
-    };
-    a.helper.matchRecursiveRegExp = function(e, t, r, n) {
-      for (var g = y(e, t, r, n), s = [], u = 0; u < g.length; ++u)
-        s.push([
-          e.slice(g[u].wholeMatch.start, g[u].wholeMatch.end),
-          e.slice(g[u].match.start, g[u].match.end),
-          e.slice(g[u].left.start, g[u].left.end),
-          e.slice(g[u].right.start, g[u].right.end)
-        ]);
-      return s;
-    }, a.helper.replaceRecursiveRegExp = function(e, t, r, n, g) {
-      if (!a.helper.isFunction(t)) {
-        var s = t;
-        t = function() {
-          return s;
-        };
-      }
-      var u = y(e, r, n, g), C = e, w = u.length;
-      if (w > 0) {
-        var p = [];
-        u[0].wholeMatch.start !== 0 && p.push(e.slice(0, u[0].wholeMatch.start));
-        for (var l = 0; l < w; ++l)
-          p.push(
-            t(
-              e.slice(u[l].wholeMatch.start, u[l].wholeMatch.end),
-              e.slice(u[l].match.start, u[l].match.end),
-              e.slice(u[l].left.start, u[l].left.end),
-              e.slice(u[l].right.start, u[l].right.end)
-            )
-          ), l < w - 1 && p.push(e.slice(u[l].wholeMatch.end, u[l + 1].wholeMatch.start));
-        u[w - 1].wholeMatch.end < e.length && p.push(e.slice(u[w - 1].wholeMatch.end)), C = p.join("");
-      }
-      return C;
-    }, a.helper.regexIndexOf = function(e, t, r) {
-      if (!a.helper.isString(e))
-        throw "InvalidArgumentError: first parameter of showdown.helper.regexIndexOf function must be a string";
-      if (!(t instanceof RegExp))
-        throw "InvalidArgumentError: second parameter of showdown.helper.regexIndexOf function must be an instance of RegExp";
-      var n = e.substring(r || 0).search(t);
-      return n >= 0 ? n + (r || 0) : n;
-    }, a.helper.splitAtIndex = function(e, t) {
-      if (!a.helper.isString(e))
-        throw "InvalidArgumentError: first parameter of showdown.helper.regexIndexOf function must be a string";
-      return [e.substring(0, t), e.substring(t)];
-    }, a.helper.encodeEmailAddress = function(e) {
-      var t = [
-        function(r) {
-          return "&#" + r.charCodeAt(0) + ";";
-        },
-        function(r) {
-          return "&#x" + r.charCodeAt(0).toString(16) + ";";
-        },
-        function(r) {
-          return r;
-        }
-      ];
-      return e = e.replace(/./g, function(r) {
-        if (r === "@")
-          r = t[Math.floor(Math.random() * 2)](r);
-        else {
-          var n = Math.random();
-          r = n > 0.9 ? t[2](r) : n > 0.45 ? t[1](r) : t[0](r);
-        }
-        return r;
-      }), e;
-    }, typeof console > "u" && (console = {
-      warn: function(e) {
-        alert(e);
-      },
-      log: function(e) {
-        alert(e);
-      },
-      error: function(e) {
-        throw e;
-      }
-    }), a.helper.regexes = {
-      asteriskDashAndColon: /([*_:~])/g
-    }, a.helper.emojis = {
-      "+1": "👍",
-      "-1": "👎",
-      100: "💯",
-      1234: "🔢",
-      "1st_place_medal": "🥇",
-      "2nd_place_medal": "🥈",
-      "3rd_place_medal": "🥉",
-      "8ball": "🎱",
-      a: "🅰️",
-      ab: "🆎",
-      abc: "🔤",
-      abcd: "🔡",
-      accept: "🉑",
-      aerial_tramway: "🚡",
-      airplane: "✈️",
-      alarm_clock: "⏰",
-      alembic: "⚗️",
-      alien: "👽",
-      ambulance: "🚑",
-      amphora: "🏺",
-      anchor: "⚓️",
-      angel: "👼",
-      anger: "💢",
-      angry: "😠",
-      anguished: "😧",
-      ant: "🐜",
-      apple: "🍎",
-      aquarius: "♒️",
-      aries: "♈️",
-      arrow_backward: "◀️",
-      arrow_double_down: "⏬",
-      arrow_double_up: "⏫",
-      arrow_down: "⬇️",
-      arrow_down_small: "🔽",
-      arrow_forward: "▶️",
-      arrow_heading_down: "⤵️",
-      arrow_heading_up: "⤴️",
-      arrow_left: "⬅️",
-      arrow_lower_left: "↙️",
-      arrow_lower_right: "↘️",
-      arrow_right: "➡️",
-      arrow_right_hook: "↪️",
-      arrow_up: "⬆️",
-      arrow_up_down: "↕️",
-      arrow_up_small: "🔼",
-      arrow_upper_left: "↖️",
-      arrow_upper_right: "↗️",
-      arrows_clockwise: "🔃",
-      arrows_counterclockwise: "🔄",
-      art: "🎨",
-      articulated_lorry: "🚛",
-      artificial_satellite: "🛰",
-      astonished: "😲",
-      athletic_shoe: "👟",
-      atm: "🏧",
-      atom_symbol: "⚛️",
-      avocado: "🥑",
-      b: "🅱️",
-      baby: "👶",
-      baby_bottle: "🍼",
-      baby_chick: "🐤",
-      baby_symbol: "🚼",
-      back: "🔙",
-      bacon: "🥓",
-      badminton: "🏸",
-      baggage_claim: "🛄",
-      baguette_bread: "🥖",
-      balance_scale: "⚖️",
-      balloon: "🎈",
-      ballot_box: "🗳",
-      ballot_box_with_check: "☑️",
-      bamboo: "🎍",
-      banana: "🍌",
-      bangbang: "‼️",
-      bank: "🏦",
-      bar_chart: "📊",
-      barber: "💈",
-      baseball: "⚾️",
-      basketball: "🏀",
-      basketball_man: "⛹️",
-      basketball_woman: "⛹️&zwj;♀️",
-      bat: "🦇",
-      bath: "🛀",
-      bathtub: "🛁",
-      battery: "🔋",
-      beach_umbrella: "🏖",
-      bear: "🐻",
-      bed: "🛏",
-      bee: "🐝",
-      beer: "🍺",
-      beers: "🍻",
-      beetle: "🐞",
-      beginner: "🔰",
-      bell: "🔔",
-      bellhop_bell: "🛎",
-      bento: "🍱",
-      biking_man: "🚴",
-      bike: "🚲",
-      biking_woman: "🚴&zwj;♀️",
-      bikini: "👙",
-      biohazard: "☣️",
-      bird: "🐦",
-      birthday: "🎂",
-      black_circle: "⚫️",
-      black_flag: "🏴",
-      black_heart: "🖤",
-      black_joker: "🃏",
-      black_large_square: "⬛️",
-      black_medium_small_square: "◾️",
-      black_medium_square: "◼️",
-      black_nib: "✒️",
-      black_small_square: "▪️",
-      black_square_button: "🔲",
-      blonde_man: "👱",
-      blonde_woman: "👱&zwj;♀️",
-      blossom: "🌼",
-      blowfish: "🐡",
-      blue_book: "📘",
-      blue_car: "🚙",
-      blue_heart: "💙",
-      blush: "😊",
-      boar: "🐗",
-      boat: "⛵️",
-      bomb: "💣",
-      book: "📖",
-      bookmark: "🔖",
-      bookmark_tabs: "📑",
-      books: "📚",
-      boom: "💥",
-      boot: "👢",
-      bouquet: "💐",
-      bowing_man: "🙇",
-      bow_and_arrow: "🏹",
-      bowing_woman: "🙇&zwj;♀️",
-      bowling: "🎳",
-      boxing_glove: "🥊",
-      boy: "👦",
-      bread: "🍞",
-      bride_with_veil: "👰",
-      bridge_at_night: "🌉",
-      briefcase: "💼",
-      broken_heart: "💔",
-      bug: "🐛",
-      building_construction: "🏗",
-      bulb: "💡",
-      bullettrain_front: "🚅",
-      bullettrain_side: "🚄",
-      burrito: "🌯",
-      bus: "🚌",
-      business_suit_levitating: "🕴",
-      busstop: "🚏",
-      bust_in_silhouette: "👤",
-      busts_in_silhouette: "👥",
-      butterfly: "🦋",
-      cactus: "🌵",
-      cake: "🍰",
-      calendar: "📆",
-      call_me_hand: "🤙",
-      calling: "📲",
-      camel: "🐫",
-      camera: "📷",
-      camera_flash: "📸",
-      camping: "🏕",
-      cancer: "♋️",
-      candle: "🕯",
-      candy: "🍬",
-      canoe: "🛶",
-      capital_abcd: "🔠",
-      capricorn: "♑️",
-      car: "🚗",
-      card_file_box: "🗃",
-      card_index: "📇",
-      card_index_dividers: "🗂",
-      carousel_horse: "🎠",
-      carrot: "🥕",
-      cat: "🐱",
-      cat2: "🐈",
-      cd: "💿",
-      chains: "⛓",
-      champagne: "🍾",
-      chart: "💹",
-      chart_with_downwards_trend: "📉",
-      chart_with_upwards_trend: "📈",
-      checkered_flag: "🏁",
-      cheese: "🧀",
-      cherries: "🍒",
-      cherry_blossom: "🌸",
-      chestnut: "🌰",
-      chicken: "🐔",
-      children_crossing: "🚸",
-      chipmunk: "🐿",
-      chocolate_bar: "🍫",
-      christmas_tree: "🎄",
-      church: "⛪️",
-      cinema: "🎦",
-      circus_tent: "🎪",
-      city_sunrise: "🌇",
-      city_sunset: "🌆",
-      cityscape: "🏙",
-      cl: "🆑",
-      clamp: "🗜",
-      clap: "👏",
-      clapper: "🎬",
-      classical_building: "🏛",
-      clinking_glasses: "🥂",
-      clipboard: "📋",
-      clock1: "🕐",
-      clock10: "🕙",
-      clock1030: "🕥",
-      clock11: "🕚",
-      clock1130: "🕦",
-      clock12: "🕛",
-      clock1230: "🕧",
-      clock130: "🕜",
-      clock2: "🕑",
-      clock230: "🕝",
-      clock3: "🕒",
-      clock330: "🕞",
-      clock4: "🕓",
-      clock430: "🕟",
-      clock5: "🕔",
-      clock530: "🕠",
-      clock6: "🕕",
-      clock630: "🕡",
-      clock7: "🕖",
-      clock730: "🕢",
-      clock8: "🕗",
-      clock830: "🕣",
-      clock9: "🕘",
-      clock930: "🕤",
-      closed_book: "📕",
-      closed_lock_with_key: "🔐",
-      closed_umbrella: "🌂",
-      cloud: "☁️",
-      cloud_with_lightning: "🌩",
-      cloud_with_lightning_and_rain: "⛈",
-      cloud_with_rain: "🌧",
-      cloud_with_snow: "🌨",
-      clown_face: "🤡",
-      clubs: "♣️",
-      cocktail: "🍸",
-      coffee: "☕️",
-      coffin: "⚰️",
-      cold_sweat: "😰",
-      comet: "☄️",
-      computer: "💻",
-      computer_mouse: "🖱",
-      confetti_ball: "🎊",
-      confounded: "😖",
-      confused: "😕",
-      congratulations: "㊗️",
-      construction: "🚧",
-      construction_worker_man: "👷",
-      construction_worker_woman: "👷&zwj;♀️",
-      control_knobs: "🎛",
-      convenience_store: "🏪",
-      cookie: "🍪",
-      cool: "🆒",
-      policeman: "👮",
-      copyright: "©️",
-      corn: "🌽",
-      couch_and_lamp: "🛋",
-      couple: "👫",
-      couple_with_heart_woman_man: "💑",
-      couple_with_heart_man_man: "👨&zwj;❤️&zwj;👨",
-      couple_with_heart_woman_woman: "👩&zwj;❤️&zwj;👩",
-      couplekiss_man_man: "👨&zwj;❤️&zwj;💋&zwj;👨",
-      couplekiss_man_woman: "💏",
-      couplekiss_woman_woman: "👩&zwj;❤️&zwj;💋&zwj;👩",
-      cow: "🐮",
-      cow2: "🐄",
-      cowboy_hat_face: "🤠",
-      crab: "🦀",
-      crayon: "🖍",
-      credit_card: "💳",
-      crescent_moon: "🌙",
-      cricket: "🏏",
-      crocodile: "🐊",
-      croissant: "🥐",
-      crossed_fingers: "🤞",
-      crossed_flags: "🎌",
-      crossed_swords: "⚔️",
-      crown: "👑",
-      cry: "😢",
-      crying_cat_face: "😿",
-      crystal_ball: "🔮",
-      cucumber: "🥒",
-      cupid: "💘",
-      curly_loop: "➰",
-      currency_exchange: "💱",
-      curry: "🍛",
-      custard: "🍮",
-      customs: "🛃",
-      cyclone: "🌀",
-      dagger: "🗡",
-      dancer: "💃",
-      dancing_women: "👯",
-      dancing_men: "👯&zwj;♂️",
-      dango: "🍡",
-      dark_sunglasses: "🕶",
-      dart: "🎯",
-      dash: "💨",
-      date: "📅",
-      deciduous_tree: "🌳",
-      deer: "🦌",
-      department_store: "🏬",
-      derelict_house: "🏚",
-      desert: "🏜",
-      desert_island: "🏝",
-      desktop_computer: "🖥",
-      male_detective: "🕵️",
-      diamond_shape_with_a_dot_inside: "💠",
-      diamonds: "♦️",
-      disappointed: "😞",
-      disappointed_relieved: "😥",
-      dizzy: "💫",
-      dizzy_face: "😵",
-      do_not_litter: "🚯",
-      dog: "🐶",
-      dog2: "🐕",
-      dollar: "💵",
-      dolls: "🎎",
-      dolphin: "🐬",
-      door: "🚪",
-      doughnut: "🍩",
-      dove: "🕊",
-      dragon: "🐉",
-      dragon_face: "🐲",
-      dress: "👗",
-      dromedary_camel: "🐪",
-      drooling_face: "🤤",
-      droplet: "💧",
-      drum: "🥁",
-      duck: "🦆",
-      dvd: "📀",
-      "e-mail": "📧",
-      eagle: "🦅",
-      ear: "👂",
-      ear_of_rice: "🌾",
-      earth_africa: "🌍",
-      earth_americas: "🌎",
-      earth_asia: "🌏",
-      egg: "🥚",
-      eggplant: "🍆",
-      eight_pointed_black_star: "✴️",
-      eight_spoked_asterisk: "✳️",
-      electric_plug: "🔌",
-      elephant: "🐘",
-      email: "✉️",
-      end: "🔚",
-      envelope_with_arrow: "📩",
-      euro: "💶",
-      european_castle: "🏰",
-      european_post_office: "🏤",
-      evergreen_tree: "🌲",
-      exclamation: "❗️",
-      expressionless: "😑",
-      eye: "👁",
-      eye_speech_bubble: "👁&zwj;🗨",
-      eyeglasses: "👓",
-      eyes: "👀",
-      face_with_head_bandage: "🤕",
-      face_with_thermometer: "🤒",
-      fist_oncoming: "👊",
-      factory: "🏭",
-      fallen_leaf: "🍂",
-      family_man_woman_boy: "👪",
-      family_man_boy: "👨&zwj;👦",
-      family_man_boy_boy: "👨&zwj;👦&zwj;👦",
-      family_man_girl: "👨&zwj;👧",
-      family_man_girl_boy: "👨&zwj;👧&zwj;👦",
-      family_man_girl_girl: "👨&zwj;👧&zwj;👧",
-      family_man_man_boy: "👨&zwj;👨&zwj;👦",
-      family_man_man_boy_boy: "👨&zwj;👨&zwj;👦&zwj;👦",
-      family_man_man_girl: "👨&zwj;👨&zwj;👧",
-      family_man_man_girl_boy: "👨&zwj;👨&zwj;👧&zwj;👦",
-      family_man_man_girl_girl: "👨&zwj;👨&zwj;👧&zwj;👧",
-      family_man_woman_boy_boy: "👨&zwj;👩&zwj;👦&zwj;👦",
-      family_man_woman_girl: "👨&zwj;👩&zwj;👧",
-      family_man_woman_girl_boy: "👨&zwj;👩&zwj;👧&zwj;👦",
-      family_man_woman_girl_girl: "👨&zwj;👩&zwj;👧&zwj;👧",
-      family_woman_boy: "👩&zwj;👦",
-      family_woman_boy_boy: "👩&zwj;👦&zwj;👦",
-      family_woman_girl: "👩&zwj;👧",
-      family_woman_girl_boy: "👩&zwj;👧&zwj;👦",
-      family_woman_girl_girl: "👩&zwj;👧&zwj;👧",
-      family_woman_woman_boy: "👩&zwj;👩&zwj;👦",
-      family_woman_woman_boy_boy: "👩&zwj;👩&zwj;👦&zwj;👦",
-      family_woman_woman_girl: "👩&zwj;👩&zwj;👧",
-      family_woman_woman_girl_boy: "👩&zwj;👩&zwj;👧&zwj;👦",
-      family_woman_woman_girl_girl: "👩&zwj;👩&zwj;👧&zwj;👧",
-      fast_forward: "⏩",
-      fax: "📠",
-      fearful: "😨",
-      feet: "🐾",
-      female_detective: "🕵️&zwj;♀️",
-      ferris_wheel: "🎡",
-      ferry: "⛴",
-      field_hockey: "🏑",
-      file_cabinet: "🗄",
-      file_folder: "📁",
-      film_projector: "📽",
-      film_strip: "🎞",
-      fire: "🔥",
-      fire_engine: "🚒",
-      fireworks: "🎆",
-      first_quarter_moon: "🌓",
-      first_quarter_moon_with_face: "🌛",
-      fish: "🐟",
-      fish_cake: "🍥",
-      fishing_pole_and_fish: "🎣",
-      fist_raised: "✊",
-      fist_left: "🤛",
-      fist_right: "🤜",
-      flags: "🎏",
-      flashlight: "🔦",
-      fleur_de_lis: "⚜️",
-      flight_arrival: "🛬",
-      flight_departure: "🛫",
-      floppy_disk: "💾",
-      flower_playing_cards: "🎴",
-      flushed: "😳",
-      fog: "🌫",
-      foggy: "🌁",
-      football: "🏈",
-      footprints: "👣",
-      fork_and_knife: "🍴",
-      fountain: "⛲️",
-      fountain_pen: "🖋",
-      four_leaf_clover: "🍀",
-      fox_face: "🦊",
-      framed_picture: "🖼",
-      free: "🆓",
-      fried_egg: "🍳",
-      fried_shrimp: "🍤",
-      fries: "🍟",
-      frog: "🐸",
-      frowning: "😦",
-      frowning_face: "☹️",
-      frowning_man: "🙍&zwj;♂️",
-      frowning_woman: "🙍",
-      middle_finger: "🖕",
-      fuelpump: "⛽️",
-      full_moon: "🌕",
-      full_moon_with_face: "🌝",
-      funeral_urn: "⚱️",
-      game_die: "🎲",
-      gear: "⚙️",
-      gem: "💎",
-      gemini: "♊️",
-      ghost: "👻",
-      gift: "🎁",
-      gift_heart: "💝",
-      girl: "👧",
-      globe_with_meridians: "🌐",
-      goal_net: "🥅",
-      goat: "🐐",
-      golf: "⛳️",
-      golfing_man: "🏌️",
-      golfing_woman: "🏌️&zwj;♀️",
-      gorilla: "🦍",
-      grapes: "🍇",
-      green_apple: "🍏",
-      green_book: "📗",
-      green_heart: "💚",
-      green_salad: "🥗",
-      grey_exclamation: "❕",
-      grey_question: "❔",
-      grimacing: "😬",
-      grin: "😁",
-      grinning: "😀",
-      guardsman: "💂",
-      guardswoman: "💂&zwj;♀️",
-      guitar: "🎸",
-      gun: "🔫",
-      haircut_woman: "💇",
-      haircut_man: "💇&zwj;♂️",
-      hamburger: "🍔",
-      hammer: "🔨",
-      hammer_and_pick: "⚒",
-      hammer_and_wrench: "🛠",
-      hamster: "🐹",
-      hand: "✋",
-      handbag: "👜",
-      handshake: "🤝",
-      hankey: "💩",
-      hatched_chick: "🐥",
-      hatching_chick: "🐣",
-      headphones: "🎧",
-      hear_no_evil: "🙉",
-      heart: "❤️",
-      heart_decoration: "💟",
-      heart_eyes: "😍",
-      heart_eyes_cat: "😻",
-      heartbeat: "💓",
-      heartpulse: "💗",
-      hearts: "♥️",
-      heavy_check_mark: "✔️",
-      heavy_division_sign: "➗",
-      heavy_dollar_sign: "💲",
-      heavy_heart_exclamation: "❣️",
-      heavy_minus_sign: "➖",
-      heavy_multiplication_x: "✖️",
-      heavy_plus_sign: "➕",
-      helicopter: "🚁",
-      herb: "🌿",
-      hibiscus: "🌺",
-      high_brightness: "🔆",
-      high_heel: "👠",
-      hocho: "🔪",
-      hole: "🕳",
-      honey_pot: "🍯",
-      horse: "🐴",
-      horse_racing: "🏇",
-      hospital: "🏥",
-      hot_pepper: "🌶",
-      hotdog: "🌭",
-      hotel: "🏨",
-      hotsprings: "♨️",
-      hourglass: "⌛️",
-      hourglass_flowing_sand: "⏳",
-      house: "🏠",
-      house_with_garden: "🏡",
-      houses: "🏘",
-      hugs: "🤗",
-      hushed: "😯",
-      ice_cream: "🍨",
-      ice_hockey: "🏒",
-      ice_skate: "⛸",
-      icecream: "🍦",
-      id: "🆔",
-      ideograph_advantage: "🉐",
-      imp: "👿",
-      inbox_tray: "📥",
-      incoming_envelope: "📨",
-      tipping_hand_woman: "💁",
-      information_source: "ℹ️",
-      innocent: "😇",
-      interrobang: "⁉️",
-      iphone: "📱",
-      izakaya_lantern: "🏮",
-      jack_o_lantern: "🎃",
-      japan: "🗾",
-      japanese_castle: "🏯",
-      japanese_goblin: "👺",
-      japanese_ogre: "👹",
-      jeans: "👖",
-      joy: "😂",
-      joy_cat: "😹",
-      joystick: "🕹",
-      kaaba: "🕋",
-      key: "🔑",
-      keyboard: "⌨️",
-      keycap_ten: "🔟",
-      kick_scooter: "🛴",
-      kimono: "👘",
-      kiss: "💋",
-      kissing: "😗",
-      kissing_cat: "😽",
-      kissing_closed_eyes: "😚",
-      kissing_heart: "😘",
-      kissing_smiling_eyes: "😙",
-      kiwi_fruit: "🥝",
-      koala: "🐨",
-      koko: "🈁",
-      label: "🏷",
-      large_blue_circle: "🔵",
-      large_blue_diamond: "🔷",
-      large_orange_diamond: "🔶",
-      last_quarter_moon: "🌗",
-      last_quarter_moon_with_face: "🌜",
-      latin_cross: "✝️",
-      laughing: "😆",
-      leaves: "🍃",
-      ledger: "📒",
-      left_luggage: "🛅",
-      left_right_arrow: "↔️",
-      leftwards_arrow_with_hook: "↩️",
-      lemon: "🍋",
-      leo: "♌️",
-      leopard: "🐆",
-      level_slider: "🎚",
-      libra: "♎️",
-      light_rail: "🚈",
-      link: "🔗",
-      lion: "🦁",
-      lips: "👄",
-      lipstick: "💄",
-      lizard: "🦎",
-      lock: "🔒",
-      lock_with_ink_pen: "🔏",
-      lollipop: "🍭",
-      loop: "➿",
-      loud_sound: "🔊",
-      loudspeaker: "📢",
-      love_hotel: "🏩",
-      love_letter: "💌",
-      low_brightness: "🔅",
-      lying_face: "🤥",
-      m: "Ⓜ️",
-      mag: "🔍",
-      mag_right: "🔎",
-      mahjong: "🀄️",
-      mailbox: "📫",
-      mailbox_closed: "📪",
-      mailbox_with_mail: "📬",
-      mailbox_with_no_mail: "📭",
-      man: "👨",
-      man_artist: "👨&zwj;🎨",
-      man_astronaut: "👨&zwj;🚀",
-      man_cartwheeling: "🤸&zwj;♂️",
-      man_cook: "👨&zwj;🍳",
-      man_dancing: "🕺",
-      man_facepalming: "🤦&zwj;♂️",
-      man_factory_worker: "👨&zwj;🏭",
-      man_farmer: "👨&zwj;🌾",
-      man_firefighter: "👨&zwj;🚒",
-      man_health_worker: "👨&zwj;⚕️",
-      man_in_tuxedo: "🤵",
-      man_judge: "👨&zwj;⚖️",
-      man_juggling: "🤹&zwj;♂️",
-      man_mechanic: "👨&zwj;🔧",
-      man_office_worker: "👨&zwj;💼",
-      man_pilot: "👨&zwj;✈️",
-      man_playing_handball: "🤾&zwj;♂️",
-      man_playing_water_polo: "🤽&zwj;♂️",
-      man_scientist: "👨&zwj;🔬",
-      man_shrugging: "🤷&zwj;♂️",
-      man_singer: "👨&zwj;🎤",
-      man_student: "👨&zwj;🎓",
-      man_teacher: "👨&zwj;🏫",
-      man_technologist: "👨&zwj;💻",
-      man_with_gua_pi_mao: "👲",
-      man_with_turban: "👳",
-      tangerine: "🍊",
-      mans_shoe: "👞",
-      mantelpiece_clock: "🕰",
-      maple_leaf: "🍁",
-      martial_arts_uniform: "🥋",
-      mask: "😷",
-      massage_woman: "💆",
-      massage_man: "💆&zwj;♂️",
-      meat_on_bone: "🍖",
-      medal_military: "🎖",
-      medal_sports: "🏅",
-      mega: "📣",
-      melon: "🍈",
-      memo: "📝",
-      men_wrestling: "🤼&zwj;♂️",
-      menorah: "🕎",
-      mens: "🚹",
-      metal: "🤘",
-      metro: "🚇",
-      microphone: "🎤",
-      microscope: "🔬",
-      milk_glass: "🥛",
-      milky_way: "🌌",
-      minibus: "🚐",
-      minidisc: "💽",
-      mobile_phone_off: "📴",
-      money_mouth_face: "🤑",
-      money_with_wings: "💸",
-      moneybag: "💰",
-      monkey: "🐒",
-      monkey_face: "🐵",
-      monorail: "🚝",
-      moon: "🌔",
-      mortar_board: "🎓",
-      mosque: "🕌",
-      motor_boat: "🛥",
-      motor_scooter: "🛵",
-      motorcycle: "🏍",
-      motorway: "🛣",
-      mount_fuji: "🗻",
-      mountain: "⛰",
-      mountain_biking_man: "🚵",
-      mountain_biking_woman: "🚵&zwj;♀️",
-      mountain_cableway: "🚠",
-      mountain_railway: "🚞",
-      mountain_snow: "🏔",
-      mouse: "🐭",
-      mouse2: "🐁",
-      movie_camera: "🎥",
-      moyai: "🗿",
-      mrs_claus: "🤶",
-      muscle: "💪",
-      mushroom: "🍄",
-      musical_keyboard: "🎹",
-      musical_note: "🎵",
-      musical_score: "🎼",
-      mute: "🔇",
-      nail_care: "💅",
-      name_badge: "📛",
-      national_park: "🏞",
-      nauseated_face: "🤢",
-      necktie: "👔",
-      negative_squared_cross_mark: "❎",
-      nerd_face: "🤓",
-      neutral_face: "😐",
-      new: "🆕",
-      new_moon: "🌑",
-      new_moon_with_face: "🌚",
-      newspaper: "📰",
-      newspaper_roll: "🗞",
-      next_track_button: "⏭",
-      ng: "🆖",
-      no_good_man: "🙅&zwj;♂️",
-      no_good_woman: "🙅",
-      night_with_stars: "🌃",
-      no_bell: "🔕",
-      no_bicycles: "🚳",
-      no_entry: "⛔️",
-      no_entry_sign: "🚫",
-      no_mobile_phones: "📵",
-      no_mouth: "😶",
-      no_pedestrians: "🚷",
-      no_smoking: "🚭",
-      "non-potable_water": "🚱",
-      nose: "👃",
-      notebook: "📓",
-      notebook_with_decorative_cover: "📔",
-      notes: "🎶",
-      nut_and_bolt: "🔩",
-      o: "⭕️",
-      o2: "🅾️",
-      ocean: "🌊",
-      octopus: "🐙",
-      oden: "🍢",
-      office: "🏢",
-      oil_drum: "🛢",
-      ok: "🆗",
-      ok_hand: "👌",
-      ok_man: "🙆&zwj;♂️",
-      ok_woman: "🙆",
-      old_key: "🗝",
-      older_man: "👴",
-      older_woman: "👵",
-      om: "🕉",
-      on: "🔛",
-      oncoming_automobile: "🚘",
-      oncoming_bus: "🚍",
-      oncoming_police_car: "🚔",
-      oncoming_taxi: "🚖",
-      open_file_folder: "📂",
-      open_hands: "👐",
-      open_mouth: "😮",
-      open_umbrella: "☂️",
-      ophiuchus: "⛎",
-      orange_book: "📙",
-      orthodox_cross: "☦️",
-      outbox_tray: "📤",
-      owl: "🦉",
-      ox: "🐂",
-      package: "📦",
-      page_facing_up: "📄",
-      page_with_curl: "📃",
-      pager: "📟",
-      paintbrush: "🖌",
-      palm_tree: "🌴",
-      pancakes: "🥞",
-      panda_face: "🐼",
-      paperclip: "📎",
-      paperclips: "🖇",
-      parasol_on_ground: "⛱",
-      parking: "🅿️",
-      part_alternation_mark: "〽️",
-      partly_sunny: "⛅️",
-      passenger_ship: "🛳",
-      passport_control: "🛂",
-      pause_button: "⏸",
-      peace_symbol: "☮️",
-      peach: "🍑",
-      peanuts: "🥜",
-      pear: "🍐",
-      pen: "🖊",
-      pencil2: "✏️",
-      penguin: "🐧",
-      pensive: "😔",
-      performing_arts: "🎭",
-      persevere: "😣",
-      person_fencing: "🤺",
-      pouting_woman: "🙎",
-      phone: "☎️",
-      pick: "⛏",
-      pig: "🐷",
-      pig2: "🐖",
-      pig_nose: "🐽",
-      pill: "💊",
-      pineapple: "🍍",
-      ping_pong: "🏓",
-      pisces: "♓️",
-      pizza: "🍕",
-      place_of_worship: "🛐",
-      plate_with_cutlery: "🍽",
-      play_or_pause_button: "⏯",
-      point_down: "👇",
-      point_left: "👈",
-      point_right: "👉",
-      point_up: "☝️",
-      point_up_2: "👆",
-      police_car: "🚓",
-      policewoman: "👮&zwj;♀️",
-      poodle: "🐩",
-      popcorn: "🍿",
-      post_office: "🏣",
-      postal_horn: "📯",
-      postbox: "📮",
-      potable_water: "🚰",
-      potato: "🥔",
-      pouch: "👝",
-      poultry_leg: "🍗",
-      pound: "💷",
-      rage: "😡",
-      pouting_cat: "😾",
-      pouting_man: "🙎&zwj;♂️",
-      pray: "🙏",
-      prayer_beads: "📿",
-      pregnant_woman: "🤰",
-      previous_track_button: "⏮",
-      prince: "🤴",
-      princess: "👸",
-      printer: "🖨",
-      purple_heart: "💜",
-      purse: "👛",
-      pushpin: "📌",
-      put_litter_in_its_place: "🚮",
-      question: "❓",
-      rabbit: "🐰",
-      rabbit2: "🐇",
-      racehorse: "🐎",
-      racing_car: "🏎",
-      radio: "📻",
-      radio_button: "🔘",
-      radioactive: "☢️",
-      railway_car: "🚃",
-      railway_track: "🛤",
-      rainbow: "🌈",
-      rainbow_flag: "🏳️&zwj;🌈",
-      raised_back_of_hand: "🤚",
-      raised_hand_with_fingers_splayed: "🖐",
-      raised_hands: "🙌",
-      raising_hand_woman: "🙋",
-      raising_hand_man: "🙋&zwj;♂️",
-      ram: "🐏",
-      ramen: "🍜",
-      rat: "🐀",
-      record_button: "⏺",
-      recycle: "♻️",
-      red_circle: "🔴",
-      registered: "®️",
-      relaxed: "☺️",
-      relieved: "😌",
-      reminder_ribbon: "🎗",
-      repeat: "🔁",
-      repeat_one: "🔂",
-      rescue_worker_helmet: "⛑",
-      restroom: "🚻",
-      revolving_hearts: "💞",
-      rewind: "⏪",
-      rhinoceros: "🦏",
-      ribbon: "🎀",
-      rice: "🍚",
-      rice_ball: "🍙",
-      rice_cracker: "🍘",
-      rice_scene: "🎑",
-      right_anger_bubble: "🗯",
-      ring: "💍",
-      robot: "🤖",
-      rocket: "🚀",
-      rofl: "🤣",
-      roll_eyes: "🙄",
-      roller_coaster: "🎢",
-      rooster: "🐓",
-      rose: "🌹",
-      rosette: "🏵",
-      rotating_light: "🚨",
-      round_pushpin: "📍",
-      rowing_man: "🚣",
-      rowing_woman: "🚣&zwj;♀️",
-      rugby_football: "🏉",
-      running_man: "🏃",
-      running_shirt_with_sash: "🎽",
-      running_woman: "🏃&zwj;♀️",
-      sa: "🈂️",
-      sagittarius: "♐️",
-      sake: "🍶",
-      sandal: "👡",
-      santa: "🎅",
-      satellite: "📡",
-      saxophone: "🎷",
-      school: "🏫",
-      school_satchel: "🎒",
-      scissors: "✂️",
-      scorpion: "🦂",
-      scorpius: "♏️",
-      scream: "😱",
-      scream_cat: "🙀",
-      scroll: "📜",
-      seat: "💺",
-      secret: "㊙️",
-      see_no_evil: "🙈",
-      seedling: "🌱",
-      selfie: "🤳",
-      shallow_pan_of_food: "🥘",
-      shamrock: "☘️",
-      shark: "🦈",
-      shaved_ice: "🍧",
-      sheep: "🐑",
-      shell: "🐚",
-      shield: "🛡",
-      shinto_shrine: "⛩",
-      ship: "🚢",
-      shirt: "👕",
-      shopping: "🛍",
-      shopping_cart: "🛒",
-      shower: "🚿",
-      shrimp: "🦐",
-      signal_strength: "📶",
-      six_pointed_star: "🔯",
-      ski: "🎿",
-      skier: "⛷",
-      skull: "💀",
-      skull_and_crossbones: "☠️",
-      sleeping: "😴",
-      sleeping_bed: "🛌",
-      sleepy: "😪",
-      slightly_frowning_face: "🙁",
-      slightly_smiling_face: "🙂",
-      slot_machine: "🎰",
-      small_airplane: "🛩",
-      small_blue_diamond: "🔹",
-      small_orange_diamond: "🔸",
-      small_red_triangle: "🔺",
-      small_red_triangle_down: "🔻",
-      smile: "😄",
-      smile_cat: "😸",
-      smiley: "😃",
-      smiley_cat: "😺",
-      smiling_imp: "😈",
-      smirk: "😏",
-      smirk_cat: "😼",
-      smoking: "🚬",
-      snail: "🐌",
-      snake: "🐍",
-      sneezing_face: "🤧",
-      snowboarder: "🏂",
-      snowflake: "❄️",
-      snowman: "⛄️",
-      snowman_with_snow: "☃️",
-      sob: "😭",
-      soccer: "⚽️",
-      soon: "🔜",
-      sos: "🆘",
-      sound: "🔉",
-      space_invader: "👾",
-      spades: "♠️",
-      spaghetti: "🍝",
-      sparkle: "❇️",
-      sparkler: "🎇",
-      sparkles: "✨",
-      sparkling_heart: "💖",
-      speak_no_evil: "🙊",
-      speaker: "🔈",
-      speaking_head: "🗣",
-      speech_balloon: "💬",
-      speedboat: "🚤",
-      spider: "🕷",
-      spider_web: "🕸",
-      spiral_calendar: "🗓",
-      spiral_notepad: "🗒",
-      spoon: "🥄",
-      squid: "🦑",
-      stadium: "🏟",
-      star: "⭐️",
-      star2: "🌟",
-      star_and_crescent: "☪️",
-      star_of_david: "✡️",
-      stars: "🌠",
-      station: "🚉",
-      statue_of_liberty: "🗽",
-      steam_locomotive: "🚂",
-      stew: "🍲",
-      stop_button: "⏹",
-      stop_sign: "🛑",
-      stopwatch: "⏱",
-      straight_ruler: "📏",
-      strawberry: "🍓",
-      stuck_out_tongue: "😛",
-      stuck_out_tongue_closed_eyes: "😝",
-      stuck_out_tongue_winking_eye: "😜",
-      studio_microphone: "🎙",
-      stuffed_flatbread: "🥙",
-      sun_behind_large_cloud: "🌥",
-      sun_behind_rain_cloud: "🌦",
-      sun_behind_small_cloud: "🌤",
-      sun_with_face: "🌞",
-      sunflower: "🌻",
-      sunglasses: "😎",
-      sunny: "☀️",
-      sunrise: "🌅",
-      sunrise_over_mountains: "🌄",
-      surfing_man: "🏄",
-      surfing_woman: "🏄&zwj;♀️",
-      sushi: "🍣",
-      suspension_railway: "🚟",
-      sweat: "😓",
-      sweat_drops: "💦",
-      sweat_smile: "😅",
-      sweet_potato: "🍠",
-      swimming_man: "🏊",
-      swimming_woman: "🏊&zwj;♀️",
-      symbols: "🔣",
-      synagogue: "🕍",
-      syringe: "💉",
-      taco: "🌮",
-      tada: "🎉",
-      tanabata_tree: "🎋",
-      taurus: "♉️",
-      taxi: "🚕",
-      tea: "🍵",
-      telephone_receiver: "📞",
-      telescope: "🔭",
-      tennis: "🎾",
-      tent: "⛺️",
-      thermometer: "🌡",
-      thinking: "🤔",
-      thought_balloon: "💭",
-      ticket: "🎫",
-      tickets: "🎟",
-      tiger: "🐯",
-      tiger2: "🐅",
-      timer_clock: "⏲",
-      tipping_hand_man: "💁&zwj;♂️",
-      tired_face: "😫",
-      tm: "™️",
-      toilet: "🚽",
-      tokyo_tower: "🗼",
-      tomato: "🍅",
-      tongue: "👅",
-      top: "🔝",
-      tophat: "🎩",
-      tornado: "🌪",
-      trackball: "🖲",
-      tractor: "🚜",
-      traffic_light: "🚥",
-      train: "🚋",
-      train2: "🚆",
-      tram: "🚊",
-      triangular_flag_on_post: "🚩",
-      triangular_ruler: "📐",
-      trident: "🔱",
-      triumph: "😤",
-      trolleybus: "🚎",
-      trophy: "🏆",
-      tropical_drink: "🍹",
-      tropical_fish: "🐠",
-      truck: "🚚",
-      trumpet: "🎺",
-      tulip: "🌷",
-      tumbler_glass: "🥃",
-      turkey: "🦃",
-      turtle: "🐢",
-      tv: "📺",
-      twisted_rightwards_arrows: "🔀",
-      two_hearts: "💕",
-      two_men_holding_hands: "👬",
-      two_women_holding_hands: "👭",
-      u5272: "🈹",
-      u5408: "🈴",
-      u55b6: "🈺",
-      u6307: "🈯️",
-      u6708: "🈷️",
-      u6709: "🈶",
-      u6e80: "🈵",
-      u7121: "🈚️",
-      u7533: "🈸",
-      u7981: "🈲",
-      u7a7a: "🈳",
-      umbrella: "☔️",
-      unamused: "😒",
-      underage: "🔞",
-      unicorn: "🦄",
-      unlock: "🔓",
-      up: "🆙",
-      upside_down_face: "🙃",
-      v: "✌️",
-      vertical_traffic_light: "🚦",
-      vhs: "📼",
-      vibration_mode: "📳",
-      video_camera: "📹",
-      video_game: "🎮",
-      violin: "🎻",
-      virgo: "♍️",
-      volcano: "🌋",
-      volleyball: "🏐",
-      vs: "🆚",
-      vulcan_salute: "🖖",
-      walking_man: "🚶",
-      walking_woman: "🚶&zwj;♀️",
-      waning_crescent_moon: "🌘",
-      waning_gibbous_moon: "🌖",
-      warning: "⚠️",
-      wastebasket: "🗑",
-      watch: "⌚️",
-      water_buffalo: "🐃",
-      watermelon: "🍉",
-      wave: "👋",
-      wavy_dash: "〰️",
-      waxing_crescent_moon: "🌒",
-      wc: "🚾",
-      weary: "😩",
-      wedding: "💒",
-      weight_lifting_man: "🏋️",
-      weight_lifting_woman: "🏋️&zwj;♀️",
-      whale: "🐳",
-      whale2: "🐋",
-      wheel_of_dharma: "☸️",
-      wheelchair: "♿️",
-      white_check_mark: "✅",
-      white_circle: "⚪️",
-      white_flag: "🏳️",
-      white_flower: "💮",
-      white_large_square: "⬜️",
-      white_medium_small_square: "◽️",
-      white_medium_square: "◻️",
-      white_small_square: "▫️",
-      white_square_button: "🔳",
-      wilted_flower: "🥀",
-      wind_chime: "🎐",
-      wind_face: "🌬",
-      wine_glass: "🍷",
-      wink: "😉",
-      wolf: "🐺",
-      woman: "👩",
-      woman_artist: "👩&zwj;🎨",
-      woman_astronaut: "👩&zwj;🚀",
-      woman_cartwheeling: "🤸&zwj;♀️",
-      woman_cook: "👩&zwj;🍳",
-      woman_facepalming: "🤦&zwj;♀️",
-      woman_factory_worker: "👩&zwj;🏭",
-      woman_farmer: "👩&zwj;🌾",
-      woman_firefighter: "👩&zwj;🚒",
-      woman_health_worker: "👩&zwj;⚕️",
-      woman_judge: "👩&zwj;⚖️",
-      woman_juggling: "🤹&zwj;♀️",
-      woman_mechanic: "👩&zwj;🔧",
-      woman_office_worker: "👩&zwj;💼",
-      woman_pilot: "👩&zwj;✈️",
-      woman_playing_handball: "🤾&zwj;♀️",
-      woman_playing_water_polo: "🤽&zwj;♀️",
-      woman_scientist: "👩&zwj;🔬",
-      woman_shrugging: "🤷&zwj;♀️",
-      woman_singer: "👩&zwj;🎤",
-      woman_student: "👩&zwj;🎓",
-      woman_teacher: "👩&zwj;🏫",
-      woman_technologist: "👩&zwj;💻",
-      woman_with_turban: "👳&zwj;♀️",
-      womans_clothes: "👚",
-      womans_hat: "👒",
-      women_wrestling: "🤼&zwj;♀️",
-      womens: "🚺",
-      world_map: "🗺",
-      worried: "😟",
-      wrench: "🔧",
-      writing_hand: "✍️",
-      x: "❌",
-      yellow_heart: "💛",
-      yen: "💴",
-      yin_yang: "☯️",
-      yum: "😋",
-      zap: "⚡️",
-      zipper_mouth_face: "🤐",
-      zzz: "💤",
-      /* special emojis :P */
-      octocat: '<img width="20" height="20" align="absmiddle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAOwUlEQVR42uVbCVyO6RbPmn0sw9gZS0aZO4y5GTEUE2ObxjZjrbHEJVy3sWS5pkaWxjLEkCVDSbSgFLdESaWSLIVUSIi4kvb9f895vi/zbbR+yZ339/tbnu99n/ec/3Oe85xznufV0CjDBaAdwZqwnzCJ0FXjHV70/i8J5oQDhCFV8cJdq1atwqxZs+Ds7Iz4+HhqwgXCLELNKlK6G2Ej4e6lS5ewZcsWzJgxA+fOnWNZFqvzxT1v3boF/qcsBg0ahP3796OwsJAFWKYuIqjfPoS9cXFxWL58Obp06SInh5aWFr//jjoJWLlu3TolAorRuXNn7Ny5k4W4Spgj81xrgj5hLmED4RDhlNRygglBhADCSakpWxFMCHoETUJTwrYHDx7A1NT0je9nPHz4kN/fXl0EeI0aNeqtAjB69+4NPz8/FsSdlXvy5An8/f1hZ2cHCwsLGBsbY/To0cJy9PT0MGDAAAwePBhGRkbClNesWYODBw8iODgYOTk53M/d9evXo27duiW++8iRI3z/ZHURENOjR48ShSjGuHHjhHJ16tQp9TOKaNWqlZKpvw1MHluQOpSvk5eXh5YtW5ZbmarAvHnzmIBd6iCgXnZ2Npo1a1atCWAfwY5SHQTUKCoqQocOHao1AebmHBJgi7p8QBDP6epMwKFDvMDAWF0ELLS1ta3WBNy9e5cJMFIXAdvt7e2rNQHDhw9nAv5D+KKylV9y8+bNCi1pVYWZM2cyCfaVTcDdsqzH7xpBQRxcwqyylLdi5/K+KM/Q0dFhAqIri4Bn1T0AUgVpdmhYUeVHnD59+r1TnjF27Fgm4HhFCThoYmLyXhLQoEGD4mRKsyIE3OrZs+d7SQCDCyZcNSqv8k1evXoFTU3NUr+wzUcfYqRBf8yb/C2WzfoBFoTF08fBdMIITDD8CsP1+kL30x7Q6dYZH7drjfZ0f4fWLdG1Q1t81qMLBvTRwejB/TBl1BDMnzQGS2dMxKo5k7Fs9iSY/jAaBvR8Pc26pZaH02quLZSXgO6xsbGlelGnli1wZKcVMqN8gKcRwItrf+K/VB95doXaLwOJIVSzOU/+2Re5kV7IuuyJrIhTyLt6mmztLBBPNZLHoUAy9fE8UvJ8ikxfj8PwJPQErJeYlkquTZs2MQFLykuANgc/Jb2kn3Z3ZMaQUrmxwO1zyAo7gfRAJ6RfOIyMEFdkXj5F8BTK5lzxQv610yi8QcFatI8gQoCIK7x+hojwRnaE5H4JTiEj9Pjr/rJDqcZyn9b4ovu45LYbdWvXeqtsXMHiSlZ5CegRExPz1hd83PYj5POo0QinXyLFg48hnZTOiQ1Dzr1IZEaeQRoJn0HKZIR7lA2kfHrQUerXHTlx4ZL+rnjjFRGRGeYB5MUj2GnbW+XbuJFrp1heXgI6JCYmvvUFN1x3Aek3SWkapRAXMeJFGS8ge2Xfuog0toaykED3Mpk8+shOk+sv68Y50V9WuKewBKt5094o39atW/mRf5WXgIYZGRlo3Lixys4nj6A6Z1YMcqRCpwU4ouDlUyHk/QA/hNttR25Wlvh/ZthJUsil9ATQ/axkYbqEzDgfL0Ts/x35+aLyTES7IY36Q6w/+Q4/tP6wuUoZ9+7dy7ebVmQZjO/atavKzn32rAdeXkd6KCkXdAxZ13yFcLFnvPD73zrDVrsdTs6eggKSuSjjORHkUGoC0i86Iyc6QPQX7eqMnTodYNuzHU4vnosiaitMSUSavwMy6d3IvEUrzViVMrq5uXEX4ytCgL++vr5Sx7Vr1cIDX0dKkQJfj37Rs3jw1sBxkwlwGD4Ax3+ciN1faCHW76xQRFgAOcjSEMBkIe0x8nLzcez7kTg8Rh/uxuOxR/cTJISFSfq7eATpZCk8CAfXLVFJwIULXHnHoIoQYLtw4UKljps2aogXQcQuef/XAiMDKY+S4DhyEFwpDnCj9f+Afl8EbbWRTANaAdihlYoAMn8aZzyNuYODX/eD29TvRH/7v+qN8H27JdOAyWQfQQ74xPafVRLAPox9WUlK6hIGEgx4f00Kg2JcvHhRqeP6FIwknXemyen/2gLIIeC/CYk49M0AuE4xgtu0sThg8AUCN62TEuBdRgJo2Y+Kxh9D/k59SQiwH9QHobt3SAk4KSGA4oWjm1YqyVi8U6Soj4yOrHM/jTAyKVby/PnzIoNi8L+L4eXlpXoFcLcTgc1rAlISkJeXDxeK2A6P1hdTwI6mQPTJE+WbAlnJyE7PhNO3Q3BkrKGYWtxfHMkkmQLO0ilwA7+vXqAkn66urtBLUZ9iHfm30NBQaPAf165dA0d9vP2UlJSEp0+f4vHjx3j06JH4e+rUqUovcNmyGkiNEkLwklXsBG+ecMUOnfbYod1emG5uboFKJ8jPFVD0l0dBUHqoPDHpQeQEb0qc4FUHe3KAbYUT9JgzDbwOFL5MfN0fXkXhJ5PxSvLt2LFD1Ah5u4z1YJ14l4qnBe8v3rhxAzz4PAVG8nLHivIP0dHRiIiIQGRkpEgmrl69ClW1QBMjQ7LDW8hmU+RRI69ckJIkhL7jfRJBm62R+TJVYq6h0jhBRslsivqenT2MF/7OyI70VmkFhWnPJaS6OyPkt43IycqR9EfWlH7JDQUUTuNhCHR7Ke9YcRp/5coVoQPrcvnyZURFRYmBZlLS0kR8MVLD29sbnp6e8PHxQUBAgCgn8YO8E3z79m3BGKeVc+bMkXuBZt06SA12F/F5Go0gR4C8HBalPZMPXKL8lQKhPAqF+f97KXFyNx6HQsoPsshJ/kmAp2TKkJLISpXvjyxNhMYcDVLOEO+lPDi8B5mamipkZx1YF9YpJCRErAy+vr5CZ9ZdWABhDGEYYTBhAOFz3g4nfMJelNCbkNCpUye5F034mvxIPi1/FM+zQCw0k5B9O0iEr5kRXkqhMJOVf9NXIHjtT7hmaymSoBzKETimkAuFpaF1dkwI9RcmIYaXv3BJXoGCuyIgk5WpefPmKCgoYK46SmX/RKoL69Sfl0WuFEl1HlmWJXE5z6WmTZvKJxxmxkIQ3AuU5APk6NICj4hRT6eITTEEzqWk55HHPjz3cxJhNF5cxeNT9kj2cRDTQjEkzpDtjyyCic5l5fEA7uSHFEefR5pPsahrb2B9QkICFHeJ51HunkdLIg0VLY0BFKdLwllVHp4dHyvst3QuEiiju21vA/+VZkiluIKt4I3RIfWXQ4QgKUxkni47LJWUP3PmjHo2RxVI+CebmKJP6EiFDVurxUgmExe5PHlnPAkn8w4QqW62NCVmYopozid5H0CI9RKE21ggJeAYEeMnfitOnRn5XCfgeJ+VTosWQU8MOc6ZE0cqnUm4fv165SrPBVHCfMI4TowUfmOfsIcdJh92kBWmUcP6GDt8EDZbzIffH5tx3/ewSFjw5LKk0MEFEkZenDBjgew7Yiog5brkt+QrknvJmhIp4Apw/A1bVpjhG/0v5d7Vrl07bNu2TelUSqUoz8uI3Z49OEtBAy+TdP1CqKtwHzvQUxxgTJs2TeX5gdq1a0ObSmCjh+jB+NuvRamL1+3ls77HCip1rTSdJP5eNnMizKndjMLoH42G4bthX+FzHS3UVVEC69evH3799VeKMXJZrlWKclUGAZ5jxoxB02ZNsNlxH74aagBHZyex986HlVTczyGmI58h4CjL2toa48ePFxsUPEotWrQoc0GT0/C2bduiY8eO4ISMcxLeoOFYhS6qm2EpoZG65jmbv+dPSyRZlt5QfVjvtX19AOFNL+aDFNI4m0eFc9Ho5ORkaGtrl5kAVp6DMOk88efEjLe++ZhclZwHTJHEHbs4YOCmLj2645fdvwnTK42zoXtaEHwNDQ3LXdZm5yad3/2r+gQmDsRnIF5KAldX6zdsgG/GG8F44Vzcu3eP2y1K6GPr2rVrK1zbnz59Or/LoaoJCPZ4kCZsjw9GECL79OmDj9q2wb+320C3/5fgPQO6Vrzh+fpcDqxXr16lbHBwgkZXm6okYJr0ECMrX5vraiJ1lArEjrEnzWuOqemiYj9spGd2ee478XkiPsJakmJ83qA05/8qXNurJFLiunXrhpo1a6LxB02wyHIFZpovgOHwYfjZ0hK2lH5u2rwZ5suWYv5ycyUlmjRpgl69eimlrFy3kwuoyOvXr19frm3RokVMwPZ3TYC57E6xVq+e6KzVDSaL/oEp82Zh8IhhWLjGAp/p9oX5ujVKBNjY2MDV1VWuzd3dXaTesm2biUQuZ8u28elSPmKr8a4vdog8GnJpcT1N1KHUuBbt0jSgWuGbzJh3mVhh2TYHBwdxjFa2jVcZnvPVlQBOLXdZWlqW2ZFxNYYVlm07fPgwAgMD5dr4OD5HeHLFFxM+O42DGtXhIkFaMQlcUjIzM0P37t1Ro0YNpZPjPJcVK7SOjo5ybU5OTqIAo0gAh97VlgAZIj4l8Pn4WFaO64ocuXG6zJtDbMqySnC7IgF8uptLVrJtq1evFuWqak+A4j4i4TNpltiJ8LPiNFFFwNGjRyWFyfedAFUny/joekkEuLi4KK0CfykCeFnkiu1flgBeFtl3/D8SsMbKykpOifv37ysRcPz4cVHKUiSA8wwNdR9/VTMBSh9Y8S4Nf2qnSICiBbDzVCRg9uzZTMC+94kAv6FDh8opwRsVHPjItnl4eEDxHNLKlStFXV+2javQ/M1SpZe+1KA4L4G7WDG57fSm/OUbXiqG0ewAFYOeYcN4fwZhvLkp2y4tftrxcltdlf/w+fPn4qNGxTCYU2m6nrRu3VqunT/EoiuZvw6TTZHpyuNNmEaNGsndP3fu3OJAq1N1JOAHDmyKheVtNP4OkE2crULRAW7fvl20EyyLy24a8p+/7WISFixYIMLt4t82bNhQYjXqXREgPq3j74mlX3AmSL8E1eOPIBXnuVT5OsVZpuLnOMeOHeN7vifwiYhYzhC5IpwlOXj1QXWdBmy/XWU/X+UqMZfKBw4cKAobHPlJlZe9h6tOu+7cuSN2dg0MDMSSyZUpmXvaSD+crq/xvl0k9BTCRa7qEPq+5T4t6ffF52WVV+f1P6zyLG30bsU4AAAAAElFTkSuQmCC">',
-      showdown: '<img width="20" height="20" align="absmiddle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAECtaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzA2NyA3OS4xNTc3NDcsIDIwMTUvMDMvMzAtMjM6NDA6NDIgICAgICAgICI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgICAgICAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgICAgICAgICB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMTUtMDEtMTVUMjE6MDE6MTlaPC94bXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxNy0xMC0yNFQxMzozMTozMCswMTowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPHhtcDpNb2RpZnlEYXRlPjIwMTctMTAtMjRUMTM6MzE6MzArMDE6MDA8L3htcDpNb2RpZnlEYXRlPgogICAgICAgICA8cGhvdG9zaG9wOkNvbG9yTW9kZT4zPC9waG90b3Nob3A6Q29sb3JNb2RlPgogICAgICAgICA8cGhvdG9zaG9wOklDQ1Byb2ZpbGU+c1JHQiBJRUM2MTk2Ni0yLjE8L3Bob3Rvc2hvcDpJQ0NQcm9maWxlPgogICAgICAgICA8cGhvdG9zaG9wOlRleHRMYXllcnM+CiAgICAgICAgICAgIDxyZGY6QmFnPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHBob3Rvc2hvcDpMYXllck5hbWU+UyAtPC9waG90b3Nob3A6TGF5ZXJOYW1lPgogICAgICAgICAgICAgICAgICA8cGhvdG9zaG9wOkxheWVyVGV4dD5TIC08L3Bob3Rvc2hvcDpMYXllclRleHQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpCYWc+CiAgICAgICAgIDwvcGhvdG9zaG9wOlRleHRMYXllcnM+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgICAgIDx4bXBNTTpJbnN0YW5jZUlEPnhtcC5paWQ6N2NkMzQxNzctOWYyZi0yNDRiLWEyYjQtMzU1MzJkY2Y1MWJiPC94bXBNTTpJbnN0YW5jZUlEPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6M2E1YzgxYmYtYjhiNy0xMWU3LTk0NDktYTQ2MzdlZjJkNjMzPC94bXBNTTpEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06T3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3htcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkhpc3Rvcnk+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jcmVhdGVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTUtMDEtMTVUMjE6MDE6MTlaPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPnNhdmVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6ODZjNjBkMGQtOGY0Yy01ZTRlLWEwMjQtODI4ZWQyNTIwZDc3PC9zdEV2dDppbnN0YW5jZUlEPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE3LTEwLTI0VDEzOjMxOjMwKzAxOjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3N0RXZ0OnNvZnR3YXJlQWdlbnQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpjaGFuZ2VkPi88L3N0RXZ0OmNoYW5nZWQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jb252ZXJ0ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+ZnJvbSBhcHBsaWNhdGlvbi92bmQuYWRvYmUucGhvdG9zaG9wIHRvIGltYWdlL3BuZzwvc3RFdnQ6cGFyYW1ldGVycz4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmRlcml2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+Y29udmVydGVkIGZyb20gYXBwbGljYXRpb24vdm5kLmFkb2JlLnBob3Rvc2hvcCB0byBpbWFnZS9wbmc8L3N0RXZ0OnBhcmFtZXRlcnM+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5zYXZlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOjdjZDM0MTc3LTlmMmYtMjQ0Yi1hMmI0LTM1NTMyZGNmNTFiYjwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAxNy0xMC0yNFQxMzozMTozMCswMTowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L3htcE1NOkhpc3Rvcnk+CiAgICAgICAgIDx4bXBNTTpEZXJpdmVkRnJvbSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgIDxzdFJlZjppbnN0YW5jZUlEPnhtcC5paWQ6ODZjNjBkMGQtOGY0Yy01ZTRlLWEwMjQtODI4ZWQyNTIwZDc3PC9zdFJlZjppbnN0YW5jZUlEPgogICAgICAgICAgICA8c3RSZWY6ZG9jdW1lbnRJRD54bXAuZGlkOjYwQzVBRTY1RjY5Q0U0MTE5NDVBODU1RTNCQ0E3RUVCPC9zdFJlZjpkb2N1bWVudElEPgogICAgICAgICAgICA8c3RSZWY6b3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3N0UmVmOm9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPC94bXBNTTpEZXJpdmVkRnJvbT4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+MTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/Pse7bzcAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAA1JJREFUeNrsm1+OmlAUhz+aeS9dwZggJn1AnRUMO6jpBgZXULuC2hWUWUGZBTSxKyiuoA4mfUBMnB04K5g+9DihRBHlyh/lJLwIXLgf99xzzu9etZeXFy7Z3nDh1gBoAFy4XeVtQNO0zNcapmUDfUBPnFoBfhQGq6IBaHmjwD4Ahmk5wAD4kKG5J8CNwsAFaHe6DvA9cc0wCgOv8gDka3vA9RHNPgo0D7hNnJtGYWBXxgV2dH4MfMnRRA+Y1WIO2NJ5F/ikoKm3tYsChmkNFHW+fmHQMC1dfHaXPQP3wM1yMdc2B/AOGALTWobBmI1Shu0UGCwX83XyRBQGawHntTtdG5gUNfxVu4CTNqNv6/wWGL7kCc+1AmCYVisl3I2ydD4GYZUCs7IjoLXrxHIx9w9tLAqDCfBwDrXAY457x+cAoCfuwRGjYFUnAGk+PsjR7s8Dn1VeLWCYVlpDw+VivjVHSHt+u9PVJbzGzZXQWTkAkz0V31fATUaEsjVJlQBs4FeGcteLgzgbAALBA+4y3voAeJL8nA0AHfClnM1qm1HhnYUidCSE+KzvSSJUTwAxCOMcpfETMFYpfRUKIAbCFhC3OTJJJwqDWS0BxED0JZ4Pjix1P2+E0loCSMBwyK4S/xc1ojBwag8gMU84cvTKGgmlAYhngu1O9xAXuVE5J1QCQCz3bwHuHvdQui5QKQAxEO6eEKpsFCgTRSXkvdoxSlBMCxhJJbgrrbZRtHCiShN0pRB6PeQ3ckBw2K0oKXMBVYJIP+Nvh9qulFivGoBt1lLQxowT2ykBXCfnhZIglgYACWmqXQv+baioBYCeiCQHm+QEg1O7RhF7hO4OhSAhcJKSFU7qBGADwZeqMMuXn6TUBw8qlaMrirNb4LdhWlP+SWD+cjFfxTpuS2GUpik+o3jFSEkqbJiWn0P0OMSGqlWiOu0TvD+FRHZKAE+oW+cfRmEwqlsesJJEJs8y91QqP+9UL6lqEtz2gpuNEY5sm9sIHln2DRa2aFKGJtiXkZEMiWtgVvRKUSUFkSKt2S7fAGgAXLYpmQQXf36MUChTZdUa2u8/rkvPA6Tz30r4eH3ybcBS5gJ6SaNXb+aABkA1AMxKenclBZLW/He4cYEGwEXb3wEASelexk6LIIIAAAAASUVORK5CYII=">'
-    }, a.Converter = function(e) {
-      var t = {}, r = [], n = [], g = {}, s = k, u = {
-        parsed: {},
-        raw: "",
-        format: ""
-      };
-      C();
-      function C() {
-        e = e || {};
-        for (var d in S)
-          S.hasOwnProperty(d) && (t[d] = S[d]);
-        if (typeof e == "object")
-          for (var f in e)
-            e.hasOwnProperty(f) && (t[f] = e[f]);
-        else
-          throw Error("Converter expects the passed parameter to be an object, but " + typeof e + " was passed instead.");
-        t.extensions && a.helper.forEach(t.extensions, w);
-      }
-      function w(d, f) {
-        if (f = f || null, a.helper.isString(d))
-          if (d = a.helper.stdExtName(d), f = d, a.extensions[d]) {
-            console.warn("DEPRECATION WARNING: " + d + " is an old extension that uses a deprecated loading method.Please inform the developer that the extension should be updated!"), p(a.extensions[d], d);
-            return;
-          } else if (!a.helper.isUndefined(I[d]))
-            d = I[d];
-          else
-            throw Error('Extension "' + d + '" could not be loaded. It was either not found or is not a valid extension.');
-        typeof d == "function" && (d = d()), a.helper.isArray(d) || (d = [d]);
-        var v = b(d, f);
-        if (!v.valid)
-          throw Error(v.error);
-        for (var E = 0; E < d.length; ++E) {
-          switch (d[E].type) {
-            case "lang":
-              r.push(d[E]);
-              break;
-            case "output":
-              n.push(d[E]);
-              break;
-          }
-          if (d[E].hasOwnProperty("listeners"))
-            for (var z in d[E].listeners)
-              d[E].listeners.hasOwnProperty(z) && l(z, d[E].listeners[z]);
-        }
-      }
-      function p(d, f) {
-        typeof d == "function" && (d = d(new a.Converter())), a.helper.isArray(d) || (d = [d]);
-        var v = b(d, f);
-        if (!v.valid)
-          throw Error(v.error);
-        for (var E = 0; E < d.length; ++E)
-          switch (d[E].type) {
-            case "lang":
-              r.push(d[E]);
-              break;
-            case "output":
-              n.push(d[E]);
-              break;
-            default:
-              throw Error("Extension loader error: Type unrecognized!!!");
-          }
-      }
-      function l(d, f) {
-        if (!a.helper.isString(d))
-          throw Error("Invalid argument in converter.listen() method: name must be a string, but " + typeof d + " given");
-        if (typeof f != "function")
-          throw Error("Invalid argument in converter.listen() method: callback must be a function, but " + typeof f + " given");
-        g.hasOwnProperty(d) || (g[d] = []), g[d].push(f);
-      }
-      function h(d) {
-        var f = d.match(/^\s*/)[0].length, v = new RegExp("^\\s{0," + f + "}", "gm");
-        return d.replace(v, "");
-      }
-      this._dispatch = function(f, v, E, z) {
-        if (g.hasOwnProperty(f))
-          for (var m = 0; m < g[f].length; ++m) {
-            var R = g[f][m](f, v, this, E, z);
-            R && typeof R < "u" && (v = R);
-          }
-        return v;
-      }, this.listen = function(d, f) {
-        return l(d, f), this;
-      }, this.makeHtml = function(d) {
-        if (!d)
-          return d;
-        var f = {
-          gHtmlBlocks: [],
-          gHtmlMdBlocks: [],
-          gHtmlSpans: [],
-          gUrls: {},
-          gTitles: {},
-          gDimensions: {},
-          gListLevel: 0,
-          hashLinkCounts: {},
-          langExtensions: r,
-          outputModifiers: n,
-          converter: this,
-          ghCodeBlocks: [],
-          metadata: {
-            parsed: {},
-            raw: "",
-            format: ""
-          }
-        };
-        return d = d.replace(/¨/g, "¨T"), d = d.replace(/\$/g, "¨D"), d = d.replace(/\r\n/g, `
-`), d = d.replace(/\r/g, `
-`), d = d.replace(/\u00A0/g, " "), t.smartIndentationFix && (d = h(d)), d = `
-
-` + d + `
-
-`, d = a.subParser("detab")(d, t, f), d = d.replace(/^[ \t]+$/mg, ""), a.helper.forEach(r, function(v) {
-          d = a.subParser("runExtension")(v, d, t, f);
-        }), d = a.subParser("metadata")(d, t, f), d = a.subParser("hashPreCodeTags")(d, t, f), d = a.subParser("githubCodeBlocks")(d, t, f), d = a.subParser("hashHTMLBlocks")(d, t, f), d = a.subParser("hashCodeTags")(d, t, f), d = a.subParser("stripLinkDefinitions")(d, t, f), d = a.subParser("blockGamut")(d, t, f), d = a.subParser("unhashHTMLSpans")(d, t, f), d = a.subParser("unescapeSpecialChars")(d, t, f), d = d.replace(/¨D/g, "$$"), d = d.replace(/¨T/g, "¨"), d = a.subParser("completeHTMLDocument")(d, t, f), a.helper.forEach(n, function(v) {
-          d = a.subParser("runExtension")(v, d, t, f);
-        }), u = f.metadata, d;
-      }, this.setOption = function(d, f) {
-        t[d] = f;
-      }, this.getOption = function(d) {
-        return t[d];
-      }, this.getOptions = function() {
-        return t;
-      }, this.addExtension = function(d, f) {
-        f = f || null, w(d, f);
-      }, this.useExtension = function(d) {
-        w(d);
-      }, this.setFlavor = function(d) {
-        if (!c.hasOwnProperty(d))
-          throw Error(d + " flavor was not found");
-        var f = c[d];
-        s = d;
-        for (var v in f)
-          f.hasOwnProperty(v) && (t[v] = f[v]);
-      }, this.getFlavor = function() {
-        return s;
-      }, this.removeExtension = function(d) {
-        a.helper.isArray(d) || (d = [d]);
-        for (var f = 0; f < d.length; ++f) {
-          for (var v = d[f], E = 0; E < r.length; ++E)
-            r[E] === v && r[E].splice(E, 1);
-          for (var z = 0; z < n.length; ++E)
-            n[z] === v && n[z].splice(E, 1);
-        }
-      }, this.getAllExtensions = function() {
-        return {
-          language: r,
-          output: n
-        };
-      }, this.getMetadata = function(d) {
-        return d ? u.raw : u.parsed;
-      }, this.getMetadataFormat = function() {
-        return u.format;
-      }, this._setMetadataPair = function(d, f) {
-        u.parsed[d] = f;
-      }, this._setMetadataFormat = function(d) {
-        u.format = d;
-      }, this._setMetadataRaw = function(d) {
-        u.raw = d;
-      };
-    }, a.subParser("anchors", function(e, t, r) {
-      e = r.converter._dispatch("anchors.before", e, t, r);
-      var n = function(g, s, u, C, w, p, l) {
-        if (a.helper.isUndefined(l) && (l = ""), u = u.toLowerCase(), g.search(/\(<?\s*>? ?(['"].*['"])?\)$/m) > -1)
-          C = "";
-        else if (!C)
-          if (u || (u = s.toLowerCase().replace(/ ?\n/g, " ")), C = "#" + u, !a.helper.isUndefined(r.gUrls[u]))
-            C = r.gUrls[u], a.helper.isUndefined(r.gTitles[u]) || (l = r.gTitles[u]);
-          else
-            return g;
-        C = C.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback);
-        var h = '<a href="' + C + '"';
-        return l !== "" && l !== null && (l = l.replace(/"/g, "&quot;"), l = l.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback), h += ' title="' + l + '"'), t.openLinksInNewWindow && !/^#/.test(C) && (h += ' target="¨E95Eblank"'), h += ">" + s + "</a>", h;
-      };
-      return e = e.replace(/\[((?:\[[^\]]*]|[^\[\]])*)] ?(?:\n *)?\[(.*?)]()()()()/g, n), e = e.replace(
-        /\[((?:\[[^\]]*]|[^\[\]])*)]()[ \t]*\([ \t]?<([^>]*)>(?:[ \t]*((["'])([^"]*?)\5))?[ \t]?\)/g,
-        n
-      ), e = e.replace(
-        /\[((?:\[[^\]]*]|[^\[\]])*)]()[ \t]*\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?:[ \t]*((["'])([^"]*?)\5))?[ \t]?\)/g,
-        n
-      ), e = e.replace(/\[([^\[\]]+)]()()()()()/g, n), t.ghMentions && (e = e.replace(/(^|\s)(\\)?(@([a-z\d\-]+))(?=[.!?;,[\]()]|\s|$)/gmi, function(g, s, u, C, w) {
-        if (u === "\\")
-          return s + C;
-        if (!a.helper.isString(t.ghMentionsLink))
-          throw new Error("ghMentionsLink option must be a string");
-        var p = t.ghMentionsLink.replace(/\{u}/g, w), l = "";
-        return t.openLinksInNewWindow && (l = ' target="¨E95Eblank"'), s + '<a href="' + p + '"' + l + ">" + C + "</a>";
-      })), e = r.converter._dispatch("anchors.after", e, t, r), e;
-    });
-    var L = /([*~_]+|\b)(((https?|ftp|dict):\/\/|www\.)[^'">\s]+?\.[^'">\s]+?)()(\1)?(?=\s|$)(?!["<>])/gi, N = /([*~_]+|\b)(((https?|ftp|dict):\/\/|www\.)[^'">\s]+\.[^'">\s]+?)([.!?,()\[\]])?(\1)?(?=\s|$)(?!["<>])/gi, j = /()<(((https?|ftp|dict):\/\/|www\.)[^'">\s]+)()>()/gi, T = /(^|\s)(?:mailto:)?([A-Za-z0-9!#$%&'*+-/=?^_`{|}~.]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(?=$|\s)/gmi, O = /<()(?:mailto:)?([-.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)>/gi, U = function(e) {
-      return function(t, r, n, g, s, u, C) {
-        n = n.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback);
-        var w = n, p = "", l = "", h = r || "", d = C || "";
-        return /^www\./i.test(n) && (n = n.replace(/^www\./i, "http://www.")), e.excludeTrailingPunctuationFromURLs && u && (p = u), e.openLinksInNewWindow && (l = ' target="¨E95Eblank"'), h + '<a href="' + n + '"' + l + ">" + w + "</a>" + p + d;
-      };
-    }, x = function(e, t) {
-      return function(r, n, g) {
-        var s = "mailto:";
-        return n = n || "", g = a.subParser("unescapeSpecialChars")(g, e, t), e.encodeEmails ? (s = a.helper.encodeEmailAddress(s + g), g = a.helper.encodeEmailAddress(g)) : s = s + g, n + '<a href="' + s + '">' + g + "</a>";
-      };
-    };
-    a.subParser("autoLinks", function(e, t, r) {
-      return e = r.converter._dispatch("autoLinks.before", e, t, r), e = e.replace(j, U(t)), e = e.replace(O, x(t, r)), e = r.converter._dispatch("autoLinks.after", e, t, r), e;
-    }), a.subParser("simplifiedAutoLinks", function(e, t, r) {
-      return t.simplifiedAutoLink && (e = r.converter._dispatch("simplifiedAutoLinks.before", e, t, r), t.excludeTrailingPunctuationFromURLs ? e = e.replace(N, U(t)) : e = e.replace(L, U(t)), e = e.replace(T, x(t, r)), e = r.converter._dispatch("simplifiedAutoLinks.after", e, t, r)), e;
-    }), a.subParser("blockGamut", function(e, t, r) {
-      return e = r.converter._dispatch("blockGamut.before", e, t, r), e = a.subParser("blockQuotes")(e, t, r), e = a.subParser("headers")(e, t, r), e = a.subParser("horizontalRule")(e, t, r), e = a.subParser("lists")(e, t, r), e = a.subParser("codeBlocks")(e, t, r), e = a.subParser("tables")(e, t, r), e = a.subParser("hashHTMLBlocks")(e, t, r), e = a.subParser("paragraphs")(e, t, r), e = r.converter._dispatch("blockGamut.after", e, t, r), e;
-    }), a.subParser("blockQuotes", function(e, t, r) {
-      e = r.converter._dispatch("blockQuotes.before", e, t, r), e = e + `
-
-`;
-      var n = /(^ {0,3}>[ \t]?.+\n(.+\n)*\n*)+/gm;
-      return t.splitAdjacentBlockquotes && (n = /^ {0,3}>[\s\S]*?(?:\n\n)/gm), e = e.replace(n, function(g) {
-        return g = g.replace(/^[ \t]*>[ \t]?/gm, ""), g = g.replace(/¨0/g, ""), g = g.replace(/^[ \t]+$/gm, ""), g = a.subParser("githubCodeBlocks")(g, t, r), g = a.subParser("blockGamut")(g, t, r), g = g.replace(/(^|\n)/g, "$1  "), g = g.replace(/(\s*<pre>[^\r]+?<\/pre>)/gm, function(s, u) {
-          var C = u;
-          return C = C.replace(/^  /mg, "¨0"), C = C.replace(/¨0/g, ""), C;
-        }), a.subParser("hashBlock")(`<blockquote>
-` + g + `
-</blockquote>`, t, r);
-      }), e = r.converter._dispatch("blockQuotes.after", e, t, r), e;
-    }), a.subParser("codeBlocks", function(e, t, r) {
-      e = r.converter._dispatch("codeBlocks.before", e, t, r), e += "¨0";
-      var n = /(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=¨0))/g;
-      return e = e.replace(n, function(g, s, u) {
-        var C = s, w = u, p = `
-`;
-        return C = a.subParser("outdent")(C, t, r), C = a.subParser("encodeCode")(C, t, r), C = a.subParser("detab")(C, t, r), C = C.replace(/^\n+/g, ""), C = C.replace(/\n+$/g, ""), t.omitExtraWLInCodeBlocks && (p = ""), C = "<pre><code>" + C + p + "</code></pre>", a.subParser("hashBlock")(C, t, r) + w;
-      }), e = e.replace(/¨0/, ""), e = r.converter._dispatch("codeBlocks.after", e, t, r), e;
-    }), a.subParser("codeSpans", function(e, t, r) {
-      return e = r.converter._dispatch("codeSpans.before", e, t, r), typeof e > "u" && (e = ""), e = e.replace(
-        /(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm,
-        function(n, g, s, u) {
-          var C = u;
-          return C = C.replace(/^([ \t]*)/g, ""), C = C.replace(/[ \t]*$/g, ""), C = a.subParser("encodeCode")(C, t, r), C = g + "<code>" + C + "</code>", C = a.subParser("hashHTMLSpans")(C, t, r), C;
-        }
-      ), e = r.converter._dispatch("codeSpans.after", e, t, r), e;
-    }), a.subParser("completeHTMLDocument", function(e, t, r) {
-      if (!t.completeHTMLDocument)
-        return e;
-      e = r.converter._dispatch("completeHTMLDocument.before", e, t, r);
-      var n = "html", g = `<!DOCTYPE HTML>
-`, s = "", u = `<meta charset="utf-8">
-`, C = "", w = "";
-      typeof r.metadata.parsed.doctype < "u" && (g = "<!DOCTYPE " + r.metadata.parsed.doctype + `>
-`, n = r.metadata.parsed.doctype.toString().toLowerCase(), (n === "html" || n === "html5") && (u = '<meta charset="utf-8">'));
-      for (var p in r.metadata.parsed)
-        if (r.metadata.parsed.hasOwnProperty(p))
-          switch (p.toLowerCase()) {
-            case "doctype":
-              break;
-            case "title":
-              s = "<title>" + r.metadata.parsed.title + `</title>
-`;
-              break;
-            case "charset":
-              n === "html" || n === "html5" ? u = '<meta charset="' + r.metadata.parsed.charset + `">
-` : u = '<meta name="charset" content="' + r.metadata.parsed.charset + `">
-`;
-              break;
-            case "language":
-            case "lang":
-              C = ' lang="' + r.metadata.parsed[p] + '"', w += '<meta name="' + p + '" content="' + r.metadata.parsed[p] + `">
-`;
-              break;
-            default:
-              w += '<meta name="' + p + '" content="' + r.metadata.parsed[p] + `">
-`;
-          }
-      return e = g + "<html" + C + `>
-<head>
-` + s + u + w + `</head>
-<body>
-` + e.trim() + `
-</body>
-</html>`, e = r.converter._dispatch("completeHTMLDocument.after", e, t, r), e;
-    }), a.subParser("detab", function(e, t, r) {
-      return e = r.converter._dispatch("detab.before", e, t, r), e = e.replace(/\t(?=\t)/g, "    "), e = e.replace(/\t/g, "¨A¨B"), e = e.replace(/¨B(.+?)¨A/g, function(n, g) {
-        for (var s = g, u = 4 - s.length % 4, C = 0; C < u; C++)
-          s += " ";
-        return s;
-      }), e = e.replace(/¨A/g, "    "), e = e.replace(/¨B/g, ""), e = r.converter._dispatch("detab.after", e, t, r), e;
-    }), a.subParser("ellipsis", function(e, t, r) {
-      return e = r.converter._dispatch("ellipsis.before", e, t, r), e = e.replace(/\.\.\./g, "…"), e = r.converter._dispatch("ellipsis.after", e, t, r), e;
-    }), a.subParser("emoji", function(e, t, r) {
-      if (!t.emoji)
-        return e;
-      e = r.converter._dispatch("emoji.before", e, t, r);
-      var n = /:([\S]+?):/g;
-      return e = e.replace(n, function(g, s) {
-        return a.helper.emojis.hasOwnProperty(s) ? a.helper.emojis[s] : g;
-      }), e = r.converter._dispatch("emoji.after", e, t, r), e;
-    }), a.subParser("encodeAmpsAndAngles", function(e, t, r) {
-      return e = r.converter._dispatch("encodeAmpsAndAngles.before", e, t, r), e = e.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g, "&amp;"), e = e.replace(/<(?![a-z\/?$!])/gi, "&lt;"), e = e.replace(/</g, "&lt;"), e = e.replace(/>/g, "&gt;"), e = r.converter._dispatch("encodeAmpsAndAngles.after", e, t, r), e;
-    }), a.subParser("encodeBackslashEscapes", function(e, t, r) {
-      return e = r.converter._dispatch("encodeBackslashEscapes.before", e, t, r), e = e.replace(/\\(\\)/g, a.helper.escapeCharactersCallback), e = e.replace(/\\([`*_{}\[\]()>#+.!~=|-])/g, a.helper.escapeCharactersCallback), e = r.converter._dispatch("encodeBackslashEscapes.after", e, t, r), e;
-    }), a.subParser("encodeCode", function(e, t, r) {
-      return e = r.converter._dispatch("encodeCode.before", e, t, r), e = e.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/([*_{}\[\]\\=~-])/g, a.helper.escapeCharactersCallback), e = r.converter._dispatch("encodeCode.after", e, t, r), e;
-    }), a.subParser("escapeSpecialCharsWithinTagAttributes", function(e, t, r) {
-      e = r.converter._dispatch("escapeSpecialCharsWithinTagAttributes.before", e, t, r);
-      var n = /<\/?[a-z\d_:-]+(?:[\s]+[\s\S]+?)?>/gi, g = /<!(--(?:(?:[^>-]|-[^>])(?:[^-]|-[^-])*)--)>/gi;
-      return e = e.replace(n, function(s) {
-        return s.replace(/(.)<\/?code>(?=.)/g, "$1`").replace(/([\\`*_~=|])/g, a.helper.escapeCharactersCallback);
-      }), e = e.replace(g, function(s) {
-        return s.replace(/([\\`*_~=|])/g, a.helper.escapeCharactersCallback);
-      }), e = r.converter._dispatch("escapeSpecialCharsWithinTagAttributes.after", e, t, r), e;
-    }), a.subParser("githubCodeBlocks", function(e, t, r) {
-      return t.ghCodeBlocks ? (e = r.converter._dispatch("githubCodeBlocks.before", e, t, r), e += "¨0", e = e.replace(/(?:^|\n)(```+|~~~+)([^\s`~]*)\n([\s\S]*?)\n\1/g, function(n, g, s, u) {
-        var C = t.omitExtraWLInCodeBlocks ? "" : `
-`;
-        return u = a.subParser("encodeCode")(u, t, r), u = a.subParser("detab")(u, t, r), u = u.replace(/^\n+/g, ""), u = u.replace(/\n+$/g, ""), u = "<pre><code" + (s ? ' class="' + s + " language-" + s + '"' : "") + ">" + u + C + "</code></pre>", u = a.subParser("hashBlock")(u, t, r), `
-
-¨G` + (r.ghCodeBlocks.push({ text: n, codeblock: u }) - 1) + `G
-
-`;
-      }), e = e.replace(/¨0/, ""), r.converter._dispatch("githubCodeBlocks.after", e, t, r)) : e;
-    }), a.subParser("hashBlock", function(e, t, r) {
-      return e = r.converter._dispatch("hashBlock.before", e, t, r), e = e.replace(/(^\n+|\n+$)/g, ""), e = `
-
-¨K` + (r.gHtmlBlocks.push(e) - 1) + `K
-
-`, e = r.converter._dispatch("hashBlock.after", e, t, r), e;
-    }), a.subParser("hashCodeTags", function(e, t, r) {
-      e = r.converter._dispatch("hashCodeTags.before", e, t, r);
-      var n = function(g, s, u, C) {
-        var w = u + a.subParser("encodeCode")(s, t, r) + C;
-        return "¨C" + (r.gHtmlSpans.push(w) - 1) + "C";
-      };
-      return e = a.helper.replaceRecursiveRegExp(e, n, "<code\\b[^>]*>", "</code>", "gim"), e = r.converter._dispatch("hashCodeTags.after", e, t, r), e;
-    }), a.subParser("hashElement", function(e, t, r) {
-      return function(n, g) {
-        var s = g;
-        return s = s.replace(/\n\n/g, `
-`), s = s.replace(/^\n/, ""), s = s.replace(/\n+$/g, ""), s = `
-
-¨K` + (r.gHtmlBlocks.push(s) - 1) + `K
-
-`, s;
-      };
-    }), a.subParser("hashHTMLBlocks", function(e, t, r) {
-      e = r.converter._dispatch("hashHTMLBlocks.before", e, t, r);
-      var n = [
-        "pre",
-        "div",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "blockquote",
-        "table",
-        "dl",
-        "ol",
-        "ul",
-        "script",
-        "noscript",
-        "form",
-        "fieldset",
-        "iframe",
-        "math",
-        "style",
-        "section",
-        "header",
-        "footer",
-        "nav",
-        "article",
-        "aside",
-        "address",
-        "audio",
-        "canvas",
-        "figure",
-        "hgroup",
-        "output",
-        "video",
-        "p"
-      ], g = function(d, f, v, E) {
-        var z = d;
-        return v.search(/\bmarkdown\b/) !== -1 && (z = v + r.converter.makeHtml(f) + E), `
-
-¨K` + (r.gHtmlBlocks.push(z) - 1) + `K
-
-`;
-      };
-      t.backslashEscapesHTMLTags && (e = e.replace(/\\<(\/?[^>]+?)>/g, function(d, f) {
-        return "&lt;" + f + "&gt;";
-      }));
-      for (var s = 0; s < n.length; ++s)
-        for (var u, C = new RegExp("^ {0,3}(<" + n[s] + "\\b[^>]*>)", "im"), w = "<" + n[s] + "\\b[^>]*>", p = "</" + n[s] + ">"; (u = a.helper.regexIndexOf(e, C)) !== -1; ) {
-          var l = a.helper.splitAtIndex(e, u), h = a.helper.replaceRecursiveRegExp(l[1], g, w, p, "im");
-          if (h === l[1])
-            break;
-          e = l[0].concat(h);
-        }
-      return e = e.replace(
-        /(\n {0,3}(<(hr)\b([^<>])*?\/?>)[ \t]*(?=\n{2,}))/g,
-        a.subParser("hashElement")(e, t, r)
-      ), e = a.helper.replaceRecursiveRegExp(e, function(d) {
-        return `
-
-¨K` + (r.gHtmlBlocks.push(d) - 1) + `K
-
-`;
-      }, "^ {0,3}<!--", "-->", "gm"), e = e.replace(
-        /(?:\n\n)( {0,3}(?:<([?%])[^\r]*?\2>)[ \t]*(?=\n{2,}))/g,
-        a.subParser("hashElement")(e, t, r)
-      ), e = r.converter._dispatch("hashHTMLBlocks.after", e, t, r), e;
-    }), a.subParser("hashHTMLSpans", function(e, t, r) {
-      e = r.converter._dispatch("hashHTMLSpans.before", e, t, r);
-      function n(g) {
-        return "¨C" + (r.gHtmlSpans.push(g) - 1) + "C";
-      }
-      return e = e.replace(/<[^>]+?\/>/gi, function(g) {
-        return n(g);
-      }), e = e.replace(/<([^>]+?)>[\s\S]*?<\/\1>/g, function(g) {
-        return n(g);
-      }), e = e.replace(/<([^>]+?)\s[^>]+?>[\s\S]*?<\/\1>/g, function(g) {
-        return n(g);
-      }), e = e.replace(/<[^>]+?>/gi, function(g) {
-        return n(g);
-      }), e = r.converter._dispatch("hashHTMLSpans.after", e, t, r), e;
-    }), a.subParser("unhashHTMLSpans", function(e, t, r) {
-      e = r.converter._dispatch("unhashHTMLSpans.before", e, t, r);
-      for (var n = 0; n < r.gHtmlSpans.length; ++n) {
-        for (var g = r.gHtmlSpans[n], s = 0; /¨C(\d+)C/.test(g); ) {
-          var u = RegExp.$1;
-          if (g = g.replace("¨C" + u + "C", r.gHtmlSpans[u]), s === 10) {
-            console.error("maximum nesting of 10 spans reached!!!");
-            break;
-          }
-          ++s;
-        }
-        e = e.replace("¨C" + n + "C", g);
-      }
-      return e = r.converter._dispatch("unhashHTMLSpans.after", e, t, r), e;
-    }), a.subParser("hashPreCodeTags", function(e, t, r) {
-      e = r.converter._dispatch("hashPreCodeTags.before", e, t, r);
-      var n = function(g, s, u, C) {
-        var w = u + a.subParser("encodeCode")(s, t, r) + C;
-        return `
-
-¨G` + (r.ghCodeBlocks.push({ text: g, codeblock: w }) - 1) + `G
-
-`;
-      };
-      return e = a.helper.replaceRecursiveRegExp(e, n, "^ {0,3}<pre\\b[^>]*>\\s*<code\\b[^>]*>", "^ {0,3}</code>\\s*</pre>", "gim"), e = r.converter._dispatch("hashPreCodeTags.after", e, t, r), e;
-    }), a.subParser("headers", function(e, t, r) {
-      e = r.converter._dispatch("headers.before", e, t, r);
-      var n = isNaN(parseInt(t.headerLevelStart)) ? 1 : parseInt(t.headerLevelStart), g = t.smoothLivePreview ? /^(.+)[ \t]*\n={2,}[ \t]*\n+/gm : /^(.+)[ \t]*\n=+[ \t]*\n+/gm, s = t.smoothLivePreview ? /^(.+)[ \t]*\n-{2,}[ \t]*\n+/gm : /^(.+)[ \t]*\n-+[ \t]*\n+/gm;
-      e = e.replace(g, function(w, p) {
-        var l = a.subParser("spanGamut")(p, t, r), h = t.noHeaderId ? "" : ' id="' + C(p) + '"', d = n, f = "<h" + d + h + ">" + l + "</h" + d + ">";
-        return a.subParser("hashBlock")(f, t, r);
-      }), e = e.replace(s, function(w, p) {
-        var l = a.subParser("spanGamut")(p, t, r), h = t.noHeaderId ? "" : ' id="' + C(p) + '"', d = n + 1, f = "<h" + d + h + ">" + l + "</h" + d + ">";
-        return a.subParser("hashBlock")(f, t, r);
-      });
-      var u = t.requireSpaceBeforeHeadingText ? /^(#{1,6})[ \t]+(.+?)[ \t]*#*\n+/gm : /^(#{1,6})[ \t]*(.+?)[ \t]*#*\n+/gm;
-      e = e.replace(u, function(w, p, l) {
-        var h = l;
-        t.customizedHeaderId && (h = l.replace(/\s?\{([^{]+?)}\s*$/, ""));
-        var d = a.subParser("spanGamut")(h, t, r), f = t.noHeaderId ? "" : ' id="' + C(l) + '"', v = n - 1 + p.length, E = "<h" + v + f + ">" + d + "</h" + v + ">";
-        return a.subParser("hashBlock")(E, t, r);
-      });
-      function C(w) {
-        var p, l;
-        if (t.customizedHeaderId) {
-          var h = w.match(/\{([^{]+?)}\s*$/);
-          h && h[1] && (w = h[1]);
-        }
-        return p = w, a.helper.isString(t.prefixHeaderId) ? l = t.prefixHeaderId : t.prefixHeaderId === !0 ? l = "section-" : l = "", t.rawPrefixHeaderId || (p = l + p), t.ghCompatibleHeaderId ? p = p.replace(/ /g, "-").replace(/&amp;/g, "").replace(/¨T/g, "").replace(/¨D/g, "").replace(/[&+$,\/:;=?@"#{}|^¨~\[\]`\\*)(%.!'<>]/g, "").toLowerCase() : t.rawHeaderId ? p = p.replace(/ /g, "-").replace(/&amp;/g, "&").replace(/¨T/g, "¨").replace(/¨D/g, "$").replace(/["']/g, "-").toLowerCase() : p = p.replace(/[^\w]/g, "").toLowerCase(), t.rawPrefixHeaderId && (p = l + p), r.hashLinkCounts[p] ? p = p + "-" + r.hashLinkCounts[p]++ : r.hashLinkCounts[p] = 1, p;
-      }
-      return e = r.converter._dispatch("headers.after", e, t, r), e;
-    }), a.subParser("horizontalRule", function(e, t, r) {
-      e = r.converter._dispatch("horizontalRule.before", e, t, r);
-      var n = a.subParser("hashBlock")("<hr />", t, r);
-      return e = e.replace(/^ {0,2}( ?-){3,}[ \t]*$/gm, n), e = e.replace(/^ {0,2}( ?\*){3,}[ \t]*$/gm, n), e = e.replace(/^ {0,2}( ?_){3,}[ \t]*$/gm, n), e = r.converter._dispatch("horizontalRule.after", e, t, r), e;
-    }), a.subParser("images", function(e, t, r) {
-      e = r.converter._dispatch("images.before", e, t, r);
-      var n = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g, g = /!\[([^\]]*?)][ \t]*()\([ \t]?<([^>]*)>(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(?:(["'])([^"]*?)\6))?[ \t]?\)/g, s = /!\[([^\]]*?)][ \t]*()\([ \t]?<?(data:.+?\/.+?;base64,[A-Za-z0-9+/=\n]+?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g, u = /!\[([^\]]*?)] ?(?:\n *)?\[([\s\S]*?)]()()()()()/g, C = /!\[([^\[\]]+)]()()()()()/g;
-      function w(l, h, d, f, v, E, z, m) {
-        return f = f.replace(/\s/g, ""), p(l, h, d, f, v, E, z, m);
-      }
-      function p(l, h, d, f, v, E, z, m) {
-        var R = r.gUrls, M = r.gTitles, D = r.gDimensions;
-        if (d = d.toLowerCase(), m || (m = ""), l.search(/\(<?\s*>? ?(['"].*['"])?\)$/m) > -1)
-          f = "";
-        else if (f === "" || f === null)
-          if ((d === "" || d === null) && (d = h.toLowerCase().replace(/ ?\n/g, " ")), f = "#" + d, !a.helper.isUndefined(R[d]))
-            f = R[d], a.helper.isUndefined(M[d]) || (m = M[d]), a.helper.isUndefined(D[d]) || (v = D[d].width, E = D[d].height);
-          else
-            return l;
-        h = h.replace(/"/g, "&quot;").replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback), f = f.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback);
-        var B = '<img src="' + f + '" alt="' + h + '"';
-        return m && (m = m.replace(/"/g, "&quot;").replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback), B += ' title="' + m + '"'), v && E && (v = v === "*" ? "auto" : v, E = E === "*" ? "auto" : E, B += ' width="' + v + '"', B += ' height="' + E + '"'), B += " />", B;
-      }
-      return e = e.replace(u, p), e = e.replace(s, w), e = e.replace(g, p), e = e.replace(n, p), e = e.replace(C, p), e = r.converter._dispatch("images.after", e, t, r), e;
-    }), a.subParser("italicsAndBold", function(e, t, r) {
-      e = r.converter._dispatch("italicsAndBold.before", e, t, r);
-      function n(g, s, u) {
-        return s + g + u;
-      }
-      return t.literalMidWordUnderscores ? (e = e.replace(/\b___(\S[\s\S]*)___\b/g, function(g, s) {
-        return n(s, "<strong><em>", "</em></strong>");
-      }), e = e.replace(/\b__(\S[\s\S]*)__\b/g, function(g, s) {
-        return n(s, "<strong>", "</strong>");
-      }), e = e.replace(/\b_(\S[\s\S]*?)_\b/g, function(g, s) {
-        return n(s, "<em>", "</em>");
-      })) : (e = e.replace(/___(\S[\s\S]*?)___/g, function(g, s) {
-        return /\S$/.test(s) ? n(s, "<strong><em>", "</em></strong>") : g;
-      }), e = e.replace(/__(\S[\s\S]*?)__/g, function(g, s) {
-        return /\S$/.test(s) ? n(s, "<strong>", "</strong>") : g;
-      }), e = e.replace(/_([^\s_][\s\S]*?)_/g, function(g, s) {
-        return /\S$/.test(s) ? n(s, "<em>", "</em>") : g;
-      })), t.literalMidWordAsterisks ? (e = e.replace(/([^*]|^)\B\*\*\*(\S[\s\S]+?)\*\*\*\B(?!\*)/g, function(g, s, u) {
-        return n(u, s + "<strong><em>", "</em></strong>");
-      }), e = e.replace(/([^*]|^)\B\*\*(\S[\s\S]+?)\*\*\B(?!\*)/g, function(g, s, u) {
-        return n(u, s + "<strong>", "</strong>");
-      }), e = e.replace(/([^*]|^)\B\*(\S[\s\S]+?)\*\B(?!\*)/g, function(g, s, u) {
-        return n(u, s + "<em>", "</em>");
-      })) : (e = e.replace(/\*\*\*(\S[\s\S]*?)\*\*\*/g, function(g, s) {
-        return /\S$/.test(s) ? n(s, "<strong><em>", "</em></strong>") : g;
-      }), e = e.replace(/\*\*(\S[\s\S]*?)\*\*/g, function(g, s) {
-        return /\S$/.test(s) ? n(s, "<strong>", "</strong>") : g;
-      }), e = e.replace(/\*([^\s*][\s\S]*?)\*/g, function(g, s) {
-        return /\S$/.test(s) ? n(s, "<em>", "</em>") : g;
-      })), e = r.converter._dispatch("italicsAndBold.after", e, t, r), e;
-    }), a.subParser("lists", function(e, t, r) {
-      function n(u, C) {
-        r.gListLevel++, u = u.replace(/\n{2,}$/, `
-`), u += "¨0";
-        var w = /(\n)?(^ {0,3})([*+-]|\d+[.])[ \t]+((\[(x|X| )?])?[ \t]*[^\r]+?(\n{1,2}))(?=\n*(¨0| {0,3}([*+-]|\d+[.])[ \t]+))/gm, p = /\n[ \t]*\n(?!¨0)/.test(u);
-        return t.disableForced4SpacesIndentedSublists && (w = /(\n)?(^ {0,3})([*+-]|\d+[.])[ \t]+((\[(x|X| )?])?[ \t]*[^\r]+?(\n{1,2}))(?=\n*(¨0|\2([*+-]|\d+[.])[ \t]+))/gm), u = u.replace(w, function(l, h, d, f, v, E, z) {
-          z = z && z.trim() !== "";
-          var m = a.subParser("outdent")(v, t, r), R = "";
-          return E && t.tasklists && (R = ' class="task-list-item" style="list-style-type: none;"', m = m.replace(/^[ \t]*\[(x|X| )?]/m, function() {
-            var M = '<input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"';
-            return z && (M += " checked"), M += ">", M;
-          })), m = m.replace(/^([-*+]|\d\.)[ \t]+[\S\n ]*/g, function(M) {
-            return "¨A" + M;
-          }), h || m.search(/\n{2,}/) > -1 ? (m = a.subParser("githubCodeBlocks")(m, t, r), m = a.subParser("blockGamut")(m, t, r)) : (m = a.subParser("lists")(m, t, r), m = m.replace(/\n$/, ""), m = a.subParser("hashHTMLBlocks")(m, t, r), m = m.replace(/\n\n+/g, `
-
-`), p ? m = a.subParser("paragraphs")(m, t, r) : m = a.subParser("spanGamut")(m, t, r)), m = m.replace("¨A", ""), m = "<li" + R + ">" + m + `</li>
-`, m;
-        }), u = u.replace(/¨0/g, ""), r.gListLevel--, C && (u = u.replace(/\s+$/, "")), u;
-      }
-      function g(u, C) {
-        if (C === "ol") {
-          var w = u.match(/^ *(\d+)\./);
-          if (w && w[1] !== "1")
-            return ' start="' + w[1] + '"';
-        }
-        return "";
-      }
-      function s(u, C, w) {
-        var p = t.disableForced4SpacesIndentedSublists ? /^ ?\d+\.[ \t]/gm : /^ {0,3}\d+\.[ \t]/gm, l = t.disableForced4SpacesIndentedSublists ? /^ ?[*+-][ \t]/gm : /^ {0,3}[*+-][ \t]/gm, h = C === "ul" ? p : l, d = "";
-        if (u.search(h) !== -1)
-          (function v(E) {
-            var z = E.search(h), m = g(u, C);
-            z !== -1 ? (d += `
-
-<` + C + m + `>
-` + n(E.slice(0, z), !!w) + "</" + C + `>
-`, C = C === "ul" ? "ol" : "ul", h = C === "ul" ? p : l, v(E.slice(z))) : d += `
-
-<` + C + m + `>
-` + n(E, !!w) + "</" + C + `>
-`;
-          })(u);
-        else {
-          var f = g(u, C);
-          d = `
-
-<` + C + f + `>
-` + n(u, !!w) + "</" + C + `>
-`;
-        }
-        return d;
-      }
-      return e = r.converter._dispatch("lists.before", e, t, r), e += "¨0", r.gListLevel ? e = e.replace(
-        /^(( {0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(¨0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm,
-        function(u, C, w) {
-          var p = w.search(/[*+-]/g) > -1 ? "ul" : "ol";
-          return s(C, p, !0);
-        }
-      ) : e = e.replace(
-        /(\n\n|^\n?)(( {0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(¨0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm,
-        function(u, C, w, p) {
-          var l = p.search(/[*+-]/g) > -1 ? "ul" : "ol";
-          return s(w, l, !1);
-        }
-      ), e = e.replace(/¨0/, ""), e = r.converter._dispatch("lists.after", e, t, r), e;
-    }), a.subParser("metadata", function(e, t, r) {
-      if (!t.metadata)
-        return e;
-      e = r.converter._dispatch("metadata.before", e, t, r);
-      function n(g) {
-        r.metadata.raw = g, g = g.replace(/&/g, "&amp;").replace(/"/g, "&quot;"), g = g.replace(/\n {4}/g, " "), g.replace(/^([\S ]+): +([\s\S]+?)$/gm, function(s, u, C) {
-          return r.metadata.parsed[u] = C, "";
-        });
-      }
-      return e = e.replace(/^\s*«««+(\S*?)\n([\s\S]+?)\n»»»+\n/, function(g, s, u) {
-        return n(u), "¨M";
-      }), e = e.replace(/^\s*---+(\S*?)\n([\s\S]+?)\n---+\n/, function(g, s, u) {
-        return s && (r.metadata.format = s), n(u), "¨M";
-      }), e = e.replace(/¨M/g, ""), e = r.converter._dispatch("metadata.after", e, t, r), e;
-    }), a.subParser("outdent", function(e, t, r) {
-      return e = r.converter._dispatch("outdent.before", e, t, r), e = e.replace(/^(\t|[ ]{1,4})/gm, "¨0"), e = e.replace(/¨0/g, ""), e = r.converter._dispatch("outdent.after", e, t, r), e;
-    }), a.subParser("paragraphs", function(e, t, r) {
-      e = r.converter._dispatch("paragraphs.before", e, t, r), e = e.replace(/^\n+/g, ""), e = e.replace(/\n+$/g, "");
-      for (var n = e.split(/\n{2,}/g), g = [], s = n.length, u = 0; u < s; u++) {
-        var C = n[u];
-        C.search(/¨(K|G)(\d+)\1/g) >= 0 ? g.push(C) : C.search(/\S/) >= 0 && (C = a.subParser("spanGamut")(C, t, r), C = C.replace(/^([ \t]*)/g, "<p>"), C += "</p>", g.push(C));
-      }
-      for (s = g.length, u = 0; u < s; u++) {
-        for (var w = "", p = g[u], l = !1; /¨(K|G)(\d+)\1/.test(p); ) {
-          var h = RegExp.$1, d = RegExp.$2;
-          h === "K" ? w = r.gHtmlBlocks[d] : l ? w = a.subParser("encodeCode")(r.ghCodeBlocks[d].text, t, r) : w = r.ghCodeBlocks[d].codeblock, w = w.replace(/\$/g, "$$$$"), p = p.replace(/(\n\n)?¨(K|G)\d+\2(\n\n)?/, w), /^<pre\b[^>]*>\s*<code\b[^>]*>/.test(p) && (l = !0);
-        }
-        g[u] = p;
-      }
-      return e = g.join(`
-`), e = e.replace(/^\n+/g, ""), e = e.replace(/\n+$/g, ""), r.converter._dispatch("paragraphs.after", e, t, r);
-    }), a.subParser("runExtension", function(e, t, r, n) {
-      if (e.filter)
-        t = e.filter(t, n.converter, r);
-      else if (e.regex) {
-        var g = e.regex;
-        g instanceof RegExp || (g = new RegExp(g, "g")), t = t.replace(g, e.replace);
-      }
-      return t;
-    }), a.subParser("spanGamut", function(e, t, r) {
-      return e = r.converter._dispatch("spanGamut.before", e, t, r), e = a.subParser("codeSpans")(e, t, r), e = a.subParser("escapeSpecialCharsWithinTagAttributes")(e, t, r), e = a.subParser("encodeBackslashEscapes")(e, t, r), e = a.subParser("images")(e, t, r), e = a.subParser("anchors")(e, t, r), e = a.subParser("autoLinks")(e, t, r), e = a.subParser("simplifiedAutoLinks")(e, t, r), e = a.subParser("emoji")(e, t, r), e = a.subParser("underline")(e, t, r), e = a.subParser("italicsAndBold")(e, t, r), e = a.subParser("strikethrough")(e, t, r), e = a.subParser("ellipsis")(e, t, r), e = a.subParser("hashHTMLSpans")(e, t, r), e = a.subParser("encodeAmpsAndAngles")(e, t, r), t.simpleLineBreaks ? /\n\n¨K/.test(e) || (e = e.replace(/\n+/g, `<br />
-`)) : e = e.replace(/  +\n/g, `<br />
-`), e = r.converter._dispatch("spanGamut.after", e, t, r), e;
-    }), a.subParser("strikethrough", function(e, t, r) {
-      function n(g) {
-        return t.simplifiedAutoLink && (g = a.subParser("simplifiedAutoLinks")(g, t, r)), "<del>" + g + "</del>";
-      }
-      return t.strikethrough && (e = r.converter._dispatch("strikethrough.before", e, t, r), e = e.replace(/(?:~){2}([\s\S]+?)(?:~){2}/g, function(g, s) {
-        return n(s);
-      }), e = r.converter._dispatch("strikethrough.after", e, t, r)), e;
-    }), a.subParser("stripLinkDefinitions", function(e, t, r) {
-      var n = /^ {0,3}\[(.+)]:[ \t]*\n?[ \t]*<?([^>\s]+)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*\n?[ \t]*(?:(\n*)["|'(](.+?)["|')][ \t]*)?(?:\n+|(?=¨0))/gm, g = /^ {0,3}\[(.+)]:[ \t]*\n?[ \t]*<?(data:.+?\/.+?;base64,[A-Za-z0-9+/=\n]+?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*\n?[ \t]*(?:(\n*)["|'(](.+?)["|')][ \t]*)?(?:\n\n|(?=¨0)|(?=\n\[))/gm;
-      e += "¨0";
-      var s = function(u, C, w, p, l, h, d) {
-        return C = C.toLowerCase(), w.match(/^data:.+?\/.+?;base64,/) ? r.gUrls[C] = w.replace(/\s/g, "") : r.gUrls[C] = a.subParser("encodeAmpsAndAngles")(w, t, r), h ? h + d : (d && (r.gTitles[C] = d.replace(/"|'/g, "&quot;")), t.parseImgDimensions && p && l && (r.gDimensions[C] = {
-          width: p,
-          height: l
-        }), "");
-      };
-      return e = e.replace(g, s), e = e.replace(n, s), e = e.replace(/¨0/, ""), e;
-    }), a.subParser("tables", function(e, t, r) {
-      if (!t.tables)
-        return e;
-      var n = /^ {0,3}\|?.+\|.+\n {0,3}\|?[ \t]*:?[ \t]*(?:[-=]){2,}[ \t]*:?[ \t]*\|[ \t]*:?[ \t]*(?:[-=]){2,}[\s\S]+?(?:\n\n|¨0)/gm, g = /^ {0,3}\|.+\|[ \t]*\n {0,3}\|[ \t]*:?[ \t]*(?:[-=]){2,}[ \t]*:?[ \t]*\|[ \t]*\n( {0,3}\|.+\|[ \t]*\n)*(?:\n|¨0)/gm;
-      function s(l) {
-        return /^:[ \t]*--*$/.test(l) ? ' style="text-align:left;"' : /^--*[ \t]*:[ \t]*$/.test(l) ? ' style="text-align:right;"' : /^:[ \t]*--*[ \t]*:$/.test(l) ? ' style="text-align:center;"' : "";
-      }
-      function u(l, h) {
-        var d = "";
-        return l = l.trim(), (t.tablesHeaderId || t.tableHeaderId) && (d = ' id="' + l.replace(/ /g, "_").toLowerCase() + '"'), l = a.subParser("spanGamut")(l, t, r), "<th" + d + h + ">" + l + `</th>
-`;
-      }
-      function C(l, h) {
-        var d = a.subParser("spanGamut")(l, t, r);
-        return "<td" + h + ">" + d + `</td>
-`;
-      }
-      function w(l, h) {
-        for (var d = `<table>
-<thead>
-<tr>
-`, f = l.length, v = 0; v < f; ++v)
-          d += l[v];
-        for (d += `</tr>
-</thead>
-<tbody>
-`, v = 0; v < h.length; ++v) {
-          d += `<tr>
-`;
-          for (var E = 0; E < f; ++E)
-            d += h[v][E];
-          d += `</tr>
-`;
-        }
-        return d += `</tbody>
-</table>
-`, d;
-      }
-      function p(l) {
-        var h, d = l.split(`
+var Ne = zt();
+function Vn(n) {
+  Ne = n;
+}
+var ke = { exec: () => null };
+function xe(n) {
+  let e = [];
+  return (t) => {
+    let r = Math.max(0, Math.min(3, t - 1)), i = e[r];
+    return i || (i = n(r), e[r] = i), i;
+  };
+}
+function L(n, e = "") {
+  let t = typeof n == "string" ? n : n.source, r = { replace: (i, s) => {
+    let o = typeof s == "string" ? s : s.source;
+    return o = o.replace(re.caret, "$1"), t = t.replace(i, o), r;
+  }, getRegex: () => new RegExp(t, e) };
+  return r;
+}
+var Mr = ((n = "") => {
+  try {
+    return !!new RegExp("(?<=1)(?<!1)" + n);
+  } catch {
+    return !1;
+  }
+})(), re = { codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm, outputLinkReplace: /\\([\[\]])/g, indentCodeCompensation: /^(\s+)(?:```)/, beginningSpace: /^\s+/, endingHash: /#$/, startingSpaceChar: /^ /, endingSpaceChar: / $/, nonSpaceChar: /[^ ]/, newLineCharGlobal: /\n/g, tabCharGlobal: /\t/g, multipleSpaceGlobal: /\s+/g, blankLine: /^[ \t]*$/, doubleBlankLine: /\n[ \t]*\n[ \t]*$/, blockquoteStart: /^ {0,3}>/, blockquoteSetextReplace: /\n {0,3}((?:=+|-+) *)(?=\n|$)/g, blockquoteSetextReplace2: /^ {0,3}>[ \t]?/gm, listReplaceNesting: /^ {1,4}(?=( {4})*[^ ])/g, listIsTask: /^\[[ xX]\] +\S/, listReplaceTask: /^\[[ xX]\] +/, listTaskCheckbox: /\[[ xX]\]/, anyLine: /\n.*\n/, hrefBrackets: /^<(.*)>$/, tableDelimiter: /[:|]/, tableAlignChars: /^\||\| *$/g, tableRowBlankLine: /\n[ \t]*$/, tableAlignRight: /^ *-+: *$/, tableAlignCenter: /^ *:-+: *$/, tableAlignLeft: /^ *:-+ *$/, startATag: /^<a /i, endATag: /^<\/a>/i, startPreScriptTag: /^<(pre|code|kbd|script)(\s|>)/i, endPreScriptTag: /^<\/(pre|code|kbd|script)(\s|>)/i, startAngleBracket: /^</, endAngleBracket: />$/, pedanticHrefTitle: /^([^'"]*[^\s])\s+(['"])(.*)\2/, unicodeAlphaNumeric: /[\p{L}\p{N}]/u, escapeTest: /[&<>"']/, escapeReplace: /[&<>"']/g, escapeTestNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/, escapeReplaceNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g, caret: /(^|[^\[])\^/g, percentDecode: /%25/g, findPipe: /\|/g, splitPipe: / \|/, slashPipe: /\\\|/g, carriageReturn: /\r\n|\r/g, spaceLine: /^ +$/gm, notSpaceStart: /^\S*/, endingNewline: /\n$/, listItemRegex: (n) => new RegExp(`^( {0,3}${n})((?:[	 ][^\\n]*)?(?:\\n|$))`), nextBulletRegex: xe((n) => new RegExp(`^ {0,${n}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`)), hrRegex: xe((n) => new RegExp(`^ {0,${n}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`)), fencesBeginRegex: xe((n) => new RegExp(`^ {0,${n}}(?:\`\`\`|~~~)`)), headingBeginRegex: xe((n) => new RegExp(`^ {0,${n}}#`)), htmlBeginRegex: xe((n) => new RegExp(`^ {0,${n}}<(?:[a-z].*>|!--)`, "i")), blockquoteBeginRegex: xe((n) => new RegExp(`^ {0,${n}}>`)) }, Cr = /^(?:[ \t]*(?:\n|$))+/, Ir = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, Lr = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, $e = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, Dr = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, Ft = / {0,3}(?:[*+-]|\d{1,9}[.)])/, Jn = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, jn = L(Jn).replace(/bull/g, Ft).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), Br = L(Jn).replace(/bull/g, Ft).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), Kt = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, Pr = /^[^\n]+/, qt = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, Ur = L(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", qt).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), $r = L(/^(bull)([ \t][^\n]*?)?(?:\n|$)/).replace(/bull/g, Ft).getRegex(), Qe = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", Ht = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, zr = L("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", Ht).replace("tag", Qe).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), er = L(Kt).replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]+[^ \\t\\n]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex(), Fr = L(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", er).getRegex(), Gt = { blockquote: Fr, code: Ir, def: Ur, fences: Lr, heading: Dr, hr: $e, html: zr, lheading: jn, list: $r, newline: Cr, paragraph: er, table: ke, text: Pr }, jt = L("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex(), Kr = { ...Gt, lheading: Br, table: jt, paragraph: L(Kt).replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", jt).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]+[^ \\t\\n]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex() }, qr = { ...Gt, html: L(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", Ht).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(), def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/, heading: /^(#{1,6})(.*)(?:\n+|$)/, fences: ke, lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/, paragraph: L(Kt).replace("hr", $e).replace("heading", ` *#{1,6} *[^
+]`).replace("lheading", jn).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() }, Hr = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, Gr = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, tr = /^( {2,}|\\)\n(?!\s*$)/, Zr = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, Oe = /[\p{P}\p{S}]/u, Ve = /[\s\p{P}\p{S}]/u, Zt = /[^\s\p{P}\p{S}]/u, Wr = L(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, Ve).getRegex(), nr = /(?!~)[\p{P}\p{S}]/u, Yr = /(?!~)[\s\p{P}\p{S}]/u, Xr = /(?:[^\s\p{P}\p{S}]|~)/u, Qr = L(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", Mr ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), rr = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, Vr = L(rr, "u").replace(/punct/g, Oe).getRegex(), Jr = L(rr, "u").replace(/punct/g, nr).getRegex(), ir = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", jr = L(ir, "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ei = L(ir, "gu").replace(/notPunctSpace/g, Xr).replace(/punctSpace/g, Yr).replace(/punct/g, nr).getRegex(), ti = L("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ni = L(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, Oe).getRegex(), ri = "^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", ii = L(ri, "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ai = L(/\\(punct)/, "gu").replace(/punct/g, Oe).getRegex(), si = L(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), oi = L(Ht).replace("(?:-->|$)", "-->").getRegex(), ci = L("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", oi).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), Ze = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, li = L(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", Ze).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), ar = L(/^!?\[(label)\]\[(ref)\]/).replace("label", Ze).replace("ref", qt).getRegex(), sr = L(/^!?\[(ref)\](?:\[\])?/).replace("ref", qt).getRegex(), di = L("reflink|nolink(?!\\()", "g").replace("reflink", ar).replace("nolink", sr).getRegex(), en = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, Wt = { _backpedal: ke, anyPunctuation: ai, autolink: si, blockSkip: Qr, br: tr, code: Gr, del: ke, delLDelim: ke, delRDelim: ke, emStrongLDelim: Vr, emStrongRDelimAst: jr, emStrongRDelimUnd: ti, escape: Hr, link: li, nolink: sr, punctuation: Wr, reflink: ar, reflinkSearch: di, tag: ci, text: Zr, url: ke }, ui = { ...Wt, link: L(/^!?\[(label)\]\((.*?)\)/).replace("label", Ze).getRegex(), reflink: L(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", Ze).getRegex() }, Pt = { ...Wt, emStrongRDelimAst: ei, emStrongLDelim: Jr, delLDelim: ni, delRDelim: ii, url: L(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", en).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/, text: L(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", en).getRegex() }, gi = { ...Pt, br: L(tr).replace("{2,}", "*").getRegex(), text: L(Pt.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() }, qe = { normal: Gt, gfm: Kr, pedantic: qr }, De = { normal: Wt, gfm: Pt, breaks: gi, pedantic: ui }, pi = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }, tn = (n) => pi[n];
+function he(n, e) {
+  if (e) {
+    if (re.escapeTest.test(n)) return n.replace(re.escapeReplace, tn);
+  } else if (re.escapeTestNoEncode.test(n)) return n.replace(re.escapeReplaceNoEncode, tn);
+  return n;
+}
+function nn(n) {
+  try {
+    n = encodeURI(n).replace(re.percentDecode, "%");
+  } catch {
+    return null;
+  }
+  return n;
+}
+function rn(n, e) {
+  var s;
+  let t = n.replace(re.findPipe, (o, c, a) => {
+    let d = !1, l = c;
+    for (; --l >= 0 && a[l] === "\\"; ) d = !d;
+    return d ? "|" : " |";
+  }), r = t.split(re.splitPipe), i = 0;
+  if (r[0].trim() || r.shift(), r.length > 0 && !((s = r.at(-1)) != null && s.trim()) && r.pop(), e) if (r.length > e) r.splice(e);
+  else for (; r.length < e; ) r.push("");
+  for (; i < r.length; i++) r[i] = r[i].trim().replace(re.slashPipe, "|");
+  return r;
+}
+function _e(n, e, t) {
+  let r = n.length;
+  if (r === 0) return "";
+  let i = 0;
+  for (; i < r && n.charAt(r - i - 1) === e; )
+    i++;
+  return n.slice(0, r - i);
+}
+function an(n) {
+  let e = n.split(`
+`), t = e.length - 1;
+  for (; t >= 0 && re.blankLine.test(e[t]); ) t--;
+  return e.length - t <= 2 ? n : e.slice(0, t + 1).join(`
 `);
-        for (h = 0; h < d.length; ++h)
-          /^ {0,3}\|/.test(d[h]) && (d[h] = d[h].replace(/^ {0,3}\|/, "")), /\|[ \t]*$/.test(d[h]) && (d[h] = d[h].replace(/\|[ \t]*$/, "")), d[h] = a.subParser("codeSpans")(d[h], t, r);
-        var f = d[0].split("|").map(function(B) {
-          return B.trim();
-        }), v = d[1].split("|").map(function(B) {
-          return B.trim();
-        }), E = [], z = [], m = [], R = [];
-        for (d.shift(), d.shift(), h = 0; h < d.length; ++h)
-          d[h].trim() !== "" && E.push(
-            d[h].split("|").map(function(B) {
-              return B.trim();
-            })
-          );
-        if (f.length < v.length)
-          return l;
-        for (h = 0; h < v.length; ++h)
-          m.push(s(v[h]));
-        for (h = 0; h < f.length; ++h)
-          a.helper.isUndefined(m[h]) && (m[h] = ""), z.push(u(f[h], m[h]));
-        for (h = 0; h < E.length; ++h) {
-          for (var M = [], D = 0; D < z.length; ++D)
-            a.helper.isUndefined(E[h][D]), M.push(C(E[h][D], m[D]));
-          R.push(M);
-        }
-        return w(z, R);
+}
+function bi(n, e) {
+  if (n.indexOf(e[1]) === -1) return -1;
+  let t = 0;
+  for (let r = 0; r < n.length; r++) if (n[r] === "\\") r++;
+  else if (n[r] === e[0]) t++;
+  else if (n[r] === e[1] && (t--, t < 0)) return r;
+  return t > 0 ? -2 : -1;
+}
+function hi(n, e = 0) {
+  let t = e, r = "";
+  for (let i of n) if (i === "	") {
+    let s = 4 - t % 4;
+    r += " ".repeat(s), t += s;
+  } else r += i, t++;
+  return r;
+}
+function sn(n, e, t, r, i) {
+  let s = e.href, o = e.title || null, c = n[1].replace(i.other.outputLinkReplace, "$1");
+  r.state.inLink = !0;
+  let a = { type: n[0].charAt(0) === "!" ? "image" : "link", raw: t, href: s, title: o, text: c, tokens: r.inlineTokens(c) };
+  return r.state.inLink = !1, a;
+}
+function fi(n, e, t) {
+  let r = n.match(t.other.indentCodeCompensation);
+  if (r === null) return e;
+  let i = r[1];
+  return e.split(`
+`).map((s) => {
+    let o = s.match(t.other.beginningSpace);
+    if (o === null) return s;
+    let [c] = o;
+    return c.length >= i.length ? s.slice(i.length) : s;
+  }).join(`
+`);
+}
+var We = class {
+  constructor(n) {
+    U(this, "options");
+    U(this, "rules");
+    U(this, "lexer");
+    this.options = n || Ne;
+  }
+  space(n) {
+    let e = this.rules.block.newline.exec(n);
+    if (e && e[0].length > 0) return { type: "space", raw: e[0] };
+  }
+  code(n) {
+    let e = this.rules.block.code.exec(n);
+    if (e) {
+      let t = this.options.pedantic ? e[0] : an(e[0]), r = t.replace(this.rules.other.codeRemoveIndent, "");
+      return { type: "code", raw: t, codeBlockStyle: "indented", text: r };
+    }
+  }
+  fences(n) {
+    let e = this.rules.block.fences.exec(n);
+    if (e) {
+      let t = e[0], r = fi(t, e[3] || "", this.rules);
+      return { type: "code", raw: t, lang: e[2] ? e[2].trim().replace(this.rules.inline.anyPunctuation, "$1") : e[2], text: r };
+    }
+  }
+  heading(n) {
+    let e = this.rules.block.heading.exec(n);
+    if (e) {
+      let t = e[2].trim();
+      if (this.rules.other.endingHash.test(t)) {
+        let r = _e(t, "#");
+        (this.options.pedantic || !r || this.rules.other.endingSpaceChar.test(r)) && (t = r.trim());
       }
-      return e = r.converter._dispatch("tables.before", e, t, r), e = e.replace(/\\(\|)/g, a.helper.escapeCharactersCallback), e = e.replace(n, p), e = e.replace(g, p), e = r.converter._dispatch("tables.after", e, t, r), e;
-    }), a.subParser("underline", function(e, t, r) {
-      return t.underline && (e = r.converter._dispatch("underline.before", e, t, r), t.literalMidWordUnderscores ? e = e.replace(/\b_?__(\S[\s\S]*)___?\b/g, function(n, g) {
-        return "<u>" + g + "</u>";
-      }) : e = e.replace(/_?__(\S[\s\S]*?)___?/g, function(n, g) {
-        return /\S$/.test(g) ? "<u>" + g + "</u>" : n;
-      }), e = e.replace(/(_)/g, a.helper.escapeCharactersCallback), e = r.converter._dispatch("underline.after", e, t, r)), e;
-    }), a.subParser("unescapeSpecialChars", function(e, t, r) {
-      return e = r.converter._dispatch("unescapeSpecialChars.before", e, t, r), e = e.replace(/¨E(\d+)E/g, function(n, g) {
-        var s = parseInt(g);
-        return String.fromCharCode(s);
-      }), e = r.converter._dispatch("unescapeSpecialChars.after", e, t, r), e;
-    });
-    var H = this;
-    o.exports ? o.exports = a : H.showdown = a;
-  }).call(q);
-})($);
-var de = $.exports, ee = { exports: {} };
-(function(o) {
-  var i = typeof window < "u" ? window : typeof WorkerGlobalScope < "u" && self instanceof WorkerGlobalScope ? self : {}, A = function() {
-    var a = /\blang(?:uage)?-([\w-]+)\b/i, _ = 0, I = i.Prism = {
-      manual: i.Prism && i.Prism.manual,
-      disableWorkerMessageHandler: i.Prism && i.Prism.disableWorkerMessageHandler,
-      util: {
-        encode: function(c) {
-          return c instanceof S ? new S(c.type, I.util.encode(c.content), c.alias) : I.util.type(c) === "Array" ? c.map(I.util.encode) : c.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
-        },
-        type: function(c) {
-          return Object.prototype.toString.call(c).match(/\[object (\w+)\]/)[1];
-        },
-        objId: function(c) {
-          return c.__id || Object.defineProperty(c, "__id", { value: ++_ }), c.__id;
-        },
-        // Deep clone a language definition (e.g. to extend it)
-        clone: function(c, b) {
-          var P = I.util.type(c);
-          switch (b = b || {}, P) {
-            case "Object":
-              if (b[I.util.objId(c)])
-                return b[I.util.objId(c)];
-              var L = {};
-              b[I.util.objId(c)] = L;
-              for (var y in c)
-                c.hasOwnProperty(y) && (L[y] = I.util.clone(c[y], b));
-              return L;
-            case "Array":
-              if (b[I.util.objId(c)])
-                return b[I.util.objId(c)];
-              var L = [];
-              return b[I.util.objId(c)] = L, c.forEach(function(N, j) {
-                L[j] = I.util.clone(N, b);
-              }), L;
-          }
-          return c;
+      return { type: "heading", raw: _e(e[0], `
+`), depth: e[1].length, text: t, tokens: this.lexer.inline(t) };
+    }
+  }
+  hr(n) {
+    let e = this.rules.block.hr.exec(n);
+    if (e) return { type: "hr", raw: _e(e[0], `
+`) };
+  }
+  blockquote(n) {
+    let e = this.rules.block.blockquote.exec(n);
+    if (e) {
+      let t = _e(e[0], `
+`).split(`
+`), r = "", i = "", s = [];
+      for (; t.length > 0; ) {
+        let o = !1, c = [], a;
+        for (a = 0; a < t.length; a++) if (this.rules.other.blockquoteStart.test(t[a])) c.push(t[a]), o = !0;
+        else if (!o) c.push(t[a]);
+        else break;
+        t = t.slice(a);
+        let d = c.join(`
+`), l = d.replace(this.rules.other.blockquoteSetextReplace, `
+    $1`).replace(this.rules.other.blockquoteSetextReplace2, "");
+        r = r ? `${r}
+${d}` : d, i = i ? `${i}
+${l}` : l;
+        let u = this.lexer.state.top;
+        if (this.lexer.state.top = !0, this.lexer.blockTokens(l, s, !0), this.lexer.state.top = u, t.length === 0) break;
+        let p = s.at(-1);
+        if ((p == null ? void 0 : p.type) === "code") break;
+        if ((p == null ? void 0 : p.type) === "blockquote") {
+          let h = p, g = h.raw + `
+` + t.join(`
+`), _ = this.blockquote(g);
+          s[s.length - 1] = _, r = r.substring(0, r.length - h.raw.length) + _.raw, i = i.substring(0, i.length - h.text.length) + _.text;
+          break;
+        } else if ((p == null ? void 0 : p.type) === "list") {
+          let h = p, g = h.raw + `
+` + t.join(`
+`), _ = this.list(g);
+          s[s.length - 1] = _, r = r.substring(0, r.length - p.raw.length) + _.raw, i = i.substring(0, i.length - h.raw.length) + _.raw, t = g.substring(s.at(-1).raw.length).split(`
+`);
+          continue;
         }
-      },
-      languages: {
-        extend: function(c, b) {
-          var P = I.util.clone(I.languages[c]);
-          for (var y in b)
-            P[y] = b[y];
-          return P;
-        },
-        /**
-         * Insert a token before another token in a language literal
-         * As this needs to recreate the object (we cannot actually insert before keys in object literals),
-         * we cannot just provide an object, we need anobject and a key.
-         * @param inside The key (or language id) of the parent
-         * @param before The key to insert before. If not provided, the function appends instead.
-         * @param insert Object with the key/value pairs to insert
-         * @param root The object that contains `inside`. If equal to Prism.languages, it can be omitted.
-         */
-        insertBefore: function(c, b, P, y) {
-          y = y || I.languages;
-          var L = y[c];
-          if (arguments.length == 2) {
-            P = arguments[1];
-            for (var N in P)
-              P.hasOwnProperty(N) && (L[N] = P[N]);
-            return L;
-          }
-          var j = {};
-          for (var T in L)
-            if (L.hasOwnProperty(T)) {
-              if (T == b)
-                for (var N in P)
-                  P.hasOwnProperty(N) && (j[N] = P[N]);
-              j[T] = L[T];
+      }
+      return { type: "blockquote", raw: r, tokens: s, text: i };
+    }
+  }
+  list(n) {
+    let e = this.rules.block.list.exec(n);
+    if (e) {
+      let t = e[1].trim(), r = t.length > 1, i = { type: "list", raw: "", ordered: r, start: r ? +t.slice(0, -1) : "", loose: !1, items: [] };
+      t = r ? `\\d{1,9}\\${t.slice(-1)}` : `\\${t}`, this.options.pedantic && (t = r ? t : "[*+-]");
+      let s = this.rules.other.listItemRegex(t), o = !1;
+      for (; n; ) {
+        let a = !1, d = "", l = "";
+        if (!(e = s.exec(n)) || this.rules.block.hr.test(n)) break;
+        d = e[0], n = n.substring(d.length);
+        let u = hi(e[2].split(`
+`, 1)[0], e[1].length), p = n.split(`
+`, 1)[0], h = !u.trim(), g = 0;
+        if (this.options.pedantic ? (g = 2, l = u.trimStart()) : h ? g = e[1].length + 1 : (g = u.search(this.rules.other.nonSpaceChar), g = g > 4 ? 1 : g, l = u.slice(g), g += e[1].length), h && this.rules.other.blankLine.test(p) && (d += p + `
+`, n = n.substring(p.length + 1), a = !0), !a) {
+          let _ = this.rules.other.nextBulletRegex(g), f = this.rules.other.hrRegex(g), k = this.rules.other.fencesBeginRegex(g), w = this.rules.other.headingBeginRegex(g), N = this.rules.other.htmlBeginRegex(g), I = this.rules.other.blockquoteBeginRegex(g);
+          for (; n; ) {
+            let x = n.split(`
+`, 1)[0], R;
+            if (p = x, this.options.pedantic ? (p = p.replace(this.rules.other.listReplaceNesting, "  "), R = p) : R = p.replace(this.rules.other.tabCharGlobal, "    "), k.test(p) || w.test(p) || N.test(p) || I.test(p) || _.test(p) || f.test(p)) break;
+            if (R.search(this.rules.other.nonSpaceChar) >= g || !p.trim()) l += `
+` + R.slice(g);
+            else {
+              if (h || u.replace(this.rules.other.tabCharGlobal, "    ").search(this.rules.other.nonSpaceChar) >= 4 || k.test(u) || w.test(u) || f.test(u)) break;
+              l += `
+` + p;
             }
-          return I.languages.DFS(I.languages, function(O, U) {
-            U === y[c] && O != c && (this[O] = j);
-          }), y[c] = j;
-        },
-        // Traverse a language definition with Depth First Search
-        DFS: function(c, b, P, y) {
-          y = y || {};
-          for (var L in c)
-            c.hasOwnProperty(L) && (b.call(c, L, c[L], P || L), I.util.type(c[L]) === "Object" && !y[I.util.objId(c[L])] ? (y[I.util.objId(c[L])] = !0, I.languages.DFS(c[L], b, null, y)) : I.util.type(c[L]) === "Array" && !y[I.util.objId(c[L])] && (y[I.util.objId(c[L])] = !0, I.languages.DFS(c[L], b, L, y)));
+            h = !p.trim(), d += x + `
+`, n = n.substring(x.length + 1), u = R.slice(g);
+          }
         }
-      },
-      plugins: {},
-      highlightAll: function(c, b) {
-        I.highlightAllUnder(document, c, b);
-      },
-      highlightAllUnder: function(c, b, P) {
-        var y = {
-          callback: P,
-          selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
+        i.loose || (o ? i.loose = !0 : this.rules.other.doubleBlankLine.test(d) && (o = !0)), i.items.push({ type: "list_item", raw: d, task: !!this.options.gfm && this.rules.other.listIsTask.test(l), loose: !1, text: l, tokens: [] }), i.raw += d;
+      }
+      let c = i.items.at(-1);
+      if (c) c.raw = c.raw.trimEnd(), c.text = c.text.trimEnd();
+      else return;
+      i.raw = i.raw.trimEnd();
+      for (let a of i.items) {
+        this.lexer.state.top = !1, a.tokens = this.lexer.blockTokens(a.text, []);
+        let d = a.tokens[0];
+        if (a.task && ((d == null ? void 0 : d.type) === "text" || (d == null ? void 0 : d.type) === "paragraph")) {
+          a.text = a.text.replace(this.rules.other.listReplaceTask, ""), d.raw = d.raw.replace(this.rules.other.listReplaceTask, ""), d.text = d.text.replace(this.rules.other.listReplaceTask, "");
+          for (let u = this.lexer.inlineQueue.length - 1; u >= 0; u--) if (this.rules.other.listIsTask.test(this.lexer.inlineQueue[u].src)) {
+            this.lexer.inlineQueue[u].src = this.lexer.inlineQueue[u].src.replace(this.rules.other.listReplaceTask, "");
+            break;
+          }
+          let l = this.rules.other.listTaskCheckbox.exec(a.raw);
+          if (l) {
+            let u = { type: "checkbox", raw: l[0] + " ", checked: l[0] !== "[ ]" };
+            a.checked = u.checked, i.loose ? a.tokens[0] && ["paragraph", "text"].includes(a.tokens[0].type) && "tokens" in a.tokens[0] && a.tokens[0].tokens ? (a.tokens[0].raw = u.raw + a.tokens[0].raw, a.tokens[0].text = u.raw + a.tokens[0].text, a.tokens[0].tokens.unshift(u)) : a.tokens.unshift({ type: "paragraph", raw: u.raw, text: u.raw, tokens: [u] }) : a.tokens.unshift(u);
+          }
+        } else a.task && (a.task = !1);
+        if (!i.loose) {
+          let l = a.tokens.filter((p) => p.type === "space"), u = l.length > 0 && l.some((p) => this.rules.other.anyLine.test(p.raw));
+          i.loose = u;
+        }
+      }
+      if (i.loose) for (let a of i.items) {
+        a.loose = !0;
+        for (let d of a.tokens) d.type === "text" && (d.type = "paragraph");
+      }
+      return i;
+    }
+  }
+  html(n) {
+    let e = this.rules.block.html.exec(n);
+    if (e) {
+      let t = an(e[0]);
+      return { type: "html", block: !0, raw: t, pre: e[1] === "pre" || e[1] === "script" || e[1] === "style", text: t };
+    }
+  }
+  def(n) {
+    let e = this.rules.block.def.exec(n);
+    if (e) {
+      let t = e[1].toLowerCase().replace(this.rules.other.multipleSpaceGlobal, " "), r = e[2] ? e[2].replace(this.rules.other.hrefBrackets, "$1").replace(this.rules.inline.anyPunctuation, "$1") : "", i = e[3] ? e[3].substring(1, e[3].length - 1).replace(this.rules.inline.anyPunctuation, "$1") : e[3];
+      return { type: "def", tag: t, raw: _e(e[0], `
+`), href: r, title: i };
+    }
+  }
+  table(n) {
+    var o;
+    let e = this.rules.block.table.exec(n);
+    if (!e || !this.rules.other.tableDelimiter.test(e[2])) return;
+    let t = rn(e[1]), r = e[2].replace(this.rules.other.tableAlignChars, "").split("|"), i = (o = e[3]) != null && o.trim() ? e[3].replace(this.rules.other.tableRowBlankLine, "").split(`
+`) : [], s = { type: "table", raw: _e(e[0], `
+`), header: [], align: [], rows: [] };
+    if (t.length === r.length) {
+      for (let c of r) this.rules.other.tableAlignRight.test(c) ? s.align.push("right") : this.rules.other.tableAlignCenter.test(c) ? s.align.push("center") : this.rules.other.tableAlignLeft.test(c) ? s.align.push("left") : s.align.push(null);
+      for (let c = 0; c < t.length; c++) s.header.push({ text: t[c], tokens: this.lexer.inline(t[c]), header: !0, align: s.align[c] });
+      for (let c of i) s.rows.push(rn(c, s.header.length).map((a, d) => ({ text: a, tokens: this.lexer.inline(a), header: !1, align: s.align[d] })));
+      return s;
+    }
+  }
+  lheading(n) {
+    let e = this.rules.block.lheading.exec(n);
+    if (e) {
+      let t = e[1].trim();
+      return { type: "heading", raw: _e(e[0], `
+`), depth: e[2].charAt(0) === "=" ? 1 : 2, text: t, tokens: this.lexer.inline(t) };
+    }
+  }
+  paragraph(n) {
+    let e = this.rules.block.paragraph.exec(n);
+    if (e) {
+      let t = e[1].charAt(e[1].length - 1) === `
+` ? e[1].slice(0, -1) : e[1];
+      return { type: "paragraph", raw: e[0], text: t, tokens: this.lexer.inline(t) };
+    }
+  }
+  text(n) {
+    let e = this.rules.block.text.exec(n);
+    if (e) return { type: "text", raw: e[0], text: e[0], tokens: this.lexer.inline(e[0]) };
+  }
+  escape(n) {
+    let e = this.rules.inline.escape.exec(n);
+    if (e) return { type: "escape", raw: e[0], text: e[1] };
+  }
+  tag(n) {
+    let e = this.rules.inline.tag.exec(n);
+    if (e) return !this.lexer.state.inLink && this.rules.other.startATag.test(e[0]) ? this.lexer.state.inLink = !0 : this.lexer.state.inLink && this.rules.other.endATag.test(e[0]) && (this.lexer.state.inLink = !1), !this.lexer.state.inRawBlock && this.rules.other.startPreScriptTag.test(e[0]) ? this.lexer.state.inRawBlock = !0 : this.lexer.state.inRawBlock && this.rules.other.endPreScriptTag.test(e[0]) && (this.lexer.state.inRawBlock = !1), { type: "html", raw: e[0], inLink: this.lexer.state.inLink, inRawBlock: this.lexer.state.inRawBlock, block: !1, text: e[0] };
+  }
+  link(n) {
+    let e = this.rules.inline.link.exec(n);
+    if (e) {
+      let t = e[2].trim();
+      if (!this.options.pedantic && this.rules.other.startAngleBracket.test(t)) {
+        if (!this.rules.other.endAngleBracket.test(t)) return;
+        let s = _e(t.slice(0, -1), "\\");
+        if ((t.length - s.length) % 2 === 0) return;
+      } else {
+        let s = bi(e[2], "()");
+        if (s === -2) return;
+        if (s > -1) {
+          let o = (e[0].indexOf("!") === 0 ? 5 : 4) + e[1].length + s;
+          e[2] = e[2].substring(0, s), e[0] = e[0].substring(0, o).trim(), e[3] = "";
+        }
+      }
+      let r = e[2], i = "";
+      if (this.options.pedantic) {
+        let s = this.rules.other.pedanticHrefTitle.exec(r);
+        s && (r = s[1], i = s[3]);
+      } else i = e[3] ? e[3].slice(1, -1) : "";
+      return r = r.trim(), this.rules.other.startAngleBracket.test(r) && (this.options.pedantic && !this.rules.other.endAngleBracket.test(t) ? r = r.slice(1) : r = r.slice(1, -1)), sn(e, { href: r && r.replace(this.rules.inline.anyPunctuation, "$1"), title: i && i.replace(this.rules.inline.anyPunctuation, "$1") }, e[0], this.lexer, this.rules);
+    }
+  }
+  reflink(n, e) {
+    let t;
+    if ((t = this.rules.inline.reflink.exec(n)) || (t = this.rules.inline.nolink.exec(n))) {
+      let r = (t[2] || t[1]).replace(this.rules.other.multipleSpaceGlobal, " "), i = e[r.toLowerCase()];
+      if (!i) {
+        let s = t[0].charAt(0);
+        return { type: "text", raw: s, text: s };
+      }
+      return sn(t, i, t[0], this.lexer, this.rules);
+    }
+  }
+  emStrong(n, e, t = "") {
+    let r = this.rules.inline.emStrongLDelim.exec(n);
+    if (!(!r || !r[1] && !r[2] && !r[3] && !r[4] || r[4] && t.match(this.rules.other.unicodeAlphaNumeric)) && (!(r[1] || r[3]) || !t || this.rules.inline.punctuation.exec(t))) {
+      let i = [...r[0]].length - 1, s, o, c = i, a = 0, d = r[0][0] === "*" ? this.rules.inline.emStrongRDelimAst : this.rules.inline.emStrongRDelimUnd;
+      for (d.lastIndex = 0, e = e.slice(-1 * n.length + i); (r = d.exec(e)) !== null; ) {
+        if (s = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !s) continue;
+        if (o = [...s].length, r[3] || r[4]) {
+          c += o;
+          continue;
+        } else if ((r[5] || r[6]) && i % 3 && !((i + o) % 3)) {
+          a += o;
+          continue;
+        }
+        if (c -= o, c > 0) continue;
+        o = Math.min(o, o + c + a);
+        let l = [...r[0]][0].length, u = n.slice(0, i + r.index + l + o);
+        if (Math.min(i, o) % 2) {
+          let h = u.slice(1, -1);
+          return { type: "em", raw: u, text: h, tokens: this.lexer.inlineTokens(h) };
+        }
+        let p = u.slice(2, -2);
+        return { type: "strong", raw: u, text: p, tokens: this.lexer.inlineTokens(p) };
+      }
+    }
+  }
+  codespan(n) {
+    let e = this.rules.inline.code.exec(n);
+    if (e) {
+      let t = e[2].replace(this.rules.other.newLineCharGlobal, " "), r = this.rules.other.nonSpaceChar.test(t), i = this.rules.other.startingSpaceChar.test(t) && this.rules.other.endingSpaceChar.test(t);
+      return r && i && (t = t.substring(1, t.length - 1)), { type: "codespan", raw: e[0], text: t };
+    }
+  }
+  br(n) {
+    let e = this.rules.inline.br.exec(n);
+    if (e) return { type: "br", raw: e[0] };
+  }
+  del(n, e, t = "") {
+    let r = this.rules.inline.delLDelim.exec(n);
+    if (r && (!r[1] || !t || this.rules.inline.punctuation.exec(t))) {
+      let i = [...r[0]].length - 1, s, o, c = i, a = this.rules.inline.delRDelim;
+      for (a.lastIndex = 0, e = e.slice(-1 * n.length + i); (r = a.exec(e)) !== null; ) {
+        if (s = r[1] || r[2] || r[3] || r[4] || r[5] || r[6], !s || (o = [...s].length, o !== i)) continue;
+        if (r[3] || r[4]) {
+          c += o;
+          continue;
+        }
+        if (c -= o, c > 0) continue;
+        o = Math.min(o, o + c);
+        let d = [...r[0]][0].length, l = n.slice(0, i + r.index + d + o), u = l.slice(i, -i);
+        return { type: "del", raw: l, text: u, tokens: this.lexer.inlineTokens(u) };
+      }
+    }
+  }
+  autolink(n) {
+    let e = this.rules.inline.autolink.exec(n);
+    if (e) {
+      let t, r;
+      return e[2] === "@" ? (t = e[1], r = "mailto:" + t) : (t = e[1], r = t), { type: "link", raw: e[0], text: t, href: r, tokens: [{ type: "text", raw: t, text: t }] };
+    }
+  }
+  url(n) {
+    var t;
+    let e;
+    if (e = this.rules.inline.url.exec(n)) {
+      let r, i;
+      if (e[2] === "@") r = e[0], i = "mailto:" + r;
+      else {
+        let s;
+        do
+          s = e[0], e[0] = ((t = this.rules.inline._backpedal.exec(e[0])) == null ? void 0 : t[0]) ?? "";
+        while (s !== e[0]);
+        r = e[0], e[1] === "www." ? i = "http://" + e[0] : i = e[0];
+      }
+      return { type: "link", raw: e[0], text: r, href: i, tokens: [{ type: "text", raw: r, text: r }] };
+    }
+  }
+  inlineText(n) {
+    let e = this.rules.inline.text.exec(n);
+    if (e) {
+      let t = this.lexer.state.inRawBlock;
+      return { type: "text", raw: e[0], text: e[0], escaped: t };
+    }
+  }
+}, ue = class Ut {
+  constructor(e) {
+    U(this, "tokens");
+    U(this, "options");
+    U(this, "state");
+    U(this, "inlineQueue");
+    U(this, "tokenizer");
+    this.tokens = [], this.tokens.links = /* @__PURE__ */ Object.create(null), this.options = e || Ne, this.options.tokenizer = this.options.tokenizer || new We(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = { inLink: !1, inRawBlock: !1, top: !0 };
+    let t = { other: re, block: qe.normal, inline: De.normal };
+    this.options.pedantic ? (t.block = qe.pedantic, t.inline = De.pedantic) : this.options.gfm && (t.block = qe.gfm, this.options.breaks ? t.inline = De.breaks : t.inline = De.gfm), this.tokenizer.rules = t;
+  }
+  static get rules() {
+    return { block: qe, inline: De };
+  }
+  static lex(e, t) {
+    return new Ut(t).lex(e);
+  }
+  static lexInline(e, t) {
+    return new Ut(t).inlineTokens(e);
+  }
+  lex(e) {
+    e = e.replace(re.carriageReturn, `
+`), this.blockTokens(e, this.tokens);
+    for (let t = 0; t < this.inlineQueue.length; t++) {
+      let r = this.inlineQueue[t];
+      this.inlineTokens(r.src, r.tokens);
+    }
+    return this.inlineQueue = [], this.tokens;
+  }
+  blockTokens(e, t = [], r = !1) {
+    var s, o, c;
+    this.tokenizer.lexer = this, this.options.pedantic && (e = e.replace(re.tabCharGlobal, "    ").replace(re.spaceLine, ""));
+    let i = 1 / 0;
+    for (; e; ) {
+      if (e.length < i) i = e.length;
+      else {
+        this.infiniteLoopError(e.charCodeAt(0));
+        break;
+      }
+      let a;
+      if ((o = (s = this.options.extensions) == null ? void 0 : s.block) != null && o.some((l) => (a = l.call({ lexer: this }, e, t)) ? (e = e.substring(a.raw.length), t.push(a), !0) : !1)) continue;
+      if (a = this.tokenizer.space(e)) {
+        e = e.substring(a.raw.length);
+        let l = t.at(-1);
+        a.raw.length === 1 && l !== void 0 ? l.raw += `
+` : t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.code(e)) {
+        e = e.substring(a.raw.length);
+        let l = t.at(-1);
+        (l == null ? void 0 : l.type) === "paragraph" || (l == null ? void 0 : l.type) === "text" ? (l.raw += (l.raw.endsWith(`
+`) ? "" : `
+`) + a.raw, l.text += `
+` + a.text, this.inlineQueue.at(-1).src = l.text) : t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.fences(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.heading(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.hr(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.blockquote(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.list(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.html(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.def(e)) {
+        e = e.substring(a.raw.length);
+        let l = t.at(-1);
+        (l == null ? void 0 : l.type) === "paragraph" || (l == null ? void 0 : l.type) === "text" ? (l.raw += (l.raw.endsWith(`
+`) ? "" : `
+`) + a.raw, l.text += `
+` + a.raw, this.inlineQueue.at(-1).src = l.text) : this.tokens.links[a.tag] || (this.tokens.links[a.tag] = { href: a.href, title: a.title }, t.push(a));
+        continue;
+      }
+      if (a = this.tokenizer.table(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      if (a = this.tokenizer.lheading(e)) {
+        e = e.substring(a.raw.length), t.push(a);
+        continue;
+      }
+      let d = e;
+      if ((c = this.options.extensions) != null && c.startBlock) {
+        let l = 1 / 0, u = e.slice(1), p;
+        this.options.extensions.startBlock.forEach((h) => {
+          p = h.call({ lexer: this }, u), typeof p == "number" && p >= 0 && (l = Math.min(l, p));
+        }), l < 1 / 0 && l >= 0 && (d = e.substring(0, l + 1));
+      }
+      if (this.state.top && (a = this.tokenizer.paragraph(d))) {
+        let l = t.at(-1);
+        r && (l == null ? void 0 : l.type) === "paragraph" ? (l.raw += (l.raw.endsWith(`
+`) ? "" : `
+`) + a.raw, l.text += `
+` + a.text, this.inlineQueue.pop(), this.inlineQueue.at(-1).src = l.text) : t.push(a), r = d.length !== e.length, e = e.substring(a.raw.length);
+        continue;
+      }
+      if (a = this.tokenizer.text(e)) {
+        e = e.substring(a.raw.length);
+        let l = t.at(-1);
+        (l == null ? void 0 : l.type) === "text" ? (l.raw += (l.raw.endsWith(`
+`) ? "" : `
+`) + a.raw, l.text += `
+` + a.text, this.inlineQueue.pop(), this.inlineQueue.at(-1).src = l.text) : t.push(a);
+        continue;
+      }
+      if (e) {
+        this.infiniteLoopError(e.charCodeAt(0));
+        break;
+      }
+    }
+    return this.state.top = !0, t;
+  }
+  inline(e, t = []) {
+    return this.inlineQueue.push({ src: e, tokens: t }), t;
+  }
+  inlineTokens(e, t = []) {
+    var d, l, u, p, h;
+    this.tokenizer.lexer = this;
+    let r = e, i = null;
+    if (this.tokens.links) {
+      let g = Object.keys(this.tokens.links);
+      if (g.length > 0) for (; (i = this.tokenizer.rules.inline.reflinkSearch.exec(r)) !== null; ) g.includes(i[0].slice(i[0].lastIndexOf("[") + 1, -1)) && (r = r.slice(0, i.index) + "[" + "a".repeat(i[0].length - 2) + "]" + r.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex));
+    }
+    for (; (i = this.tokenizer.rules.inline.anyPunctuation.exec(r)) !== null; ) r = r.slice(0, i.index) + "++" + r.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);
+    let s;
+    for (; (i = this.tokenizer.rules.inline.blockSkip.exec(r)) !== null; ) s = i[2] ? i[2].length : 0, r = r.slice(0, i.index + s) + "[" + "a".repeat(i[0].length - s - 2) + "]" + r.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);
+    r = ((l = (d = this.options.hooks) == null ? void 0 : d.emStrongMask) == null ? void 0 : l.call({ lexer: this }, r)) ?? r;
+    let o = !1, c = "", a = 1 / 0;
+    for (; e; ) {
+      if (e.length < a) a = e.length;
+      else {
+        this.infiniteLoopError(e.charCodeAt(0));
+        break;
+      }
+      o || (c = ""), o = !1;
+      let g;
+      if ((p = (u = this.options.extensions) == null ? void 0 : u.inline) != null && p.some((f) => (g = f.call({ lexer: this }, e, t)) ? (e = e.substring(g.raw.length), t.push(g), !0) : !1)) continue;
+      if (g = this.tokenizer.escape(e)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.tag(e)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.link(e)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.reflink(e, this.tokens.links)) {
+        e = e.substring(g.raw.length);
+        let f = t.at(-1);
+        g.type === "text" && (f == null ? void 0 : f.type) === "text" ? (f.raw += g.raw, f.text += g.text) : t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.emStrong(e, r, c)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.codespan(e)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.br(e)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.del(e, r, c)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (g = this.tokenizer.autolink(e)) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      if (!this.state.inLink && (g = this.tokenizer.url(e))) {
+        e = e.substring(g.raw.length), t.push(g);
+        continue;
+      }
+      let _ = e;
+      if ((h = this.options.extensions) != null && h.startInline) {
+        let f = 1 / 0, k = e.slice(1), w;
+        this.options.extensions.startInline.forEach((N) => {
+          w = N.call({ lexer: this }, k), typeof w == "number" && w >= 0 && (f = Math.min(f, w));
+        }), f < 1 / 0 && f >= 0 && (_ = e.substring(0, f + 1));
+      }
+      if (g = this.tokenizer.inlineText(_)) {
+        e = e.substring(g.raw.length), g.raw.slice(-1) !== "_" && (c = g.raw.slice(-1)), o = !0;
+        let f = t.at(-1);
+        (f == null ? void 0 : f.type) === "text" ? (f.raw += g.raw, f.text += g.text) : t.push(g);
+        continue;
+      }
+      if (e) {
+        this.infiniteLoopError(e.charCodeAt(0));
+        break;
+      }
+    }
+    return t;
+  }
+  infiniteLoopError(e) {
+    let t = "Infinite loop on byte: " + e;
+    if (this.options.silent) console.error(t);
+    else throw new Error(t);
+  }
+}, Ye = class {
+  constructor(n) {
+    U(this, "options");
+    U(this, "parser");
+    this.options = n || Ne;
+  }
+  space(n) {
+    return "";
+  }
+  code({ text: n, lang: e, escaped: t }) {
+    var s;
+    let r = (s = (e || "").match(re.notSpaceStart)) == null ? void 0 : s[0], i = n.replace(re.endingNewline, "") + `
+`;
+    return r ? '<pre><code class="language-' + he(r) + '">' + (t ? i : he(i, !0)) + `</code></pre>
+` : "<pre><code>" + (t ? i : he(i, !0)) + `</code></pre>
+`;
+  }
+  blockquote({ tokens: n }) {
+    return `<blockquote>
+${this.parser.parse(n)}</blockquote>
+`;
+  }
+  html({ text: n }) {
+    return n;
+  }
+  def(n) {
+    return "";
+  }
+  heading({ tokens: n, depth: e }) {
+    return `<h${e}>${this.parser.parseInline(n)}</h${e}>
+`;
+  }
+  hr(n) {
+    return `<hr>
+`;
+  }
+  list(n) {
+    let e = n.ordered, t = n.start, r = "";
+    for (let o = 0; o < n.items.length; o++) {
+      let c = n.items[o];
+      r += this.listitem(c);
+    }
+    let i = e ? "ol" : "ul", s = e && t !== 1 ? ' start="' + t + '"' : "";
+    return "<" + i + s + `>
+` + r + "</" + i + `>
+`;
+  }
+  listitem(n) {
+    return `<li>${this.parser.parse(n.tokens)}</li>
+`;
+  }
+  checkbox({ checked: n }) {
+    return "<input " + (n ? 'checked="" ' : "") + 'disabled="" type="checkbox"> ';
+  }
+  paragraph({ tokens: n }) {
+    return `<p>${this.parser.parseInline(n)}</p>
+`;
+  }
+  table(n) {
+    let e = "", t = "";
+    for (let i = 0; i < n.header.length; i++) t += this.tablecell(n.header[i]);
+    e += this.tablerow({ text: t });
+    let r = "";
+    for (let i = 0; i < n.rows.length; i++) {
+      let s = n.rows[i];
+      t = "";
+      for (let o = 0; o < s.length; o++) t += this.tablecell(s[o]);
+      r += this.tablerow({ text: t });
+    }
+    return r && (r = `<tbody>${r}</tbody>`), `<table>
+<thead>
+` + e + `</thead>
+` + r + `</table>
+`;
+  }
+  tablerow({ text: n }) {
+    return `<tr>
+${n}</tr>
+`;
+  }
+  tablecell(n) {
+    let e = this.parser.parseInline(n.tokens), t = n.header ? "th" : "td";
+    return (n.align ? `<${t} align="${n.align}">` : `<${t}>`) + e + `</${t}>
+`;
+  }
+  strong({ tokens: n }) {
+    return `<strong>${this.parser.parseInline(n)}</strong>`;
+  }
+  em({ tokens: n }) {
+    return `<em>${this.parser.parseInline(n)}</em>`;
+  }
+  codespan({ text: n }) {
+    return `<code>${he(n, !0)}</code>`;
+  }
+  br(n) {
+    return "<br>";
+  }
+  del({ tokens: n }) {
+    return `<del>${this.parser.parseInline(n)}</del>`;
+  }
+  link({ href: n, title: e, tokens: t }) {
+    let r = this.parser.parseInline(t), i = nn(n);
+    if (i === null) return r;
+    n = i;
+    let s = '<a href="' + n + '"';
+    return e && (s += ' title="' + he(e) + '"'), s += ">" + r + "</a>", s;
+  }
+  image({ href: n, title: e, text: t, tokens: r }) {
+    r && (t = this.parser.parseInline(r, this.parser.textRenderer));
+    let i = nn(n);
+    if (i === null) return he(t);
+    n = i;
+    let s = `<img src="${n}" alt="${he(t)}"`;
+    return e && (s += ` title="${he(e)}"`), s += ">", s;
+  }
+  text(n) {
+    return "tokens" in n && n.tokens ? this.parser.parseInline(n.tokens) : "escaped" in n && n.escaped ? n.text : he(n.text);
+  }
+}, Yt = class {
+  strong({ text: n }) {
+    return n;
+  }
+  em({ text: n }) {
+    return n;
+  }
+  codespan({ text: n }) {
+    return n;
+  }
+  del({ text: n }) {
+    return n;
+  }
+  html({ text: n }) {
+    return n;
+  }
+  text({ text: n }) {
+    return n;
+  }
+  link({ text: n }) {
+    return "" + n;
+  }
+  image({ text: n }) {
+    return "" + n;
+  }
+  br() {
+    return "";
+  }
+  checkbox({ raw: n }) {
+    return n;
+  }
+}, ge = class $t {
+  constructor(e) {
+    U(this, "options");
+    U(this, "renderer");
+    U(this, "textRenderer");
+    this.options = e || Ne, this.options.renderer = this.options.renderer || new Ye(), this.renderer = this.options.renderer, this.renderer.options = this.options, this.renderer.parser = this, this.textRenderer = new Yt();
+  }
+  static parse(e, t) {
+    return new $t(t).parse(e);
+  }
+  static parseInline(e, t) {
+    return new $t(t).parseInline(e);
+  }
+  parse(e) {
+    var r, i;
+    this.renderer.parser = this;
+    let t = "";
+    for (let s = 0; s < e.length; s++) {
+      let o = e[s];
+      if ((i = (r = this.options.extensions) == null ? void 0 : r.renderers) != null && i[o.type]) {
+        let a = o, d = this.options.extensions.renderers[a.type].call({ parser: this }, a);
+        if (d !== !1 || !["space", "hr", "heading", "code", "table", "blockquote", "list", "html", "def", "paragraph", "text"].includes(a.type)) {
+          t += d || "";
+          continue;
+        }
+      }
+      let c = o;
+      switch (c.type) {
+        case "space": {
+          t += this.renderer.space(c);
+          break;
+        }
+        case "hr": {
+          t += this.renderer.hr(c);
+          break;
+        }
+        case "heading": {
+          t += this.renderer.heading(c);
+          break;
+        }
+        case "code": {
+          t += this.renderer.code(c);
+          break;
+        }
+        case "table": {
+          t += this.renderer.table(c);
+          break;
+        }
+        case "blockquote": {
+          t += this.renderer.blockquote(c);
+          break;
+        }
+        case "list": {
+          t += this.renderer.list(c);
+          break;
+        }
+        case "checkbox": {
+          t += this.renderer.checkbox(c);
+          break;
+        }
+        case "html": {
+          t += this.renderer.html(c);
+          break;
+        }
+        case "def": {
+          t += this.renderer.def(c);
+          break;
+        }
+        case "paragraph": {
+          t += this.renderer.paragraph(c);
+          break;
+        }
+        case "text": {
+          t += this.renderer.text(c);
+          break;
+        }
+        default: {
+          let a = 'Token with "' + c.type + '" type was not found.';
+          if (this.options.silent) return console.error(a), "";
+          throw new Error(a);
+        }
+      }
+    }
+    return t;
+  }
+  parseInline(e, t = this.renderer) {
+    var i, s;
+    this.renderer.parser = this;
+    let r = "";
+    for (let o = 0; o < e.length; o++) {
+      let c = e[o];
+      if ((s = (i = this.options.extensions) == null ? void 0 : i.renderers) != null && s[c.type]) {
+        let d = this.options.extensions.renderers[c.type].call({ parser: this }, c);
+        if (d !== !1 || !["escape", "html", "link", "image", "strong", "em", "codespan", "br", "del", "text"].includes(c.type)) {
+          r += d || "";
+          continue;
+        }
+      }
+      let a = c;
+      switch (a.type) {
+        case "escape": {
+          r += t.text(a);
+          break;
+        }
+        case "html": {
+          r += t.html(a);
+          break;
+        }
+        case "link": {
+          r += t.link(a);
+          break;
+        }
+        case "image": {
+          r += t.image(a);
+          break;
+        }
+        case "checkbox": {
+          r += t.checkbox(a);
+          break;
+        }
+        case "strong": {
+          r += t.strong(a);
+          break;
+        }
+        case "em": {
+          r += t.em(a);
+          break;
+        }
+        case "codespan": {
+          r += t.codespan(a);
+          break;
+        }
+        case "br": {
+          r += t.br(a);
+          break;
+        }
+        case "del": {
+          r += t.del(a);
+          break;
+        }
+        case "text": {
+          r += t.text(a);
+          break;
+        }
+        default: {
+          let d = 'Token with "' + a.type + '" type was not found.';
+          if (this.options.silent) return console.error(d), "";
+          throw new Error(d);
+        }
+      }
+    }
+    return r;
+  }
+}, Ge, Be = (Ge = class {
+  constructor(n) {
+    U(this, "options");
+    U(this, "block");
+    this.options = n || Ne;
+  }
+  preprocess(n) {
+    return n;
+  }
+  postprocess(n) {
+    return n;
+  }
+  processAllTokens(n) {
+    return n;
+  }
+  emStrongMask(n) {
+    return n;
+  }
+  provideLexer(n = this.block) {
+    return n ? ue.lex : ue.lexInline;
+  }
+  provideParser(n = this.block) {
+    return n ? ge.parse : ge.parseInline;
+  }
+}, U(Ge, "passThroughHooks", /* @__PURE__ */ new Set(["preprocess", "postprocess", "processAllTokens", "emStrongMask"])), U(Ge, "passThroughHooksRespectAsync", /* @__PURE__ */ new Set(["preprocess", "postprocess", "processAllTokens"])), Ge), or = class {
+  constructor(...n) {
+    U(this, "defaults", zt());
+    U(this, "options", this.setOptions);
+    U(this, "parse", this.parseMarkdown(!0));
+    U(this, "parseInline", this.parseMarkdown(!1));
+    U(this, "Parser", ge);
+    U(this, "Renderer", Ye);
+    U(this, "TextRenderer", Yt);
+    U(this, "Lexer", ue);
+    U(this, "Tokenizer", We);
+    U(this, "Hooks", Be);
+    this.use(...n);
+  }
+  walkTokens(n, e) {
+    var r, i;
+    let t = [];
+    for (let s of n) switch (t = t.concat(e.call(this, s)), s.type) {
+      case "table": {
+        let o = s;
+        for (let c of o.header) t = t.concat(this.walkTokens(c.tokens, e));
+        for (let c of o.rows) for (let a of c) t = t.concat(this.walkTokens(a.tokens, e));
+        break;
+      }
+      case "list": {
+        let o = s;
+        t = t.concat(this.walkTokens(o.items, e));
+        break;
+      }
+      default: {
+        let o = s;
+        (i = (r = this.defaults.extensions) == null ? void 0 : r.childTokens) != null && i[o.type] ? this.defaults.extensions.childTokens[o.type].forEach((c) => {
+          let a = o[c].flat(1 / 0);
+          t = t.concat(this.walkTokens(a, e));
+        }) : o.tokens && (t = t.concat(this.walkTokens(o.tokens, e)));
+      }
+    }
+    return t;
+  }
+  use(...n) {
+    let e = this.defaults.extensions || { renderers: {}, childTokens: {} };
+    return n.forEach((t) => {
+      let r = { ...t };
+      if (r.async = this.defaults.async || r.async || !1, t.extensions && (t.extensions.forEach((i) => {
+        if (!i.name) throw new Error("extension name required");
+        if ("renderer" in i) {
+          let s = e.renderers[i.name];
+          s ? e.renderers[i.name] = function(...o) {
+            let c = i.renderer.apply(this, o);
+            return c === !1 && (c = s.apply(this, o)), c;
+          } : e.renderers[i.name] = i.renderer;
+        }
+        if ("tokenizer" in i) {
+          if (!i.level || i.level !== "block" && i.level !== "inline") throw new Error("extension level must be 'block' or 'inline'");
+          let s = e[i.level];
+          s ? s.unshift(i.tokenizer) : e[i.level] = [i.tokenizer], i.start && (i.level === "block" ? e.startBlock ? e.startBlock.push(i.start) : e.startBlock = [i.start] : i.level === "inline" && (e.startInline ? e.startInline.push(i.start) : e.startInline = [i.start]));
+        }
+        "childTokens" in i && i.childTokens && (e.childTokens[i.name] = i.childTokens);
+      }), r.extensions = e), t.renderer) {
+        let i = this.defaults.renderer || new Ye(this.defaults);
+        for (let s in t.renderer) {
+          if (!(s in i)) throw new Error(`renderer '${s}' does not exist`);
+          if (["options", "parser"].includes(s)) continue;
+          let o = s, c = t.renderer[o], a = i[o];
+          i[o] = (...d) => {
+            let l = c.apply(i, d);
+            return l === !1 && (l = a.apply(i, d)), l || "";
+          };
+        }
+        r.renderer = i;
+      }
+      if (t.tokenizer) {
+        let i = this.defaults.tokenizer || new We(this.defaults);
+        for (let s in t.tokenizer) {
+          if (!(s in i)) throw new Error(`tokenizer '${s}' does not exist`);
+          if (["options", "rules", "lexer"].includes(s)) continue;
+          let o = s, c = t.tokenizer[o], a = i[o];
+          i[o] = (...d) => {
+            let l = c.apply(i, d);
+            return l === !1 && (l = a.apply(i, d)), l;
+          };
+        }
+        r.tokenizer = i;
+      }
+      if (t.hooks) {
+        let i = this.defaults.hooks || new Be();
+        for (let s in t.hooks) {
+          if (!(s in i)) throw new Error(`hook '${s}' does not exist`);
+          if (["options", "block"].includes(s)) continue;
+          let o = s, c = t.hooks[o], a = i[o];
+          Be.passThroughHooks.has(s) ? i[o] = (d) => {
+            if (this.defaults.async && Be.passThroughHooksRespectAsync.has(s)) return (async () => {
+              let u = await c.call(i, d);
+              return a.call(i, u);
+            })();
+            let l = c.call(i, d);
+            return a.call(i, l);
+          } : i[o] = (...d) => {
+            if (this.defaults.async) return (async () => {
+              let u = await c.apply(i, d);
+              return u === !1 && (u = await a.apply(i, d)), u;
+            })();
+            let l = c.apply(i, d);
+            return l === !1 && (l = a.apply(i, d)), l;
+          };
+        }
+        r.hooks = i;
+      }
+      if (t.walkTokens) {
+        let i = this.defaults.walkTokens, s = t.walkTokens;
+        r.walkTokens = function(o) {
+          let c = [];
+          return c.push(s.call(this, o)), i && (c = c.concat(i.call(this, o))), c;
         };
-        I.hooks.run("before-highlightall", y);
-        for (var L = y.elements || c.querySelectorAll(y.selector), N = 0, j; j = L[N++]; )
-          I.highlightElement(j, b === !0, y.callback);
+      }
+      this.defaults = { ...this.defaults, ...r };
+    }), this;
+  }
+  setOptions(n) {
+    return this.defaults = { ...this.defaults, ...n }, this;
+  }
+  lexer(n, e) {
+    return ue.lex(n, e ?? this.defaults);
+  }
+  parser(n, e) {
+    return ge.parse(n, e ?? this.defaults);
+  }
+  parseMarkdown(n) {
+    return (e, t) => {
+      let r = { ...t }, i = { ...this.defaults, ...r }, s = this.onError(!!i.silent, !!i.async);
+      if (this.defaults.async === !0 && r.async === !1) return s(new Error("marked(): The async option was set to true by an extension. Remove async: false from the parse options object to return a Promise."));
+      if (typeof e > "u" || e === null) return s(new Error("marked(): input parameter is undefined or null"));
+      if (typeof e != "string") return s(new Error("marked(): input parameter is of type " + Object.prototype.toString.call(e) + ", string expected"));
+      if (i.hooks && (i.hooks.options = i, i.hooks.block = n), i.async) return (async () => {
+        let o = i.hooks ? await i.hooks.preprocess(e) : e, c = await (i.hooks ? await i.hooks.provideLexer(n) : n ? ue.lex : ue.lexInline)(o, i), a = i.hooks ? await i.hooks.processAllTokens(c) : c;
+        i.walkTokens && await Promise.all(this.walkTokens(a, i.walkTokens));
+        let d = await (i.hooks ? await i.hooks.provideParser(n) : n ? ge.parse : ge.parseInline)(a, i);
+        return i.hooks ? await i.hooks.postprocess(d) : d;
+      })().catch(s);
+      try {
+        i.hooks && (e = i.hooks.preprocess(e));
+        let o = (i.hooks ? i.hooks.provideLexer(n) : n ? ue.lex : ue.lexInline)(e, i);
+        i.hooks && (o = i.hooks.processAllTokens(o)), i.walkTokens && this.walkTokens(o, i.walkTokens);
+        let c = (i.hooks ? i.hooks.provideParser(n) : n ? ge.parse : ge.parseInline)(o, i);
+        return i.hooks && (c = i.hooks.postprocess(c)), c;
+      } catch (o) {
+        return s(o);
+      }
+    };
+  }
+  onError(n, e) {
+    return (t) => {
+      if (t.message += `
+Please report this to https://github.com/markedjs/marked.`, n) {
+        let r = "<p>An error occurred:</p><pre>" + he(t.message + "", !0) + "</pre>";
+        return e ? Promise.resolve(r) : r;
+      }
+      if (e) return Promise.reject(t);
+      throw t;
+    };
+  }
+}, ye = new or();
+function $(n, e) {
+  return ye.parse(n, e);
+}
+$.options = $.setOptions = function(n) {
+  return ye.setOptions(n), $.defaults = ye.defaults, Vn($.defaults), $;
+};
+$.getDefaults = zt;
+$.defaults = Ne;
+$.use = function(...n) {
+  return ye.use(...n), $.defaults = ye.defaults, Vn($.defaults), $;
+};
+$.walkTokens = function(n, e) {
+  return ye.walkTokens(n, e);
+};
+$.parseInline = ye.parseInline;
+$.Parser = ge;
+$.parser = ge.parse;
+$.Renderer = Ye;
+$.TextRenderer = Yt;
+$.Lexer = ue;
+$.lexer = ue.lex;
+$.Tokenizer = We;
+$.Hooks = Be;
+$.parse = $;
+$.options;
+$.setOptions;
+$.use;
+$.walkTokens;
+$.parseInline;
+ge.parse;
+ue.lex;
+function mi(n) {
+  return n && n.__esModule && Object.prototype.hasOwnProperty.call(n, "default") ? n.default : n;
+}
+function cr(n) {
+  return n instanceof Map ? n.clear = n.delete = n.set = function() {
+    throw new Error("map is read-only");
+  } : n instanceof Set && (n.add = n.clear = n.delete = function() {
+    throw new Error("set is read-only");
+  }), Object.freeze(n), Object.getOwnPropertyNames(n).forEach((e) => {
+    const t = n[e], r = typeof t;
+    (r === "object" || r === "function") && !Object.isFrozen(t) && cr(t);
+  }), n;
+}
+class on {
+  /**
+   * @param {CompiledMode} mode
+   */
+  constructor(e) {
+    e.data === void 0 && (e.data = {}), this.data = e.data, this.isMatchIgnored = !1;
+  }
+  ignoreMatch() {
+    this.isMatchIgnored = !0;
+  }
+}
+function lr(n) {
+  return n.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+}
+function Ee(n, ...e) {
+  const t = /* @__PURE__ */ Object.create(null);
+  for (const r in n)
+    t[r] = n[r];
+  return e.forEach(function(r) {
+    for (const i in r)
+      t[i] = r[i];
+  }), /** @type {T} */
+  t;
+}
+const _i = "</span>", cn = (n) => !!n.scope, Ei = (n, { prefix: e }) => {
+  if (n.startsWith("language:"))
+    return n.replace("language:", "language-");
+  if (n.includes(".")) {
+    const t = n.split(".");
+    return [
+      `${e}${t.shift()}`,
+      ...t.map((r, i) => `${r}${"_".repeat(i + 1)}`)
+    ].join(" ");
+  }
+  return `${e}${n}`;
+};
+class ki {
+  /**
+   * Creates a new HTMLRenderer
+   *
+   * @param {Tree} parseTree - the parse tree (must support `walk` API)
+   * @param {{classPrefix: string}} options
+   */
+  constructor(e, t) {
+    this.buffer = "", this.classPrefix = t.classPrefix, e.walk(this);
+  }
+  /**
+   * Adds texts to the output stream
+   *
+   * @param {string} text */
+  addText(e) {
+    this.buffer += lr(e);
+  }
+  /**
+   * Adds a node open to the output stream (if needed)
+   *
+   * @param {Node} node */
+  openNode(e) {
+    if (!cn(e)) return;
+    const t = Ei(
+      e.scope,
+      { prefix: this.classPrefix }
+    );
+    this.span(t);
+  }
+  /**
+   * Adds a node close to the output stream (if needed)
+   *
+   * @param {Node} node */
+  closeNode(e) {
+    cn(e) && (this.buffer += _i);
+  }
+  /**
+   * returns the accumulated buffer
+  */
+  value() {
+    return this.buffer;
+  }
+  // helpers
+  /**
+   * Builds a span element
+   *
+   * @param {string} className */
+  span(e) {
+    this.buffer += `<span class="${e}">`;
+  }
+}
+const ln = (n = {}) => {
+  const e = { children: [] };
+  return Object.assign(e, n), e;
+};
+class Xt {
+  constructor() {
+    this.rootNode = ln(), this.stack = [this.rootNode];
+  }
+  get top() {
+    return this.stack[this.stack.length - 1];
+  }
+  get root() {
+    return this.rootNode;
+  }
+  /** @param {Node} node */
+  add(e) {
+    this.top.children.push(e);
+  }
+  /** @param {string} scope */
+  openNode(e) {
+    const t = ln({ scope: e });
+    this.add(t), this.stack.push(t);
+  }
+  closeNode() {
+    if (this.stack.length > 1)
+      return this.stack.pop();
+  }
+  closeAllNodes() {
+    for (; this.closeNode(); ) ;
+  }
+  toJSON() {
+    return JSON.stringify(this.rootNode, null, 4);
+  }
+  /**
+   * @typedef { import("./html_renderer").Renderer } Renderer
+   * @param {Renderer} builder
+   */
+  walk(e) {
+    return this.constructor._walk(e, this.rootNode);
+  }
+  /**
+   * @param {Renderer} builder
+   * @param {Node} node
+   */
+  static _walk(e, t) {
+    return typeof t == "string" ? e.addText(t) : t.children && (e.openNode(t), t.children.forEach((r) => this._walk(e, r)), e.closeNode(t)), e;
+  }
+  /**
+   * @param {Node} node
+   */
+  static _collapse(e) {
+    typeof e != "string" && e.children && (e.children.every((t) => typeof t == "string") ? e.children = [e.children.join("")] : e.children.forEach((t) => {
+      Xt._collapse(t);
+    }));
+  }
+}
+class wi extends Xt {
+  /**
+   * @param {*} options
+   */
+  constructor(e) {
+    super(), this.options = e;
+  }
+  /**
+   * @param {string} text
+   */
+  addText(e) {
+    e !== "" && this.add(e);
+  }
+  /** @param {string} scope */
+  startScope(e) {
+    this.openNode(e);
+  }
+  endScope() {
+    this.closeNode();
+  }
+  /**
+   * @param {Emitter & {root: DataNode}} emitter
+   * @param {string} name
+   */
+  __addSublanguage(e, t) {
+    const r = e.root;
+    t && (r.scope = `language:${t}`), this.add(r);
+  }
+  toHTML() {
+    return new ki(this, this.options).value();
+  }
+  finalize() {
+    return this.closeAllNodes(), !0;
+  }
+}
+function Pe(n) {
+  return n ? typeof n == "string" ? n : n.source : null;
+}
+function dr(n) {
+  return ve("(?=", n, ")");
+}
+function yi(n) {
+  return ve("(?:", n, ")*");
+}
+function Ni(n) {
+  return ve("(?:", n, ")?");
+}
+function ve(...n) {
+  return n.map((t) => Pe(t)).join("");
+}
+function vi(n) {
+  const e = n[n.length - 1];
+  return typeof e == "object" && e.constructor === Object ? (n.splice(n.length - 1, 1), e) : {};
+}
+function Qt(...n) {
+  return "(" + (vi(n).capture ? "" : "?:") + n.map((r) => Pe(r)).join("|") + ")";
+}
+function ur(n) {
+  return new RegExp(n.toString() + "|").exec("").length - 1;
+}
+function Si(n, e) {
+  const t = n && n.exec(e);
+  return t && t.index === 0;
+}
+const Ti = /\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./;
+function Vt(n, { joinWith: e }) {
+  let t = 0;
+  return n.map((r) => {
+    t += 1;
+    const i = t;
+    let s = Pe(r), o = "";
+    for (; s.length > 0; ) {
+      const c = Ti.exec(s);
+      if (!c) {
+        o += s;
+        break;
+      }
+      o += s.substring(0, c.index), s = s.substring(c.index + c[0].length), c[0][0] === "\\" && c[1] ? o += "\\" + String(Number(c[1]) + i) : (o += c[0], c[0] === "(" && t++);
+    }
+    return o;
+  }).map((r) => `(${r})`).join(e);
+}
+const xi = /\b\B/, gr = "[a-zA-Z]\\w*", Jt = "[a-zA-Z_]\\w*", pr = "\\b\\d+(\\.\\d+)?", br = "(-?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)", hr = "\\b(0b[01]+)", Ri = "!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|-|-=|/=|/|:|;|<<|<<=|<=|<|===|==|=|>>>=|>>=|>=|>>>|>>|>|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~", Ai = (n = {}) => {
+  const e = /^#![ ]*\//;
+  return n.binary && (n.begin = ve(
+    e,
+    /.*\b/,
+    n.binary,
+    /\b.*/
+  )), Ee({
+    scope: "meta",
+    begin: e,
+    end: /$/,
+    relevance: 0,
+    /** @type {ModeCallback} */
+    "on:begin": (t, r) => {
+      t.index !== 0 && r.ignoreMatch();
+    }
+  }, n);
+}, Ue = {
+  begin: "\\\\[\\s\\S]",
+  relevance: 0
+}, Oi = {
+  scope: "string",
+  begin: "'",
+  end: "'",
+  illegal: "\\n",
+  contains: [Ue]
+}, Mi = {
+  scope: "string",
+  begin: '"',
+  end: '"',
+  illegal: "\\n",
+  contains: [Ue]
+}, Ci = {
+  begin: /\b(a|an|the|are|I'm|isn't|don't|doesn't|won't|but|just|should|pretty|simply|enough|gonna|going|wtf|so|such|will|you|your|they|like|more)\b/
+}, Je = function(n, e, t = {}) {
+  const r = Ee(
+    {
+      scope: "comment",
+      begin: n,
+      end: e,
+      contains: []
+    },
+    t
+  );
+  r.contains.push({
+    scope: "doctag",
+    // hack to avoid the space from being included. the space is necessary to
+    // match here to prevent the plain text rule below from gobbling up doctags
+    begin: "[ ]*(?=(TODO|FIXME|NOTE|BUG|OPTIMIZE|HACK|XXX):)",
+    end: /(TODO|FIXME|NOTE|BUG|OPTIMIZE|HACK|XXX):/,
+    excludeBegin: !0,
+    relevance: 0
+  });
+  const i = Qt(
+    // list of common 1 and 2 letter words in English
+    "I",
+    "a",
+    "is",
+    "so",
+    "us",
+    "to",
+    "at",
+    "if",
+    "in",
+    "it",
+    "on",
+    // note: this is not an exhaustive list of contractions, just popular ones
+    /[A-Za-z]+['](d|ve|re|ll|t|s|n)/,
+    // contractions - can't we'd they're let's, etc
+    /[A-Za-z]+[-][a-z]+/,
+    // `no-way`, etc.
+    /[A-Za-z][a-z]{2,}/
+    // allow capitalized words at beginning of sentences
+  );
+  return r.contains.push(
+    {
+      // TODO: how to include ", (, ) without breaking grammars that use these for
+      // comment delimiters?
+      // begin: /[ ]+([()"]?([A-Za-z'-]{3,}|is|a|I|so|us|[tT][oO]|at|if|in|it|on)[.]?[()":]?([.][ ]|[ ]|\))){3}/
+      // ---
+      // this tries to find sequences of 3 english words in a row (without any
+      // "programming" type syntax) this gives us a strong signal that we've
+      // TRULY found a comment - vs perhaps scanning with the wrong language.
+      // It's possible to find something that LOOKS like the start of the
+      // comment - but then if there is no readable text - good chance it is a
+      // false match and not a comment.
+      //
+      // for a visual example please see:
+      // https://github.com/highlightjs/highlight.js/issues/2827
+      begin: ve(
+        /[ ]+/,
+        // necessary to prevent us gobbling up doctags like /* @author Bob Mcgill */
+        "(",
+        i,
+        /[.]?[:]?([.][ ]|[ ])/,
+        "){3}"
+      )
+      // look for 3 words in a row
+    }
+  ), r;
+}, Ii = Je("//", "$"), Li = Je("/\\*", "\\*/"), Di = Je("#", "$"), Bi = {
+  scope: "number",
+  begin: pr,
+  relevance: 0
+}, Pi = {
+  scope: "number",
+  begin: br,
+  relevance: 0
+}, Ui = {
+  scope: "number",
+  begin: hr,
+  relevance: 0
+}, $i = {
+  scope: "regexp",
+  begin: /\/(?=[^/\n]*\/)/,
+  end: /\/[gimuy]*/,
+  contains: [
+    Ue,
+    {
+      begin: /\[/,
+      end: /\]/,
+      relevance: 0,
+      contains: [Ue]
+    }
+  ]
+}, zi = {
+  scope: "title",
+  begin: gr,
+  relevance: 0
+}, Fi = {
+  scope: "title",
+  begin: Jt,
+  relevance: 0
+}, Ki = {
+  // excludes method names from keyword processing
+  begin: "\\.\\s*" + Jt,
+  relevance: 0
+}, qi = function(n) {
+  return Object.assign(
+    n,
+    {
+      /** @type {ModeCallback} */
+      "on:begin": (e, t) => {
+        t.data._beginMatch = e[1];
       },
-      highlightElement: function(c, b, P) {
-        for (var y, L, N = c; N && !a.test(N.className); )
-          N = N.parentNode;
-        N && (y = (N.className.match(a) || [, ""])[1].toLowerCase(), L = I.languages[y]), c.className = c.className.replace(a, "").replace(/\s+/g, " ") + " language-" + y, c.parentNode && (N = c.parentNode, /pre/i.test(N.nodeName) && (N.className = N.className.replace(a, "").replace(/\s+/g, " ") + " language-" + y));
-        var j = c.textContent, T = {
-          element: c,
-          language: y,
-          grammar: L,
-          code: j
-        };
-        if (I.hooks.run("before-sanity-check", T), !T.code || !T.grammar) {
-          T.code && (I.hooks.run("before-highlight", T), T.element.textContent = T.code, I.hooks.run("after-highlight", T)), I.hooks.run("complete", T);
+      /** @type {ModeCallback} */
+      "on:end": (e, t) => {
+        t.data._beginMatch !== e[1] && t.ignoreMatch();
+      }
+    }
+  );
+};
+var He = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  APOS_STRING_MODE: Oi,
+  BACKSLASH_ESCAPE: Ue,
+  BINARY_NUMBER_MODE: Ui,
+  BINARY_NUMBER_RE: hr,
+  COMMENT: Je,
+  C_BLOCK_COMMENT_MODE: Li,
+  C_LINE_COMMENT_MODE: Ii,
+  C_NUMBER_MODE: Pi,
+  C_NUMBER_RE: br,
+  END_SAME_AS_BEGIN: qi,
+  HASH_COMMENT_MODE: Di,
+  IDENT_RE: gr,
+  MATCH_NOTHING_RE: xi,
+  METHOD_GUARD: Ki,
+  NUMBER_MODE: Bi,
+  NUMBER_RE: pr,
+  PHRASAL_WORDS_MODE: Ci,
+  QUOTE_STRING_MODE: Mi,
+  REGEXP_MODE: $i,
+  RE_STARTERS_RE: Ri,
+  SHEBANG: Ai,
+  TITLE_MODE: zi,
+  UNDERSCORE_IDENT_RE: Jt,
+  UNDERSCORE_TITLE_MODE: Fi
+});
+function Hi(n, e) {
+  n.input[n.index - 1] === "." && e.ignoreMatch();
+}
+function Gi(n, e) {
+  n.className !== void 0 && (n.scope = n.className, delete n.className);
+}
+function Zi(n, e) {
+  e && n.beginKeywords && (n.begin = "\\b(" + n.beginKeywords.split(" ").join("|") + ")(?!\\.)(?=\\b|\\s)", n.__beforeBegin = Hi, n.keywords = n.keywords || n.beginKeywords, delete n.beginKeywords, n.relevance === void 0 && (n.relevance = 0));
+}
+function Wi(n, e) {
+  Array.isArray(n.illegal) && (n.illegal = Qt(...n.illegal));
+}
+function Yi(n, e) {
+  if (n.match) {
+    if (n.begin || n.end) throw new Error("begin & end are not supported with match");
+    n.begin = n.match, delete n.match;
+  }
+}
+function Xi(n, e) {
+  n.relevance === void 0 && (n.relevance = 1);
+}
+const Qi = (n, e) => {
+  if (!n.beforeMatch) return;
+  if (n.starts) throw new Error("beforeMatch cannot be used with starts");
+  const t = Object.assign({}, n);
+  Object.keys(n).forEach((r) => {
+    delete n[r];
+  }), n.keywords = t.keywords, n.begin = ve(t.beforeMatch, dr(t.begin)), n.starts = {
+    relevance: 0,
+    contains: [
+      Object.assign(t, { endsParent: !0 })
+    ]
+  }, n.relevance = 0, delete t.beforeMatch;
+}, Vi = [
+  "of",
+  "and",
+  "for",
+  "in",
+  "not",
+  "or",
+  "if",
+  "then",
+  "parent",
+  // common variable name
+  "list",
+  // common variable name
+  "value"
+  // common variable name
+], Ji = "keyword";
+function fr(n, e, t = Ji) {
+  const r = /* @__PURE__ */ Object.create(null);
+  return typeof n == "string" ? i(t, n.split(" ")) : Array.isArray(n) ? i(t, n) : Object.keys(n).forEach(function(s) {
+    Object.assign(
+      r,
+      fr(n[s], e, s)
+    );
+  }), r;
+  function i(s, o) {
+    e && (o = o.map((c) => c.toLowerCase())), o.forEach(function(c) {
+      const a = c.split("|");
+      r[a[0]] = [s, ji(a[0], a[1])];
+    });
+  }
+}
+function ji(n, e) {
+  return e ? Number(e) : ea(n) ? 0 : 1;
+}
+function ea(n) {
+  return Vi.includes(n.toLowerCase());
+}
+const dn = {}, we = (n) => {
+  console.error(n);
+}, un = (n, ...e) => {
+  console.log(`WARN: ${n}`, ...e);
+}, Re = (n, e) => {
+  dn[`${n}/${e}`] || (console.log(`Deprecated as of ${n}. ${e}`), dn[`${n}/${e}`] = !0);
+}, Xe = new Error();
+function mr(n, e, { key: t }) {
+  let r = 0;
+  const i = n[t], s = {}, o = {};
+  for (let c = 1; c <= e.length; c++)
+    o[c + r] = i[c], s[c + r] = !0, r += ur(e[c - 1]);
+  n[t] = o, n[t]._emit = s, n[t]._multi = !0;
+}
+function ta(n) {
+  if (Array.isArray(n.begin)) {
+    if (n.skip || n.excludeBegin || n.returnBegin)
+      throw we("skip, excludeBegin, returnBegin not compatible with beginScope: {}"), Xe;
+    if (typeof n.beginScope != "object" || n.beginScope === null)
+      throw we("beginScope must be object"), Xe;
+    mr(n, n.begin, { key: "beginScope" }), n.begin = Vt(n.begin, { joinWith: "" });
+  }
+}
+function na(n) {
+  if (Array.isArray(n.end)) {
+    if (n.skip || n.excludeEnd || n.returnEnd)
+      throw we("skip, excludeEnd, returnEnd not compatible with endScope: {}"), Xe;
+    if (typeof n.endScope != "object" || n.endScope === null)
+      throw we("endScope must be object"), Xe;
+    mr(n, n.end, { key: "endScope" }), n.end = Vt(n.end, { joinWith: "" });
+  }
+}
+function ra(n) {
+  n.scope && typeof n.scope == "object" && n.scope !== null && (n.beginScope = n.scope, delete n.scope);
+}
+function ia(n) {
+  ra(n), typeof n.beginScope == "string" && (n.beginScope = { _wrap: n.beginScope }), typeof n.endScope == "string" && (n.endScope = { _wrap: n.endScope }), ta(n), na(n);
+}
+function aa(n) {
+  function e(o, c) {
+    return new RegExp(
+      Pe(o),
+      "m" + (n.case_insensitive ? "i" : "") + (n.unicodeRegex ? "u" : "") + (c ? "g" : "")
+    );
+  }
+  class t {
+    constructor() {
+      this.matchIndexes = {}, this.regexes = [], this.matchAt = 1, this.position = 0;
+    }
+    // @ts-ignore
+    addRule(c, a) {
+      a.position = this.position++, this.matchIndexes[this.matchAt] = a, this.regexes.push([a, c]), this.matchAt += ur(c) + 1;
+    }
+    compile() {
+      this.regexes.length === 0 && (this.exec = () => null);
+      const c = this.regexes.map((a) => a[1]);
+      this.matcherRe = e(Vt(c, { joinWith: "|" }), !0), this.lastIndex = 0;
+    }
+    /** @param {string} s */
+    exec(c) {
+      this.matcherRe.lastIndex = this.lastIndex;
+      const a = this.matcherRe.exec(c);
+      if (!a)
+        return null;
+      const d = a.findIndex((u, p) => p > 0 && u !== void 0), l = this.matchIndexes[d];
+      return a.splice(0, d), Object.assign(a, l);
+    }
+  }
+  class r {
+    constructor() {
+      this.rules = [], this.multiRegexes = [], this.count = 0, this.lastIndex = 0, this.regexIndex = 0;
+    }
+    // @ts-ignore
+    getMatcher(c) {
+      if (this.multiRegexes[c]) return this.multiRegexes[c];
+      const a = new t();
+      return this.rules.slice(c).forEach(([d, l]) => a.addRule(d, l)), a.compile(), this.multiRegexes[c] = a, a;
+    }
+    resumingScanAtSamePosition() {
+      return this.regexIndex !== 0;
+    }
+    considerAll() {
+      this.regexIndex = 0;
+    }
+    // @ts-ignore
+    addRule(c, a) {
+      this.rules.push([c, a]), a.type === "begin" && this.count++;
+    }
+    /** @param {string} s */
+    exec(c) {
+      const a = this.getMatcher(this.regexIndex);
+      a.lastIndex = this.lastIndex;
+      let d = a.exec(c);
+      if (this.resumingScanAtSamePosition() && !(d && d.index === this.lastIndex)) {
+        const l = this.getMatcher(0);
+        l.lastIndex = this.lastIndex + 1, d = l.exec(c);
+      }
+      return d && (this.regexIndex += d.position + 1, this.regexIndex === this.count && this.considerAll()), d;
+    }
+  }
+  function i(o) {
+    const c = new r();
+    return o.contains.forEach((a) => c.addRule(a.begin, { rule: a, type: "begin" })), o.terminatorEnd && c.addRule(o.terminatorEnd, { type: "end" }), o.illegal && c.addRule(o.illegal, { type: "illegal" }), c;
+  }
+  function s(o, c) {
+    const a = (
+      /** @type CompiledMode */
+      o
+    );
+    if (o.isCompiled) return a;
+    [
+      Gi,
+      // do this early so compiler extensions generally don't have to worry about
+      // the distinction between match/begin
+      Yi,
+      ia,
+      Qi
+    ].forEach((l) => l(o, c)), n.compilerExtensions.forEach((l) => l(o, c)), o.__beforeBegin = null, [
+      Zi,
+      // do this later so compiler extensions that come earlier have access to the
+      // raw array if they wanted to perhaps manipulate it, etc.
+      Wi,
+      // default to 1 relevance if not specified
+      Xi
+    ].forEach((l) => l(o, c)), o.isCompiled = !0;
+    let d = null;
+    return typeof o.keywords == "object" && o.keywords.$pattern && (o.keywords = Object.assign({}, o.keywords), d = o.keywords.$pattern, delete o.keywords.$pattern), d = d || /\w+/, o.keywords && (o.keywords = fr(o.keywords, n.case_insensitive)), a.keywordPatternRe = e(d, !0), c && (o.begin || (o.begin = /\B|\b/), a.beginRe = e(a.begin), !o.end && !o.endsWithParent && (o.end = /\B|\b/), o.end && (a.endRe = e(a.end)), a.terminatorEnd = Pe(a.end) || "", o.endsWithParent && c.terminatorEnd && (a.terminatorEnd += (o.end ? "|" : "") + c.terminatorEnd)), o.illegal && (a.illegalRe = e(
+      /** @type {RegExp | string} */
+      o.illegal
+    )), o.contains || (o.contains = []), o.contains = [].concat(...o.contains.map(function(l) {
+      return sa(l === "self" ? o : l);
+    })), o.contains.forEach(function(l) {
+      s(
+        /** @type Mode */
+        l,
+        a
+      );
+    }), o.starts && s(o.starts, c), a.matcher = i(a), a;
+  }
+  if (n.compilerExtensions || (n.compilerExtensions = []), n.contains && n.contains.includes("self"))
+    throw new Error("ERR: contains `self` is not supported at the top-level of a language.  See documentation.");
+  return n.classNameAliases = Ee(n.classNameAliases || {}), s(
+    /** @type Mode */
+    n
+  );
+}
+function _r(n) {
+  return n ? n.endsWithParent || _r(n.starts) : !1;
+}
+function sa(n) {
+  return n.variants && !n.cachedVariants && (n.cachedVariants = n.variants.map(function(e) {
+    return Ee(n, { variants: null }, e);
+  })), n.cachedVariants ? n.cachedVariants : _r(n) ? Ee(n, { starts: n.starts ? Ee(n.starts) : null }) : Object.isFrozen(n) ? Ee(n) : n;
+}
+var oa = "11.11.1";
+class ca extends Error {
+  constructor(e, t) {
+    super(e), this.name = "HTMLInjectionError", this.html = t;
+  }
+}
+const et = lr, gn = Ee, pn = Symbol("nomatch"), la = 7, Er = function(n) {
+  const e = /* @__PURE__ */ Object.create(null), t = /* @__PURE__ */ Object.create(null), r = [];
+  let i = !0;
+  const s = "Could not find the language '{}', did you forget to load/include a language module?", o = { disableAutodetect: !0, name: "Plain text", contains: [] };
+  let c = {
+    ignoreUnescapedHTML: !1,
+    throwUnescapedHTML: !1,
+    noHighlightRe: /^(no-?highlight)$/i,
+    languageDetectRe: /\blang(?:uage)?-([\w-]+)\b/i,
+    classPrefix: "hljs-",
+    cssSelector: "pre code",
+    languages: null,
+    // beta configuration options, subject to change, welcome to discuss
+    // https://github.com/highlightjs/highlight.js/issues/1086
+    __emitter: wi
+  };
+  function a(b) {
+    return c.noHighlightRe.test(b);
+  }
+  function d(b) {
+    let E = b.className + " ";
+    E += b.parentNode ? b.parentNode.className : "";
+    const S = c.languageDetectRe.exec(E);
+    if (S) {
+      const D = v(S[1]);
+      return D || (un(s.replace("{}", S[1])), un("Falling back to no-highlight mode for this block.", b)), D ? S[1] : "no-highlight";
+    }
+    return E.split(/\s+/).find((D) => a(D) || v(D));
+  }
+  function l(b, E, S) {
+    let D = "", q = "";
+    typeof E == "object" ? (D = b, S = E.ignoreIllegals, q = E.language) : (Re("10.7.0", "highlight(lang, code, ...args) has been deprecated."), Re("10.7.0", `Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277`), q = b, D = E), S === void 0 && (S = !0);
+    const V = {
+      code: D,
+      language: q
+    };
+    ee("before:highlight", V);
+    const ie = V.result ? V.result : u(V.language, V.code, S);
+    return ie.code = V.code, ee("after:highlight", ie), ie;
+  }
+  function u(b, E, S, D) {
+    const q = /* @__PURE__ */ Object.create(null);
+    function V(m, y) {
+      return m.keywords[y];
+    }
+    function ie() {
+      if (!T.keywords) {
+        J.addText(P);
+        return;
+      }
+      let m = 0;
+      T.keywordPatternRe.lastIndex = 0;
+      let y = T.keywordPatternRe.exec(P), A = "";
+      for (; y; ) {
+        A += P.substring(m, y.index);
+        const B = le.case_insensitive ? y[0].toLowerCase() : y[0], X = V(T, B);
+        if (X) {
+          const [de, Fe] = X;
+          if (J.addText(A), A = "", q[B] = (q[B] || 0) + 1, q[B] <= la && (Te += Fe), de.startsWith("_"))
+            A += y[0];
+          else {
+            const je = le.classNameAliases[de] || de;
+            Y(y[0], je);
+          }
+        } else
+          A += y[0];
+        m = T.keywordPatternRe.lastIndex, y = T.keywordPatternRe.exec(P);
+      }
+      A += P.substring(m), J.addText(A);
+    }
+    function pe() {
+      if (P === "") return;
+      let m = null;
+      if (typeof T.subLanguage == "string") {
+        if (!e[T.subLanguage]) {
+          J.addText(P);
           return;
         }
-        if (I.hooks.run("before-highlight", T), b && i.Worker) {
-          var O = new Worker(I.filename);
-          O.onmessage = function(U) {
-            T.highlightedCode = U.data, I.hooks.run("before-insert", T), T.element.innerHTML = T.highlightedCode, P && P.call(T.element), I.hooks.run("after-highlight", T), I.hooks.run("complete", T);
-          }, O.postMessage(JSON.stringify({
-            language: T.language,
-            code: T.code,
-            immediateClose: !0
-          }));
-        } else
-          T.highlightedCode = I.highlight(T.code, T.grammar, T.language), I.hooks.run("before-insert", T), T.element.innerHTML = T.highlightedCode, P && P.call(c), I.hooks.run("after-highlight", T), I.hooks.run("complete", T);
-      },
-      highlight: function(c, b, P) {
-        var y = {
-          code: c,
-          grammar: b,
-          language: P
+        m = u(T.subLanguage, P, !0, ze[T.subLanguage]), ze[T.subLanguage] = /** @type {CompiledMode} */
+        m._top;
+      } else
+        m = h(P, T.subLanguage.length ? T.subLanguage : null);
+      T.relevance > 0 && (Te += m.relevance), J.__addSublanguage(m._emitter, m.language);
+    }
+    function Z() {
+      T.subLanguage != null ? pe() : ie(), P = "";
+    }
+    function Y(m, y) {
+      m !== "" && (J.startScope(y), J.addText(m), J.endScope());
+    }
+    function be(m, y) {
+      let A = 1;
+      const B = y.length - 1;
+      for (; A <= B; ) {
+        if (!m._emit[A]) {
+          A++;
+          continue;
+        }
+        const X = le.classNameAliases[m[A]] || m[A], de = y[A];
+        X ? Y(de, X) : (P = de, ie(), P = ""), A++;
+      }
+    }
+    function W(m, y) {
+      return m.scope && typeof m.scope == "string" && J.openNode(le.classNameAliases[m.scope] || m.scope), m.beginScope && (m.beginScope._wrap ? (Y(P, le.classNameAliases[m.beginScope._wrap] || m.beginScope._wrap), P = "") : m.beginScope._multi && (be(m.beginScope, y), P = "")), T = Object.create(m, { parent: { value: T } }), T;
+    }
+    function H(m, y, A) {
+      let B = Si(m.endRe, A);
+      if (B) {
+        if (m["on:end"]) {
+          const X = new on(m);
+          m["on:end"](y, X), X.isMatchIgnored && (B = !1);
+        }
+        if (B) {
+          for (; m.endsParent && m.parent; )
+            m = m.parent;
+          return m;
+        }
+      }
+      if (m.endsWithParent)
+        return H(m.parent, y, A);
+    }
+    function te(m) {
+      return T.matcher.regexIndex === 0 ? (P += m[0], 1) : (me = !0, 0);
+    }
+    function ae(m) {
+      const y = m[0], A = m.rule, B = new on(A), X = [A.__beforeBegin, A["on:begin"]];
+      for (const de of X)
+        if (de && (de(m, B), B.isMatchIgnored))
+          return te(y);
+      return A.skip ? P += y : (A.excludeBegin && (P += y), Z(), !A.returnBegin && !A.excludeBegin && (P = y)), W(A, m), A.returnBegin ? 0 : y.length;
+    }
+    function se(m) {
+      const y = m[0], A = E.substring(m.index), B = H(T, m, A);
+      if (!B)
+        return pn;
+      const X = T;
+      T.endScope && T.endScope._wrap ? (Z(), Y(y, T.endScope._wrap)) : T.endScope && T.endScope._multi ? (Z(), be(T.endScope, m)) : X.skip ? P += y : (X.returnEnd || X.excludeEnd || (P += y), Z(), X.excludeEnd && (P = y));
+      do
+        T.scope && J.closeNode(), !T.skip && !T.subLanguage && (Te += T.relevance), T = T.parent;
+      while (T !== B.parent);
+      return B.starts && W(B.starts, m), X.returnEnd ? 0 : y.length;
+    }
+    function ce() {
+      const m = [];
+      for (let y = T; y !== le; y = y.parent)
+        y.scope && m.unshift(y.scope);
+      m.forEach((y) => J.openNode(y));
+    }
+    let oe = {};
+    function Me(m, y) {
+      const A = y && y[0];
+      if (P += m, A == null)
+        return Z(), 0;
+      if (oe.type === "begin" && y.type === "end" && oe.index === y.index && A === "") {
+        if (P += E.slice(y.index, y.index + 1), !i) {
+          const B = new Error(`0 width match regex (${b})`);
+          throw B.languageName = b, B.badRule = oe.rule, B;
+        }
+        return 1;
+      }
+      if (oe = y, y.type === "begin")
+        return ae(y);
+      if (y.type === "illegal" && !S) {
+        const B = new Error('Illegal lexeme "' + A + '" for mode "' + (T.scope || "<unnamed>") + '"');
+        throw B.mode = T, B;
+      } else if (y.type === "end") {
+        const B = se(y);
+        if (B !== pn)
+          return B;
+      }
+      if (y.type === "illegal" && A === "")
+        return P += `
+`, 1;
+      if (Ie > 1e5 && Ie > y.index * 3)
+        throw new Error("potential infinite loop, way more iterations than matches");
+      return P += A, A.length;
+    }
+    const le = v(b);
+    if (!le)
+      throw we(s.replace("{}", b)), new Error('Unknown language: "' + b + '"');
+    const Ce = aa(le);
+    let Se = "", T = D || Ce;
+    const ze = {}, J = new c.__emitter(c);
+    ce();
+    let P = "", Te = 0, fe = 0, Ie = 0, me = !1;
+    try {
+      if (le.__emitTokens)
+        le.__emitTokens(E, J);
+      else {
+        for (T.matcher.considerAll(); ; ) {
+          Ie++, me ? me = !1 : T.matcher.considerAll(), T.matcher.lastIndex = fe;
+          const m = T.matcher.exec(E);
+          if (!m) break;
+          const y = E.substring(fe, m.index), A = Me(y, m);
+          fe = m.index + A;
+        }
+        Me(E.substring(fe));
+      }
+      return J.finalize(), Se = J.toHTML(), {
+        language: b,
+        value: Se,
+        relevance: Te,
+        illegal: !1,
+        _emitter: J,
+        _top: T
+      };
+    } catch (m) {
+      if (m.message && m.message.includes("Illegal"))
+        return {
+          language: b,
+          value: et(E),
+          illegal: !0,
+          relevance: 0,
+          _illegalBy: {
+            message: m.message,
+            index: fe,
+            context: E.slice(fe - 100, fe + 100),
+            mode: m.mode,
+            resultSoFar: Se
+          },
+          _emitter: J
         };
-        return I.hooks.run("before-tokenize", y), y.tokens = I.tokenize(y.code, y.grammar), I.hooks.run("after-tokenize", y), S.stringify(I.util.encode(y.tokens), y.language);
-      },
-      matchGrammar: function(c, b, P, y, L, N, j) {
-        var T = I.Token;
-        for (var O in P)
-          if (!(!P.hasOwnProperty(O) || !P[O])) {
-            if (O == j)
-              return;
-            var U = P[O];
-            U = I.util.type(U) === "Array" ? U : [U];
-            for (var x = 0; x < U.length; ++x) {
-              var H = U[x], e = H.inside, t = !!H.lookbehind, r = !!H.greedy, n = 0, g = H.alias;
-              if (r && !H.pattern.global) {
-                var s = H.pattern.toString().match(/[imuy]*$/)[0];
-                H.pattern = RegExp(H.pattern.source, s + "g");
-              }
-              H = H.pattern || H;
-              for (var u = y, C = L; u < b.length; C += b[u].length, ++u) {
-                var w = b[u];
-                if (b.length > c.length)
-                  return;
-                if (!(w instanceof T)) {
-                  if (r && u != b.length - 1) {
-                    H.lastIndex = C;
-                    var v = H.exec(c);
-                    if (!v)
-                      break;
-                    for (var f = v.index + (t ? v[1].length : 0), E = v.index + v[0].length, p = u, l = C, h = b.length; p < h && (l < E || !b[p].type && !b[p - 1].greedy); ++p)
-                      l += b[p].length, f >= l && (++u, C = l);
-                    if (b[u] instanceof T)
-                      continue;
-                    d = p - u, w = c.slice(C, l), v.index -= C;
-                  } else {
-                    H.lastIndex = 0;
-                    var v = H.exec(w), d = 1;
-                  }
-                  if (!v) {
-                    if (N)
-                      break;
-                    continue;
-                  }
-                  t && (n = v[1] ? v[1].length : 0);
-                  var f = v.index + n, v = v[0].slice(n), E = f + v.length, z = w.slice(0, f), m = w.slice(E), R = [u, d];
-                  z && (++u, C += z.length, R.push(z));
-                  var M = new T(O, e ? I.tokenize(v, e) : v, g, v, r);
-                  if (R.push(M), m && R.push(m), Array.prototype.splice.apply(b, R), d != 1 && I.matchGrammar(c, b, P, u, C, !0, O), N)
-                    break;
+      if (i)
+        return {
+          language: b,
+          value: et(E),
+          illegal: !1,
+          relevance: 0,
+          errorRaised: m,
+          _emitter: J,
+          _top: T
+        };
+      throw m;
+    }
+  }
+  function p(b) {
+    const E = {
+      value: et(b),
+      illegal: !1,
+      relevance: 0,
+      _top: o,
+      _emitter: new c.__emitter(c)
+    };
+    return E._emitter.addText(b), E;
+  }
+  function h(b, E) {
+    E = E || c.languages || Object.keys(e);
+    const S = p(b), D = E.filter(v).filter(z).map(
+      (Z) => u(Z, b, !1)
+    );
+    D.unshift(S);
+    const q = D.sort((Z, Y) => {
+      if (Z.relevance !== Y.relevance) return Y.relevance - Z.relevance;
+      if (Z.language && Y.language) {
+        if (v(Z.language).supersetOf === Y.language)
+          return 1;
+        if (v(Y.language).supersetOf === Z.language)
+          return -1;
+      }
+      return 0;
+    }), [V, ie] = q, pe = V;
+    return pe.secondBest = ie, pe;
+  }
+  function g(b, E, S) {
+    const D = E && t[E] || S;
+    b.classList.add("hljs"), b.classList.add(`language-${D}`);
+  }
+  function _(b) {
+    let E = null;
+    const S = d(b);
+    if (a(S)) return;
+    if (ee(
+      "before:highlightElement",
+      { el: b, language: S }
+    ), b.dataset.highlighted) {
+      console.log("Element previously highlighted. To highlight again, first unset `dataset.highlighted`.", b);
+      return;
+    }
+    if (b.children.length > 0 && (c.ignoreUnescapedHTML || (console.warn("One of your code blocks includes unescaped HTML. This is a potentially serious security risk."), console.warn("https://github.com/highlightjs/highlight.js/wiki/security"), console.warn("The element with unescaped HTML:"), console.warn(b)), c.throwUnescapedHTML))
+      throw new ca(
+        "One of your code blocks includes unescaped HTML.",
+        b.innerHTML
+      );
+    E = b;
+    const D = E.textContent, q = S ? l(D, { language: S, ignoreIllegals: !0 }) : h(D);
+    b.innerHTML = q.value, b.dataset.highlighted = "yes", g(b, S, q.language), b.result = {
+      language: q.language,
+      // TODO: remove with version 11.0
+      re: q.relevance,
+      relevance: q.relevance
+    }, q.secondBest && (b.secondBest = {
+      language: q.secondBest.language,
+      relevance: q.secondBest.relevance
+    }), ee("after:highlightElement", { el: b, result: q, text: D });
+  }
+  function f(b) {
+    c = gn(c, b);
+  }
+  const k = () => {
+    I(), Re("10.6.0", "initHighlighting() deprecated.  Use highlightAll() now.");
+  };
+  function w() {
+    I(), Re("10.6.0", "initHighlightingOnLoad() deprecated.  Use highlightAll() now.");
+  }
+  let N = !1;
+  function I() {
+    function b() {
+      I();
+    }
+    if (document.readyState === "loading") {
+      N || window.addEventListener("DOMContentLoaded", b, !1), N = !0;
+      return;
+    }
+    document.querySelectorAll(c.cssSelector).forEach(_);
+  }
+  function x(b, E) {
+    let S = null;
+    try {
+      S = E(n);
+    } catch (D) {
+      if (we("Language definition for '{}' could not be registered.".replace("{}", b)), i)
+        we(D);
+      else
+        throw D;
+      S = o;
+    }
+    S.name || (S.name = b), e[b] = S, S.rawDefinition = E.bind(null, n), S.aliases && M(S.aliases, { languageName: b });
+  }
+  function R(b) {
+    delete e[b];
+    for (const E of Object.keys(t))
+      t[E] === b && delete t[E];
+  }
+  function C() {
+    return Object.keys(e);
+  }
+  function v(b) {
+    return b = (b || "").toLowerCase(), e[b] || e[t[b]];
+  }
+  function M(b, { languageName: E }) {
+    typeof b == "string" && (b = [b]), b.forEach((S) => {
+      t[S.toLowerCase()] = E;
+    });
+  }
+  function z(b) {
+    const E = v(b);
+    return E && !E.disableAutodetect;
+  }
+  function K(b) {
+    b["before:highlightBlock"] && !b["before:highlightElement"] && (b["before:highlightElement"] = (E) => {
+      b["before:highlightBlock"](
+        Object.assign({ block: E.el }, E)
+      );
+    }), b["after:highlightBlock"] && !b["after:highlightElement"] && (b["after:highlightElement"] = (E) => {
+      b["after:highlightBlock"](
+        Object.assign({ block: E.el }, E)
+      );
+    });
+  }
+  function j(b) {
+    K(b), r.push(b);
+  }
+  function Q(b) {
+    const E = r.indexOf(b);
+    E !== -1 && r.splice(E, 1);
+  }
+  function ee(b, E) {
+    const S = b;
+    r.forEach(function(D) {
+      D[S] && D[S](E);
+    });
+  }
+  function G(b) {
+    return Re("10.7.0", "highlightBlock will be removed entirely in v12.0"), Re("10.7.0", "Please use highlightElement now."), _(b);
+  }
+  Object.assign(n, {
+    highlight: l,
+    highlightAuto: h,
+    highlightAll: I,
+    highlightElement: _,
+    // TODO: Remove with v12 API
+    highlightBlock: G,
+    configure: f,
+    initHighlighting: k,
+    initHighlightingOnLoad: w,
+    registerLanguage: x,
+    unregisterLanguage: R,
+    listLanguages: C,
+    getLanguage: v,
+    registerAliases: M,
+    autoDetection: z,
+    inherit: gn,
+    addPlugin: j,
+    removePlugin: Q
+  }), n.debugMode = function() {
+    i = !1;
+  }, n.safeMode = function() {
+    i = !0;
+  }, n.versionString = oa, n.regex = {
+    concat: ve,
+    lookahead: dr,
+    either: Qt,
+    optional: Ni,
+    anyNumberOfTimes: yi
+  };
+  for (const b in He)
+    typeof He[b] == "object" && cr(He[b]);
+  return Object.assign(n, He), n;
+}, Ae = Er({});
+Ae.newInstance = () => Er({});
+var da = Ae;
+Ae.HighlightJS = Ae;
+Ae.default = Ae;
+var tt, bn;
+function ua() {
+  if (bn) return tt;
+  bn = 1;
+  function n(e) {
+    const t = e.regex, r = t.concat(/[\p{L}_]/u, t.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u), i = /[\p{L}0-9._:-]+/u, s = {
+      className: "symbol",
+      begin: /&[a-z]+;|&#[0-9]+;|&#x[a-f0-9]+;/
+    }, o = {
+      begin: /\s/,
+      contains: [
+        {
+          className: "keyword",
+          begin: /#?[a-z_][a-z1-9_-]+/,
+          illegal: /\n/
+        }
+      ]
+    }, c = e.inherit(o, {
+      begin: /\(/,
+      end: /\)/
+    }), a = e.inherit(e.APOS_STRING_MODE, { className: "string" }), d = e.inherit(e.QUOTE_STRING_MODE, { className: "string" }), l = {
+      endsWithParent: !0,
+      illegal: /</,
+      relevance: 0,
+      contains: [
+        {
+          className: "attr",
+          begin: i,
+          relevance: 0
+        },
+        {
+          begin: /=\s*/,
+          relevance: 0,
+          contains: [
+            {
+              className: "string",
+              endsParent: !0,
+              variants: [
+                {
+                  begin: /"/,
+                  end: /"/,
+                  contains: [s]
+                },
+                {
+                  begin: /'/,
+                  end: /'/,
+                  contains: [s]
+                },
+                { begin: /[^\s"'=<>`]+/ }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    return {
+      name: "HTML, XML",
+      aliases: [
+        "html",
+        "xhtml",
+        "rss",
+        "atom",
+        "xjb",
+        "xsd",
+        "xsl",
+        "plist",
+        "wsf",
+        "svg"
+      ],
+      case_insensitive: !0,
+      unicodeRegex: !0,
+      contains: [
+        {
+          className: "meta",
+          begin: /<![a-z]/,
+          end: />/,
+          relevance: 10,
+          contains: [
+            o,
+            d,
+            a,
+            c,
+            {
+              begin: /\[/,
+              end: /\]/,
+              contains: [
+                {
+                  className: "meta",
+                  begin: /<![a-z]/,
+                  end: />/,
+                  contains: [
+                    o,
+                    c,
+                    d,
+                    a
+                  ]
                 }
-              }
+              ]
+            }
+          ]
+        },
+        e.COMMENT(
+          /<!--/,
+          /-->/,
+          { relevance: 10 }
+        ),
+        {
+          begin: /<!\[CDATA\[/,
+          end: /\]\]>/,
+          relevance: 10
+        },
+        s,
+        // xml processing instructions
+        {
+          className: "meta",
+          end: /\?>/,
+          variants: [
+            {
+              begin: /<\?xml/,
+              relevance: 10,
+              contains: [
+                d
+              ]
+            },
+            {
+              begin: /<\?[a-z][a-z0-9]+/
+            }
+          ]
+        },
+        {
+          className: "tag",
+          /*
+          The lookahead pattern (?=...) ensures that 'begin' only matches
+          '<style' as a single word, followed by a whitespace or an
+          ending bracket.
+          */
+          begin: /<style(?=\s|>)/,
+          end: />/,
+          keywords: { name: "style" },
+          contains: [l],
+          starts: {
+            end: /<\/style>/,
+            returnEnd: !0,
+            subLanguage: [
+              "css",
+              "xml"
+            ]
+          }
+        },
+        {
+          className: "tag",
+          // See the comment in the <style tag about the lookahead pattern
+          begin: /<script(?=\s|>)/,
+          end: />/,
+          keywords: { name: "script" },
+          contains: [l],
+          starts: {
+            end: /<\/script>/,
+            returnEnd: !0,
+            subLanguage: [
+              "javascript",
+              "handlebars",
+              "xml"
+            ]
+          }
+        },
+        // we need this for now for jSX
+        {
+          className: "tag",
+          begin: /<>|<\/>/
+        },
+        // open tag
+        {
+          className: "tag",
+          begin: t.concat(
+            /</,
+            t.lookahead(t.concat(
+              r,
+              // <tag/>
+              // <tag>
+              // <tag ...
+              t.either(/\/>/, />/, /\s/)
+            ))
+          ),
+          end: /\/?>/,
+          contains: [
+            {
+              className: "name",
+              begin: r,
+              relevance: 0,
+              starts: l
+            }
+          ]
+        },
+        // close tag
+        {
+          className: "tag",
+          begin: t.concat(
+            /<\//,
+            t.lookahead(t.concat(
+              r,
+              />/
+            ))
+          ),
+          contains: [
+            {
+              className: "name",
+              begin: r,
+              relevance: 0
+            },
+            {
+              begin: />/,
+              relevance: 0,
+              endsParent: !0
+            }
+          ]
+        }
+      ]
+    };
+  }
+  return tt = n, tt;
+}
+var nt, hn;
+function ga() {
+  if (hn) return nt;
+  hn = 1;
+  function n(e) {
+    const t = e.regex, r = {}, i = {
+      begin: /\$\{/,
+      end: /\}/,
+      contains: [
+        "self",
+        {
+          begin: /:-/,
+          contains: [r]
+        }
+        // default values
+      ]
+    };
+    Object.assign(r, {
+      className: "variable",
+      variants: [
+        { begin: t.concat(
+          /\$[\w\d#@][\w\d_]*/,
+          // negative look-ahead tries to avoid matching patterns that are not
+          // Perl at all like $ident$, @ident@, etc.
+          "(?![\\w\\d])(?![$])"
+        ) },
+        i
+      ]
+    });
+    const s = {
+      className: "subst",
+      begin: /\$\(/,
+      end: /\)/,
+      contains: [e.BACKSLASH_ESCAPE]
+    }, o = e.inherit(
+      e.COMMENT(),
+      {
+        match: [
+          /(^|\s)/,
+          /#.*$/
+        ],
+        scope: {
+          2: "comment"
+        }
+      }
+    ), c = {
+      begin: /<<-?\s*(?=\w+)/,
+      starts: { contains: [
+        e.END_SAME_AS_BEGIN({
+          begin: /(\w+)/,
+          end: /(\w+)/,
+          className: "string"
+        })
+      ] }
+    }, a = {
+      className: "string",
+      begin: /"/,
+      end: /"/,
+      contains: [
+        e.BACKSLASH_ESCAPE,
+        r,
+        s
+      ]
+    };
+    s.contains.push(a);
+    const d = {
+      match: /\\"/
+    }, l = {
+      className: "string",
+      begin: /'/,
+      end: /'/
+    }, u = {
+      match: /\\'/
+    }, p = {
+      begin: /\$?\(\(/,
+      end: /\)\)/,
+      contains: [
+        {
+          begin: /\d+#[0-9a-f]+/,
+          className: "number"
+        },
+        e.NUMBER_MODE,
+        r
+      ]
+    }, h = [
+      "fish",
+      "bash",
+      "zsh",
+      "sh",
+      "csh",
+      "ksh",
+      "tcsh",
+      "dash",
+      "scsh"
+    ], g = e.SHEBANG({
+      binary: `(${h.join("|")})`,
+      relevance: 10
+    }), _ = {
+      className: "function",
+      begin: /\w[\w\d_]*\s*\(\s*\)\s*\{/,
+      returnBegin: !0,
+      contains: [e.inherit(e.TITLE_MODE, { begin: /\w[\w\d_]*/ })],
+      relevance: 0
+    }, f = [
+      "if",
+      "then",
+      "else",
+      "elif",
+      "fi",
+      "time",
+      "for",
+      "while",
+      "until",
+      "in",
+      "do",
+      "done",
+      "case",
+      "esac",
+      "coproc",
+      "function",
+      "select"
+    ], k = [
+      "true",
+      "false"
+    ], w = { match: /(\/[a-z._-]+)+/ }, N = [
+      "break",
+      "cd",
+      "continue",
+      "eval",
+      "exec",
+      "exit",
+      "export",
+      "getopts",
+      "hash",
+      "pwd",
+      "readonly",
+      "return",
+      "shift",
+      "test",
+      "times",
+      "trap",
+      "umask",
+      "unset"
+    ], I = [
+      "alias",
+      "bind",
+      "builtin",
+      "caller",
+      "command",
+      "declare",
+      "echo",
+      "enable",
+      "help",
+      "let",
+      "local",
+      "logout",
+      "mapfile",
+      "printf",
+      "read",
+      "readarray",
+      "source",
+      "sudo",
+      "type",
+      "typeset",
+      "ulimit",
+      "unalias"
+    ], x = [
+      "autoload",
+      "bg",
+      "bindkey",
+      "bye",
+      "cap",
+      "chdir",
+      "clone",
+      "comparguments",
+      "compcall",
+      "compctl",
+      "compdescribe",
+      "compfiles",
+      "compgroups",
+      "compquote",
+      "comptags",
+      "comptry",
+      "compvalues",
+      "dirs",
+      "disable",
+      "disown",
+      "echotc",
+      "echoti",
+      "emulate",
+      "fc",
+      "fg",
+      "float",
+      "functions",
+      "getcap",
+      "getln",
+      "history",
+      "integer",
+      "jobs",
+      "kill",
+      "limit",
+      "log",
+      "noglob",
+      "popd",
+      "print",
+      "pushd",
+      "pushln",
+      "rehash",
+      "sched",
+      "setcap",
+      "setopt",
+      "stat",
+      "suspend",
+      "ttyctl",
+      "unfunction",
+      "unhash",
+      "unlimit",
+      "unsetopt",
+      "vared",
+      "wait",
+      "whence",
+      "where",
+      "which",
+      "zcompile",
+      "zformat",
+      "zftp",
+      "zle",
+      "zmodload",
+      "zparseopts",
+      "zprof",
+      "zpty",
+      "zregexparse",
+      "zsocket",
+      "zstyle",
+      "ztcp"
+    ], R = [
+      "chcon",
+      "chgrp",
+      "chown",
+      "chmod",
+      "cp",
+      "dd",
+      "df",
+      "dir",
+      "dircolors",
+      "ln",
+      "ls",
+      "mkdir",
+      "mkfifo",
+      "mknod",
+      "mktemp",
+      "mv",
+      "realpath",
+      "rm",
+      "rmdir",
+      "shred",
+      "sync",
+      "touch",
+      "truncate",
+      "vdir",
+      "b2sum",
+      "base32",
+      "base64",
+      "cat",
+      "cksum",
+      "comm",
+      "csplit",
+      "cut",
+      "expand",
+      "fmt",
+      "fold",
+      "head",
+      "join",
+      "md5sum",
+      "nl",
+      "numfmt",
+      "od",
+      "paste",
+      "ptx",
+      "pr",
+      "sha1sum",
+      "sha224sum",
+      "sha256sum",
+      "sha384sum",
+      "sha512sum",
+      "shuf",
+      "sort",
+      "split",
+      "sum",
+      "tac",
+      "tail",
+      "tr",
+      "tsort",
+      "unexpand",
+      "uniq",
+      "wc",
+      "arch",
+      "basename",
+      "chroot",
+      "date",
+      "dirname",
+      "du",
+      "echo",
+      "env",
+      "expr",
+      "factor",
+      // "false", // keyword literal already
+      "groups",
+      "hostid",
+      "id",
+      "link",
+      "logname",
+      "nice",
+      "nohup",
+      "nproc",
+      "pathchk",
+      "pinky",
+      "printenv",
+      "printf",
+      "pwd",
+      "readlink",
+      "runcon",
+      "seq",
+      "sleep",
+      "stat",
+      "stdbuf",
+      "stty",
+      "tee",
+      "test",
+      "timeout",
+      // "true", // keyword literal already
+      "tty",
+      "uname",
+      "unlink",
+      "uptime",
+      "users",
+      "who",
+      "whoami",
+      "yes"
+    ];
+    return {
+      name: "Bash",
+      aliases: [
+        "sh",
+        "zsh"
+      ],
+      keywords: {
+        $pattern: /\b[a-z][a-z0-9._-]+\b/,
+        keyword: f,
+        literal: k,
+        built_in: [
+          ...N,
+          ...I,
+          // Shell modifiers
+          "set",
+          "shopt",
+          ...x,
+          ...R
+        ]
+      },
+      contains: [
+        g,
+        // to catch known shells and boost relevancy
+        e.SHEBANG(),
+        // to catch unknown shells but still highlight the shebang
+        _,
+        p,
+        o,
+        c,
+        w,
+        a,
+        d,
+        l,
+        u,
+        r
+      ]
+    };
+  }
+  return nt = n, nt;
+}
+var rt, fn;
+function pa() {
+  if (fn) return rt;
+  fn = 1;
+  function n(e) {
+    const t = e.regex, r = e.COMMENT("//", "$", { contains: [{ begin: /\\\n/ }] }), i = "decltype\\(auto\\)", s = "[a-zA-Z_]\\w*::", c = "(" + i + "|" + t.optional(s) + "[a-zA-Z_]\\w*" + t.optional("<[^<>]+>") + ")", a = {
+      className: "type",
+      variants: [
+        { begin: "\\b[a-z\\d_]*_t\\b" },
+        { match: /\batomic_[a-z]{3,6}\b/ }
+      ]
+    }, l = {
+      className: "string",
+      variants: [
+        {
+          begin: '(u8?|U|L)?"',
+          end: '"',
+          illegal: "\\n",
+          contains: [e.BACKSLASH_ESCAPE]
+        },
+        {
+          begin: "(u8?|U|L)?'(" + "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4,8}|[0-7]{3}|\\S)" + "|.)",
+          end: "'",
+          illegal: "."
+        },
+        e.END_SAME_AS_BEGIN({
+          begin: /(?:u8?|U|L)?R"([^()\\ ]{0,16})\(/,
+          end: /\)([^()\\ ]{0,16})"/
+        })
+      ]
+    }, u = {
+      className: "number",
+      variants: [
+        { match: /\b(0b[01']+)/ },
+        { match: /(-?)\b([\d']+(\.[\d']*)?|\.[\d']+)((ll|LL|l|L)(u|U)?|(u|U)(ll|LL|l|L)?|f|F|b|B)/ },
+        { match: /(-?)\b(0[xX][a-fA-F0-9]+(?:'[a-fA-F0-9]+)*(?:\.[a-fA-F0-9]*(?:'[a-fA-F0-9]*)*)?(?:[pP][-+]?[0-9]+)?(l|L)?(u|U)?)/ },
+        { match: /(-?)\b\d+(?:'\d+)*(?:\.\d*(?:'\d*)*)?(?:[eE][-+]?\d+)?/ }
+      ],
+      relevance: 0
+    }, p = {
+      className: "meta",
+      begin: /#\s*[a-z]+\b/,
+      end: /$/,
+      keywords: { keyword: "if else elif endif define undef warning error line pragma _Pragma ifdef ifndef elifdef elifndef include" },
+      contains: [
+        {
+          begin: /\\\n/,
+          relevance: 0
+        },
+        e.inherit(l, { className: "string" }),
+        {
+          className: "string",
+          begin: /<.*?>/
+        },
+        r,
+        e.C_BLOCK_COMMENT_MODE
+      ]
+    }, h = {
+      className: "title",
+      begin: t.optional(s) + e.IDENT_RE,
+      relevance: 0
+    }, g = t.optional(s) + e.IDENT_RE + "\\s*\\(", k = {
+      keyword: [
+        "asm",
+        "auto",
+        "break",
+        "case",
+        "continue",
+        "default",
+        "do",
+        "else",
+        "enum",
+        "extern",
+        "for",
+        "fortran",
+        "goto",
+        "if",
+        "inline",
+        "register",
+        "restrict",
+        "return",
+        "sizeof",
+        "typeof",
+        "typeof_unqual",
+        "struct",
+        "switch",
+        "typedef",
+        "union",
+        "volatile",
+        "while",
+        "_Alignas",
+        "_Alignof",
+        "_Atomic",
+        "_Generic",
+        "_Noreturn",
+        "_Static_assert",
+        "_Thread_local",
+        // aliases
+        "alignas",
+        "alignof",
+        "noreturn",
+        "static_assert",
+        "thread_local",
+        // not a C keyword but is, for all intents and purposes, treated exactly like one.
+        "_Pragma"
+      ],
+      type: [
+        "float",
+        "double",
+        "signed",
+        "unsigned",
+        "int",
+        "short",
+        "long",
+        "char",
+        "void",
+        "_Bool",
+        "_BitInt",
+        "_Complex",
+        "_Imaginary",
+        "_Decimal32",
+        "_Decimal64",
+        "_Decimal96",
+        "_Decimal128",
+        "_Decimal64x",
+        "_Decimal128x",
+        "_Float16",
+        "_Float32",
+        "_Float64",
+        "_Float128",
+        "_Float32x",
+        "_Float64x",
+        "_Float128x",
+        // modifiers
+        "const",
+        "static",
+        "constexpr",
+        // aliases
+        "complex",
+        "bool",
+        "imaginary"
+      ],
+      literal: "true false NULL",
+      // TODO: apply hinting work similar to what was done in cpp.js
+      built_in: "std string wstring cin cout cerr clog stdin stdout stderr stringstream istringstream ostringstream auto_ptr deque list queue stack vector map set pair bitset multiset multimap unordered_set unordered_map unordered_multiset unordered_multimap priority_queue make_pair array shared_ptr abort terminate abs acos asin atan2 atan calloc ceil cosh cos exit exp fabs floor fmod fprintf fputs free frexp fscanf future isalnum isalpha iscntrl isdigit isgraph islower isprint ispunct isspace isupper isxdigit tolower toupper labs ldexp log10 log malloc realloc memchr memcmp memcpy memset modf pow printf putchar puts scanf sinh sin snprintf sprintf sqrt sscanf strcat strchr strcmp strcpy strcspn strlen strncat strncmp strncpy strpbrk strrchr strspn strstr tanh tan vfprintf vprintf vsprintf endl initializer_list unique_ptr"
+    }, w = [
+      p,
+      a,
+      r,
+      e.C_BLOCK_COMMENT_MODE,
+      u,
+      l
+    ], N = {
+      // This mode covers expression context where we can't expect a function
+      // definition and shouldn't highlight anything that looks like one:
+      // `return some()`, `else if()`, `(x*sum(1, 2))`
+      variants: [
+        {
+          begin: /=/,
+          end: /;/
+        },
+        {
+          begin: /\(/,
+          end: /\)/
+        },
+        {
+          beginKeywords: "new throw return else",
+          end: /;/
+        }
+      ],
+      keywords: k,
+      contains: w.concat([
+        {
+          begin: /\(/,
+          end: /\)/,
+          keywords: k,
+          contains: w.concat(["self"]),
+          relevance: 0
+        }
+      ]),
+      relevance: 0
+    }, I = {
+      begin: "(" + c + "[\\*&\\s]+)+" + g,
+      returnBegin: !0,
+      end: /[{;=]/,
+      excludeEnd: !0,
+      keywords: k,
+      illegal: /[^\w\s\*&:<>.]/,
+      contains: [
+        {
+          // to prevent it from being confused as the function title
+          begin: i,
+          keywords: k,
+          relevance: 0
+        },
+        {
+          begin: g,
+          returnBegin: !0,
+          contains: [e.inherit(h, { className: "title.function" })],
+          relevance: 0
+        },
+        // allow for multiple declarations, e.g.:
+        // extern void f(int), g(char);
+        {
+          relevance: 0,
+          match: /,/
+        },
+        {
+          className: "params",
+          begin: /\(/,
+          end: /\)/,
+          keywords: k,
+          relevance: 0,
+          contains: [
+            r,
+            e.C_BLOCK_COMMENT_MODE,
+            l,
+            u,
+            a,
+            // Count matching parentheses.
+            {
+              begin: /\(/,
+              end: /\)/,
+              keywords: k,
+              relevance: 0,
+              contains: [
+                "self",
+                r,
+                e.C_BLOCK_COMMENT_MODE,
+                l,
+                u,
+                a
+              ]
+            }
+          ]
+        },
+        a,
+        r,
+        e.C_BLOCK_COMMENT_MODE,
+        p
+      ]
+    };
+    return {
+      name: "C",
+      aliases: ["h"],
+      keywords: k,
+      // Until differentiations are added between `c` and `cpp`, `c` will
+      // not be auto-detected to avoid auto-detect conflicts between C and C++
+      disableAutodetect: !0,
+      illegal: "</",
+      contains: [].concat(
+        N,
+        I,
+        w,
+        [
+          p,
+          {
+            begin: e.IDENT_RE + "::",
+            keywords: k
+          },
+          {
+            className: "class",
+            beginKeywords: "enum class struct union",
+            end: /[{;:<>=]/,
+            contains: [
+              { beginKeywords: "final class struct" },
+              e.TITLE_MODE
+            ]
+          }
+        ]
+      ),
+      exports: {
+        preprocessor: p,
+        strings: l,
+        keywords: k
+      }
+    };
+  }
+  return rt = n, rt;
+}
+var it, mn;
+function ba() {
+  if (mn) return it;
+  mn = 1;
+  function n(e) {
+    const t = e.regex, r = e.COMMENT("//", "$", { contains: [{ begin: /\\\n/ }] }), i = "decltype\\(auto\\)", s = "[a-zA-Z_]\\w*::", c = "(?!struct)(" + i + "|" + t.optional(s) + "[a-zA-Z_]\\w*" + t.optional("<[^<>]+>") + ")", a = {
+      className: "type",
+      begin: "\\b[a-z\\d_]*_t\\b"
+    }, l = {
+      className: "string",
+      variants: [
+        {
+          begin: '(u8?|U|L)?"',
+          end: '"',
+          illegal: "\\n",
+          contains: [e.BACKSLASH_ESCAPE]
+        },
+        {
+          begin: "(u8?|U|L)?'(" + "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4,8}|[0-7]{3}|\\S)" + "|.)",
+          end: "'",
+          illegal: "."
+        },
+        e.END_SAME_AS_BEGIN({
+          begin: /(?:u8?|U|L)?R"([^()\\ ]{0,16})\(/,
+          end: /\)([^()\\ ]{0,16})"/
+        })
+      ]
+    }, u = {
+      className: "number",
+      variants: [
+        // Floating-point literal.
+        {
+          begin: "[+-]?(?:(?:[0-9](?:'?[0-9])*\\.(?:[0-9](?:'?[0-9])*)?|\\.[0-9](?:'?[0-9])*)(?:[Ee][+-]?[0-9](?:'?[0-9])*)?|[0-9](?:'?[0-9])*[Ee][+-]?[0-9](?:'?[0-9])*|0[Xx](?:[0-9A-Fa-f](?:'?[0-9A-Fa-f])*(?:\\.(?:[0-9A-Fa-f](?:'?[0-9A-Fa-f])*)?)?|\\.[0-9A-Fa-f](?:'?[0-9A-Fa-f])*)[Pp][+-]?[0-9](?:'?[0-9])*)(?:[Ff](?:16|32|64|128)?|(BF|bf)16|[Ll]|)"
+        },
+        // Integer literal.
+        {
+          begin: "[+-]?\\b(?:0[Bb][01](?:'?[01])*|0[Xx][0-9A-Fa-f](?:'?[0-9A-Fa-f])*|0(?:'?[0-7])*|[1-9](?:'?[0-9])*)(?:[Uu](?:LL?|ll?)|[Uu][Zz]?|(?:LL?|ll?)[Uu]?|[Zz][Uu]|)"
+          // Note: there are user-defined literal suffixes too, but perhaps having the custom suffix not part of the
+          // literal highlight actually makes it stand out more.
+        }
+      ],
+      relevance: 0
+    }, p = {
+      className: "meta",
+      begin: /#\s*[a-z]+\b/,
+      end: /$/,
+      keywords: { keyword: "if else elif endif define undef warning error line pragma _Pragma ifdef ifndef include" },
+      contains: [
+        {
+          begin: /\\\n/,
+          relevance: 0
+        },
+        e.inherit(l, { className: "string" }),
+        {
+          className: "string",
+          begin: /<.*?>/
+        },
+        r,
+        e.C_BLOCK_COMMENT_MODE
+      ]
+    }, h = {
+      className: "title",
+      begin: t.optional(s) + e.IDENT_RE,
+      relevance: 0
+    }, g = t.optional(s) + e.IDENT_RE + "\\s*\\(", _ = [
+      "alignas",
+      "alignof",
+      "and",
+      "and_eq",
+      "asm",
+      "atomic_cancel",
+      "atomic_commit",
+      "atomic_noexcept",
+      "auto",
+      "bitand",
+      "bitor",
+      "break",
+      "case",
+      "catch",
+      "class",
+      "co_await",
+      "co_return",
+      "co_yield",
+      "compl",
+      "concept",
+      "const_cast|10",
+      "consteval",
+      "constexpr",
+      "constinit",
+      "continue",
+      "decltype",
+      "default",
+      "delete",
+      "do",
+      "dynamic_cast|10",
+      "else",
+      "enum",
+      "explicit",
+      "export",
+      "extern",
+      "false",
+      "final",
+      "for",
+      "friend",
+      "goto",
+      "if",
+      "import",
+      "inline",
+      "module",
+      "mutable",
+      "namespace",
+      "new",
+      "noexcept",
+      "not",
+      "not_eq",
+      "nullptr",
+      "operator",
+      "or",
+      "or_eq",
+      "override",
+      "private",
+      "protected",
+      "public",
+      "reflexpr",
+      "register",
+      "reinterpret_cast|10",
+      "requires",
+      "return",
+      "sizeof",
+      "static_assert",
+      "static_cast|10",
+      "struct",
+      "switch",
+      "synchronized",
+      "template",
+      "this",
+      "thread_local",
+      "throw",
+      "transaction_safe",
+      "transaction_safe_dynamic",
+      "true",
+      "try",
+      "typedef",
+      "typeid",
+      "typename",
+      "union",
+      "using",
+      "virtual",
+      "volatile",
+      "while",
+      "xor",
+      "xor_eq"
+    ], f = [
+      "bool",
+      "char",
+      "char16_t",
+      "char32_t",
+      "char8_t",
+      "double",
+      "float",
+      "int",
+      "long",
+      "short",
+      "void",
+      "wchar_t",
+      "unsigned",
+      "signed",
+      "const",
+      "static"
+    ], k = [
+      "any",
+      "auto_ptr",
+      "barrier",
+      "binary_semaphore",
+      "bitset",
+      "complex",
+      "condition_variable",
+      "condition_variable_any",
+      "counting_semaphore",
+      "deque",
+      "false_type",
+      "flat_map",
+      "flat_set",
+      "future",
+      "imaginary",
+      "initializer_list",
+      "istringstream",
+      "jthread",
+      "latch",
+      "lock_guard",
+      "multimap",
+      "multiset",
+      "mutex",
+      "optional",
+      "ostringstream",
+      "packaged_task",
+      "pair",
+      "promise",
+      "priority_queue",
+      "queue",
+      "recursive_mutex",
+      "recursive_timed_mutex",
+      "scoped_lock",
+      "set",
+      "shared_future",
+      "shared_lock",
+      "shared_mutex",
+      "shared_timed_mutex",
+      "shared_ptr",
+      "stack",
+      "string_view",
+      "stringstream",
+      "timed_mutex",
+      "thread",
+      "true_type",
+      "tuple",
+      "unique_lock",
+      "unique_ptr",
+      "unordered_map",
+      "unordered_multimap",
+      "unordered_multiset",
+      "unordered_set",
+      "variant",
+      "vector",
+      "weak_ptr",
+      "wstring",
+      "wstring_view"
+    ], w = [
+      "abort",
+      "abs",
+      "acos",
+      "apply",
+      "as_const",
+      "asin",
+      "atan",
+      "atan2",
+      "calloc",
+      "ceil",
+      "cerr",
+      "cin",
+      "clog",
+      "cos",
+      "cosh",
+      "cout",
+      "declval",
+      "endl",
+      "exchange",
+      "exit",
+      "exp",
+      "fabs",
+      "floor",
+      "fmod",
+      "forward",
+      "fprintf",
+      "fputs",
+      "free",
+      "frexp",
+      "fscanf",
+      "future",
+      "invoke",
+      "isalnum",
+      "isalpha",
+      "iscntrl",
+      "isdigit",
+      "isgraph",
+      "islower",
+      "isprint",
+      "ispunct",
+      "isspace",
+      "isupper",
+      "isxdigit",
+      "labs",
+      "launder",
+      "ldexp",
+      "log",
+      "log10",
+      "make_pair",
+      "make_shared",
+      "make_shared_for_overwrite",
+      "make_tuple",
+      "make_unique",
+      "malloc",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memset",
+      "modf",
+      "move",
+      "pow",
+      "printf",
+      "putchar",
+      "puts",
+      "realloc",
+      "scanf",
+      "sin",
+      "sinh",
+      "snprintf",
+      "sprintf",
+      "sqrt",
+      "sscanf",
+      "std",
+      "stderr",
+      "stdin",
+      "stdout",
+      "strcat",
+      "strchr",
+      "strcmp",
+      "strcpy",
+      "strcspn",
+      "strlen",
+      "strncat",
+      "strncmp",
+      "strncpy",
+      "strpbrk",
+      "strrchr",
+      "strspn",
+      "strstr",
+      "swap",
+      "tan",
+      "tanh",
+      "terminate",
+      "to_underlying",
+      "tolower",
+      "toupper",
+      "vfprintf",
+      "visit",
+      "vprintf",
+      "vsprintf"
+    ], x = {
+      type: f,
+      keyword: _,
+      literal: [
+        "NULL",
+        "false",
+        "nullopt",
+        "nullptr",
+        "true"
+      ],
+      built_in: ["_Pragma"],
+      _type_hints: k
+    }, R = {
+      className: "function.dispatch",
+      relevance: 0,
+      keywords: {
+        // Only for relevance, not highlighting.
+        _hint: w
+      },
+      begin: t.concat(
+        /\b/,
+        /(?!decltype)/,
+        /(?!if)/,
+        /(?!for)/,
+        /(?!switch)/,
+        /(?!while)/,
+        e.IDENT_RE,
+        t.lookahead(/(<[^<>]+>|)\s*\(/)
+      )
+    }, C = [
+      R,
+      p,
+      a,
+      r,
+      e.C_BLOCK_COMMENT_MODE,
+      u,
+      l
+    ], v = {
+      // This mode covers expression context where we can't expect a function
+      // definition and shouldn't highlight anything that looks like one:
+      // `return some()`, `else if()`, `(x*sum(1, 2))`
+      variants: [
+        {
+          begin: /=/,
+          end: /;/
+        },
+        {
+          begin: /\(/,
+          end: /\)/
+        },
+        {
+          beginKeywords: "new throw return else",
+          end: /;/
+        }
+      ],
+      keywords: x,
+      contains: C.concat([
+        {
+          begin: /\(/,
+          end: /\)/,
+          keywords: x,
+          contains: C.concat(["self"]),
+          relevance: 0
+        }
+      ]),
+      relevance: 0
+    }, M = {
+      className: "function",
+      begin: "(" + c + "[\\*&\\s]+)+" + g,
+      returnBegin: !0,
+      end: /[{;=]/,
+      excludeEnd: !0,
+      keywords: x,
+      illegal: /[^\w\s\*&:<>.]/,
+      contains: [
+        {
+          // to prevent it from being confused as the function title
+          begin: i,
+          keywords: x,
+          relevance: 0
+        },
+        {
+          begin: g,
+          returnBegin: !0,
+          contains: [h],
+          relevance: 0
+        },
+        // needed because we do not have look-behind on the below rule
+        // to prevent it from grabbing the final : in a :: pair
+        {
+          begin: /::/,
+          relevance: 0
+        },
+        // initializers
+        {
+          begin: /:/,
+          endsWithParent: !0,
+          contains: [
+            l,
+            u
+          ]
+        },
+        // allow for multiple declarations, e.g.:
+        // extern void f(int), g(char);
+        {
+          relevance: 0,
+          match: /,/
+        },
+        {
+          className: "params",
+          begin: /\(/,
+          end: /\)/,
+          keywords: x,
+          relevance: 0,
+          contains: [
+            r,
+            e.C_BLOCK_COMMENT_MODE,
+            l,
+            u,
+            a,
+            // Count matching parentheses.
+            {
+              begin: /\(/,
+              end: /\)/,
+              keywords: x,
+              relevance: 0,
+              contains: [
+                "self",
+                r,
+                e.C_BLOCK_COMMENT_MODE,
+                l,
+                u,
+                a
+              ]
+            }
+          ]
+        },
+        a,
+        r,
+        e.C_BLOCK_COMMENT_MODE,
+        p
+      ]
+    };
+    return {
+      name: "C++",
+      aliases: [
+        "cc",
+        "c++",
+        "h++",
+        "hpp",
+        "hh",
+        "hxx",
+        "cxx"
+      ],
+      keywords: x,
+      illegal: "</",
+      classNameAliases: { "function.dispatch": "built_in" },
+      contains: [].concat(
+        v,
+        M,
+        R,
+        C,
+        [
+          p,
+          {
+            // containers: ie, `vector <int> rooms (9);`
+            begin: "\\b(deque|list|queue|priority_queue|pair|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array|tuple|optional|variant|function|flat_map|flat_set)\\s*<(?!<)",
+            end: ">",
+            keywords: x,
+            contains: [
+              "self",
+              a
+            ]
+          },
+          {
+            begin: e.IDENT_RE + "::",
+            keywords: x
+          },
+          {
+            match: [
+              // extra complexity to deal with `enum class` and `enum struct`
+              /\b(?:enum(?:\s+(?:class|struct))?|class|struct|union)/,
+              /\s+/,
+              /\w+/
+            ],
+            className: {
+              1: "keyword",
+              3: "title.class"
             }
           }
-      },
-      tokenize: function(c, b, P) {
-        var y = [c], L = b.rest;
-        if (L) {
-          for (var N in L)
-            b[N] = L[N];
-          delete b.rest;
-        }
-        return I.matchGrammar(c, y, b, 0, 0, !1), y;
-      },
-      hooks: {
-        all: {},
-        add: function(c, b) {
-          var P = I.hooks.all;
-          P[c] = P[c] || [], P[c].push(b);
-        },
-        run: function(c, b) {
-          var P = I.hooks.all[c];
-          if (!(!P || !P.length))
-            for (var y = 0, L; L = P[y++]; )
-              L(b);
-        }
-      }
-    }, S = I.Token = function(c, b, P, y, L) {
-      this.type = c, this.content = b, this.alias = P, this.length = (y || "").length | 0, this.greedy = !!L;
+        ]
+      )
     };
-    if (S.stringify = function(c, b, P) {
-      if (typeof c == "string")
-        return c;
-      if (I.util.type(c) === "Array")
-        return c.map(function(j) {
-          return S.stringify(j, b, c);
-        }).join("");
-      var y = {
-        type: c.type,
-        content: S.stringify(c.content, b, P),
-        tag: "span",
-        classes: ["token", c.type],
-        attributes: {},
-        language: b,
-        parent: P
-      };
-      if (c.alias) {
-        var L = I.util.type(c.alias) === "Array" ? c.alias : [c.alias];
-        Array.prototype.push.apply(y.classes, L);
+  }
+  return it = n, it;
+}
+var at, _n;
+function ha() {
+  if (_n) return at;
+  _n = 1;
+  function n(e) {
+    const t = [
+      "bool",
+      "byte",
+      "char",
+      "decimal",
+      "delegate",
+      "double",
+      "dynamic",
+      "enum",
+      "float",
+      "int",
+      "long",
+      "nint",
+      "nuint",
+      "object",
+      "sbyte",
+      "short",
+      "string",
+      "ulong",
+      "uint",
+      "ushort"
+    ], r = [
+      "public",
+      "private",
+      "protected",
+      "static",
+      "internal",
+      "protected",
+      "abstract",
+      "async",
+      "extern",
+      "override",
+      "unsafe",
+      "virtual",
+      "new",
+      "sealed",
+      "partial"
+    ], i = [
+      "default",
+      "false",
+      "null",
+      "true"
+    ], s = [
+      "abstract",
+      "as",
+      "base",
+      "break",
+      "case",
+      "catch",
+      "class",
+      "const",
+      "continue",
+      "do",
+      "else",
+      "event",
+      "explicit",
+      "extern",
+      "finally",
+      "fixed",
+      "for",
+      "foreach",
+      "goto",
+      "if",
+      "implicit",
+      "in",
+      "interface",
+      "internal",
+      "is",
+      "lock",
+      "namespace",
+      "new",
+      "operator",
+      "out",
+      "override",
+      "params",
+      "private",
+      "protected",
+      "public",
+      "readonly",
+      "record",
+      "ref",
+      "return",
+      "scoped",
+      "sealed",
+      "sizeof",
+      "stackalloc",
+      "static",
+      "struct",
+      "switch",
+      "this",
+      "throw",
+      "try",
+      "typeof",
+      "unchecked",
+      "unsafe",
+      "using",
+      "virtual",
+      "void",
+      "volatile",
+      "while"
+    ], o = [
+      "add",
+      "alias",
+      "and",
+      "ascending",
+      "args",
+      "async",
+      "await",
+      "by",
+      "descending",
+      "dynamic",
+      "equals",
+      "file",
+      "from",
+      "get",
+      "global",
+      "group",
+      "init",
+      "into",
+      "join",
+      "let",
+      "nameof",
+      "not",
+      "notnull",
+      "on",
+      "or",
+      "orderby",
+      "partial",
+      "record",
+      "remove",
+      "required",
+      "scoped",
+      "select",
+      "set",
+      "unmanaged",
+      "value|0",
+      "var",
+      "when",
+      "where",
+      "with",
+      "yield"
+    ], c = {
+      keyword: s.concat(o),
+      built_in: t,
+      literal: i
+    }, a = e.inherit(e.TITLE_MODE, { begin: "[a-zA-Z](\\.?\\w)*" }), d = {
+      className: "number",
+      variants: [
+        { begin: "\\b(0b[01']+)" },
+        { begin: "(-?)\\b([\\d']+(\\.[\\d']*)?|\\.[\\d']+)(u|U|l|L|ul|UL|f|F|b|B)" },
+        { begin: "(-?)(\\b0[xX][a-fA-F0-9']+|(\\b[\\d']+(\\.[\\d']*)?|\\.[\\d']+)([eE][-+]?[\\d']+)?)" }
+      ],
+      relevance: 0
+    }, l = {
+      className: "string",
+      begin: /"""("*)(?!")(.|\n)*?"""\1/,
+      relevance: 1
+    }, u = {
+      className: "string",
+      begin: '@"',
+      end: '"',
+      contains: [{ begin: '""' }]
+    }, p = e.inherit(u, { illegal: /\n/ }), h = {
+      className: "subst",
+      begin: /\{/,
+      end: /\}/,
+      keywords: c
+    }, g = e.inherit(h, { illegal: /\n/ }), _ = {
+      className: "string",
+      begin: /\$"/,
+      end: '"',
+      illegal: /\n/,
+      contains: [
+        { begin: /\{\{/ },
+        { begin: /\}\}/ },
+        e.BACKSLASH_ESCAPE,
+        g
+      ]
+    }, f = {
+      className: "string",
+      begin: /\$@"/,
+      end: '"',
+      contains: [
+        { begin: /\{\{/ },
+        { begin: /\}\}/ },
+        { begin: '""' },
+        h
+      ]
+    }, k = e.inherit(f, {
+      illegal: /\n/,
+      contains: [
+        { begin: /\{\{/ },
+        { begin: /\}\}/ },
+        { begin: '""' },
+        g
+      ]
+    });
+    h.contains = [
+      f,
+      _,
+      u,
+      e.APOS_STRING_MODE,
+      e.QUOTE_STRING_MODE,
+      d,
+      e.C_BLOCK_COMMENT_MODE
+    ], g.contains = [
+      k,
+      _,
+      p,
+      e.APOS_STRING_MODE,
+      e.QUOTE_STRING_MODE,
+      d,
+      e.inherit(e.C_BLOCK_COMMENT_MODE, { illegal: /\n/ })
+    ];
+    const w = { variants: [
+      l,
+      f,
+      _,
+      u,
+      e.APOS_STRING_MODE,
+      e.QUOTE_STRING_MODE
+    ] }, N = {
+      begin: "<",
+      end: ">",
+      contains: [
+        { beginKeywords: "in out" },
+        a
+      ]
+    }, I = e.IDENT_RE + "(<" + e.IDENT_RE + "(\\s*,\\s*" + e.IDENT_RE + ")*>)?(\\[\\])?", x = {
+      // prevents expressions like `@class` from incorrect flagging
+      // `class` as a keyword
+      begin: "@" + e.IDENT_RE,
+      relevance: 0
+    };
+    return {
+      name: "C#",
+      aliases: [
+        "cs",
+        "c#"
+      ],
+      keywords: c,
+      illegal: /::/,
+      contains: [
+        e.COMMENT(
+          "///",
+          "$",
+          {
+            returnBegin: !0,
+            contains: [
+              {
+                className: "doctag",
+                variants: [
+                  {
+                    begin: "///",
+                    relevance: 0
+                  },
+                  { begin: "<!--|-->" },
+                  {
+                    begin: "</?",
+                    end: ">"
+                  }
+                ]
+              }
+            ]
+          }
+        ),
+        e.C_LINE_COMMENT_MODE,
+        e.C_BLOCK_COMMENT_MODE,
+        {
+          className: "meta",
+          begin: "#",
+          end: "$",
+          keywords: { keyword: "if else elif endif define undef warning error line region endregion pragma checksum" }
+        },
+        w,
+        d,
+        {
+          beginKeywords: "class interface",
+          relevance: 0,
+          end: /[{;=]/,
+          illegal: /[^\s:,]/,
+          contains: [
+            { beginKeywords: "where class" },
+            a,
+            N,
+            e.C_LINE_COMMENT_MODE,
+            e.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        {
+          beginKeywords: "namespace",
+          relevance: 0,
+          end: /[{;=]/,
+          illegal: /[^\s:]/,
+          contains: [
+            a,
+            e.C_LINE_COMMENT_MODE,
+            e.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        {
+          beginKeywords: "record",
+          relevance: 0,
+          end: /[{;=]/,
+          illegal: /[^\s:]/,
+          contains: [
+            a,
+            N,
+            e.C_LINE_COMMENT_MODE,
+            e.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        {
+          // [Attributes("")]
+          className: "meta",
+          begin: "^\\s*\\[(?=[\\w])",
+          excludeBegin: !0,
+          end: "\\]",
+          excludeEnd: !0,
+          contains: [
+            {
+              className: "string",
+              begin: /"/,
+              end: /"/
+            }
+          ]
+        },
+        {
+          // Expression keywords prevent 'keyword Name(...)' from being
+          // recognized as a function definition
+          beginKeywords: "new return throw await else",
+          relevance: 0
+        },
+        {
+          className: "function",
+          begin: "(" + I + "\\s+)+" + e.IDENT_RE + "\\s*(<[^=]+>\\s*)?\\(",
+          returnBegin: !0,
+          end: /\s*[{;=]/,
+          excludeEnd: !0,
+          keywords: c,
+          contains: [
+            // prevents these from being highlighted `title`
+            {
+              beginKeywords: r.join(" "),
+              relevance: 0
+            },
+            {
+              begin: e.IDENT_RE + "\\s*(<[^=]+>\\s*)?\\(",
+              returnBegin: !0,
+              contains: [
+                e.TITLE_MODE,
+                N
+              ],
+              relevance: 0
+            },
+            { match: /\(\)/ },
+            {
+              className: "params",
+              begin: /\(/,
+              end: /\)/,
+              excludeBegin: !0,
+              excludeEnd: !0,
+              keywords: c,
+              relevance: 0,
+              contains: [
+                w,
+                d,
+                e.C_BLOCK_COMMENT_MODE
+              ]
+            },
+            e.C_LINE_COMMENT_MODE,
+            e.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        x
+      ]
+    };
+  }
+  return at = n, at;
+}
+var st, En;
+function fa() {
+  if (En) return st;
+  En = 1;
+  const n = (d) => ({
+    IMPORTANT: {
+      scope: "meta",
+      begin: "!important"
+    },
+    BLOCK_COMMENT: d.C_BLOCK_COMMENT_MODE,
+    HEXCOLOR: {
+      scope: "number",
+      begin: /#(([0-9a-fA-F]{3,4})|(([0-9a-fA-F]{2}){3,4}))\b/
+    },
+    FUNCTION_DISPATCH: {
+      className: "built_in",
+      begin: /[\w-]+(?=\()/
+    },
+    ATTRIBUTE_SELECTOR_MODE: {
+      scope: "selector-attr",
+      begin: /\[/,
+      end: /\]/,
+      illegal: "$",
+      contains: [
+        d.APOS_STRING_MODE,
+        d.QUOTE_STRING_MODE
+      ]
+    },
+    CSS_NUMBER_MODE: {
+      scope: "number",
+      begin: d.NUMBER_RE + "(%|em|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|px|deg|grad|rad|turn|s|ms|Hz|kHz|dpi|dpcm|dppx)?",
+      relevance: 0
+    },
+    CSS_VARIABLE: {
+      className: "attr",
+      begin: /--[A-Za-z_][A-Za-z0-9_-]*/
+    }
+  }), e = [
+    "a",
+    "abbr",
+    "address",
+    "article",
+    "aside",
+    "audio",
+    "b",
+    "blockquote",
+    "body",
+    "button",
+    "canvas",
+    "caption",
+    "cite",
+    "code",
+    "dd",
+    "del",
+    "details",
+    "dfn",
+    "div",
+    "dl",
+    "dt",
+    "em",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hgroup",
+    "html",
+    "i",
+    "iframe",
+    "img",
+    "input",
+    "ins",
+    "kbd",
+    "label",
+    "legend",
+    "li",
+    "main",
+    "mark",
+    "menu",
+    "nav",
+    "object",
+    "ol",
+    "optgroup",
+    "option",
+    "p",
+    "picture",
+    "q",
+    "quote",
+    "samp",
+    "section",
+    "select",
+    "source",
+    "span",
+    "strong",
+    "summary",
+    "sup",
+    "table",
+    "tbody",
+    "td",
+    "textarea",
+    "tfoot",
+    "th",
+    "thead",
+    "time",
+    "tr",
+    "ul",
+    "var",
+    "video"
+  ], t = [
+    "defs",
+    "g",
+    "marker",
+    "mask",
+    "pattern",
+    "svg",
+    "switch",
+    "symbol",
+    "feBlend",
+    "feColorMatrix",
+    "feComponentTransfer",
+    "feComposite",
+    "feConvolveMatrix",
+    "feDiffuseLighting",
+    "feDisplacementMap",
+    "feFlood",
+    "feGaussianBlur",
+    "feImage",
+    "feMerge",
+    "feMorphology",
+    "feOffset",
+    "feSpecularLighting",
+    "feTile",
+    "feTurbulence",
+    "linearGradient",
+    "radialGradient",
+    "stop",
+    "circle",
+    "ellipse",
+    "image",
+    "line",
+    "path",
+    "polygon",
+    "polyline",
+    "rect",
+    "text",
+    "use",
+    "textPath",
+    "tspan",
+    "foreignObject",
+    "clipPath"
+  ], r = [
+    ...e,
+    ...t
+  ], i = [
+    "any-hover",
+    "any-pointer",
+    "aspect-ratio",
+    "color",
+    "color-gamut",
+    "color-index",
+    "device-aspect-ratio",
+    "device-height",
+    "device-width",
+    "display-mode",
+    "forced-colors",
+    "grid",
+    "height",
+    "hover",
+    "inverted-colors",
+    "monochrome",
+    "orientation",
+    "overflow-block",
+    "overflow-inline",
+    "pointer",
+    "prefers-color-scheme",
+    "prefers-contrast",
+    "prefers-reduced-motion",
+    "prefers-reduced-transparency",
+    "resolution",
+    "scan",
+    "scripting",
+    "update",
+    "width",
+    // TODO: find a better solution?
+    "min-width",
+    "max-width",
+    "min-height",
+    "max-height"
+  ].sort().reverse(), s = [
+    "active",
+    "any-link",
+    "blank",
+    "checked",
+    "current",
+    "default",
+    "defined",
+    "dir",
+    // dir()
+    "disabled",
+    "drop",
+    "empty",
+    "enabled",
+    "first",
+    "first-child",
+    "first-of-type",
+    "fullscreen",
+    "future",
+    "focus",
+    "focus-visible",
+    "focus-within",
+    "has",
+    // has()
+    "host",
+    // host or host()
+    "host-context",
+    // host-context()
+    "hover",
+    "indeterminate",
+    "in-range",
+    "invalid",
+    "is",
+    // is()
+    "lang",
+    // lang()
+    "last-child",
+    "last-of-type",
+    "left",
+    "link",
+    "local-link",
+    "not",
+    // not()
+    "nth-child",
+    // nth-child()
+    "nth-col",
+    // nth-col()
+    "nth-last-child",
+    // nth-last-child()
+    "nth-last-col",
+    // nth-last-col()
+    "nth-last-of-type",
+    //nth-last-of-type()
+    "nth-of-type",
+    //nth-of-type()
+    "only-child",
+    "only-of-type",
+    "optional",
+    "out-of-range",
+    "past",
+    "placeholder-shown",
+    "read-only",
+    "read-write",
+    "required",
+    "right",
+    "root",
+    "scope",
+    "target",
+    "target-within",
+    "user-invalid",
+    "valid",
+    "visited",
+    "where"
+    // where()
+  ].sort().reverse(), o = [
+    "after",
+    "backdrop",
+    "before",
+    "cue",
+    "cue-region",
+    "first-letter",
+    "first-line",
+    "grammar-error",
+    "marker",
+    "part",
+    "placeholder",
+    "selection",
+    "slotted",
+    "spelling-error"
+  ].sort().reverse(), c = [
+    "accent-color",
+    "align-content",
+    "align-items",
+    "align-self",
+    "alignment-baseline",
+    "all",
+    "anchor-name",
+    "animation",
+    "animation-composition",
+    "animation-delay",
+    "animation-direction",
+    "animation-duration",
+    "animation-fill-mode",
+    "animation-iteration-count",
+    "animation-name",
+    "animation-play-state",
+    "animation-range",
+    "animation-range-end",
+    "animation-range-start",
+    "animation-timeline",
+    "animation-timing-function",
+    "appearance",
+    "aspect-ratio",
+    "backdrop-filter",
+    "backface-visibility",
+    "background",
+    "background-attachment",
+    "background-blend-mode",
+    "background-clip",
+    "background-color",
+    "background-image",
+    "background-origin",
+    "background-position",
+    "background-position-x",
+    "background-position-y",
+    "background-repeat",
+    "background-size",
+    "baseline-shift",
+    "block-size",
+    "border",
+    "border-block",
+    "border-block-color",
+    "border-block-end",
+    "border-block-end-color",
+    "border-block-end-style",
+    "border-block-end-width",
+    "border-block-start",
+    "border-block-start-color",
+    "border-block-start-style",
+    "border-block-start-width",
+    "border-block-style",
+    "border-block-width",
+    "border-bottom",
+    "border-bottom-color",
+    "border-bottom-left-radius",
+    "border-bottom-right-radius",
+    "border-bottom-style",
+    "border-bottom-width",
+    "border-collapse",
+    "border-color",
+    "border-end-end-radius",
+    "border-end-start-radius",
+    "border-image",
+    "border-image-outset",
+    "border-image-repeat",
+    "border-image-slice",
+    "border-image-source",
+    "border-image-width",
+    "border-inline",
+    "border-inline-color",
+    "border-inline-end",
+    "border-inline-end-color",
+    "border-inline-end-style",
+    "border-inline-end-width",
+    "border-inline-start",
+    "border-inline-start-color",
+    "border-inline-start-style",
+    "border-inline-start-width",
+    "border-inline-style",
+    "border-inline-width",
+    "border-left",
+    "border-left-color",
+    "border-left-style",
+    "border-left-width",
+    "border-radius",
+    "border-right",
+    "border-right-color",
+    "border-right-style",
+    "border-right-width",
+    "border-spacing",
+    "border-start-end-radius",
+    "border-start-start-radius",
+    "border-style",
+    "border-top",
+    "border-top-color",
+    "border-top-left-radius",
+    "border-top-right-radius",
+    "border-top-style",
+    "border-top-width",
+    "border-width",
+    "bottom",
+    "box-align",
+    "box-decoration-break",
+    "box-direction",
+    "box-flex",
+    "box-flex-group",
+    "box-lines",
+    "box-ordinal-group",
+    "box-orient",
+    "box-pack",
+    "box-shadow",
+    "box-sizing",
+    "break-after",
+    "break-before",
+    "break-inside",
+    "caption-side",
+    "caret-color",
+    "clear",
+    "clip",
+    "clip-path",
+    "clip-rule",
+    "color",
+    "color-interpolation",
+    "color-interpolation-filters",
+    "color-profile",
+    "color-rendering",
+    "color-scheme",
+    "column-count",
+    "column-fill",
+    "column-gap",
+    "column-rule",
+    "column-rule-color",
+    "column-rule-style",
+    "column-rule-width",
+    "column-span",
+    "column-width",
+    "columns",
+    "contain",
+    "contain-intrinsic-block-size",
+    "contain-intrinsic-height",
+    "contain-intrinsic-inline-size",
+    "contain-intrinsic-size",
+    "contain-intrinsic-width",
+    "container",
+    "container-name",
+    "container-type",
+    "content",
+    "content-visibility",
+    "counter-increment",
+    "counter-reset",
+    "counter-set",
+    "cue",
+    "cue-after",
+    "cue-before",
+    "cursor",
+    "cx",
+    "cy",
+    "direction",
+    "display",
+    "dominant-baseline",
+    "empty-cells",
+    "enable-background",
+    "field-sizing",
+    "fill",
+    "fill-opacity",
+    "fill-rule",
+    "filter",
+    "flex",
+    "flex-basis",
+    "flex-direction",
+    "flex-flow",
+    "flex-grow",
+    "flex-shrink",
+    "flex-wrap",
+    "float",
+    "flood-color",
+    "flood-opacity",
+    "flow",
+    "font",
+    "font-display",
+    "font-family",
+    "font-feature-settings",
+    "font-kerning",
+    "font-language-override",
+    "font-optical-sizing",
+    "font-palette",
+    "font-size",
+    "font-size-adjust",
+    "font-smooth",
+    "font-smoothing",
+    "font-stretch",
+    "font-style",
+    "font-synthesis",
+    "font-synthesis-position",
+    "font-synthesis-small-caps",
+    "font-synthesis-style",
+    "font-synthesis-weight",
+    "font-variant",
+    "font-variant-alternates",
+    "font-variant-caps",
+    "font-variant-east-asian",
+    "font-variant-emoji",
+    "font-variant-ligatures",
+    "font-variant-numeric",
+    "font-variant-position",
+    "font-variation-settings",
+    "font-weight",
+    "forced-color-adjust",
+    "gap",
+    "glyph-orientation-horizontal",
+    "glyph-orientation-vertical",
+    "grid",
+    "grid-area",
+    "grid-auto-columns",
+    "grid-auto-flow",
+    "grid-auto-rows",
+    "grid-column",
+    "grid-column-end",
+    "grid-column-start",
+    "grid-gap",
+    "grid-row",
+    "grid-row-end",
+    "grid-row-start",
+    "grid-template",
+    "grid-template-areas",
+    "grid-template-columns",
+    "grid-template-rows",
+    "hanging-punctuation",
+    "height",
+    "hyphenate-character",
+    "hyphenate-limit-chars",
+    "hyphens",
+    "icon",
+    "image-orientation",
+    "image-rendering",
+    "image-resolution",
+    "ime-mode",
+    "initial-letter",
+    "initial-letter-align",
+    "inline-size",
+    "inset",
+    "inset-area",
+    "inset-block",
+    "inset-block-end",
+    "inset-block-start",
+    "inset-inline",
+    "inset-inline-end",
+    "inset-inline-start",
+    "isolation",
+    "justify-content",
+    "justify-items",
+    "justify-self",
+    "kerning",
+    "left",
+    "letter-spacing",
+    "lighting-color",
+    "line-break",
+    "line-height",
+    "line-height-step",
+    "list-style",
+    "list-style-image",
+    "list-style-position",
+    "list-style-type",
+    "margin",
+    "margin-block",
+    "margin-block-end",
+    "margin-block-start",
+    "margin-bottom",
+    "margin-inline",
+    "margin-inline-end",
+    "margin-inline-start",
+    "margin-left",
+    "margin-right",
+    "margin-top",
+    "margin-trim",
+    "marker",
+    "marker-end",
+    "marker-mid",
+    "marker-start",
+    "marks",
+    "mask",
+    "mask-border",
+    "mask-border-mode",
+    "mask-border-outset",
+    "mask-border-repeat",
+    "mask-border-slice",
+    "mask-border-source",
+    "mask-border-width",
+    "mask-clip",
+    "mask-composite",
+    "mask-image",
+    "mask-mode",
+    "mask-origin",
+    "mask-position",
+    "mask-repeat",
+    "mask-size",
+    "mask-type",
+    "masonry-auto-flow",
+    "math-depth",
+    "math-shift",
+    "math-style",
+    "max-block-size",
+    "max-height",
+    "max-inline-size",
+    "max-width",
+    "min-block-size",
+    "min-height",
+    "min-inline-size",
+    "min-width",
+    "mix-blend-mode",
+    "nav-down",
+    "nav-index",
+    "nav-left",
+    "nav-right",
+    "nav-up",
+    "none",
+    "normal",
+    "object-fit",
+    "object-position",
+    "offset",
+    "offset-anchor",
+    "offset-distance",
+    "offset-path",
+    "offset-position",
+    "offset-rotate",
+    "opacity",
+    "order",
+    "orphans",
+    "outline",
+    "outline-color",
+    "outline-offset",
+    "outline-style",
+    "outline-width",
+    "overflow",
+    "overflow-anchor",
+    "overflow-block",
+    "overflow-clip-margin",
+    "overflow-inline",
+    "overflow-wrap",
+    "overflow-x",
+    "overflow-y",
+    "overlay",
+    "overscroll-behavior",
+    "overscroll-behavior-block",
+    "overscroll-behavior-inline",
+    "overscroll-behavior-x",
+    "overscroll-behavior-y",
+    "padding",
+    "padding-block",
+    "padding-block-end",
+    "padding-block-start",
+    "padding-bottom",
+    "padding-inline",
+    "padding-inline-end",
+    "padding-inline-start",
+    "padding-left",
+    "padding-right",
+    "padding-top",
+    "page",
+    "page-break-after",
+    "page-break-before",
+    "page-break-inside",
+    "paint-order",
+    "pause",
+    "pause-after",
+    "pause-before",
+    "perspective",
+    "perspective-origin",
+    "place-content",
+    "place-items",
+    "place-self",
+    "pointer-events",
+    "position",
+    "position-anchor",
+    "position-visibility",
+    "print-color-adjust",
+    "quotes",
+    "r",
+    "resize",
+    "rest",
+    "rest-after",
+    "rest-before",
+    "right",
+    "rotate",
+    "row-gap",
+    "ruby-align",
+    "ruby-position",
+    "scale",
+    "scroll-behavior",
+    "scroll-margin",
+    "scroll-margin-block",
+    "scroll-margin-block-end",
+    "scroll-margin-block-start",
+    "scroll-margin-bottom",
+    "scroll-margin-inline",
+    "scroll-margin-inline-end",
+    "scroll-margin-inline-start",
+    "scroll-margin-left",
+    "scroll-margin-right",
+    "scroll-margin-top",
+    "scroll-padding",
+    "scroll-padding-block",
+    "scroll-padding-block-end",
+    "scroll-padding-block-start",
+    "scroll-padding-bottom",
+    "scroll-padding-inline",
+    "scroll-padding-inline-end",
+    "scroll-padding-inline-start",
+    "scroll-padding-left",
+    "scroll-padding-right",
+    "scroll-padding-top",
+    "scroll-snap-align",
+    "scroll-snap-stop",
+    "scroll-snap-type",
+    "scroll-timeline",
+    "scroll-timeline-axis",
+    "scroll-timeline-name",
+    "scrollbar-color",
+    "scrollbar-gutter",
+    "scrollbar-width",
+    "shape-image-threshold",
+    "shape-margin",
+    "shape-outside",
+    "shape-rendering",
+    "speak",
+    "speak-as",
+    "src",
+    // @font-face
+    "stop-color",
+    "stop-opacity",
+    "stroke",
+    "stroke-dasharray",
+    "stroke-dashoffset",
+    "stroke-linecap",
+    "stroke-linejoin",
+    "stroke-miterlimit",
+    "stroke-opacity",
+    "stroke-width",
+    "tab-size",
+    "table-layout",
+    "text-align",
+    "text-align-all",
+    "text-align-last",
+    "text-anchor",
+    "text-combine-upright",
+    "text-decoration",
+    "text-decoration-color",
+    "text-decoration-line",
+    "text-decoration-skip",
+    "text-decoration-skip-ink",
+    "text-decoration-style",
+    "text-decoration-thickness",
+    "text-emphasis",
+    "text-emphasis-color",
+    "text-emphasis-position",
+    "text-emphasis-style",
+    "text-indent",
+    "text-justify",
+    "text-orientation",
+    "text-overflow",
+    "text-rendering",
+    "text-shadow",
+    "text-size-adjust",
+    "text-transform",
+    "text-underline-offset",
+    "text-underline-position",
+    "text-wrap",
+    "text-wrap-mode",
+    "text-wrap-style",
+    "timeline-scope",
+    "top",
+    "touch-action",
+    "transform",
+    "transform-box",
+    "transform-origin",
+    "transform-style",
+    "transition",
+    "transition-behavior",
+    "transition-delay",
+    "transition-duration",
+    "transition-property",
+    "transition-timing-function",
+    "translate",
+    "unicode-bidi",
+    "user-modify",
+    "user-select",
+    "vector-effect",
+    "vertical-align",
+    "view-timeline",
+    "view-timeline-axis",
+    "view-timeline-inset",
+    "view-timeline-name",
+    "view-transition-name",
+    "visibility",
+    "voice-balance",
+    "voice-duration",
+    "voice-family",
+    "voice-pitch",
+    "voice-range",
+    "voice-rate",
+    "voice-stress",
+    "voice-volume",
+    "white-space",
+    "white-space-collapse",
+    "widows",
+    "width",
+    "will-change",
+    "word-break",
+    "word-spacing",
+    "word-wrap",
+    "writing-mode",
+    "x",
+    "y",
+    "z-index",
+    "zoom"
+  ].sort().reverse();
+  function a(d) {
+    const l = d.regex, u = n(d), p = { begin: /-(webkit|moz|ms|o)-(?=[a-z])/ }, h = "and or not only", g = /@-?\w[\w]*(-\w+)*/, _ = "[a-zA-Z-][a-zA-Z0-9_-]*", f = [
+      d.APOS_STRING_MODE,
+      d.QUOTE_STRING_MODE
+    ];
+    return {
+      name: "CSS",
+      case_insensitive: !0,
+      illegal: /[=|'\$]/,
+      keywords: { keyframePosition: "from to" },
+      classNameAliases: {
+        // for visual continuity with `tag {}` and because we
+        // don't have a great class for this?
+        keyframePosition: "selector-tag"
+      },
+      contains: [
+        u.BLOCK_COMMENT,
+        p,
+        // to recognize keyframe 40% etc which are outside the scope of our
+        // attribute value mode
+        u.CSS_NUMBER_MODE,
+        {
+          className: "selector-id",
+          begin: /#[A-Za-z0-9_-]+/,
+          relevance: 0
+        },
+        {
+          className: "selector-class",
+          begin: "\\." + _,
+          relevance: 0
+        },
+        u.ATTRIBUTE_SELECTOR_MODE,
+        {
+          className: "selector-pseudo",
+          variants: [
+            { begin: ":(" + s.join("|") + ")" },
+            { begin: ":(:)?(" + o.join("|") + ")" }
+          ]
+        },
+        // we may actually need this (12/2020)
+        // { // pseudo-selector params
+        //   begin: /\(/,
+        //   end: /\)/,
+        //   contains: [ hljs.CSS_NUMBER_MODE ]
+        // },
+        u.CSS_VARIABLE,
+        {
+          className: "attribute",
+          begin: "\\b(" + c.join("|") + ")\\b"
+        },
+        // attribute values
+        {
+          begin: /:/,
+          end: /[;}{]/,
+          contains: [
+            u.BLOCK_COMMENT,
+            u.HEXCOLOR,
+            u.IMPORTANT,
+            u.CSS_NUMBER_MODE,
+            ...f,
+            // needed to highlight these as strings and to avoid issues with
+            // illegal characters that might be inside urls that would tigger the
+            // languages illegal stack
+            {
+              begin: /(url|data-uri)\(/,
+              end: /\)/,
+              relevance: 0,
+              // from keywords
+              keywords: { built_in: "url data-uri" },
+              contains: [
+                ...f,
+                {
+                  className: "string",
+                  // any character other than `)` as in `url()` will be the start
+                  // of a string, which ends with `)` (from the parent mode)
+                  begin: /[^)]/,
+                  endsWithParent: !0,
+                  excludeEnd: !0
+                }
+              ]
+            },
+            u.FUNCTION_DISPATCH
+          ]
+        },
+        {
+          begin: l.lookahead(/@/),
+          end: "[{;]",
+          relevance: 0,
+          illegal: /:/,
+          // break on Less variables @var: ...
+          contains: [
+            {
+              className: "keyword",
+              begin: g
+            },
+            {
+              begin: /\s/,
+              endsWithParent: !0,
+              excludeEnd: !0,
+              relevance: 0,
+              keywords: {
+                $pattern: /[a-z-]+/,
+                keyword: h,
+                attribute: i.join(" ")
+              },
+              contains: [
+                {
+                  begin: /[a-z-]+(?=:)/,
+                  className: "attribute"
+                },
+                ...f,
+                u.CSS_NUMBER_MODE
+              ]
+            }
+          ]
+        },
+        {
+          className: "selector-tag",
+          begin: "\\b(" + r.join("|") + ")\\b"
+        }
+      ]
+    };
+  }
+  return st = a, st;
+}
+var ot, kn;
+function ma() {
+  if (kn) return ot;
+  kn = 1;
+  function n(e) {
+    const t = e.regex, r = {
+      begin: /<\/?[A-Za-z_]/,
+      end: ">",
+      subLanguage: "xml",
+      relevance: 0
+    }, i = {
+      begin: "^[-\\*]{3,}",
+      end: "$"
+    }, s = {
+      className: "code",
+      variants: [
+        // TODO: fix to allow these to work with sublanguage also
+        { begin: "(`{3,})[^`](.|\\n)*?\\1`*[ ]*" },
+        { begin: "(~{3,})[^~](.|\\n)*?\\1~*[ ]*" },
+        // needed to allow markdown as a sublanguage to work
+        {
+          begin: "```",
+          end: "```+[ ]*$"
+        },
+        {
+          begin: "~~~",
+          end: "~~~+[ ]*$"
+        },
+        { begin: "`.+?`" },
+        {
+          begin: "(?=^( {4}|\\t))",
+          // use contains to gobble up multiple lines to allow the block to be whatever size
+          // but only have a single open/close tag vs one per line
+          contains: [
+            {
+              begin: "^( {4}|\\t)",
+              end: "(\\n)$"
+            }
+          ],
+          relevance: 0
+        }
+      ]
+    }, o = {
+      className: "bullet",
+      begin: "^[ 	]*([*+-]|(\\d+\\.))(?=\\s+)",
+      end: "\\s+",
+      excludeEnd: !0
+    }, c = {
+      begin: /^\[[^\n]+\]:/,
+      returnBegin: !0,
+      contains: [
+        {
+          className: "symbol",
+          begin: /\[/,
+          end: /\]/,
+          excludeBegin: !0,
+          excludeEnd: !0
+        },
+        {
+          className: "link",
+          begin: /:\s*/,
+          end: /$/,
+          excludeBegin: !0
+        }
+      ]
+    }, a = /[A-Za-z][A-Za-z0-9+.-]*/, d = {
+      variants: [
+        // too much like nested array access in so many languages
+        // to have any real relevance
+        {
+          begin: /\[.+?\]\[.*?\]/,
+          relevance: 0
+        },
+        // popular internet URLs
+        {
+          begin: /\[.+?\]\(((data|javascript|mailto):|(?:http|ftp)s?:\/\/).*?\)/,
+          relevance: 2
+        },
+        {
+          begin: t.concat(/\[.+?\]\(/, a, /:\/\/.*?\)/),
+          relevance: 2
+        },
+        // relative urls
+        {
+          begin: /\[.+?\]\([./?&#].*?\)/,
+          relevance: 1
+        },
+        // whatever else, lower relevance (might not be a link at all)
+        {
+          begin: /\[.*?\]\(.*?\)/,
+          relevance: 0
+        }
+      ],
+      returnBegin: !0,
+      contains: [
+        {
+          // empty strings for alt or link text
+          match: /\[(?=\])/
+        },
+        {
+          className: "string",
+          relevance: 0,
+          begin: "\\[",
+          end: "\\]",
+          excludeBegin: !0,
+          returnEnd: !0
+        },
+        {
+          className: "link",
+          relevance: 0,
+          begin: "\\]\\(",
+          end: "\\)",
+          excludeBegin: !0,
+          excludeEnd: !0
+        },
+        {
+          className: "symbol",
+          relevance: 0,
+          begin: "\\]\\[",
+          end: "\\]",
+          excludeBegin: !0,
+          excludeEnd: !0
+        }
+      ]
+    }, l = {
+      className: "strong",
+      contains: [],
+      // defined later
+      variants: [
+        {
+          begin: /_{2}(?!\s)/,
+          end: /_{2}/
+        },
+        {
+          begin: /\*{2}(?!\s)/,
+          end: /\*{2}/
+        }
+      ]
+    }, u = {
+      className: "emphasis",
+      contains: [],
+      // defined later
+      variants: [
+        {
+          begin: /\*(?![*\s])/,
+          end: /\*/
+        },
+        {
+          begin: /_(?![_\s])/,
+          end: /_/,
+          relevance: 0
+        }
+      ]
+    }, p = e.inherit(l, { contains: [] }), h = e.inherit(u, { contains: [] });
+    l.contains.push(h), u.contains.push(p);
+    let g = [
+      r,
+      d
+    ];
+    return [
+      l,
+      u,
+      p,
+      h
+    ].forEach((w) => {
+      w.contains = w.contains.concat(g);
+    }), g = g.concat(l, u), {
+      name: "Markdown",
+      aliases: [
+        "md",
+        "mkdown",
+        "mkd"
+      ],
+      contains: [
+        {
+          className: "section",
+          variants: [
+            {
+              begin: "^#{1,6}",
+              end: "$",
+              contains: g
+            },
+            {
+              begin: "(?=^.+?\\n[=-]{2,}$)",
+              contains: [
+                { begin: "^[=-]*$" },
+                {
+                  begin: "^",
+                  end: "\\n",
+                  contains: g
+                }
+              ]
+            }
+          ]
+        },
+        r,
+        o,
+        l,
+        u,
+        {
+          className: "quote",
+          begin: "^>\\s+",
+          contains: g,
+          end: "$"
+        },
+        s,
+        i,
+        d,
+        c,
+        {
+          //https://spec.commonmark.org/0.31.2/#entity-references
+          scope: "literal",
+          match: /&([a-zA-Z0-9]+|#[0-9]{1,7}|#[Xx][0-9a-fA-F]{1,6});/
+        }
+      ]
+    };
+  }
+  return ot = n, ot;
+}
+var ct, wn;
+function _a() {
+  if (wn) return ct;
+  wn = 1;
+  function n(e) {
+    const t = e.regex;
+    return {
+      name: "Diff",
+      aliases: ["patch"],
+      contains: [
+        {
+          className: "meta",
+          relevance: 10,
+          match: t.either(
+            /^@@ +-\d+,\d+ +\+\d+,\d+ +@@/,
+            /^\*\*\* +\d+,\d+ +\*\*\*\*$/,
+            /^--- +\d+,\d+ +----$/
+          )
+        },
+        {
+          className: "comment",
+          variants: [
+            {
+              begin: t.either(
+                /Index: /,
+                /^index/,
+                /={3,}/,
+                /^-{3}/,
+                /^\*{3} /,
+                /^\+{3}/,
+                /^diff --git/
+              ),
+              end: /$/
+            },
+            { match: /^\*{15}$/ }
+          ]
+        },
+        {
+          className: "addition",
+          begin: /^\+/,
+          end: /$/
+        },
+        {
+          className: "deletion",
+          begin: /^-/,
+          end: /$/
+        },
+        {
+          className: "addition",
+          begin: /^!/,
+          end: /$/
+        }
+      ]
+    };
+  }
+  return ct = n, ct;
+}
+var lt, yn;
+function Ea() {
+  if (yn) return lt;
+  yn = 1;
+  function n(e) {
+    const t = e.regex, r = "([a-zA-Z_]\\w*[!?=]?|[-+~]@|<<|>>|=~|===?|<=>|[<>]=?|\\*\\*|[-/+%^&*~`|]|\\[\\]=?)", i = t.either(
+      /\b([A-Z]+[a-z0-9]+)+/,
+      // ends in caps
+      /\b([A-Z]+[a-z0-9]+)+[A-Z]+/
+    ), s = t.concat(i, /(::\w+)*/), c = {
+      "variable.constant": [
+        "__FILE__",
+        "__LINE__",
+        "__ENCODING__"
+      ],
+      "variable.language": [
+        "self",
+        "super"
+      ],
+      keyword: [
+        "alias",
+        "and",
+        "begin",
+        "BEGIN",
+        "break",
+        "case",
+        "class",
+        "defined",
+        "do",
+        "else",
+        "elsif",
+        "end",
+        "END",
+        "ensure",
+        "for",
+        "if",
+        "in",
+        "module",
+        "next",
+        "not",
+        "or",
+        "redo",
+        "require",
+        "rescue",
+        "retry",
+        "return",
+        "then",
+        "undef",
+        "unless",
+        "until",
+        "when",
+        "while",
+        "yield",
+        ...[
+          "include",
+          "extend",
+          "prepend",
+          "public",
+          "private",
+          "protected",
+          "raise",
+          "throw"
+        ]
+      ],
+      built_in: [
+        "proc",
+        "lambda",
+        "attr_accessor",
+        "attr_reader",
+        "attr_writer",
+        "define_method",
+        "private_constant",
+        "module_function"
+      ],
+      literal: [
+        "true",
+        "false",
+        "nil"
+      ]
+    }, a = {
+      className: "doctag",
+      begin: "@[A-Za-z]+"
+    }, d = {
+      begin: "#<",
+      end: ">"
+    }, l = [
+      e.COMMENT(
+        "#",
+        "$",
+        { contains: [a] }
+      ),
+      e.COMMENT(
+        "^=begin",
+        "^=end",
+        {
+          contains: [a],
+          relevance: 10
+        }
+      ),
+      e.COMMENT("^__END__", e.MATCH_NOTHING_RE)
+    ], u = {
+      className: "subst",
+      begin: /#\{/,
+      end: /\}/,
+      keywords: c
+    }, p = {
+      className: "string",
+      contains: [
+        e.BACKSLASH_ESCAPE,
+        u
+      ],
+      variants: [
+        {
+          begin: /'/,
+          end: /'/
+        },
+        {
+          begin: /"/,
+          end: /"/
+        },
+        {
+          begin: /`/,
+          end: /`/
+        },
+        {
+          begin: /%[qQwWx]?\(/,
+          end: /\)/
+        },
+        {
+          begin: /%[qQwWx]?\[/,
+          end: /\]/
+        },
+        {
+          begin: /%[qQwWx]?\{/,
+          end: /\}/
+        },
+        {
+          begin: /%[qQwWx]?</,
+          end: />/
+        },
+        {
+          begin: /%[qQwWx]?\//,
+          end: /\//
+        },
+        {
+          begin: /%[qQwWx]?%/,
+          end: /%/
+        },
+        {
+          begin: /%[qQwWx]?-/,
+          end: /-/
+        },
+        {
+          begin: /%[qQwWx]?\|/,
+          end: /\|/
+        },
+        // in the following expressions, \B in the beginning suppresses recognition of ?-sequences
+        // where ? is the last character of a preceding identifier, as in: `func?4`
+        { begin: /\B\?(\\\d{1,3})/ },
+        { begin: /\B\?(\\x[A-Fa-f0-9]{1,2})/ },
+        { begin: /\B\?(\\u\{?[A-Fa-f0-9]{1,6}\}?)/ },
+        { begin: /\B\?(\\M-\\C-|\\M-\\c|\\c\\M-|\\M-|\\C-\\M-)[\x20-\x7e]/ },
+        { begin: /\B\?\\(c|C-)[\x20-\x7e]/ },
+        { begin: /\B\?\\?\S/ },
+        // heredocs
+        {
+          // this guard makes sure that we have an entire heredoc and not a false
+          // positive (auto-detect, etc.)
+          begin: t.concat(
+            /<<[-~]?'?/,
+            t.lookahead(/(\w+)(?=\W)[^\n]*\n(?:[^\n]*\n)*?\s*\1\b/)
+          ),
+          contains: [
+            e.END_SAME_AS_BEGIN({
+              begin: /(\w+)/,
+              end: /(\w+)/,
+              contains: [
+                e.BACKSLASH_ESCAPE,
+                u
+              ]
+            })
+          ]
+        }
+      ]
+    }, h = "[1-9](_?[0-9])*|0", g = "[0-9](_?[0-9])*", _ = {
+      className: "number",
+      relevance: 0,
+      variants: [
+        // decimal integer/float, optionally exponential or rational, optionally imaginary
+        { begin: `\\b(${h})(\\.(${g}))?([eE][+-]?(${g})|r)?i?\\b` },
+        // explicit decimal/binary/octal/hexadecimal integer,
+        // optionally rational and/or imaginary
+        { begin: "\\b0[dD][0-9](_?[0-9])*r?i?\\b" },
+        { begin: "\\b0[bB][0-1](_?[0-1])*r?i?\\b" },
+        { begin: "\\b0[oO][0-7](_?[0-7])*r?i?\\b" },
+        { begin: "\\b0[xX][0-9a-fA-F](_?[0-9a-fA-F])*r?i?\\b" },
+        // 0-prefixed implicit octal integer, optionally rational and/or imaginary
+        { begin: "\\b0(_?[0-7])+r?i?\\b" }
+      ]
+    }, f = {
+      variants: [
+        {
+          match: /\(\)/
+        },
+        {
+          className: "params",
+          begin: /\(/,
+          end: /(?=\))/,
+          excludeBegin: !0,
+          endsParent: !0,
+          keywords: c
+        }
+      ]
+    }, C = [
+      p,
+      {
+        variants: [
+          {
+            match: [
+              /class\s+/,
+              s,
+              /\s+<\s+/,
+              s
+            ]
+          },
+          {
+            match: [
+              /\b(class|module)\s+/,
+              s
+            ]
+          }
+        ],
+        scope: {
+          2: "title.class",
+          4: "title.class.inherited"
+        },
+        keywords: c
+      },
+      {
+        match: [
+          /(include|extend)\s+/,
+          s
+        ],
+        scope: {
+          2: "title.class"
+        },
+        keywords: c
+      },
+      {
+        relevance: 0,
+        match: [
+          s,
+          /\.new[. (]/
+        ],
+        scope: {
+          1: "title.class"
+        }
+      },
+      {
+        relevance: 0,
+        match: /\b[A-Z][A-Z_0-9]+\b/,
+        className: "variable.constant"
+      },
+      {
+        relevance: 0,
+        match: i,
+        scope: "title.class"
+      },
+      {
+        match: [
+          /def/,
+          /\s+/,
+          r
+        ],
+        scope: {
+          1: "keyword",
+          3: "title.function"
+        },
+        contains: [
+          f
+        ]
+      },
+      {
+        // swallow namespace qualifiers before symbols
+        begin: e.IDENT_RE + "::"
+      },
+      {
+        className: "symbol",
+        begin: e.UNDERSCORE_IDENT_RE + "(!|\\?)?:",
+        relevance: 0
+      },
+      {
+        className: "symbol",
+        begin: ":(?!\\s)",
+        contains: [
+          p,
+          { begin: r }
+        ],
+        relevance: 0
+      },
+      _,
+      {
+        // negative-look forward attempts to prevent false matches like:
+        // @ident@ or $ident$ that might indicate this is not ruby at all
+        className: "variable",
+        begin: "(\\$\\W)|((\\$|@@?)(\\w+))(?=[^@$?])(?![A-Za-z])(?![@$?'])"
+      },
+      {
+        className: "params",
+        begin: /\|(?!=)/,
+        end: /\|/,
+        excludeBegin: !0,
+        excludeEnd: !0,
+        relevance: 0,
+        // this could be a lot of things (in other languages) other than params
+        keywords: c
+      },
+      {
+        // regexp container
+        begin: "(" + e.RE_STARTERS_RE + "|unless)\\s*",
+        keywords: "unless",
+        contains: [
+          {
+            className: "regexp",
+            contains: [
+              e.BACKSLASH_ESCAPE,
+              u
+            ],
+            illegal: /\n/,
+            variants: [
+              {
+                begin: "/",
+                end: "/[a-z]*"
+              },
+              {
+                begin: /%r\{/,
+                end: /\}[a-z]*/
+              },
+              {
+                begin: "%r\\(",
+                end: "\\)[a-z]*"
+              },
+              {
+                begin: "%r!",
+                end: "![a-z]*"
+              },
+              {
+                begin: "%r\\[",
+                end: "\\][a-z]*"
+              }
+            ]
+          }
+        ].concat(d, l),
+        relevance: 0
       }
-      I.hooks.run("wrap", y);
-      var N = Object.keys(y.attributes).map(function(j) {
-        return j + '="' + (y.attributes[j] || "").replace(/"/g, "&quot;") + '"';
-      }).join(" ");
-      return "<" + y.tag + ' class="' + y.classes.join(" ") + '"' + (N ? " " + N : "") + ">" + y.content + "</" + y.tag + ">";
-    }, !i.document)
-      return i.addEventListener && (I.disableWorkerMessageHandler || i.addEventListener("message", function(c) {
-        var b = JSON.parse(c.data), P = b.language, y = b.code, L = b.immediateClose;
-        i.postMessage(I.highlight(y, I.languages[P], P)), L && i.close();
-      }, !1)), i.Prism;
-    var k = document.currentScript || [].slice.call(document.getElementsByTagName("script")).pop();
-    return k && (I.filename = k.src, !I.manual && !k.hasAttribute("data-manual") && (document.readyState !== "loading" ? window.requestAnimationFrame ? window.requestAnimationFrame(I.highlightAll) : window.setTimeout(I.highlightAll, 16) : document.addEventListener("DOMContentLoaded", I.highlightAll))), i.Prism;
-  }();
-  o.exports && (o.exports = A), typeof q < "u" && (q.Prism = A), A.languages.markup = {
-    comment: /<!--[\s\S]*?-->/,
-    prolog: /<\?[\s\S]+?\?>/,
-    doctype: /<!DOCTYPE[\s\S]+?>/i,
-    cdata: /<!\[CDATA\[[\s\S]*?]]>/i,
-    tag: {
-      pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i,
-      greedy: !0,
-      inside: {
-        tag: {
-          pattern: /^<\/?[^\s>\/]+/i,
-          inside: {
-            punctuation: /^<\/?/,
-            namespace: /^[^\s>\/:]+:/
+    ].concat(d, l);
+    u.contains = C, f.contains = C;
+    const K = [
+      {
+        begin: /^\s*=>/,
+        starts: {
+          end: "$",
+          contains: C
+        }
+      },
+      {
+        className: "meta.prompt",
+        begin: "^(" + "[>?]>" + "|" + "[\\w#]+\\(\\w+\\):\\d+:\\d+[>*]" + "|" + "(\\w+-)?\\d+\\.\\d+\\.\\d+(p\\d+)?[^\\d][^>]+>" + ")(?=[ ])",
+        starts: {
+          end: "$",
+          keywords: c,
+          contains: C
+        }
+      }
+    ];
+    return l.unshift(d), {
+      name: "Ruby",
+      aliases: [
+        "rb",
+        "gemspec",
+        "podspec",
+        "thor",
+        "irb"
+      ],
+      keywords: c,
+      illegal: /\/\*/,
+      contains: [e.SHEBANG({ binary: "ruby" })].concat(K).concat(l).concat(C)
+    };
+  }
+  return lt = n, lt;
+}
+var dt, Nn;
+function ka() {
+  if (Nn) return dt;
+  Nn = 1;
+  function n(e) {
+    const o = {
+      keyword: [
+        "break",
+        "case",
+        "chan",
+        "const",
+        "continue",
+        "default",
+        "defer",
+        "else",
+        "fallthrough",
+        "for",
+        "func",
+        "go",
+        "goto",
+        "if",
+        "import",
+        "interface",
+        "map",
+        "package",
+        "range",
+        "return",
+        "select",
+        "struct",
+        "switch",
+        "type",
+        "var"
+      ],
+      type: [
+        "bool",
+        "byte",
+        "complex64",
+        "complex128",
+        "error",
+        "float32",
+        "float64",
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "string",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "int",
+        "uint",
+        "uintptr",
+        "rune"
+      ],
+      literal: [
+        "true",
+        "false",
+        "iota",
+        "nil"
+      ],
+      built_in: [
+        "append",
+        "cap",
+        "close",
+        "complex",
+        "copy",
+        "imag",
+        "len",
+        "make",
+        "new",
+        "panic",
+        "print",
+        "println",
+        "real",
+        "recover",
+        "delete"
+      ]
+    };
+    return {
+      name: "Go",
+      aliases: ["golang"],
+      keywords: o,
+      illegal: "</",
+      contains: [
+        e.C_LINE_COMMENT_MODE,
+        e.C_BLOCK_COMMENT_MODE,
+        {
+          className: "string",
+          variants: [
+            e.QUOTE_STRING_MODE,
+            e.APOS_STRING_MODE,
+            {
+              begin: "`",
+              end: "`"
+            }
+          ]
+        },
+        {
+          className: "number",
+          variants: [
+            {
+              match: /-?\b0[xX]\.[a-fA-F0-9](_?[a-fA-F0-9])*[pP][+-]?\d(_?\d)*i?/,
+              // hex without a present digit before . (making a digit afterwards required)
+              relevance: 0
+            },
+            {
+              match: /-?\b0[xX](_?[a-fA-F0-9])+((\.([a-fA-F0-9](_?[a-fA-F0-9])*)?)?[pP][+-]?\d(_?\d)*)?i?/,
+              // hex with a present digit before . (making a digit afterwards optional)
+              relevance: 0
+            },
+            {
+              match: /-?\b0[oO](_?[0-7])*i?/,
+              // leading 0o octal
+              relevance: 0
+            },
+            {
+              match: /-?\.\d(_?\d)*([eE][+-]?\d(_?\d)*)?i?/,
+              // decimal without a present digit before . (making a digit afterwards required)
+              relevance: 0
+            },
+            {
+              match: /-?\b\d(_?\d)*(\.(\d(_?\d)*)?)?([eE][+-]?\d(_?\d)*)?i?/,
+              // decimal with a present digit before . (making a digit afterwards optional)
+              relevance: 0
+            }
+          ]
+        },
+        {
+          begin: /:=/
+          // relevance booster
+        },
+        {
+          className: "function",
+          beginKeywords: "func",
+          end: "\\s*(\\{|$)",
+          excludeEnd: !0,
+          contains: [
+            e.TITLE_MODE,
+            {
+              className: "params",
+              begin: /\(/,
+              end: /\)/,
+              endsParent: !0,
+              keywords: o,
+              illegal: /["']/
+            }
+          ]
+        }
+      ]
+    };
+  }
+  return dt = n, dt;
+}
+var ut, vn;
+function wa() {
+  if (vn) return ut;
+  vn = 1;
+  function n(e) {
+    const t = e.regex, r = /[_A-Za-z][_0-9A-Za-z]*/;
+    return {
+      name: "GraphQL",
+      aliases: ["gql"],
+      case_insensitive: !0,
+      disableAutodetect: !1,
+      keywords: {
+        keyword: [
+          "query",
+          "mutation",
+          "subscription",
+          "type",
+          "input",
+          "schema",
+          "directive",
+          "interface",
+          "union",
+          "scalar",
+          "fragment",
+          "enum",
+          "on"
+        ],
+        literal: [
+          "true",
+          "false",
+          "null"
+        ]
+      },
+      contains: [
+        e.HASH_COMMENT_MODE,
+        e.QUOTE_STRING_MODE,
+        e.NUMBER_MODE,
+        {
+          scope: "punctuation",
+          match: /[.]{3}/,
+          relevance: 0
+        },
+        {
+          scope: "punctuation",
+          begin: /[\!\(\)\:\=\[\]\{\|\}]{1}/,
+          relevance: 0
+        },
+        {
+          scope: "variable",
+          begin: /\$/,
+          end: /\W/,
+          excludeEnd: !0,
+          relevance: 0
+        },
+        {
+          scope: "meta",
+          match: /@\w+/,
+          excludeEnd: !0
+        },
+        {
+          scope: "symbol",
+          begin: t.concat(r, t.lookahead(/\s*:/)),
+          relevance: 0
+        }
+      ],
+      illegal: [
+        /[;<']/,
+        /BEGIN/
+      ]
+    };
+  }
+  return ut = n, ut;
+}
+var gt, Sn;
+function ya() {
+  if (Sn) return gt;
+  Sn = 1;
+  function n(e) {
+    const t = e.regex, r = {
+      className: "number",
+      relevance: 0,
+      variants: [
+        { begin: /([+-]+)?[\d]+_[\d_]+/ },
+        { begin: e.NUMBER_RE }
+      ]
+    }, i = e.COMMENT();
+    i.variants = [
+      {
+        begin: /;/,
+        end: /$/
+      },
+      {
+        begin: /#/,
+        end: /$/
+      }
+    ];
+    const s = {
+      className: "variable",
+      variants: [
+        { begin: /\$[\w\d"][\w\d_]*/ },
+        { begin: /\$\{(.*?)\}/ }
+      ]
+    }, o = {
+      className: "literal",
+      begin: /\bon|off|true|false|yes|no\b/
+    }, c = {
+      className: "string",
+      contains: [e.BACKSLASH_ESCAPE],
+      variants: [
+        {
+          begin: "'''",
+          end: "'''",
+          relevance: 10
+        },
+        {
+          begin: '"""',
+          end: '"""',
+          relevance: 10
+        },
+        {
+          begin: '"',
+          end: '"'
+        },
+        {
+          begin: "'",
+          end: "'"
+        }
+      ]
+    }, a = {
+      begin: /\[/,
+      end: /\]/,
+      contains: [
+        i,
+        o,
+        s,
+        c,
+        r,
+        "self"
+      ],
+      relevance: 0
+    }, d = /[A-Za-z0-9_-]+/, l = /"(\\"|[^"])*"/, u = /'[^']*'/, p = t.either(
+      d,
+      l,
+      u
+    ), h = t.concat(
+      p,
+      "(\\s*\\.\\s*",
+      p,
+      ")*",
+      t.lookahead(/\s*=\s*[^#\s]/)
+    );
+    return {
+      name: "TOML, also INI",
+      aliases: ["toml"],
+      case_insensitive: !0,
+      illegal: /\S/,
+      contains: [
+        i,
+        {
+          className: "section",
+          begin: /\[+/,
+          end: /\]+/
+        },
+        {
+          begin: h,
+          className: "attr",
+          starts: {
+            end: /$/,
+            contains: [
+              i,
+              a,
+              o,
+              s,
+              c,
+              r
+            ]
+          }
+        }
+      ]
+    };
+  }
+  return gt = n, gt;
+}
+var pt, Tn;
+function Na() {
+  if (Tn) return pt;
+  Tn = 1;
+  var n = "[0-9](_*[0-9])*", e = `\\.(${n})`, t = "[0-9a-fA-F](_*[0-9a-fA-F])*", r = {
+    className: "number",
+    variants: [
+      // DecimalFloatingPointLiteral
+      // including ExponentPart
+      { begin: `(\\b(${n})((${e})|\\.)?|(${e}))[eE][+-]?(${n})[fFdD]?\\b` },
+      // excluding ExponentPart
+      { begin: `\\b(${n})((${e})[fFdD]?\\b|\\.([fFdD]\\b)?)` },
+      { begin: `(${e})[fFdD]?\\b` },
+      { begin: `\\b(${n})[fFdD]\\b` },
+      // HexadecimalFloatingPointLiteral
+      { begin: `\\b0[xX]((${t})\\.?|(${t})?\\.(${t}))[pP][+-]?(${n})[fFdD]?\\b` },
+      // DecimalIntegerLiteral
+      { begin: "\\b(0|[1-9](_*[0-9])*)[lL]?\\b" },
+      // HexIntegerLiteral
+      { begin: `\\b0[xX](${t})[lL]?\\b` },
+      // OctalIntegerLiteral
+      { begin: "\\b0(_*[0-7])*[lL]?\\b" },
+      // BinaryIntegerLiteral
+      { begin: "\\b0[bB][01](_*[01])*[lL]?\\b" }
+    ],
+    relevance: 0
+  };
+  function i(o, c, a) {
+    return a === -1 ? "" : o.replace(c, (d) => i(o, c, a - 1));
+  }
+  function s(o) {
+    const c = o.regex, a = "[À-ʸa-zA-Z_$][À-ʸa-zA-Z_$0-9]*", d = a + i("(?:<" + a + "~~~(?:\\s*,\\s*" + a + "~~~)*>)?", /~~~/g, 2), g = {
+      keyword: [
+        "synchronized",
+        "abstract",
+        "private",
+        "var",
+        "static",
+        "if",
+        "const ",
+        "for",
+        "while",
+        "strictfp",
+        "finally",
+        "protected",
+        "import",
+        "native",
+        "final",
+        "void",
+        "enum",
+        "else",
+        "break",
+        "transient",
+        "catch",
+        "instanceof",
+        "volatile",
+        "case",
+        "assert",
+        "package",
+        "default",
+        "public",
+        "try",
+        "switch",
+        "continue",
+        "throws",
+        "protected",
+        "public",
+        "private",
+        "module",
+        "requires",
+        "exports",
+        "do",
+        "sealed",
+        "yield",
+        "permits",
+        "goto",
+        "when"
+      ],
+      literal: [
+        "false",
+        "true",
+        "null"
+      ],
+      type: [
+        "char",
+        "boolean",
+        "long",
+        "float",
+        "int",
+        "byte",
+        "short",
+        "double"
+      ],
+      built_in: [
+        "super",
+        "this"
+      ]
+    }, _ = {
+      className: "meta",
+      begin: "@" + a,
+      contains: [
+        {
+          begin: /\(/,
+          end: /\)/,
+          contains: ["self"]
+          // allow nested () inside our annotation
+        }
+      ]
+    }, f = {
+      className: "params",
+      begin: /\(/,
+      end: /\)/,
+      keywords: g,
+      relevance: 0,
+      contains: [o.C_BLOCK_COMMENT_MODE],
+      endsParent: !0
+    };
+    return {
+      name: "Java",
+      aliases: ["jsp"],
+      keywords: g,
+      illegal: /<\/|#/,
+      contains: [
+        o.COMMENT(
+          "/\\*\\*",
+          "\\*/",
+          {
+            relevance: 0,
+            contains: [
+              {
+                // eat up @'s in emails to prevent them to be recognized as doctags
+                begin: /\w+@/,
+                relevance: 0
+              },
+              {
+                className: "doctag",
+                begin: "@[A-Za-z]+"
+              }
+            ]
+          }
+        ),
+        // relevance boost
+        {
+          begin: /import java\.[a-z]+\./,
+          keywords: "import",
+          relevance: 2
+        },
+        o.C_LINE_COMMENT_MODE,
+        o.C_BLOCK_COMMENT_MODE,
+        {
+          begin: /"""/,
+          end: /"""/,
+          className: "string",
+          contains: [o.BACKSLASH_ESCAPE]
+        },
+        o.APOS_STRING_MODE,
+        o.QUOTE_STRING_MODE,
+        {
+          match: [
+            /\b(?:class|interface|enum|extends|implements|new)/,
+            /\s+/,
+            a
+          ],
+          className: {
+            1: "keyword",
+            3: "title.class"
           }
         },
-        "attr-value": {
-          pattern: /=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+)/i,
-          inside: {
-            punctuation: [
-              /^=/,
+        {
+          // Exceptions for hyphenated keywords
+          match: /non-sealed/,
+          scope: "keyword"
+        },
+        {
+          begin: [
+            c.concat(/(?!else)/, a),
+            /\s+/,
+            a,
+            /\s+/,
+            /=(?!=)/
+          ],
+          className: {
+            1: "type",
+            3: "variable",
+            5: "operator"
+          }
+        },
+        {
+          begin: [
+            /record/,
+            /\s+/,
+            a
+          ],
+          className: {
+            1: "keyword",
+            3: "title.class"
+          },
+          contains: [
+            f,
+            o.C_LINE_COMMENT_MODE,
+            o.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        {
+          // Expression keywords prevent 'keyword Name(...)' from being
+          // recognized as a function definition
+          beginKeywords: "new throw return else",
+          relevance: 0
+        },
+        {
+          begin: [
+            "(?:" + d + "\\s+)",
+            o.UNDERSCORE_IDENT_RE,
+            /\s*(?=\()/
+          ],
+          className: { 2: "title.function" },
+          keywords: g,
+          contains: [
+            {
+              className: "params",
+              begin: /\(/,
+              end: /\)/,
+              keywords: g,
+              relevance: 0,
+              contains: [
+                _,
+                o.APOS_STRING_MODE,
+                o.QUOTE_STRING_MODE,
+                r,
+                o.C_BLOCK_COMMENT_MODE
+              ]
+            },
+            o.C_LINE_COMMENT_MODE,
+            o.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        r,
+        _
+      ]
+    };
+  }
+  return pt = s, pt;
+}
+var bt, xn;
+function va() {
+  if (xn) return bt;
+  xn = 1;
+  const n = "[A-Za-z$_][0-9A-Za-z$_]*", e = [
+    "as",
+    // for exports
+    "in",
+    "of",
+    "if",
+    "for",
+    "while",
+    "finally",
+    "var",
+    "new",
+    "function",
+    "do",
+    "return",
+    "void",
+    "else",
+    "break",
+    "catch",
+    "instanceof",
+    "with",
+    "throw",
+    "case",
+    "default",
+    "try",
+    "switch",
+    "continue",
+    "typeof",
+    "delete",
+    "let",
+    "yield",
+    "const",
+    "class",
+    // JS handles these with a special rule
+    // "get",
+    // "set",
+    "debugger",
+    "async",
+    "await",
+    "static",
+    "import",
+    "from",
+    "export",
+    "extends",
+    // It's reached stage 3, which is "recommended for implementation":
+    "using"
+  ], t = [
+    "true",
+    "false",
+    "null",
+    "undefined",
+    "NaN",
+    "Infinity"
+  ], r = [
+    // Fundamental objects
+    "Object",
+    "Function",
+    "Boolean",
+    "Symbol",
+    // numbers and dates
+    "Math",
+    "Date",
+    "Number",
+    "BigInt",
+    // text
+    "String",
+    "RegExp",
+    // Indexed collections
+    "Array",
+    "Float32Array",
+    "Float64Array",
+    "Int8Array",
+    "Uint8Array",
+    "Uint8ClampedArray",
+    "Int16Array",
+    "Int32Array",
+    "Uint16Array",
+    "Uint32Array",
+    "BigInt64Array",
+    "BigUint64Array",
+    // Keyed collections
+    "Set",
+    "Map",
+    "WeakSet",
+    "WeakMap",
+    // Structured data
+    "ArrayBuffer",
+    "SharedArrayBuffer",
+    "Atomics",
+    "DataView",
+    "JSON",
+    // Control abstraction objects
+    "Promise",
+    "Generator",
+    "GeneratorFunction",
+    "AsyncFunction",
+    // Reflection
+    "Reflect",
+    "Proxy",
+    // Internationalization
+    "Intl",
+    // WebAssembly
+    "WebAssembly"
+  ], i = [
+    "Error",
+    "EvalError",
+    "InternalError",
+    "RangeError",
+    "ReferenceError",
+    "SyntaxError",
+    "TypeError",
+    "URIError"
+  ], s = [
+    "setInterval",
+    "setTimeout",
+    "clearInterval",
+    "clearTimeout",
+    "require",
+    "exports",
+    "eval",
+    "isFinite",
+    "isNaN",
+    "parseFloat",
+    "parseInt",
+    "decodeURI",
+    "decodeURIComponent",
+    "encodeURI",
+    "encodeURIComponent",
+    "escape",
+    "unescape"
+  ], o = [
+    "arguments",
+    "this",
+    "super",
+    "console",
+    "window",
+    "document",
+    "localStorage",
+    "sessionStorage",
+    "module",
+    "global"
+    // Node.js
+  ], c = [].concat(
+    s,
+    r,
+    i
+  );
+  function a(d) {
+    const l = d.regex, u = (W, { after: H }) => {
+      const te = "</" + W[0].slice(1);
+      return W.input.indexOf(te, H) !== -1;
+    }, p = n, h = {
+      begin: "<>",
+      end: "</>"
+    }, g = /<[A-Za-z0-9\\._:-]+\s*\/>/, _ = {
+      begin: /<[A-Za-z0-9\\._:-]+/,
+      end: /\/[A-Za-z0-9\\._:-]+>|\/>/,
+      /**
+       * @param {RegExpMatchArray} match
+       * @param {CallbackResponse} response
+       */
+      isTrulyOpeningTag: (W, H) => {
+        const te = W[0].length + W.index, ae = W.input[te];
+        if (
+          // HTML should not include another raw `<` inside a tag
+          // nested type?
+          // `<Array<Array<number>>`, etc.
+          ae === "<" || // the , gives away that this is not HTML
+          // `<T, A extends keyof T, V>`
+          ae === ","
+        ) {
+          H.ignoreMatch();
+          return;
+        }
+        ae === ">" && (u(W, { after: te }) || H.ignoreMatch());
+        let se;
+        const ce = W.input.substring(te);
+        if (se = ce.match(/^\s*=/)) {
+          H.ignoreMatch();
+          return;
+        }
+        if ((se = ce.match(/^\s+extends\s+/)) && se.index === 0) {
+          H.ignoreMatch();
+          return;
+        }
+      }
+    }, f = {
+      $pattern: n,
+      keyword: e,
+      literal: t,
+      built_in: c,
+      "variable.language": o
+    }, k = "[0-9](_?[0-9])*", w = `\\.(${k})`, N = "0|[1-9](_?[0-9])*|0[0-7]*[89][0-9]*", I = {
+      className: "number",
+      variants: [
+        // DecimalLiteral
+        { begin: `(\\b(${N})((${w})|\\.)?|(${w}))[eE][+-]?(${k})\\b` },
+        { begin: `\\b(${N})\\b((${w})\\b|\\.)?|(${w})\\b` },
+        // DecimalBigIntegerLiteral
+        { begin: "\\b(0|[1-9](_?[0-9])*)n\\b" },
+        // NonDecimalIntegerLiteral
+        { begin: "\\b0[xX][0-9a-fA-F](_?[0-9a-fA-F])*n?\\b" },
+        { begin: "\\b0[bB][0-1](_?[0-1])*n?\\b" },
+        { begin: "\\b0[oO][0-7](_?[0-7])*n?\\b" },
+        // LegacyOctalIntegerLiteral (does not include underscore separators)
+        // https://tc39.es/ecma262/#sec-additional-syntax-numeric-literals
+        { begin: "\\b0[0-7]+n?\\b" }
+      ],
+      relevance: 0
+    }, x = {
+      className: "subst",
+      begin: "\\$\\{",
+      end: "\\}",
+      keywords: f,
+      contains: []
+      // defined later
+    }, R = {
+      begin: ".?html`",
+      end: "",
+      starts: {
+        end: "`",
+        returnEnd: !1,
+        contains: [
+          d.BACKSLASH_ESCAPE,
+          x
+        ],
+        subLanguage: "xml"
+      }
+    }, C = {
+      begin: ".?css`",
+      end: "",
+      starts: {
+        end: "`",
+        returnEnd: !1,
+        contains: [
+          d.BACKSLASH_ESCAPE,
+          x
+        ],
+        subLanguage: "css"
+      }
+    }, v = {
+      begin: ".?gql`",
+      end: "",
+      starts: {
+        end: "`",
+        returnEnd: !1,
+        contains: [
+          d.BACKSLASH_ESCAPE,
+          x
+        ],
+        subLanguage: "graphql"
+      }
+    }, M = {
+      className: "string",
+      begin: "`",
+      end: "`",
+      contains: [
+        d.BACKSLASH_ESCAPE,
+        x
+      ]
+    }, K = {
+      className: "comment",
+      variants: [
+        d.COMMENT(
+          /\/\*\*(?!\/)/,
+          "\\*/",
+          {
+            relevance: 0,
+            contains: [
               {
-                pattern: /(^|[^\\])["']/,
-                lookbehind: !0
+                begin: "(?=@[A-Za-z]+)",
+                relevance: 0,
+                contains: [
+                  {
+                    className: "doctag",
+                    begin: "@[A-Za-z]+"
+                  },
+                  {
+                    className: "type",
+                    begin: "\\{",
+                    end: "\\}",
+                    excludeEnd: !0,
+                    excludeBegin: !0,
+                    relevance: 0
+                  },
+                  {
+                    className: "variable",
+                    begin: p + "(?=\\s*(-)|$)",
+                    endsParent: !0,
+                    relevance: 0
+                  },
+                  // eat spaces (not newlines) so we can find
+                  // types or variables
+                  {
+                    begin: /(?=[^\n])\s/,
+                    relevance: 0
+                  }
+                ]
+              }
+            ]
+          }
+        ),
+        d.C_BLOCK_COMMENT_MODE,
+        d.C_LINE_COMMENT_MODE
+      ]
+    }, j = [
+      d.APOS_STRING_MODE,
+      d.QUOTE_STRING_MODE,
+      R,
+      C,
+      v,
+      M,
+      // Skip numbers when they are part of a variable name
+      { match: /\$\d+/ },
+      I
+      // This is intentional:
+      // See https://github.com/highlightjs/highlight.js/issues/3288
+      // hljs.REGEXP_MODE
+    ];
+    x.contains = j.concat({
+      // we need to pair up {} inside our subst to prevent
+      // it from ending too early by matching another }
+      begin: /\{/,
+      end: /\}/,
+      keywords: f,
+      contains: [
+        "self"
+      ].concat(j)
+    });
+    const Q = [].concat(K, x.contains), ee = Q.concat([
+      // eat recursive parens in sub expressions
+      {
+        begin: /(\s*)\(/,
+        end: /\)/,
+        keywords: f,
+        contains: ["self"].concat(Q)
+      }
+    ]), G = {
+      className: "params",
+      // convert this to negative lookbehind in v12
+      begin: /(\s*)\(/,
+      // to match the parms with
+      end: /\)/,
+      excludeBegin: !0,
+      excludeEnd: !0,
+      keywords: f,
+      contains: ee
+    }, b = {
+      variants: [
+        // class Car extends vehicle
+        {
+          match: [
+            /class/,
+            /\s+/,
+            p,
+            /\s+/,
+            /extends/,
+            /\s+/,
+            l.concat(p, "(", l.concat(/\./, p), ")*")
+          ],
+          scope: {
+            1: "keyword",
+            3: "title.class",
+            5: "keyword",
+            7: "title.class.inherited"
+          }
+        },
+        // class Car
+        {
+          match: [
+            /class/,
+            /\s+/,
+            p
+          ],
+          scope: {
+            1: "keyword",
+            3: "title.class"
+          }
+        }
+      ]
+    }, E = {
+      relevance: 0,
+      match: l.either(
+        // Hard coded exceptions
+        /\bJSON/,
+        // Float32Array, OutT
+        /\b[A-Z][a-z]+([A-Z][a-z]*|\d)*/,
+        // CSSFactory, CSSFactoryT
+        /\b[A-Z]{2,}([A-Z][a-z]+|\d)+([A-Z][a-z]*)*/,
+        // FPs, FPsT
+        /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/
+        // P
+        // single letters are not highlighted
+        // BLAH
+        // this will be flagged as a UPPER_CASE_CONSTANT instead
+      ),
+      className: "title.class",
+      keywords: {
+        _: [
+          // se we still get relevance credit for JS library classes
+          ...r,
+          ...i
+        ]
+      }
+    }, S = {
+      label: "use_strict",
+      className: "meta",
+      relevance: 10,
+      begin: /^\s*['"]use (strict|asm)['"]/
+    }, D = {
+      variants: [
+        {
+          match: [
+            /function/,
+            /\s+/,
+            p,
+            /(?=\s*\()/
+          ]
+        },
+        // anonymous function
+        {
+          match: [
+            /function/,
+            /\s*(?=\()/
+          ]
+        }
+      ],
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      label: "func.def",
+      contains: [G],
+      illegal: /%/
+    }, q = {
+      relevance: 0,
+      match: /\b[A-Z][A-Z_0-9]+\b/,
+      className: "variable.constant"
+    };
+    function V(W) {
+      return l.concat("(?!", W.join("|"), ")");
+    }
+    const ie = {
+      match: l.concat(
+        /\b/,
+        V([
+          ...s,
+          "super",
+          "import"
+        ].map((W) => `${W}\\s*\\(`)),
+        p,
+        l.lookahead(/\s*\(/)
+      ),
+      className: "title.function",
+      relevance: 0
+    }, pe = {
+      begin: l.concat(/\./, l.lookahead(
+        l.concat(p, /(?![0-9A-Za-z$_(])/)
+      )),
+      end: p,
+      excludeBegin: !0,
+      keywords: "prototype",
+      className: "property",
+      relevance: 0
+    }, Z = {
+      match: [
+        /get|set/,
+        /\s+/,
+        p,
+        /(?=\()/
+      ],
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      contains: [
+        {
+          // eat to avoid empty params
+          begin: /\(\)/
+        },
+        G
+      ]
+    }, Y = "(\\([^()]*(\\([^()]*(\\([^()]*\\)[^()]*)*\\)[^()]*)*\\)|" + d.UNDERSCORE_IDENT_RE + ")\\s*=>", be = {
+      match: [
+        /const|var|let/,
+        /\s+/,
+        p,
+        /\s*/,
+        /=\s*/,
+        /(async\s*)?/,
+        // async is optional
+        l.lookahead(Y)
+      ],
+      keywords: "async",
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      contains: [
+        G
+      ]
+    };
+    return {
+      name: "JavaScript",
+      aliases: ["js", "jsx", "mjs", "cjs"],
+      keywords: f,
+      // this will be extended by TypeScript
+      exports: { PARAMS_CONTAINS: ee, CLASS_REFERENCE: E },
+      illegal: /#(?![$_A-z])/,
+      contains: [
+        d.SHEBANG({
+          label: "shebang",
+          binary: "node",
+          relevance: 5
+        }),
+        S,
+        d.APOS_STRING_MODE,
+        d.QUOTE_STRING_MODE,
+        R,
+        C,
+        v,
+        M,
+        K,
+        // Skip numbers when they are part of a variable name
+        { match: /\$\d+/ },
+        I,
+        E,
+        {
+          scope: "attr",
+          match: p + l.lookahead(":"),
+          relevance: 0
+        },
+        be,
+        {
+          // "value" container
+          begin: "(" + d.RE_STARTERS_RE + "|\\b(case|return|throw)\\b)\\s*",
+          keywords: "return throw case",
+          relevance: 0,
+          contains: [
+            K,
+            d.REGEXP_MODE,
+            {
+              className: "function",
+              // we have to count the parens to make sure we actually have the
+              // correct bounding ( ) before the =>.  There could be any number of
+              // sub-expressions inside also surrounded by parens.
+              begin: Y,
+              returnBegin: !0,
+              end: "\\s*=>",
+              contains: [
+                {
+                  className: "params",
+                  variants: [
+                    {
+                      begin: d.UNDERSCORE_IDENT_RE,
+                      relevance: 0
+                    },
+                    {
+                      className: null,
+                      begin: /\(\s*\)/,
+                      skip: !0
+                    },
+                    {
+                      begin: /(\s*)\(/,
+                      end: /\)/,
+                      excludeBegin: !0,
+                      excludeEnd: !0,
+                      keywords: f,
+                      contains: ee
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              // could be a comma delimited list of params to a function call
+              begin: /,/,
+              relevance: 0
+            },
+            {
+              match: /\s+/,
+              relevance: 0
+            },
+            {
+              // JSX
+              variants: [
+                { begin: h.begin, end: h.end },
+                { match: g },
+                {
+                  begin: _.begin,
+                  // we carefully check the opening tag to see if it truly
+                  // is a tag and not a false positive
+                  "on:begin": _.isTrulyOpeningTag,
+                  end: _.end
+                }
+              ],
+              subLanguage: "xml",
+              contains: [
+                {
+                  begin: _.begin,
+                  end: _.end,
+                  skip: !0,
+                  contains: ["self"]
+                }
+              ]
+            }
+          ]
+        },
+        D,
+        {
+          // prevent this from getting swallowed up by function
+          // since they appear "function like"
+          beginKeywords: "while if switch catch for"
+        },
+        {
+          // we have to count the parens to make sure we actually have the correct
+          // bounding ( ).  There could be any number of sub-expressions inside
+          // also surrounded by parens.
+          begin: "\\b(?!function)" + d.UNDERSCORE_IDENT_RE + "\\([^()]*(\\([^()]*(\\([^()]*\\)[^()]*)*\\)[^()]*)*\\)\\s*\\{",
+          // end parens
+          returnBegin: !0,
+          label: "func.def",
+          contains: [
+            G,
+            d.inherit(d.TITLE_MODE, { begin: p, className: "title.function" })
+          ]
+        },
+        // catch ... so it won't trigger the property rule below
+        {
+          match: /\.\.\./,
+          relevance: 0
+        },
+        pe,
+        // hack: prevents detection of keywords in some circumstances
+        // .keyword()
+        // $keyword = x
+        {
+          match: "\\$" + p,
+          relevance: 0
+        },
+        {
+          match: [/\bconstructor(?=\s*\()/],
+          className: { 1: "title.function" },
+          contains: [G]
+        },
+        ie,
+        q,
+        b,
+        Z,
+        {
+          match: /\$[(.]/
+          // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`
+        }
+      ]
+    };
+  }
+  return bt = a, bt;
+}
+var ht, Rn;
+function Sa() {
+  if (Rn) return ht;
+  Rn = 1;
+  function n(e) {
+    const t = {
+      className: "attr",
+      begin: /"(\\.|[^\\"\r\n])*"(?=\s*:)/,
+      relevance: 1.01
+    }, r = {
+      match: /[{}[\],:]/,
+      className: "punctuation",
+      relevance: 0
+    }, i = [
+      "true",
+      "false",
+      "null"
+    ], s = {
+      scope: "literal",
+      beginKeywords: i.join(" ")
+    };
+    return {
+      name: "JSON",
+      aliases: ["jsonc"],
+      keywords: {
+        literal: i
+      },
+      contains: [
+        t,
+        r,
+        e.QUOTE_STRING_MODE,
+        s,
+        e.C_NUMBER_MODE,
+        e.C_LINE_COMMENT_MODE,
+        e.C_BLOCK_COMMENT_MODE
+      ],
+      illegal: "\\S"
+    };
+  }
+  return ht = n, ht;
+}
+var ft, An;
+function Ta() {
+  if (An) return ft;
+  An = 1;
+  var n = "[0-9](_*[0-9])*", e = `\\.(${n})`, t = "[0-9a-fA-F](_*[0-9a-fA-F])*", r = {
+    className: "number",
+    variants: [
+      // DecimalFloatingPointLiteral
+      // including ExponentPart
+      { begin: `(\\b(${n})((${e})|\\.)?|(${e}))[eE][+-]?(${n})[fFdD]?\\b` },
+      // excluding ExponentPart
+      { begin: `\\b(${n})((${e})[fFdD]?\\b|\\.([fFdD]\\b)?)` },
+      { begin: `(${e})[fFdD]?\\b` },
+      { begin: `\\b(${n})[fFdD]\\b` },
+      // HexadecimalFloatingPointLiteral
+      { begin: `\\b0[xX]((${t})\\.?|(${t})?\\.(${t}))[pP][+-]?(${n})[fFdD]?\\b` },
+      // DecimalIntegerLiteral
+      { begin: "\\b(0|[1-9](_*[0-9])*)[lL]?\\b" },
+      // HexIntegerLiteral
+      { begin: `\\b0[xX](${t})[lL]?\\b` },
+      // OctalIntegerLiteral
+      { begin: "\\b0(_*[0-7])*[lL]?\\b" },
+      // BinaryIntegerLiteral
+      { begin: "\\b0[bB][01](_*[01])*[lL]?\\b" }
+    ],
+    relevance: 0
+  };
+  function i(s) {
+    const o = {
+      keyword: "abstract as val var vararg get set class object open private protected public noinline crossinline dynamic final enum if else do while for when throw try catch finally import package is in fun override companion reified inline lateinit init interface annotation data sealed internal infix operator out by constructor super tailrec where const inner suspend typealias external expect actual",
+      built_in: "Byte Short Char Int Long Boolean Float Double Void Unit Nothing",
+      literal: "true false null"
+    }, c = {
+      className: "keyword",
+      begin: /\b(break|continue|return|this)\b/,
+      starts: { contains: [
+        {
+          className: "symbol",
+          begin: /@\w+/
+        }
+      ] }
+    }, a = {
+      className: "symbol",
+      begin: s.UNDERSCORE_IDENT_RE + "@"
+    }, d = {
+      className: "subst",
+      begin: /\$\{/,
+      end: /\}/,
+      contains: [s.C_NUMBER_MODE]
+    }, l = {
+      className: "variable",
+      begin: "\\$" + s.UNDERSCORE_IDENT_RE
+    }, u = {
+      className: "string",
+      variants: [
+        {
+          begin: '"""',
+          end: '"""(?=[^"])',
+          contains: [
+            l,
+            d
+          ]
+        },
+        // Can't use built-in modes easily, as we want to use STRING in the meta
+        // context as 'meta-string' and there's no syntax to remove explicitly set
+        // classNames in built-in modes.
+        {
+          begin: "'",
+          end: "'",
+          illegal: /\n/,
+          contains: [s.BACKSLASH_ESCAPE]
+        },
+        {
+          begin: '"',
+          end: '"',
+          illegal: /\n/,
+          contains: [
+            s.BACKSLASH_ESCAPE,
+            l,
+            d
+          ]
+        }
+      ]
+    };
+    d.contains.push(u);
+    const p = {
+      className: "meta",
+      begin: "@(?:file|property|field|get|set|receiver|param|setparam|delegate)\\s*:(?:\\s*" + s.UNDERSCORE_IDENT_RE + ")?"
+    }, h = {
+      className: "meta",
+      begin: "@" + s.UNDERSCORE_IDENT_RE,
+      contains: [
+        {
+          begin: /\(/,
+          end: /\)/,
+          contains: [
+            s.inherit(u, { className: "string" }),
+            "self"
+          ]
+        }
+      ]
+    }, g = r, _ = s.COMMENT(
+      "/\\*",
+      "\\*/",
+      { contains: [s.C_BLOCK_COMMENT_MODE] }
+    ), f = { variants: [
+      {
+        className: "type",
+        begin: s.UNDERSCORE_IDENT_RE
+      },
+      {
+        begin: /\(/,
+        end: /\)/,
+        contains: []
+        // defined later
+      }
+    ] }, k = f;
+    return k.variants[1].contains = [f], f.variants[1].contains = [k], {
+      name: "Kotlin",
+      aliases: [
+        "kt",
+        "kts"
+      ],
+      keywords: o,
+      contains: [
+        s.COMMENT(
+          "/\\*\\*",
+          "\\*/",
+          {
+            relevance: 0,
+            contains: [
+              {
+                className: "doctag",
+                begin: "@[A-Za-z]+"
+              }
+            ]
+          }
+        ),
+        s.C_LINE_COMMENT_MODE,
+        _,
+        c,
+        a,
+        p,
+        h,
+        {
+          className: "function",
+          beginKeywords: "fun",
+          end: "[(]|$",
+          returnBegin: !0,
+          excludeEnd: !0,
+          keywords: o,
+          relevance: 5,
+          contains: [
+            {
+              begin: s.UNDERSCORE_IDENT_RE + "\\s*\\(",
+              returnBegin: !0,
+              relevance: 0,
+              contains: [s.UNDERSCORE_TITLE_MODE]
+            },
+            {
+              className: "type",
+              begin: /</,
+              end: />/,
+              keywords: "reified",
+              relevance: 0
+            },
+            {
+              className: "params",
+              begin: /\(/,
+              end: /\)/,
+              endsParent: !0,
+              keywords: o,
+              relevance: 0,
+              contains: [
+                {
+                  begin: /:/,
+                  end: /[=,\/]/,
+                  endsWithParent: !0,
+                  contains: [
+                    f,
+                    s.C_LINE_COMMENT_MODE,
+                    _
+                  ],
+                  relevance: 0
+                },
+                s.C_LINE_COMMENT_MODE,
+                _,
+                p,
+                h,
+                u,
+                s.C_NUMBER_MODE
+              ]
+            },
+            _
+          ]
+        },
+        {
+          begin: [
+            /class|interface|trait/,
+            /\s+/,
+            s.UNDERSCORE_IDENT_RE
+          ],
+          beginScope: {
+            3: "title.class"
+          },
+          keywords: "class interface trait",
+          end: /[:\{(]|$/,
+          excludeEnd: !0,
+          illegal: "extends implements",
+          contains: [
+            { beginKeywords: "public protected internal private constructor" },
+            s.UNDERSCORE_TITLE_MODE,
+            {
+              className: "type",
+              begin: /</,
+              end: />/,
+              excludeBegin: !0,
+              excludeEnd: !0,
+              relevance: 0
+            },
+            {
+              className: "type",
+              begin: /[,:]\s*/,
+              end: /[<\(,){\s]|$/,
+              excludeBegin: !0,
+              returnEnd: !0
+            },
+            p,
+            h
+          ]
+        },
+        u,
+        {
+          className: "meta",
+          begin: "^#!/usr/bin/env",
+          end: "$",
+          illegal: `
+`
+        },
+        g
+      ]
+    };
+  }
+  return ft = i, ft;
+}
+var mt, On;
+function xa() {
+  if (On) return mt;
+  On = 1;
+  const n = (l) => ({
+    IMPORTANT: {
+      scope: "meta",
+      begin: "!important"
+    },
+    BLOCK_COMMENT: l.C_BLOCK_COMMENT_MODE,
+    HEXCOLOR: {
+      scope: "number",
+      begin: /#(([0-9a-fA-F]{3,4})|(([0-9a-fA-F]{2}){3,4}))\b/
+    },
+    FUNCTION_DISPATCH: {
+      className: "built_in",
+      begin: /[\w-]+(?=\()/
+    },
+    ATTRIBUTE_SELECTOR_MODE: {
+      scope: "selector-attr",
+      begin: /\[/,
+      end: /\]/,
+      illegal: "$",
+      contains: [
+        l.APOS_STRING_MODE,
+        l.QUOTE_STRING_MODE
+      ]
+    },
+    CSS_NUMBER_MODE: {
+      scope: "number",
+      begin: l.NUMBER_RE + "(%|em|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|px|deg|grad|rad|turn|s|ms|Hz|kHz|dpi|dpcm|dppx)?",
+      relevance: 0
+    },
+    CSS_VARIABLE: {
+      className: "attr",
+      begin: /--[A-Za-z_][A-Za-z0-9_-]*/
+    }
+  }), e = [
+    "a",
+    "abbr",
+    "address",
+    "article",
+    "aside",
+    "audio",
+    "b",
+    "blockquote",
+    "body",
+    "button",
+    "canvas",
+    "caption",
+    "cite",
+    "code",
+    "dd",
+    "del",
+    "details",
+    "dfn",
+    "div",
+    "dl",
+    "dt",
+    "em",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hgroup",
+    "html",
+    "i",
+    "iframe",
+    "img",
+    "input",
+    "ins",
+    "kbd",
+    "label",
+    "legend",
+    "li",
+    "main",
+    "mark",
+    "menu",
+    "nav",
+    "object",
+    "ol",
+    "optgroup",
+    "option",
+    "p",
+    "picture",
+    "q",
+    "quote",
+    "samp",
+    "section",
+    "select",
+    "source",
+    "span",
+    "strong",
+    "summary",
+    "sup",
+    "table",
+    "tbody",
+    "td",
+    "textarea",
+    "tfoot",
+    "th",
+    "thead",
+    "time",
+    "tr",
+    "ul",
+    "var",
+    "video"
+  ], t = [
+    "defs",
+    "g",
+    "marker",
+    "mask",
+    "pattern",
+    "svg",
+    "switch",
+    "symbol",
+    "feBlend",
+    "feColorMatrix",
+    "feComponentTransfer",
+    "feComposite",
+    "feConvolveMatrix",
+    "feDiffuseLighting",
+    "feDisplacementMap",
+    "feFlood",
+    "feGaussianBlur",
+    "feImage",
+    "feMerge",
+    "feMorphology",
+    "feOffset",
+    "feSpecularLighting",
+    "feTile",
+    "feTurbulence",
+    "linearGradient",
+    "radialGradient",
+    "stop",
+    "circle",
+    "ellipse",
+    "image",
+    "line",
+    "path",
+    "polygon",
+    "polyline",
+    "rect",
+    "text",
+    "use",
+    "textPath",
+    "tspan",
+    "foreignObject",
+    "clipPath"
+  ], r = [
+    ...e,
+    ...t
+  ], i = [
+    "any-hover",
+    "any-pointer",
+    "aspect-ratio",
+    "color",
+    "color-gamut",
+    "color-index",
+    "device-aspect-ratio",
+    "device-height",
+    "device-width",
+    "display-mode",
+    "forced-colors",
+    "grid",
+    "height",
+    "hover",
+    "inverted-colors",
+    "monochrome",
+    "orientation",
+    "overflow-block",
+    "overflow-inline",
+    "pointer",
+    "prefers-color-scheme",
+    "prefers-contrast",
+    "prefers-reduced-motion",
+    "prefers-reduced-transparency",
+    "resolution",
+    "scan",
+    "scripting",
+    "update",
+    "width",
+    // TODO: find a better solution?
+    "min-width",
+    "max-width",
+    "min-height",
+    "max-height"
+  ].sort().reverse(), s = [
+    "active",
+    "any-link",
+    "blank",
+    "checked",
+    "current",
+    "default",
+    "defined",
+    "dir",
+    // dir()
+    "disabled",
+    "drop",
+    "empty",
+    "enabled",
+    "first",
+    "first-child",
+    "first-of-type",
+    "fullscreen",
+    "future",
+    "focus",
+    "focus-visible",
+    "focus-within",
+    "has",
+    // has()
+    "host",
+    // host or host()
+    "host-context",
+    // host-context()
+    "hover",
+    "indeterminate",
+    "in-range",
+    "invalid",
+    "is",
+    // is()
+    "lang",
+    // lang()
+    "last-child",
+    "last-of-type",
+    "left",
+    "link",
+    "local-link",
+    "not",
+    // not()
+    "nth-child",
+    // nth-child()
+    "nth-col",
+    // nth-col()
+    "nth-last-child",
+    // nth-last-child()
+    "nth-last-col",
+    // nth-last-col()
+    "nth-last-of-type",
+    //nth-last-of-type()
+    "nth-of-type",
+    //nth-of-type()
+    "only-child",
+    "only-of-type",
+    "optional",
+    "out-of-range",
+    "past",
+    "placeholder-shown",
+    "read-only",
+    "read-write",
+    "required",
+    "right",
+    "root",
+    "scope",
+    "target",
+    "target-within",
+    "user-invalid",
+    "valid",
+    "visited",
+    "where"
+    // where()
+  ].sort().reverse(), o = [
+    "after",
+    "backdrop",
+    "before",
+    "cue",
+    "cue-region",
+    "first-letter",
+    "first-line",
+    "grammar-error",
+    "marker",
+    "part",
+    "placeholder",
+    "selection",
+    "slotted",
+    "spelling-error"
+  ].sort().reverse(), c = [
+    "accent-color",
+    "align-content",
+    "align-items",
+    "align-self",
+    "alignment-baseline",
+    "all",
+    "anchor-name",
+    "animation",
+    "animation-composition",
+    "animation-delay",
+    "animation-direction",
+    "animation-duration",
+    "animation-fill-mode",
+    "animation-iteration-count",
+    "animation-name",
+    "animation-play-state",
+    "animation-range",
+    "animation-range-end",
+    "animation-range-start",
+    "animation-timeline",
+    "animation-timing-function",
+    "appearance",
+    "aspect-ratio",
+    "backdrop-filter",
+    "backface-visibility",
+    "background",
+    "background-attachment",
+    "background-blend-mode",
+    "background-clip",
+    "background-color",
+    "background-image",
+    "background-origin",
+    "background-position",
+    "background-position-x",
+    "background-position-y",
+    "background-repeat",
+    "background-size",
+    "baseline-shift",
+    "block-size",
+    "border",
+    "border-block",
+    "border-block-color",
+    "border-block-end",
+    "border-block-end-color",
+    "border-block-end-style",
+    "border-block-end-width",
+    "border-block-start",
+    "border-block-start-color",
+    "border-block-start-style",
+    "border-block-start-width",
+    "border-block-style",
+    "border-block-width",
+    "border-bottom",
+    "border-bottom-color",
+    "border-bottom-left-radius",
+    "border-bottom-right-radius",
+    "border-bottom-style",
+    "border-bottom-width",
+    "border-collapse",
+    "border-color",
+    "border-end-end-radius",
+    "border-end-start-radius",
+    "border-image",
+    "border-image-outset",
+    "border-image-repeat",
+    "border-image-slice",
+    "border-image-source",
+    "border-image-width",
+    "border-inline",
+    "border-inline-color",
+    "border-inline-end",
+    "border-inline-end-color",
+    "border-inline-end-style",
+    "border-inline-end-width",
+    "border-inline-start",
+    "border-inline-start-color",
+    "border-inline-start-style",
+    "border-inline-start-width",
+    "border-inline-style",
+    "border-inline-width",
+    "border-left",
+    "border-left-color",
+    "border-left-style",
+    "border-left-width",
+    "border-radius",
+    "border-right",
+    "border-right-color",
+    "border-right-style",
+    "border-right-width",
+    "border-spacing",
+    "border-start-end-radius",
+    "border-start-start-radius",
+    "border-style",
+    "border-top",
+    "border-top-color",
+    "border-top-left-radius",
+    "border-top-right-radius",
+    "border-top-style",
+    "border-top-width",
+    "border-width",
+    "bottom",
+    "box-align",
+    "box-decoration-break",
+    "box-direction",
+    "box-flex",
+    "box-flex-group",
+    "box-lines",
+    "box-ordinal-group",
+    "box-orient",
+    "box-pack",
+    "box-shadow",
+    "box-sizing",
+    "break-after",
+    "break-before",
+    "break-inside",
+    "caption-side",
+    "caret-color",
+    "clear",
+    "clip",
+    "clip-path",
+    "clip-rule",
+    "color",
+    "color-interpolation",
+    "color-interpolation-filters",
+    "color-profile",
+    "color-rendering",
+    "color-scheme",
+    "column-count",
+    "column-fill",
+    "column-gap",
+    "column-rule",
+    "column-rule-color",
+    "column-rule-style",
+    "column-rule-width",
+    "column-span",
+    "column-width",
+    "columns",
+    "contain",
+    "contain-intrinsic-block-size",
+    "contain-intrinsic-height",
+    "contain-intrinsic-inline-size",
+    "contain-intrinsic-size",
+    "contain-intrinsic-width",
+    "container",
+    "container-name",
+    "container-type",
+    "content",
+    "content-visibility",
+    "counter-increment",
+    "counter-reset",
+    "counter-set",
+    "cue",
+    "cue-after",
+    "cue-before",
+    "cursor",
+    "cx",
+    "cy",
+    "direction",
+    "display",
+    "dominant-baseline",
+    "empty-cells",
+    "enable-background",
+    "field-sizing",
+    "fill",
+    "fill-opacity",
+    "fill-rule",
+    "filter",
+    "flex",
+    "flex-basis",
+    "flex-direction",
+    "flex-flow",
+    "flex-grow",
+    "flex-shrink",
+    "flex-wrap",
+    "float",
+    "flood-color",
+    "flood-opacity",
+    "flow",
+    "font",
+    "font-display",
+    "font-family",
+    "font-feature-settings",
+    "font-kerning",
+    "font-language-override",
+    "font-optical-sizing",
+    "font-palette",
+    "font-size",
+    "font-size-adjust",
+    "font-smooth",
+    "font-smoothing",
+    "font-stretch",
+    "font-style",
+    "font-synthesis",
+    "font-synthesis-position",
+    "font-synthesis-small-caps",
+    "font-synthesis-style",
+    "font-synthesis-weight",
+    "font-variant",
+    "font-variant-alternates",
+    "font-variant-caps",
+    "font-variant-east-asian",
+    "font-variant-emoji",
+    "font-variant-ligatures",
+    "font-variant-numeric",
+    "font-variant-position",
+    "font-variation-settings",
+    "font-weight",
+    "forced-color-adjust",
+    "gap",
+    "glyph-orientation-horizontal",
+    "glyph-orientation-vertical",
+    "grid",
+    "grid-area",
+    "grid-auto-columns",
+    "grid-auto-flow",
+    "grid-auto-rows",
+    "grid-column",
+    "grid-column-end",
+    "grid-column-start",
+    "grid-gap",
+    "grid-row",
+    "grid-row-end",
+    "grid-row-start",
+    "grid-template",
+    "grid-template-areas",
+    "grid-template-columns",
+    "grid-template-rows",
+    "hanging-punctuation",
+    "height",
+    "hyphenate-character",
+    "hyphenate-limit-chars",
+    "hyphens",
+    "icon",
+    "image-orientation",
+    "image-rendering",
+    "image-resolution",
+    "ime-mode",
+    "initial-letter",
+    "initial-letter-align",
+    "inline-size",
+    "inset",
+    "inset-area",
+    "inset-block",
+    "inset-block-end",
+    "inset-block-start",
+    "inset-inline",
+    "inset-inline-end",
+    "inset-inline-start",
+    "isolation",
+    "justify-content",
+    "justify-items",
+    "justify-self",
+    "kerning",
+    "left",
+    "letter-spacing",
+    "lighting-color",
+    "line-break",
+    "line-height",
+    "line-height-step",
+    "list-style",
+    "list-style-image",
+    "list-style-position",
+    "list-style-type",
+    "margin",
+    "margin-block",
+    "margin-block-end",
+    "margin-block-start",
+    "margin-bottom",
+    "margin-inline",
+    "margin-inline-end",
+    "margin-inline-start",
+    "margin-left",
+    "margin-right",
+    "margin-top",
+    "margin-trim",
+    "marker",
+    "marker-end",
+    "marker-mid",
+    "marker-start",
+    "marks",
+    "mask",
+    "mask-border",
+    "mask-border-mode",
+    "mask-border-outset",
+    "mask-border-repeat",
+    "mask-border-slice",
+    "mask-border-source",
+    "mask-border-width",
+    "mask-clip",
+    "mask-composite",
+    "mask-image",
+    "mask-mode",
+    "mask-origin",
+    "mask-position",
+    "mask-repeat",
+    "mask-size",
+    "mask-type",
+    "masonry-auto-flow",
+    "math-depth",
+    "math-shift",
+    "math-style",
+    "max-block-size",
+    "max-height",
+    "max-inline-size",
+    "max-width",
+    "min-block-size",
+    "min-height",
+    "min-inline-size",
+    "min-width",
+    "mix-blend-mode",
+    "nav-down",
+    "nav-index",
+    "nav-left",
+    "nav-right",
+    "nav-up",
+    "none",
+    "normal",
+    "object-fit",
+    "object-position",
+    "offset",
+    "offset-anchor",
+    "offset-distance",
+    "offset-path",
+    "offset-position",
+    "offset-rotate",
+    "opacity",
+    "order",
+    "orphans",
+    "outline",
+    "outline-color",
+    "outline-offset",
+    "outline-style",
+    "outline-width",
+    "overflow",
+    "overflow-anchor",
+    "overflow-block",
+    "overflow-clip-margin",
+    "overflow-inline",
+    "overflow-wrap",
+    "overflow-x",
+    "overflow-y",
+    "overlay",
+    "overscroll-behavior",
+    "overscroll-behavior-block",
+    "overscroll-behavior-inline",
+    "overscroll-behavior-x",
+    "overscroll-behavior-y",
+    "padding",
+    "padding-block",
+    "padding-block-end",
+    "padding-block-start",
+    "padding-bottom",
+    "padding-inline",
+    "padding-inline-end",
+    "padding-inline-start",
+    "padding-left",
+    "padding-right",
+    "padding-top",
+    "page",
+    "page-break-after",
+    "page-break-before",
+    "page-break-inside",
+    "paint-order",
+    "pause",
+    "pause-after",
+    "pause-before",
+    "perspective",
+    "perspective-origin",
+    "place-content",
+    "place-items",
+    "place-self",
+    "pointer-events",
+    "position",
+    "position-anchor",
+    "position-visibility",
+    "print-color-adjust",
+    "quotes",
+    "r",
+    "resize",
+    "rest",
+    "rest-after",
+    "rest-before",
+    "right",
+    "rotate",
+    "row-gap",
+    "ruby-align",
+    "ruby-position",
+    "scale",
+    "scroll-behavior",
+    "scroll-margin",
+    "scroll-margin-block",
+    "scroll-margin-block-end",
+    "scroll-margin-block-start",
+    "scroll-margin-bottom",
+    "scroll-margin-inline",
+    "scroll-margin-inline-end",
+    "scroll-margin-inline-start",
+    "scroll-margin-left",
+    "scroll-margin-right",
+    "scroll-margin-top",
+    "scroll-padding",
+    "scroll-padding-block",
+    "scroll-padding-block-end",
+    "scroll-padding-block-start",
+    "scroll-padding-bottom",
+    "scroll-padding-inline",
+    "scroll-padding-inline-end",
+    "scroll-padding-inline-start",
+    "scroll-padding-left",
+    "scroll-padding-right",
+    "scroll-padding-top",
+    "scroll-snap-align",
+    "scroll-snap-stop",
+    "scroll-snap-type",
+    "scroll-timeline",
+    "scroll-timeline-axis",
+    "scroll-timeline-name",
+    "scrollbar-color",
+    "scrollbar-gutter",
+    "scrollbar-width",
+    "shape-image-threshold",
+    "shape-margin",
+    "shape-outside",
+    "shape-rendering",
+    "speak",
+    "speak-as",
+    "src",
+    // @font-face
+    "stop-color",
+    "stop-opacity",
+    "stroke",
+    "stroke-dasharray",
+    "stroke-dashoffset",
+    "stroke-linecap",
+    "stroke-linejoin",
+    "stroke-miterlimit",
+    "stroke-opacity",
+    "stroke-width",
+    "tab-size",
+    "table-layout",
+    "text-align",
+    "text-align-all",
+    "text-align-last",
+    "text-anchor",
+    "text-combine-upright",
+    "text-decoration",
+    "text-decoration-color",
+    "text-decoration-line",
+    "text-decoration-skip",
+    "text-decoration-skip-ink",
+    "text-decoration-style",
+    "text-decoration-thickness",
+    "text-emphasis",
+    "text-emphasis-color",
+    "text-emphasis-position",
+    "text-emphasis-style",
+    "text-indent",
+    "text-justify",
+    "text-orientation",
+    "text-overflow",
+    "text-rendering",
+    "text-shadow",
+    "text-size-adjust",
+    "text-transform",
+    "text-underline-offset",
+    "text-underline-position",
+    "text-wrap",
+    "text-wrap-mode",
+    "text-wrap-style",
+    "timeline-scope",
+    "top",
+    "touch-action",
+    "transform",
+    "transform-box",
+    "transform-origin",
+    "transform-style",
+    "transition",
+    "transition-behavior",
+    "transition-delay",
+    "transition-duration",
+    "transition-property",
+    "transition-timing-function",
+    "translate",
+    "unicode-bidi",
+    "user-modify",
+    "user-select",
+    "vector-effect",
+    "vertical-align",
+    "view-timeline",
+    "view-timeline-axis",
+    "view-timeline-inset",
+    "view-timeline-name",
+    "view-transition-name",
+    "visibility",
+    "voice-balance",
+    "voice-duration",
+    "voice-family",
+    "voice-pitch",
+    "voice-range",
+    "voice-rate",
+    "voice-stress",
+    "voice-volume",
+    "white-space",
+    "white-space-collapse",
+    "widows",
+    "width",
+    "will-change",
+    "word-break",
+    "word-spacing",
+    "word-wrap",
+    "writing-mode",
+    "x",
+    "y",
+    "z-index",
+    "zoom"
+  ].sort().reverse(), a = s.concat(o).sort().reverse();
+  function d(l) {
+    const u = n(l), p = a, h = "and or not only", g = "[\\w-]+", _ = "(" + g + "|@\\{" + g + "\\})", f = [], k = [], w = function(Q) {
+      return {
+        // Less strings are not multiline (also include '~' for more consistent coloring of "escaped" strings)
+        className: "string",
+        begin: "~?" + Q + ".*?" + Q
+      };
+    }, N = function(Q, ee, G) {
+      return {
+        className: Q,
+        begin: ee,
+        relevance: G
+      };
+    }, I = {
+      $pattern: /[a-z-]+/,
+      keyword: h,
+      attribute: i.join(" ")
+    }, x = {
+      // used only to properly balance nested parens inside mixin call, def. arg list
+      begin: "\\(",
+      end: "\\)",
+      contains: k,
+      keywords: I,
+      relevance: 0
+    };
+    k.push(
+      l.C_LINE_COMMENT_MODE,
+      l.C_BLOCK_COMMENT_MODE,
+      w("'"),
+      w('"'),
+      u.CSS_NUMBER_MODE,
+      // fixme: it does not include dot for numbers like .5em :(
+      {
+        begin: "(url|data-uri)\\(",
+        starts: {
+          className: "string",
+          end: "[\\)\\n]",
+          excludeEnd: !0
+        }
+      },
+      u.HEXCOLOR,
+      x,
+      N("variable", "@@?" + g, 10),
+      N("variable", "@\\{" + g + "\\}"),
+      N("built_in", "~?`[^`]*?`"),
+      // inline javascript (or whatever host language) *multiline* string
+      {
+        // @media features (it’s here to not duplicate things in AT_RULE_MODE with extra PARENS_MODE overriding):
+        className: "attribute",
+        begin: g + "\\s*:",
+        end: ":",
+        returnBegin: !0,
+        excludeEnd: !0
+      },
+      u.IMPORTANT,
+      { beginKeywords: "and not" },
+      u.FUNCTION_DISPATCH
+    );
+    const R = k.concat({
+      begin: /\{/,
+      end: /\}/,
+      contains: f
+    }), C = {
+      beginKeywords: "when",
+      endsWithParent: !0,
+      contains: [{ beginKeywords: "and not" }].concat(k)
+      // using this form to override VALUE’s 'function' match
+    }, v = {
+      begin: _ + "\\s*:",
+      returnBegin: !0,
+      end: /[;}]/,
+      relevance: 0,
+      contains: [
+        { begin: /-(webkit|moz|ms|o)-/ },
+        u.CSS_VARIABLE,
+        {
+          className: "attribute",
+          begin: "\\b(" + c.join("|") + ")\\b",
+          end: /(?=:)/,
+          starts: {
+            endsWithParent: !0,
+            illegal: "[<=$]",
+            relevance: 0,
+            contains: k
+          }
+        }
+      ]
+    }, M = {
+      className: "keyword",
+      begin: "@(import|media|charset|font-face|(-[a-z]+-)?keyframes|supports|document|namespace|page|viewport|host)\\b",
+      starts: {
+        end: "[;{}]",
+        keywords: I,
+        returnEnd: !0,
+        contains: k,
+        relevance: 0
+      }
+    }, z = {
+      className: "variable",
+      variants: [
+        // using more strict pattern for higher relevance to increase chances of Less detection.
+        // this is *the only* Less specific statement used in most of the sources, so...
+        // (we’ll still often loose to the css-parser unless there's '//' comment,
+        // simply because 1 variable just can't beat 99 properties :)
+        {
+          begin: "@" + g + "\\s*:",
+          relevance: 15
+        },
+        { begin: "@" + g }
+      ],
+      starts: {
+        end: "[;}]",
+        returnEnd: !0,
+        contains: R
+      }
+    }, K = {
+      // first parse unambiguous selectors (i.e. those not starting with tag)
+      // then fall into the scary lookahead-discriminator variant.
+      // this mode also handles mixin definitions and calls
+      variants: [
+        {
+          begin: "[\\.#:&\\[>]",
+          end: "[;{}]"
+          // mixin calls end with ';'
+        },
+        {
+          begin: _,
+          end: /\{/
+        }
+      ],
+      returnBegin: !0,
+      returnEnd: !0,
+      illegal: `[<='$"]`,
+      relevance: 0,
+      contains: [
+        l.C_LINE_COMMENT_MODE,
+        l.C_BLOCK_COMMENT_MODE,
+        C,
+        N("keyword", "all\\b"),
+        N("variable", "@\\{" + g + "\\}"),
+        // otherwise it’s identified as tag
+        {
+          begin: "\\b(" + r.join("|") + ")\\b",
+          className: "selector-tag"
+        },
+        u.CSS_NUMBER_MODE,
+        N("selector-tag", _, 0),
+        N("selector-id", "#" + _),
+        N("selector-class", "\\." + _, 0),
+        N("selector-tag", "&", 0),
+        u.ATTRIBUTE_SELECTOR_MODE,
+        {
+          className: "selector-pseudo",
+          begin: ":(" + s.join("|") + ")"
+        },
+        {
+          className: "selector-pseudo",
+          begin: ":(:)?(" + o.join("|") + ")"
+        },
+        {
+          begin: /\(/,
+          end: /\)/,
+          relevance: 0,
+          contains: R
+        },
+        // argument list of parametric mixins
+        { begin: "!important" },
+        // eat !important after mixin call or it will be colored as tag
+        u.FUNCTION_DISPATCH
+      ]
+    }, j = {
+      begin: g + `:(:)?(${p.join("|")})`,
+      returnBegin: !0,
+      contains: [K]
+    };
+    return f.push(
+      l.C_LINE_COMMENT_MODE,
+      l.C_BLOCK_COMMENT_MODE,
+      M,
+      z,
+      j,
+      v,
+      K,
+      C,
+      u.FUNCTION_DISPATCH
+    ), {
+      name: "Less",
+      case_insensitive: !0,
+      illegal: `[=>'/<($"]`,
+      contains: f
+    };
+  }
+  return mt = d, mt;
+}
+var _t, Mn;
+function Ra() {
+  if (Mn) return _t;
+  Mn = 1;
+  function n(e) {
+    const t = "\\[=*\\[", r = "\\]=*\\]", i = {
+      begin: t,
+      end: r,
+      contains: ["self"]
+    }, s = [
+      e.COMMENT("--(?!" + t + ")", "$"),
+      e.COMMENT(
+        "--" + t,
+        r,
+        {
+          contains: [i],
+          relevance: 10
+        }
+      )
+    ];
+    return {
+      name: "Lua",
+      aliases: ["pluto"],
+      keywords: {
+        $pattern: e.UNDERSCORE_IDENT_RE,
+        literal: "true false nil",
+        keyword: "and break do else elseif end for goto if in local not or repeat return then until while",
+        built_in: (
+          // Metatags and globals:
+          "_G _ENV _VERSION __index __newindex __mode __call __metatable __tostring __len __gc __add __sub __mul __div __mod __pow __concat __unm __eq __lt __le assert collectgarbage dofile error getfenv getmetatable ipairs load loadfile loadstring module next pairs pcall print rawequal rawget rawset require select setfenv setmetatable tonumber tostring type unpack xpcall arg self coroutine resume yield status wrap create running debug getupvalue debug sethook getmetatable gethook setmetatable setlocal traceback setfenv getinfo setupvalue getlocal getregistry getfenv io lines write close flush open output type read stderr stdin input stdout popen tmpfile math log max acos huge ldexp pi cos tanh pow deg tan cosh sinh random randomseed frexp ceil floor rad abs sqrt modf asin min mod fmod log10 atan2 exp sin atan os exit setlocale date getenv difftime remove time clock tmpname rename execute package preload loadlib loaded loaders cpath config path seeall string sub upper len gfind rep find match char dump gmatch reverse byte format gsub lower table setn insert getn foreachi maxn foreach concat sort remove"
+        )
+      },
+      contains: s.concat([
+        {
+          className: "function",
+          beginKeywords: "function",
+          end: "\\)",
+          contains: [
+            e.inherit(e.TITLE_MODE, { begin: "([_a-zA-Z]\\w*\\.)*([_a-zA-Z]\\w*:)?[_a-zA-Z]\\w*" }),
+            {
+              className: "params",
+              begin: "\\(",
+              endsWithParent: !0,
+              contains: s
+            }
+          ].concat(s)
+        },
+        e.C_NUMBER_MODE,
+        e.APOS_STRING_MODE,
+        e.QUOTE_STRING_MODE,
+        {
+          className: "string",
+          begin: t,
+          end: r,
+          contains: [i],
+          relevance: 5
+        }
+      ])
+    };
+  }
+  return _t = n, _t;
+}
+var Et, Cn;
+function Aa() {
+  if (Cn) return Et;
+  Cn = 1;
+  function n(e) {
+    const t = {
+      className: "variable",
+      variants: [
+        {
+          begin: "\\$\\(" + e.UNDERSCORE_IDENT_RE + "\\)",
+          contains: [e.BACKSLASH_ESCAPE]
+        },
+        { begin: /\$[@%<?\^\+\*]/ }
+      ]
+    }, r = {
+      className: "string",
+      begin: /"/,
+      end: /"/,
+      contains: [
+        e.BACKSLASH_ESCAPE,
+        t
+      ]
+    }, i = {
+      className: "variable",
+      begin: /\$\([\w-]+\s/,
+      end: /\)/,
+      keywords: { built_in: "subst patsubst strip findstring filter filter-out sort word wordlist firstword lastword dir notdir suffix basename addsuffix addprefix join wildcard realpath abspath error warning shell origin flavor foreach if or and call eval file value" },
+      contains: [
+        t,
+        r
+        // Added QUOTE_STRING as they can be a part of functions
+      ]
+    }, s = { begin: "^" + e.UNDERSCORE_IDENT_RE + "\\s*(?=[:+?]?=)" }, o = {
+      className: "meta",
+      begin: /^\.PHONY:/,
+      end: /$/,
+      keywords: {
+        $pattern: /[\.\w]+/,
+        keyword: ".PHONY"
+      }
+    }, c = {
+      className: "section",
+      begin: /^[^\s]+:/,
+      end: /$/,
+      contains: [t]
+    };
+    return {
+      name: "Makefile",
+      aliases: [
+        "mk",
+        "mak",
+        "make"
+      ],
+      keywords: {
+        $pattern: /[\w-]+/,
+        keyword: "define endef undefine ifdef ifndef ifeq ifneq else endif include -include sinclude override export unexport private vpath"
+      },
+      contains: [
+        e.HASH_COMMENT_MODE,
+        t,
+        r,
+        i,
+        s,
+        o,
+        c
+      ]
+    };
+  }
+  return Et = n, Et;
+}
+var kt, In;
+function Oa() {
+  if (In) return kt;
+  In = 1;
+  function n(e) {
+    const t = e.regex, r = [
+      "abs",
+      "accept",
+      "alarm",
+      "and",
+      "atan2",
+      "bind",
+      "binmode",
+      "bless",
+      "break",
+      "caller",
+      "chdir",
+      "chmod",
+      "chomp",
+      "chop",
+      "chown",
+      "chr",
+      "chroot",
+      "class",
+      "close",
+      "closedir",
+      "connect",
+      "continue",
+      "cos",
+      "crypt",
+      "dbmclose",
+      "dbmopen",
+      "defined",
+      "delete",
+      "die",
+      "do",
+      "dump",
+      "each",
+      "else",
+      "elsif",
+      "endgrent",
+      "endhostent",
+      "endnetent",
+      "endprotoent",
+      "endpwent",
+      "endservent",
+      "eof",
+      "eval",
+      "exec",
+      "exists",
+      "exit",
+      "exp",
+      "fcntl",
+      "field",
+      "fileno",
+      "flock",
+      "for",
+      "foreach",
+      "fork",
+      "format",
+      "formline",
+      "getc",
+      "getgrent",
+      "getgrgid",
+      "getgrnam",
+      "gethostbyaddr",
+      "gethostbyname",
+      "gethostent",
+      "getlogin",
+      "getnetbyaddr",
+      "getnetbyname",
+      "getnetent",
+      "getpeername",
+      "getpgrp",
+      "getpriority",
+      "getprotobyname",
+      "getprotobynumber",
+      "getprotoent",
+      "getpwent",
+      "getpwnam",
+      "getpwuid",
+      "getservbyname",
+      "getservbyport",
+      "getservent",
+      "getsockname",
+      "getsockopt",
+      "given",
+      "glob",
+      "gmtime",
+      "goto",
+      "grep",
+      "gt",
+      "hex",
+      "if",
+      "index",
+      "int",
+      "ioctl",
+      "join",
+      "keys",
+      "kill",
+      "last",
+      "lc",
+      "lcfirst",
+      "length",
+      "link",
+      "listen",
+      "local",
+      "localtime",
+      "log",
+      "lstat",
+      "lt",
+      "ma",
+      "map",
+      "method",
+      "mkdir",
+      "msgctl",
+      "msgget",
+      "msgrcv",
+      "msgsnd",
+      "my",
+      "ne",
+      "next",
+      "no",
+      "not",
+      "oct",
+      "open",
+      "opendir",
+      "or",
+      "ord",
+      "our",
+      "pack",
+      "package",
+      "pipe",
+      "pop",
+      "pos",
+      "print",
+      "printf",
+      "prototype",
+      "push",
+      "q|0",
+      "qq",
+      "quotemeta",
+      "qw",
+      "qx",
+      "rand",
+      "read",
+      "readdir",
+      "readline",
+      "readlink",
+      "readpipe",
+      "recv",
+      "redo",
+      "ref",
+      "rename",
+      "require",
+      "reset",
+      "return",
+      "reverse",
+      "rewinddir",
+      "rindex",
+      "rmdir",
+      "say",
+      "scalar",
+      "seek",
+      "seekdir",
+      "select",
+      "semctl",
+      "semget",
+      "semop",
+      "send",
+      "setgrent",
+      "sethostent",
+      "setnetent",
+      "setpgrp",
+      "setpriority",
+      "setprotoent",
+      "setpwent",
+      "setservent",
+      "setsockopt",
+      "shift",
+      "shmctl",
+      "shmget",
+      "shmread",
+      "shmwrite",
+      "shutdown",
+      "sin",
+      "sleep",
+      "socket",
+      "socketpair",
+      "sort",
+      "splice",
+      "split",
+      "sprintf",
+      "sqrt",
+      "srand",
+      "stat",
+      "state",
+      "study",
+      "sub",
+      "substr",
+      "symlink",
+      "syscall",
+      "sysopen",
+      "sysread",
+      "sysseek",
+      "system",
+      "syswrite",
+      "tell",
+      "telldir",
+      "tie",
+      "tied",
+      "time",
+      "times",
+      "tr",
+      "truncate",
+      "uc",
+      "ucfirst",
+      "umask",
+      "undef",
+      "unless",
+      "unlink",
+      "unpack",
+      "unshift",
+      "untie",
+      "until",
+      "use",
+      "utime",
+      "values",
+      "vec",
+      "wait",
+      "waitpid",
+      "wantarray",
+      "warn",
+      "when",
+      "while",
+      "write",
+      "x|0",
+      "xor",
+      "y|0"
+    ], i = /[dualxmsipngr]{0,12}/, s = {
+      $pattern: /[\w.]+/,
+      keyword: r.join(" ")
+    }, o = {
+      className: "subst",
+      begin: "[$@]\\{",
+      end: "\\}",
+      keywords: s
+    }, c = {
+      begin: /->\{/,
+      end: /\}/
+      // contains defined later
+    }, a = {
+      scope: "attr",
+      match: /\s+:\s*\w+(\s*\(.*?\))?/
+    }, d = {
+      scope: "variable",
+      variants: [
+        { begin: /\$\d/ },
+        {
+          begin: t.concat(
+            /[$%@](?!")(\^\w\b|#\w+(::\w+)*|\{\w+\}|\w+(::\w*)*)/,
+            // negative look-ahead tries to avoid matching patterns that are not
+            // Perl at all like $ident$, @ident@, etc.
+            "(?![A-Za-z])(?![@$%])"
+          )
+        },
+        {
+          // Only $= is a special Perl variable and one can't declare @= or %=.
+          begin: /[$%@](?!")[^\s\w{=]|\$=/,
+          relevance: 0
+        }
+      ],
+      contains: [a]
+    }, l = {
+      className: "number",
+      variants: [
+        // decimal numbers:
+        // include the case where a number starts with a dot (eg. .9), and
+        // the leading 0? avoids mixing the first and second match on 0.x cases
+        { match: /0?\.[0-9][0-9_]+\b/ },
+        // include the special versioned number (eg. v5.38)
+        { match: /\bv?(0|[1-9][0-9_]*(\.[0-9_]+)?|[1-9][0-9_]*)\b/ },
+        // non-decimal numbers:
+        { match: /\b0[0-7][0-7_]*\b/ },
+        { match: /\b0x[0-9a-fA-F][0-9a-fA-F_]*\b/ },
+        { match: /\b0b[0-1][0-1_]*\b/ }
+      ],
+      relevance: 0
+    }, u = [
+      e.BACKSLASH_ESCAPE,
+      o,
+      d
+    ], p = [
+      /!/,
+      /\//,
+      /\|/,
+      /\?/,
+      /'/,
+      /"/,
+      // valid but infrequent and weird
+      /#/
+      // valid but infrequent and weird
+    ], h = (f, k, w = "\\1") => {
+      const N = w === "\\1" ? w : t.concat(w, k);
+      return t.concat(
+        t.concat("(?:", f, ")"),
+        k,
+        /(?:\\.|[^\\\/])*?/,
+        N,
+        /(?:\\.|[^\\\/])*?/,
+        w,
+        i
+      );
+    }, g = (f, k, w) => t.concat(
+      t.concat("(?:", f, ")"),
+      k,
+      /(?:\\.|[^\\\/])*?/,
+      w,
+      i
+    ), _ = [
+      d,
+      e.HASH_COMMENT_MODE,
+      e.COMMENT(
+        /^=\w/,
+        /=cut/,
+        { endsWithParent: !0 }
+      ),
+      c,
+      {
+        className: "string",
+        contains: u,
+        variants: [
+          {
+            begin: "q[qwxr]?\\s*\\(",
+            end: "\\)",
+            relevance: 5
+          },
+          {
+            begin: "q[qwxr]?\\s*\\[",
+            end: "\\]",
+            relevance: 5
+          },
+          {
+            begin: "q[qwxr]?\\s*\\{",
+            end: "\\}",
+            relevance: 5
+          },
+          {
+            begin: "q[qwxr]?\\s*\\|",
+            end: "\\|",
+            relevance: 5
+          },
+          {
+            begin: "q[qwxr]?\\s*<",
+            end: ">",
+            relevance: 5
+          },
+          {
+            begin: "qw\\s+q",
+            end: "q",
+            relevance: 5
+          },
+          {
+            begin: "'",
+            end: "'",
+            contains: [e.BACKSLASH_ESCAPE]
+          },
+          {
+            begin: '"',
+            end: '"'
+          },
+          {
+            begin: "`",
+            end: "`",
+            contains: [e.BACKSLASH_ESCAPE]
+          },
+          {
+            begin: /\{\w+\}/,
+            relevance: 0
+          },
+          {
+            begin: "-?\\w+\\s*=>",
+            relevance: 0
+          }
+        ]
+      },
+      l,
+      {
+        // regexp container
+        begin: "(\\/\\/|" + e.RE_STARTERS_RE + "|\\b(split|return|print|reverse|grep)\\b)\\s*",
+        keywords: "split return print reverse grep",
+        relevance: 0,
+        contains: [
+          e.HASH_COMMENT_MODE,
+          {
+            className: "regexp",
+            variants: [
+              // allow matching common delimiters
+              { begin: h("s|tr|y", t.either(...p, { capture: !0 })) },
+              // and then paired delmis
+              { begin: h("s|tr|y", "\\(", "\\)") },
+              { begin: h("s|tr|y", "\\[", "\\]") },
+              { begin: h("s|tr|y", "\\{", "\\}") }
+            ],
+            relevance: 2
+          },
+          {
+            className: "regexp",
+            variants: [
+              {
+                // could be a comment in many languages so do not count
+                // as relevant
+                begin: /(m|qr)\/\//,
+                relevance: 0
+              },
+              // prefix is optional with /regex/
+              { begin: g("(?:m|qr)?", /\//, /\//) },
+              // allow matching common delimiters
+              { begin: g("m|qr", t.either(...p, { capture: !0 }), /\1/) },
+              // allow common paired delmins
+              { begin: g("m|qr", /\(/, /\)/) },
+              { begin: g("m|qr", /\[/, /\]/) },
+              { begin: g("m|qr", /\{/, /\}/) }
+            ]
+          }
+        ]
+      },
+      {
+        className: "function",
+        beginKeywords: "sub method",
+        end: "(\\s*\\(.*?\\))?[;{]",
+        excludeEnd: !0,
+        relevance: 5,
+        contains: [e.TITLE_MODE, a]
+      },
+      {
+        className: "class",
+        beginKeywords: "class",
+        end: "[;{]",
+        excludeEnd: !0,
+        relevance: 5,
+        contains: [e.TITLE_MODE, a, l]
+      },
+      {
+        begin: "-\\w\\b",
+        relevance: 0
+      },
+      {
+        begin: "^__DATA__$",
+        end: "^__END__$",
+        subLanguage: "mojolicious",
+        contains: [
+          {
+            begin: "^@@.*",
+            end: "$",
+            className: "comment"
+          }
+        ]
+      }
+    ];
+    return o.contains = _, c.contains = _, {
+      name: "Perl",
+      aliases: [
+        "pl",
+        "pm"
+      ],
+      keywords: s,
+      contains: _
+    };
+  }
+  return kt = n, kt;
+}
+var wt, Ln;
+function Ma() {
+  if (Ln) return wt;
+  Ln = 1;
+  function n(e) {
+    const t = {
+      className: "built_in",
+      begin: "\\b(AV|CA|CF|CG|CI|CL|CM|CN|CT|MK|MP|MTK|MTL|NS|SCN|SK|UI|WK|XC)\\w+"
+    }, r = /[a-zA-Z@][a-zA-Z0-9_]*/, a = {
+      "variable.language": [
+        "this",
+        "super"
+      ],
+      $pattern: r,
+      keyword: [
+        "while",
+        "export",
+        "sizeof",
+        "typedef",
+        "const",
+        "struct",
+        "for",
+        "union",
+        "volatile",
+        "static",
+        "mutable",
+        "if",
+        "do",
+        "return",
+        "goto",
+        "enum",
+        "else",
+        "break",
+        "extern",
+        "asm",
+        "case",
+        "default",
+        "register",
+        "explicit",
+        "typename",
+        "switch",
+        "continue",
+        "inline",
+        "readonly",
+        "assign",
+        "readwrite",
+        "self",
+        "@synchronized",
+        "id",
+        "typeof",
+        "nonatomic",
+        "IBOutlet",
+        "IBAction",
+        "strong",
+        "weak",
+        "copy",
+        "in",
+        "out",
+        "inout",
+        "bycopy",
+        "byref",
+        "oneway",
+        "__strong",
+        "__weak",
+        "__block",
+        "__autoreleasing",
+        "@private",
+        "@protected",
+        "@public",
+        "@try",
+        "@property",
+        "@end",
+        "@throw",
+        "@catch",
+        "@finally",
+        "@autoreleasepool",
+        "@synthesize",
+        "@dynamic",
+        "@selector",
+        "@optional",
+        "@required",
+        "@encode",
+        "@package",
+        "@import",
+        "@defs",
+        "@compatibility_alias",
+        "__bridge",
+        "__bridge_transfer",
+        "__bridge_retained",
+        "__bridge_retain",
+        "__covariant",
+        "__contravariant",
+        "__kindof",
+        "_Nonnull",
+        "_Nullable",
+        "_Null_unspecified",
+        "__FUNCTION__",
+        "__PRETTY_FUNCTION__",
+        "__attribute__",
+        "getter",
+        "setter",
+        "retain",
+        "unsafe_unretained",
+        "nonnull",
+        "nullable",
+        "null_unspecified",
+        "null_resettable",
+        "class",
+        "instancetype",
+        "NS_DESIGNATED_INITIALIZER",
+        "NS_UNAVAILABLE",
+        "NS_REQUIRES_SUPER",
+        "NS_RETURNS_INNER_POINTER",
+        "NS_INLINE",
+        "NS_AVAILABLE",
+        "NS_DEPRECATED",
+        "NS_ENUM",
+        "NS_OPTIONS",
+        "NS_SWIFT_UNAVAILABLE",
+        "NS_ASSUME_NONNULL_BEGIN",
+        "NS_ASSUME_NONNULL_END",
+        "NS_REFINED_FOR_SWIFT",
+        "NS_SWIFT_NAME",
+        "NS_SWIFT_NOTHROW",
+        "NS_DURING",
+        "NS_HANDLER",
+        "NS_ENDHANDLER",
+        "NS_VALUERETURN",
+        "NS_VOIDRETURN"
+      ],
+      literal: [
+        "false",
+        "true",
+        "FALSE",
+        "TRUE",
+        "nil",
+        "YES",
+        "NO",
+        "NULL"
+      ],
+      built_in: [
+        "dispatch_once_t",
+        "dispatch_queue_t",
+        "dispatch_sync",
+        "dispatch_async",
+        "dispatch_once"
+      ],
+      type: [
+        "int",
+        "float",
+        "char",
+        "unsigned",
+        "signed",
+        "short",
+        "long",
+        "double",
+        "wchar_t",
+        "unichar",
+        "void",
+        "bool",
+        "BOOL",
+        "id|0",
+        "_Bool"
+      ]
+    }, d = {
+      $pattern: r,
+      keyword: [
+        "@interface",
+        "@class",
+        "@protocol",
+        "@implementation"
+      ]
+    };
+    return {
+      name: "Objective-C",
+      aliases: [
+        "mm",
+        "objc",
+        "obj-c",
+        "obj-c++",
+        "objective-c++"
+      ],
+      keywords: a,
+      illegal: "</",
+      contains: [
+        t,
+        e.C_LINE_COMMENT_MODE,
+        e.C_BLOCK_COMMENT_MODE,
+        e.C_NUMBER_MODE,
+        e.QUOTE_STRING_MODE,
+        e.APOS_STRING_MODE,
+        {
+          className: "string",
+          variants: [
+            {
+              begin: '@"',
+              end: '"',
+              illegal: "\\n",
+              contains: [e.BACKSLASH_ESCAPE]
+            }
+          ]
+        },
+        {
+          className: "meta",
+          begin: /#\s*[a-z]+\b/,
+          end: /$/,
+          keywords: { keyword: "if else elif endif define undef warning error line pragma ifdef ifndef include" },
+          contains: [
+            {
+              begin: /\\\n/,
+              relevance: 0
+            },
+            e.inherit(e.QUOTE_STRING_MODE, { className: "string" }),
+            {
+              className: "string",
+              begin: /<.*?>/,
+              end: /$/,
+              illegal: "\\n"
+            },
+            e.C_LINE_COMMENT_MODE,
+            e.C_BLOCK_COMMENT_MODE
+          ]
+        },
+        {
+          className: "class",
+          begin: "(" + d.keyword.join("|") + ")\\b",
+          end: /(\{|$)/,
+          excludeEnd: !0,
+          keywords: d,
+          contains: [e.UNDERSCORE_TITLE_MODE]
+        },
+        {
+          begin: "\\." + e.UNDERSCORE_IDENT_RE,
+          relevance: 0
+        }
+      ]
+    };
+  }
+  return wt = n, wt;
+}
+var yt, Dn;
+function Ca() {
+  if (Dn) return yt;
+  Dn = 1;
+  function n(e) {
+    const t = e.regex, r = /(?![A-Za-z0-9])(?![$])/, i = t.concat(
+      /[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/,
+      r
+    ), s = t.concat(
+      /(\\?[A-Z][a-z0-9_\x7f-\xff]+|\\?[A-Z]+(?=[A-Z][a-z0-9_\x7f-\xff])){1,}/,
+      r
+    ), o = t.concat(
+      /[A-Z]+/,
+      r
+    ), c = {
+      scope: "variable",
+      match: "\\$+" + i
+    }, a = {
+      scope: "meta",
+      variants: [
+        { begin: /<\?php/, relevance: 10 },
+        // boost for obvious PHP
+        { begin: /<\?=/ },
+        // less relevant per PSR-1 which says not to use short-tags
+        { begin: /<\?/, relevance: 0.1 },
+        { begin: /\?>/ }
+        // end php tag
+      ]
+    }, d = {
+      scope: "subst",
+      variants: [
+        { begin: /\$\w+/ },
+        {
+          begin: /\{\$/,
+          end: /\}/
+        }
+      ]
+    }, l = e.inherit(e.APOS_STRING_MODE, { illegal: null }), u = e.inherit(e.QUOTE_STRING_MODE, {
+      illegal: null,
+      contains: e.QUOTE_STRING_MODE.contains.concat(d)
+    }), p = {
+      begin: /<<<[ \t]*(?:(\w+)|"(\w+)")\n/,
+      end: /[ \t]*(\w+)\b/,
+      contains: e.QUOTE_STRING_MODE.contains.concat(d),
+      "on:begin": (G, b) => {
+        b.data._beginMatch = G[1] || G[2];
+      },
+      "on:end": (G, b) => {
+        b.data._beginMatch !== G[1] && b.ignoreMatch();
+      }
+    }, h = e.END_SAME_AS_BEGIN({
+      begin: /<<<[ \t]*'(\w+)'\n/,
+      end: /[ \t]*(\w+)\b/
+    }), g = `[ 	
+]`, _ = {
+      scope: "string",
+      variants: [
+        u,
+        l,
+        p,
+        h
+      ]
+    }, f = {
+      scope: "number",
+      variants: [
+        { begin: "\\b0[bB][01]+(?:_[01]+)*\\b" },
+        // Binary w/ underscore support
+        { begin: "\\b0[oO][0-7]+(?:_[0-7]+)*\\b" },
+        // Octals w/ underscore support
+        { begin: "\\b0[xX][\\da-fA-F]+(?:_[\\da-fA-F]+)*\\b" },
+        // Hex w/ underscore support
+        // Decimals w/ underscore support, with optional fragments and scientific exponent (e) suffix.
+        { begin: "(?:\\b\\d+(?:_\\d+)*(\\.(?:\\d+(?:_\\d+)*))?|\\B\\.\\d+)(?:[eE][+-]?\\d+)?" }
+      ],
+      relevance: 0
+    }, k = [
+      "false",
+      "null",
+      "true"
+    ], w = [
+      // Magic constants:
+      // <https://www.php.net/manual/en/language.constants.predefined.php>
+      "__CLASS__",
+      "__DIR__",
+      "__FILE__",
+      "__FUNCTION__",
+      "__COMPILER_HALT_OFFSET__",
+      "__LINE__",
+      "__METHOD__",
+      "__NAMESPACE__",
+      "__TRAIT__",
+      // Function that look like language construct or language construct that look like function:
+      // List of keywords that may not require parenthesis
+      "die",
+      "echo",
+      "exit",
+      "include",
+      "include_once",
+      "print",
+      "require",
+      "require_once",
+      // These are not language construct (function) but operate on the currently-executing function and can access the current symbol table
+      // 'compact extract func_get_arg func_get_args func_num_args get_called_class get_parent_class ' +
+      // Other keywords:
+      // <https://www.php.net/manual/en/reserved.php>
+      // <https://www.php.net/manual/en/language.types.type-juggling.php>
+      "array",
+      "abstract",
+      "and",
+      "as",
+      "binary",
+      "bool",
+      "boolean",
+      "break",
+      "callable",
+      "case",
+      "catch",
+      "class",
+      "clone",
+      "const",
+      "continue",
+      "declare",
+      "default",
+      "do",
+      "double",
+      "else",
+      "elseif",
+      "empty",
+      "enddeclare",
+      "endfor",
+      "endforeach",
+      "endif",
+      "endswitch",
+      "endwhile",
+      "enum",
+      "eval",
+      "extends",
+      "final",
+      "finally",
+      "float",
+      "for",
+      "foreach",
+      "from",
+      "global",
+      "goto",
+      "if",
+      "implements",
+      "instanceof",
+      "insteadof",
+      "int",
+      "integer",
+      "interface",
+      "isset",
+      "iterable",
+      "list",
+      "match|0",
+      "mixed",
+      "new",
+      "never",
+      "object",
+      "or",
+      "private",
+      "protected",
+      "public",
+      "readonly",
+      "real",
+      "return",
+      "string",
+      "switch",
+      "throw",
+      "trait",
+      "try",
+      "unset",
+      "use",
+      "var",
+      "void",
+      "while",
+      "xor",
+      "yield"
+    ], N = [
+      // Standard PHP library:
+      // <https://www.php.net/manual/en/book.spl.php>
+      "Error|0",
+      "AppendIterator",
+      "ArgumentCountError",
+      "ArithmeticError",
+      "ArrayIterator",
+      "ArrayObject",
+      "AssertionError",
+      "BadFunctionCallException",
+      "BadMethodCallException",
+      "CachingIterator",
+      "CallbackFilterIterator",
+      "CompileError",
+      "Countable",
+      "DirectoryIterator",
+      "DivisionByZeroError",
+      "DomainException",
+      "EmptyIterator",
+      "ErrorException",
+      "Exception",
+      "FilesystemIterator",
+      "FilterIterator",
+      "GlobIterator",
+      "InfiniteIterator",
+      "InvalidArgumentException",
+      "IteratorIterator",
+      "LengthException",
+      "LimitIterator",
+      "LogicException",
+      "MultipleIterator",
+      "NoRewindIterator",
+      "OutOfBoundsException",
+      "OutOfRangeException",
+      "OuterIterator",
+      "OverflowException",
+      "ParentIterator",
+      "ParseError",
+      "RangeException",
+      "RecursiveArrayIterator",
+      "RecursiveCachingIterator",
+      "RecursiveCallbackFilterIterator",
+      "RecursiveDirectoryIterator",
+      "RecursiveFilterIterator",
+      "RecursiveIterator",
+      "RecursiveIteratorIterator",
+      "RecursiveRegexIterator",
+      "RecursiveTreeIterator",
+      "RegexIterator",
+      "RuntimeException",
+      "SeekableIterator",
+      "SplDoublyLinkedList",
+      "SplFileInfo",
+      "SplFileObject",
+      "SplFixedArray",
+      "SplHeap",
+      "SplMaxHeap",
+      "SplMinHeap",
+      "SplObjectStorage",
+      "SplObserver",
+      "SplPriorityQueue",
+      "SplQueue",
+      "SplStack",
+      "SplSubject",
+      "SplTempFileObject",
+      "TypeError",
+      "UnderflowException",
+      "UnexpectedValueException",
+      "UnhandledMatchError",
+      // Reserved interfaces:
+      // <https://www.php.net/manual/en/reserved.interfaces.php>
+      "ArrayAccess",
+      "BackedEnum",
+      "Closure",
+      "Fiber",
+      "Generator",
+      "Iterator",
+      "IteratorAggregate",
+      "Serializable",
+      "Stringable",
+      "Throwable",
+      "Traversable",
+      "UnitEnum",
+      "WeakReference",
+      "WeakMap",
+      // Reserved classes:
+      // <https://www.php.net/manual/en/reserved.classes.php>
+      "Directory",
+      "__PHP_Incomplete_Class",
+      "parent",
+      "php_user_filter",
+      "self",
+      "static",
+      "stdClass"
+    ], x = {
+      keyword: w,
+      literal: ((G) => {
+        const b = [];
+        return G.forEach((E) => {
+          b.push(E), E.toLowerCase() === E ? b.push(E.toUpperCase()) : b.push(E.toLowerCase());
+        }), b;
+      })(k),
+      built_in: N
+    }, R = (G) => G.map((b) => b.replace(/\|\d+$/, "")), C = { variants: [
+      {
+        match: [
+          /new/,
+          t.concat(g, "+"),
+          // to prevent built ins from being confused as the class constructor call
+          t.concat("(?!", R(N).join("\\b|"), "\\b)"),
+          s
+        ],
+        scope: {
+          1: "keyword",
+          4: "title.class"
+        }
+      }
+    ] }, v = t.concat(i, "\\b(?!\\()"), M = { variants: [
+      {
+        match: [
+          t.concat(
+            /::/,
+            t.lookahead(/(?!class\b)/)
+          ),
+          v
+        ],
+        scope: { 2: "variable.constant" }
+      },
+      {
+        match: [
+          /::/,
+          /class/
+        ],
+        scope: { 2: "variable.language" }
+      },
+      {
+        match: [
+          s,
+          t.concat(
+            /::/,
+            t.lookahead(/(?!class\b)/)
+          ),
+          v
+        ],
+        scope: {
+          1: "title.class",
+          3: "variable.constant"
+        }
+      },
+      {
+        match: [
+          s,
+          t.concat(
+            "::",
+            t.lookahead(/(?!class\b)/)
+          )
+        ],
+        scope: { 1: "title.class" }
+      },
+      {
+        match: [
+          s,
+          /::/,
+          /class/
+        ],
+        scope: {
+          1: "title.class",
+          3: "variable.language"
+        }
+      }
+    ] }, z = {
+      scope: "attr",
+      match: t.concat(i, t.lookahead(":"), t.lookahead(/(?!::)/))
+    }, K = {
+      relevance: 0,
+      begin: /\(/,
+      end: /\)/,
+      keywords: x,
+      contains: [
+        z,
+        c,
+        M,
+        e.C_BLOCK_COMMENT_MODE,
+        _,
+        f,
+        C
+      ]
+    }, j = {
+      relevance: 0,
+      match: [
+        /\b/,
+        // to prevent keywords from being confused as the function title
+        t.concat("(?!fn\\b|function\\b|", R(w).join("\\b|"), "|", R(N).join("\\b|"), "\\b)"),
+        i,
+        t.concat(g, "*"),
+        t.lookahead(/(?=\()/)
+      ],
+      scope: { 3: "title.function.invoke" },
+      contains: [K]
+    };
+    K.contains.push(j);
+    const Q = [
+      z,
+      M,
+      e.C_BLOCK_COMMENT_MODE,
+      _,
+      f,
+      C
+    ], ee = {
+      begin: t.concat(
+        /#\[\s*\\?/,
+        t.either(
+          s,
+          o
+        )
+      ),
+      beginScope: "meta",
+      end: /]/,
+      endScope: "meta",
+      keywords: {
+        literal: k,
+        keyword: [
+          "new",
+          "array"
+        ]
+      },
+      contains: [
+        {
+          begin: /\[/,
+          end: /]/,
+          keywords: {
+            literal: k,
+            keyword: [
+              "new",
+              "array"
+            ]
+          },
+          contains: [
+            "self",
+            ...Q
+          ]
+        },
+        ...Q,
+        {
+          scope: "meta",
+          variants: [
+            { match: s },
+            { match: o }
+          ]
+        }
+      ]
+    };
+    return {
+      case_insensitive: !1,
+      keywords: x,
+      contains: [
+        ee,
+        e.HASH_COMMENT_MODE,
+        e.COMMENT("//", "$"),
+        e.COMMENT(
+          "/\\*",
+          "\\*/",
+          { contains: [
+            {
+              scope: "doctag",
+              match: "@[A-Za-z]+"
+            }
+          ] }
+        ),
+        {
+          match: /__halt_compiler\(\);/,
+          keywords: "__halt_compiler",
+          starts: {
+            scope: "comment",
+            end: e.MATCH_NOTHING_RE,
+            contains: [
+              {
+                match: /\?>/,
+                scope: "meta",
+                endsParent: !0
               }
             ]
           }
         },
-        punctuation: /\/?>/,
-        "attr-name": {
-          pattern: /[^\s>\/]+/,
-          inside: {
-            namespace: /^[^\s>\/:]+:/
-          }
-        }
-      }
-    },
-    entity: /&#?[\da-z]{1,8};/i
-  }, A.languages.markup.tag.inside["attr-value"].inside.entity = A.languages.markup.entity, A.hooks.add("wrap", function(a) {
-    a.type === "entity" && (a.attributes.title = a.content.replace(/&amp;/, "&"));
-  }), A.languages.xml = A.languages.markup, A.languages.html = A.languages.markup, A.languages.mathml = A.languages.markup, A.languages.svg = A.languages.markup, A.languages.css = {
-    comment: /\/\*[\s\S]*?\*\//,
-    atrule: {
-      pattern: /@[\w-]+?.*?(?:;|(?=\s*\{))/i,
-      inside: {
-        rule: /@[\w-]+/
-        // See rest below
-      }
-    },
-    url: /url\((?:(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|.*?)\)/i,
-    selector: /[^{}\s][^{};]*?(?=\s*\{)/,
-    string: {
-      pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-      greedy: !0
-    },
-    property: /[-_a-z\xA0-\uFFFF][-\w\xA0-\uFFFF]*(?=\s*:)/i,
-    important: /\B!important\b/i,
-    function: /[-a-z0-9]+(?=\()/i,
-    punctuation: /[(){};:]/
-  }, A.languages.css.atrule.inside.rest = A.languages.css, A.languages.markup && (A.languages.insertBefore("markup", "tag", {
-    style: {
-      pattern: /(<style[\s\S]*?>)[\s\S]*?(?=<\/style>)/i,
-      lookbehind: !0,
-      inside: A.languages.css,
-      alias: "language-css",
-      greedy: !0
-    }
-  }), A.languages.insertBefore("inside", "attr-value", {
-    "style-attr": {
-      pattern: /\s*style=("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/i,
-      inside: {
-        "attr-name": {
-          pattern: /^\s*style/i,
-          inside: A.languages.markup.tag.inside
+        a,
+        {
+          scope: "variable.language",
+          match: /\$this\b/
         },
-        punctuation: /^\s*=\s*['"]|['"]\s*$/,
-        "attr-value": {
-          pattern: /.+/i,
-          inside: A.languages.css
-        }
-      },
-      alias: "language-css"
-    }
-  }, A.languages.markup.tag)), A.languages.clike = {
-    comment: [
-      {
-        pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
-        lookbehind: !0
-      },
-      {
-        pattern: /(^|[^\\:])\/\/.*/,
-        lookbehind: !0,
-        greedy: !0
-      }
-    ],
-    string: {
-      pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-      greedy: !0
-    },
-    "class-name": {
-      pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[\w.\\]+/i,
-      lookbehind: !0,
-      inside: {
-        punctuation: /[.\\]/
-      }
-    },
-    keyword: /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
-    boolean: /\b(?:true|false)\b/,
-    function: /[a-z0-9_]+(?=\()/i,
-    number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?/i,
-    operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,
-    punctuation: /[{}[\];(),.:]/
-  }, A.languages.javascript = A.languages.extend("clike", {
-    keyword: /\b(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/,
-    number: /\b(?:0[xX][\dA-Fa-f]+|0[bB][01]+|0[oO][0-7]+|NaN|Infinity)\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
-    // Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
-    function: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*\()/i,
-    operator: /-[-=]?|\+[+=]?|!=?=?|<<?=?|>>?>?=?|=(?:==?|>)?|&[&=]?|\|[|=]?|\*\*?=?|\/=?|~|\^=?|%=?|\?|\.{3}/
-  }), A.languages.insertBefore("javascript", "keyword", {
-    regex: {
-      pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
-      lookbehind: !0,
-      greedy: !0
-    },
-    // This must be declared before keyword because we use "function" inside the look-forward
-    "function-variable": {
-      pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=\s*(?:function\b|(?:\([^()]*\)|[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/i,
-      alias: "function"
-    },
-    constant: /\b[A-Z][A-Z\d_]*\b/
-  }), A.languages.insertBefore("javascript", "string", {
-    "template-string": {
-      pattern: /`(?:\\[\s\S]|[^\\`])*`/,
-      greedy: !0,
-      inside: {
-        interpolation: {
-          pattern: /\$\{[^}]+\}/,
-          inside: {
-            "interpolation-punctuation": {
-              pattern: /^\$\{|\}$/,
-              alias: "punctuation"
-            },
-            rest: A.languages.javascript
-          }
-        },
-        string: /[\s\S]+/
-      }
-    }
-  }), A.languages.markup && A.languages.insertBefore("markup", "tag", {
-    script: {
-      pattern: /(<script[\s\S]*?>)[\s\S]*?(?=<\/script>)/i,
-      lookbehind: !0,
-      inside: A.languages.javascript,
-      alias: "language-javascript",
-      greedy: !0
-    }
-  }), A.languages.js = A.languages.javascript, function() {
-    typeof self > "u" || !self.Prism || !self.document || !document.querySelector || (self.Prism.fileHighlight = function() {
-      var a = {
-        js: "javascript",
-        py: "python",
-        rb: "ruby",
-        ps1: "powershell",
-        psm1: "powershell",
-        sh: "bash",
-        bat: "batch",
-        h: "c",
-        tex: "latex"
-      };
-      Array.prototype.slice.call(document.querySelectorAll("pre[data-src]")).forEach(function(_) {
-        for (var I = _.getAttribute("data-src"), S, k = _, c = /\blang(?:uage)?-(?!\*)([\w-]+)\b/i; k && !c.test(k.className); )
-          k = k.parentNode;
-        if (k && (S = (_.className.match(c) || [, ""])[1]), !S) {
-          var b = (I.match(/\.(\w+)$/) || [, ""])[1];
-          S = a[b] || b;
-        }
-        var P = document.createElement("code");
-        P.className = "language-" + S, _.textContent = "", P.textContent = "Loading…", _.appendChild(P);
-        var y = new XMLHttpRequest();
-        y.open("GET", I, !0), y.onreadystatechange = function() {
-          y.readyState == 4 && (y.status < 400 && y.responseText ? (P.textContent = y.responseText, A.highlightElement(P)) : y.status >= 400 ? P.textContent = "✖ Error " + y.status + " while fetching file: " + y.statusText : P.textContent = "✖ Error: File does not exist or is empty");
-        }, _.hasAttribute("data-download-link") && A.plugins.toolbar && A.plugins.toolbar.registerButton("download-file", function() {
-          var L = document.createElement("a");
-          return L.textContent = _.getAttribute("data-download-link-label") || "Download", L.setAttribute("download", ""), L.href = I, L;
-        }), y.send(null);
-      });
-    }, document.addEventListener("DOMContentLoaded", self.Prism.fileHighlight));
-  }();
-})(ee);
-var ue = ee.exports;
-const ie = /* @__PURE__ */ J(ue);
-Prism.languages.actionscript = Prism.languages.extend("javascript", {
-  keyword: /\b(?:as|break|case|catch|class|const|default|delete|do|else|extends|finally|for|function|if|implements|import|in|instanceof|interface|internal|is|native|new|null|package|private|protected|public|return|super|switch|this|throw|try|typeof|use|var|void|while|with|dynamic|each|final|get|include|namespace|native|override|set|static)\b/,
-  operator: /\+\+|--|(?:[+\-*\/%^]|&&?|\|\|?|<<?|>>?>?|[!=]=?)=?|[~?@]/
-});
-Prism.languages.actionscript["class-name"].alias = "function";
-Prism.languages.markup && Prism.languages.insertBefore("actionscript", "string", {
-  xml: {
-    pattern: /(^|[^.])<\/?\w+(?:\s+[^\s>\/=]+=("|')(?:\\[\s\S]|(?!\2)[^\\])*\2)*\s*\/?>/,
-    lookbehind: !0,
-    inside: {
-      rest: Prism.languages.markup
-    }
-  }
-});
-Prism.languages.apacheconf = {
-  comment: /#.*/,
-  "directive-inline": {
-    pattern: /^(\s*)\b(?:AcceptFilter|AcceptPathInfo|AccessFileName|Action|AddAlt|AddAltByEncoding|AddAltByType|AddCharset|AddDefaultCharset|AddDescription|AddEncoding|AddHandler|AddIcon|AddIconByEncoding|AddIconByType|AddInputFilter|AddLanguage|AddModuleInfo|AddOutputFilter|AddOutputFilterByType|AddType|Alias|AliasMatch|Allow|AllowCONNECT|AllowEncodedSlashes|AllowMethods|AllowOverride|AllowOverrideList|Anonymous|Anonymous_LogEmail|Anonymous_MustGiveEmail|Anonymous_NoUserID|Anonymous_VerifyEmail|AsyncRequestWorkerFactor|AuthBasicAuthoritative|AuthBasicFake|AuthBasicProvider|AuthBasicUseDigestAlgorithm|AuthDBDUserPWQuery|AuthDBDUserRealmQuery|AuthDBMGroupFile|AuthDBMType|AuthDBMUserFile|AuthDigestAlgorithm|AuthDigestDomain|AuthDigestNonceLifetime|AuthDigestProvider|AuthDigestQop|AuthDigestShmemSize|AuthFormAuthoritative|AuthFormBody|AuthFormDisableNoStore|AuthFormFakeBasicAuth|AuthFormLocation|AuthFormLoginRequiredLocation|AuthFormLoginSuccessLocation|AuthFormLogoutLocation|AuthFormMethod|AuthFormMimetype|AuthFormPassword|AuthFormProvider|AuthFormSitePassphrase|AuthFormSize|AuthFormUsername|AuthGroupFile|AuthLDAPAuthorizePrefix|AuthLDAPBindAuthoritative|AuthLDAPBindDN|AuthLDAPBindPassword|AuthLDAPCharsetConfig|AuthLDAPCompareAsUser|AuthLDAPCompareDNOnServer|AuthLDAPDereferenceAliases|AuthLDAPGroupAttribute|AuthLDAPGroupAttributeIsDN|AuthLDAPInitialBindAsUser|AuthLDAPInitialBindPattern|AuthLDAPMaxSubGroupDepth|AuthLDAPRemoteUserAttribute|AuthLDAPRemoteUserIsDN|AuthLDAPSearchAsUser|AuthLDAPSubGroupAttribute|AuthLDAPSubGroupClass|AuthLDAPUrl|AuthMerging|AuthName|AuthnCacheContext|AuthnCacheEnable|AuthnCacheProvideFor|AuthnCacheSOCache|AuthnCacheTimeout|AuthnzFcgiCheckAuthnProvider|AuthnzFcgiDefineProvider|AuthType|AuthUserFile|AuthzDBDLoginToReferer|AuthzDBDQuery|AuthzDBDRedirectQuery|AuthzDBMType|AuthzSendForbiddenOnFailure|BalancerGrowth|BalancerInherit|BalancerMember|BalancerPersist|BrowserMatch|BrowserMatchNoCase|BufferedLogs|BufferSize|CacheDefaultExpire|CacheDetailHeader|CacheDirLength|CacheDirLevels|CacheDisable|CacheEnable|CacheFile|CacheHeader|CacheIgnoreCacheControl|CacheIgnoreHeaders|CacheIgnoreNoLastMod|CacheIgnoreQueryString|CacheIgnoreURLSessionIdentifiers|CacheKeyBaseURL|CacheLastModifiedFactor|CacheLock|CacheLockMaxAge|CacheLockPath|CacheMaxExpire|CacheMaxFileSize|CacheMinExpire|CacheMinFileSize|CacheNegotiatedDocs|CacheQuickHandler|CacheReadSize|CacheReadTime|CacheRoot|CacheSocache|CacheSocacheMaxSize|CacheSocacheMaxTime|CacheSocacheMinTime|CacheSocacheReadSize|CacheSocacheReadTime|CacheStaleOnError|CacheStoreExpired|CacheStoreNoStore|CacheStorePrivate|CGIDScriptTimeout|CGIMapExtension|CharsetDefault|CharsetOptions|CharsetSourceEnc|CheckCaseOnly|CheckSpelling|ChrootDir|ContentDigest|CookieDomain|CookieExpires|CookieName|CookieStyle|CookieTracking|CoreDumpDirectory|CustomLog|Dav|DavDepthInfinity|DavGenericLockDB|DavLockDB|DavMinTimeout|DBDExptime|DBDInitSQL|DBDKeep|DBDMax|DBDMin|DBDParams|DBDPersist|DBDPrepareSQL|DBDriver|DefaultIcon|DefaultLanguage|DefaultRuntimeDir|DefaultType|Define|DeflateBufferSize|DeflateCompressionLevel|DeflateFilterNote|DeflateInflateLimitRequestBody|DeflateInflateRatioBurst|DeflateInflateRatioLimit|DeflateMemLevel|DeflateWindowSize|Deny|DirectoryCheckHandler|DirectoryIndex|DirectoryIndexRedirect|DirectorySlash|DocumentRoot|DTracePrivileges|DumpIOInput|DumpIOOutput|EnableExceptionHook|EnableMMAP|EnableSendfile|Error|ErrorDocument|ErrorLog|ErrorLogFormat|Example|ExpiresActive|ExpiresByType|ExpiresDefault|ExtendedStatus|ExtFilterDefine|ExtFilterOptions|FallbackResource|FileETag|FilterChain|FilterDeclare|FilterProtocol|FilterProvider|FilterTrace|ForceLanguagePriority|ForceType|ForensicLog|GprofDir|GracefulShutdownTimeout|Group|Header|HeaderName|HeartbeatAddress|HeartbeatListen|HeartbeatMaxServers|HeartbeatStorage|HeartbeatStorage|HostnameLookups|IdentityCheck|IdentityCheckTimeout|ImapBase|ImapDefault|ImapMenu|Include|IncludeOptional|IndexHeadInsert|IndexIgnore|IndexIgnoreReset|IndexOptions|IndexOrderDefault|IndexStyleSheet|InputSed|ISAPIAppendLogToErrors|ISAPIAppendLogToQuery|ISAPICacheFile|ISAPIFakeAsync|ISAPILogNotSupported|ISAPIReadAheadBuffer|KeepAlive|KeepAliveTimeout|KeptBodySize|LanguagePriority|LDAPCacheEntries|LDAPCacheTTL|LDAPConnectionPoolTTL|LDAPConnectionTimeout|LDAPLibraryDebug|LDAPOpCacheEntries|LDAPOpCacheTTL|LDAPReferralHopLimit|LDAPReferrals|LDAPRetries|LDAPRetryDelay|LDAPSharedCacheFile|LDAPSharedCacheSize|LDAPTimeout|LDAPTrustedClientCert|LDAPTrustedGlobalCert|LDAPTrustedMode|LDAPVerifyServerCert|LimitInternalRecursion|LimitRequestBody|LimitRequestFields|LimitRequestFieldSize|LimitRequestLine|LimitXMLRequestBody|Listen|ListenBackLog|LoadFile|LoadModule|LogFormat|LogLevel|LogMessage|LuaAuthzProvider|LuaCodeCache|LuaHookAccessChecker|LuaHookAuthChecker|LuaHookCheckUserID|LuaHookFixups|LuaHookInsertFilter|LuaHookLog|LuaHookMapToStorage|LuaHookTranslateName|LuaHookTypeChecker|LuaInherit|LuaInputFilter|LuaMapHandler|LuaOutputFilter|LuaPackageCPath|LuaPackagePath|LuaQuickHandler|LuaRoot|LuaScope|MaxConnectionsPerChild|MaxKeepAliveRequests|MaxMemFree|MaxRangeOverlaps|MaxRangeReversals|MaxRanges|MaxRequestWorkers|MaxSpareServers|MaxSpareThreads|MaxThreads|MergeTrailers|MetaDir|MetaFiles|MetaSuffix|MimeMagicFile|MinSpareServers|MinSpareThreads|MMapFile|ModemStandard|ModMimeUsePathInfo|MultiviewsMatch|Mutex|NameVirtualHost|NoProxy|NWSSLTrustedCerts|NWSSLUpgradeable|Options|Order|OutputSed|PassEnv|PidFile|PrivilegesMode|Protocol|ProtocolEcho|ProxyAddHeaders|ProxyBadHeader|ProxyBlock|ProxyDomain|ProxyErrorOverride|ProxyExpressDBMFile|ProxyExpressDBMType|ProxyExpressEnable|ProxyFtpDirCharset|ProxyFtpEscapeWildcards|ProxyFtpListOnWildcard|ProxyHTMLBufSize|ProxyHTMLCharsetOut|ProxyHTMLDocType|ProxyHTMLEnable|ProxyHTMLEvents|ProxyHTMLExtended|ProxyHTMLFixups|ProxyHTMLInterp|ProxyHTMLLinks|ProxyHTMLMeta|ProxyHTMLStripComments|ProxyHTMLURLMap|ProxyIOBufferSize|ProxyMaxForwards|ProxyPass|ProxyPassInherit|ProxyPassInterpolateEnv|ProxyPassMatch|ProxyPassReverse|ProxyPassReverseCookieDomain|ProxyPassReverseCookiePath|ProxyPreserveHost|ProxyReceiveBufferSize|ProxyRemote|ProxyRemoteMatch|ProxyRequests|ProxySCGIInternalRedirect|ProxySCGISendfile|ProxySet|ProxySourceAddress|ProxyStatus|ProxyTimeout|ProxyVia|ReadmeName|ReceiveBufferSize|Redirect|RedirectMatch|RedirectPermanent|RedirectTemp|ReflectorHeader|RemoteIPHeader|RemoteIPInternalProxy|RemoteIPInternalProxyList|RemoteIPProxiesHeader|RemoteIPTrustedProxy|RemoteIPTrustedProxyList|RemoveCharset|RemoveEncoding|RemoveHandler|RemoveInputFilter|RemoveLanguage|RemoveOutputFilter|RemoveType|RequestHeader|RequestReadTimeout|Require|RewriteBase|RewriteCond|RewriteEngine|RewriteMap|RewriteOptions|RewriteRule|RLimitCPU|RLimitMEM|RLimitNPROC|Satisfy|ScoreBoardFile|Script|ScriptAlias|ScriptAliasMatch|ScriptInterpreterSource|ScriptLog|ScriptLogBuffer|ScriptLogLength|ScriptSock|SecureListen|SeeRequestTail|SendBufferSize|ServerAdmin|ServerAlias|ServerLimit|ServerName|ServerPath|ServerRoot|ServerSignature|ServerTokens|Session|SessionCookieName|SessionCookieName2|SessionCookieRemove|SessionCryptoCipher|SessionCryptoDriver|SessionCryptoPassphrase|SessionCryptoPassphraseFile|SessionDBDCookieName|SessionDBDCookieName2|SessionDBDCookieRemove|SessionDBDDeleteLabel|SessionDBDInsertLabel|SessionDBDPerUser|SessionDBDSelectLabel|SessionDBDUpdateLabel|SessionEnv|SessionExclude|SessionHeader|SessionInclude|SessionMaxAge|SetEnv|SetEnvIf|SetEnvIfExpr|SetEnvIfNoCase|SetHandler|SetInputFilter|SetOutputFilter|SSIEndTag|SSIErrorMsg|SSIETag|SSILastModified|SSILegacyExprParser|SSIStartTag|SSITimeFormat|SSIUndefinedEcho|SSLCACertificateFile|SSLCACertificatePath|SSLCADNRequestFile|SSLCADNRequestPath|SSLCARevocationCheck|SSLCARevocationFile|SSLCARevocationPath|SSLCertificateChainFile|SSLCertificateFile|SSLCertificateKeyFile|SSLCipherSuite|SSLCompression|SSLCryptoDevice|SSLEngine|SSLFIPS|SSLHonorCipherOrder|SSLInsecureRenegotiation|SSLOCSPDefaultResponder|SSLOCSPEnable|SSLOCSPOverrideResponder|SSLOCSPResponderTimeout|SSLOCSPResponseMaxAge|SSLOCSPResponseTimeSkew|SSLOCSPUseRequestNonce|SSLOpenSSLConfCmd|SSLOptions|SSLPassPhraseDialog|SSLProtocol|SSLProxyCACertificateFile|SSLProxyCACertificatePath|SSLProxyCARevocationCheck|SSLProxyCARevocationFile|SSLProxyCARevocationPath|SSLProxyCheckPeerCN|SSLProxyCheckPeerExpire|SSLProxyCheckPeerName|SSLProxyCipherSuite|SSLProxyEngine|SSLProxyMachineCertificateChainFile|SSLProxyMachineCertificateFile|SSLProxyMachineCertificatePath|SSLProxyProtocol|SSLProxyVerify|SSLProxyVerifyDepth|SSLRandomSeed|SSLRenegBufferSize|SSLRequire|SSLRequireSSL|SSLSessionCache|SSLSessionCacheTimeout|SSLSessionTicketKeyFile|SSLSRPUnknownUserSeed|SSLSRPVerifierFile|SSLStaplingCache|SSLStaplingErrorCacheTimeout|SSLStaplingFakeTryLater|SSLStaplingForceURL|SSLStaplingResponderTimeout|SSLStaplingResponseMaxAge|SSLStaplingResponseTimeSkew|SSLStaplingReturnResponderErrors|SSLStaplingStandardCacheTimeout|SSLStrictSNIVHostCheck|SSLUserName|SSLUseStapling|SSLVerifyClient|SSLVerifyDepth|StartServers|StartThreads|Substitute|Suexec|SuexecUserGroup|ThreadLimit|ThreadsPerChild|ThreadStackSize|TimeOut|TraceEnable|TransferLog|TypesConfig|UnDefine|UndefMacro|UnsetEnv|Use|UseCanonicalName|UseCanonicalPhysicalPort|User|UserDir|VHostCGIMode|VHostCGIPrivs|VHostGroup|VHostPrivs|VHostSecure|VHostUser|VirtualDocumentRoot|VirtualDocumentRootIP|VirtualScriptAlias|VirtualScriptAliasIP|WatchdogInterval|XBitHack|xml2EncAlias|xml2EncDefault|xml2StartParse)\b/mi,
-    lookbehind: !0,
-    alias: "property"
-  },
-  "directive-block": {
-    pattern: /<\/?\b(?:AuthnProviderAlias|AuthzProviderAlias|Directory|DirectoryMatch|Else|ElseIf|Files|FilesMatch|If|IfDefine|IfModule|IfVersion|Limit|LimitExcept|Location|LocationMatch|Macro|Proxy|RequireAll|RequireAny|RequireNone|VirtualHost)\b *.*>/i,
-    inside: {
-      "directive-block": {
-        pattern: /^<\/?\w+/,
-        inside: {
-          punctuation: /^<\/?/
-        },
-        alias: "tag"
-      },
-      "directive-block-parameter": {
-        pattern: /.*[^>]/,
-        inside: {
-          punctuation: /:/,
-          string: {
-            pattern: /("|').*\1/,
-            inside: {
-              variable: /[$%]\{?(?:\w\.?[-+:]?)+\}?/
-            }
-          }
-        },
-        alias: "attr-value"
-      },
-      punctuation: />/
-    },
-    alias: "tag"
-  },
-  "directive-flags": {
-    pattern: /\[(?:\w,?)+\]/,
-    alias: "keyword"
-  },
-  string: {
-    pattern: /("|').*\1/,
-    inside: {
-      variable: /[$%]\{?(?:\w\.?[-+:]?)+\}?/
-    }
-  },
-  variable: /[$%]\{?(?:\w\.?[-+:]?)+\}?/,
-  regex: /\^?.*\$|\^.*\$?/
-};
-Prism.languages.aspnet = Prism.languages.extend("markup", {
-  "page-directive tag": {
-    pattern: /<%\s*@.*%>/i,
-    inside: {
-      "page-directive tag": /<%\s*@\s*(?:Assembly|Control|Implements|Import|Master(?:Type)?|OutputCache|Page|PreviousPageType|Reference|Register)?|%>/i,
-      rest: Prism.languages.markup.tag.inside
-    }
-  },
-  "directive tag": {
-    pattern: /<%.*%>/i,
-    inside: {
-      "directive tag": /<%\s*?[$=%#:]{0,2}|%>/i,
-      rest: Prism.languages.csharp
-    }
-  }
-});
-Prism.languages.aspnet.tag.pattern = /<(?!%)\/?[^\s>\/]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i;
-Prism.languages.insertBefore("inside", "punctuation", {
-  "directive tag": Prism.languages.aspnet["directive tag"]
-}, Prism.languages.aspnet.tag.inside["attr-value"]);
-Prism.languages.insertBefore("aspnet", "comment", {
-  "asp comment": /<%--[\s\S]*?--%>/
-});
-Prism.languages.insertBefore("aspnet", Prism.languages.javascript ? "script" : "tag", {
-  "asp script": {
-    pattern: /(<script(?=.*runat=['"]?server['"]?)[\s\S]*?>)[\s\S]*?(?=<\/script>)/i,
-    lookbehind: !0,
-    inside: Prism.languages.csharp || {}
-  }
-});
-(function(o) {
-  var i = {
-    variable: [
-      // Arithmetic Environment
-      {
-        pattern: /\$?\(\([\s\S]+?\)\)/,
-        inside: {
-          // If there is a $ sign at the beginning highlight $(( and )) as variable
-          variable: [
-            {
-              pattern: /(^\$\(\([\s\S]+)\)\)/,
-              lookbehind: !0
-            },
-            /^\$\(\(/
+        c,
+        j,
+        M,
+        {
+          match: [
+            /const/,
+            /\s/,
+            i
           ],
-          number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee]-?\d+)?/,
-          // Operators according to https://www.gnu.org/software/bash/manual/bashref.html#Shell-Arithmetic
-          operator: /--?|-=|\+\+?|\+=|!=?|~|\*\*?|\*=|\/=?|%=?|<<=?|>>=?|<=?|>=?|==?|&&?|&=|\^=?|\|\|?|\|=|\?|:/,
-          // If there is no $ sign at the beginning highlight (( and )) as punctuation
-          punctuation: /\(\(?|\)\)?|,|;/
-        }
-      },
-      // Command Substitution
-      {
-        pattern: /\$\([^)]+\)|`[^`]+`/,
-        greedy: !0,
-        inside: {
-          variable: /^\$\(|^`|\)$|`$/
-        }
-      },
-      /\$(?:[\w#?*!@]+|\{[^}]+\})/i
-    ]
-  };
-  o.languages.bash = {
-    shebang: {
-      pattern: /^#!\s*\/bin\/bash|^#!\s*\/bin\/sh/,
-      alias: "important"
-    },
-    comment: {
-      pattern: /(^|[^"{\\])#.*/,
-      lookbehind: !0
-    },
-    string: [
-      //Support for Here-Documents https://en.wikipedia.org/wiki/Here_document
-      {
-        pattern: /((?:^|[^<])<<\s*)["']?(\w+?)["']?\s*\r?\n(?:[\s\S])*?\r?\n\2/,
-        lookbehind: !0,
-        greedy: !0,
-        inside: i
-      },
-      {
-        pattern: /(["'])(?:\\[\s\S]|\$\([^)]+\)|`[^`]+`|(?!\1)[^\\])*\1/,
-        greedy: !0,
-        inside: i
-      }
-    ],
-    variable: i.variable,
-    // Originally based on http://ss64.com/bash/
-    function: {
-      pattern: /(^|[\s;|&])(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|npm|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|[\s;|&])/,
-      lookbehind: !0
-    },
-    keyword: {
-      pattern: /(^|[\s;|&])(?:let|:|\.|if|then|else|elif|fi|for|break|continue|while|in|case|function|select|do|done|until|echo|exit|return|set|declare)(?=$|[\s;|&])/,
-      lookbehind: !0
-    },
-    boolean: {
-      pattern: /(^|[\s;|&])(?:true|false)(?=$|[\s;|&])/,
-      lookbehind: !0
-    },
-    operator: /&&?|\|\|?|==?|!=?|<<<?|>>|<=?|>=?|=~/,
-    punctuation: /\$?\(\(?|\)\)?|\.\.|[{}[\];]/
-  };
-  var A = i.variable[1].inside;
-  A.string = o.languages.bash.string, A.function = o.languages.bash.function, A.keyword = o.languages.bash.keyword, A.boolean = o.languages.bash.boolean, A.operator = o.languages.bash.operator, A.punctuation = o.languages.bash.punctuation, o.languages.shell = o.languages.bash;
-})(Prism);
-Prism.languages.c = Prism.languages.extend("clike", {
-  keyword: /\b(?:_Alignas|_Alignof|_Atomic|_Bool|_Complex|_Generic|_Imaginary|_Noreturn|_Static_assert|_Thread_local|asm|typeof|inline|auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|int|long|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while)\b/,
-  operator: /-[>-]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|\|?|[~^%?*\/]/,
-  number: /(?:\b0x[\da-f]+|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?)[ful]*/i
-});
-Prism.languages.insertBefore("c", "string", {
-  macro: {
-    // allow for multiline macro definitions
-    // spaces after the # character compile fine with gcc
-    pattern: /(^\s*)#\s*[a-z]+(?:[^\r\n\\]|\\(?:\r\n|[\s\S]))*/im,
-    lookbehind: !0,
-    alias: "property",
-    inside: {
-      // highlight the path of the include statement as a string
-      string: {
-        pattern: /(#\s*include\s*)(?:<.+?>|("|')(?:\\?.)+?\2)/,
-        lookbehind: !0
-      },
-      // highlight macro directives as keywords
-      directive: {
-        pattern: /(#\s*)\b(?:define|defined|elif|else|endif|error|ifdef|ifndef|if|import|include|line|pragma|undef|using)\b/,
-        lookbehind: !0,
-        alias: "keyword"
-      }
-    }
-  },
-  // highlight predefined macros as constants
-  constant: /\b(?:__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|__func__|EOF|NULL|SEEK_CUR|SEEK_END|SEEK_SET|stdin|stdout|stderr)\b/
-});
-delete Prism.languages.c["class-name"];
-delete Prism.languages.c.boolean;
-Prism.languages.clike = {
-  comment: [
-    {
-      pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
-      lookbehind: !0
-    },
-    {
-      pattern: /(^|[^\\:])\/\/.*/,
-      lookbehind: !0,
-      greedy: !0
-    }
-  ],
-  string: {
-    pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-    greedy: !0
-  },
-  "class-name": {
-    pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[\w.\\]+/i,
-    lookbehind: !0,
-    inside: {
-      punctuation: /[.\\]/
-    }
-  },
-  keyword: /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
-  boolean: /\b(?:true|false)\b/,
-  function: /[a-z0-9_]+(?=\()/i,
-  number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?/i,
-  operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,
-  punctuation: /[{}[\];(),.:]/
-};
-(function(o) {
-  var i = /#(?!\{).+/, A = {
-    pattern: /#\{[^}]+\}/,
-    alias: "variable"
-  };
-  o.languages.coffeescript = o.languages.extend("javascript", {
-    comment: i,
-    string: [
-      // Strings are multiline
-      {
-        pattern: /'(?:\\[\s\S]|[^\\'])*'/,
-        greedy: !0
-      },
-      {
-        // Strings are multiline
-        pattern: /"(?:\\[\s\S]|[^\\"])*"/,
-        greedy: !0,
-        inside: {
-          interpolation: A
-        }
-      }
-    ],
-    keyword: /\b(?:and|break|by|catch|class|continue|debugger|delete|do|each|else|extend|extends|false|finally|for|if|in|instanceof|is|isnt|let|loop|namespace|new|no|not|null|of|off|on|or|own|return|super|switch|then|this|throw|true|try|typeof|undefined|unless|until|when|while|window|with|yes|yield)\b/,
-    "class-member": {
-      pattern: /@(?!\d)\w+/,
-      alias: "variable"
-    }
-  }), o.languages.insertBefore("coffeescript", "comment", {
-    "multiline-comment": {
-      pattern: /###[\s\S]+?###/,
-      alias: "comment"
-    },
-    // Block regexp can contain comments and interpolation
-    "block-regex": {
-      pattern: /\/{3}[\s\S]*?\/{3}/,
-      alias: "regex",
-      inside: {
-        comment: i,
-        interpolation: A
-      }
-    }
-  }), o.languages.insertBefore("coffeescript", "string", {
-    "inline-javascript": {
-      pattern: /`(?:\\[\s\S]|[^\\`])*`/,
-      inside: {
-        delimiter: {
-          pattern: /^`|`$/,
-          alias: "punctuation"
-        },
-        rest: o.languages.javascript
-      }
-    },
-    // Block strings
-    "multiline-string": [
-      {
-        pattern: /'''[\s\S]*?'''/,
-        greedy: !0,
-        alias: "string"
-      },
-      {
-        pattern: /"""[\s\S]*?"""/,
-        greedy: !0,
-        alias: "string",
-        inside: {
-          interpolation: A
-        }
-      }
-    ]
-  }), o.languages.insertBefore("coffeescript", "keyword", {
-    // Object property
-    property: /(?!\d)\w+(?=\s*:(?!:))/
-  }), delete o.languages.coffeescript["template-string"];
-})(Prism);
-Prism.languages.cpp = Prism.languages.extend("c", {
-  keyword: /\b(?:alignas|alignof|asm|auto|bool|break|case|catch|char|char16_t|char32_t|class|compl|const|constexpr|const_cast|continue|decltype|default|delete|do|double|dynamic_cast|else|enum|explicit|export|extern|float|for|friend|goto|if|inline|int|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|long|mutable|namespace|new|noexcept|nullptr|operator|private|protected|public|register|reinterpret_cast|return|short|signed|sizeof|static|static_assert|static_cast|struct|switch|template|this|thread_local|throw|try|typedef|typeid|typename|union|unsigned|using|virtual|void|volatile|wchar_t|while)\b/,
-  boolean: /\b(?:true|false)\b/,
-  operator: /--?|\+\+?|!=?|<{1,2}=?|>{1,2}=?|->|:{1,2}|={1,2}|\^|~|%|&{1,2}|\|\|?|\?|\*|\/|\b(?:and|and_eq|bitand|bitor|not|not_eq|or|or_eq|xor|xor_eq)\b/
-});
-Prism.languages.insertBefore("cpp", "keyword", {
-  "class-name": {
-    pattern: /(class\s+)\w+/i,
-    lookbehind: !0
-  }
-});
-Prism.languages.insertBefore("cpp", "string", {
-  "raw-string": {
-    pattern: /R"([^()\\ ]{0,16})\([\s\S]*?\)\1"/,
-    alias: "string",
-    greedy: !0
-  }
-});
-Prism.languages.csharp = Prism.languages.extend("clike", {
-  keyword: /\b(?:abstract|add|alias|as|ascending|async|await|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|descending|do|double|dynamic|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|from|get|global|goto|group|if|implicit|in|int|interface|internal|into|is|join|let|lock|long|namespace|new|null|object|operator|orderby|out|override|params|partial|private|protected|public|readonly|ref|remove|return|sbyte|sealed|select|set|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|value|var|virtual|void|volatile|where|while|yield)\b/,
-  string: [
-    {
-      pattern: /@("|')(?:\1\1|\\[\s\S]|(?!\1)[^\\])*\1/,
-      greedy: !0
-    },
-    {
-      pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*?\1/,
-      greedy: !0
-    }
-  ],
-  "class-name": [
-    {
-      // (Foo bar, Bar baz)
-      pattern: /\b[A-Z]\w*(?:\.\w+)*\b(?=\s+\w+)/,
-      inside: {
-        punctuation: /\./
-      }
-    },
-    {
-      // [Foo]
-      pattern: /(\[)[A-Z]\w*(?:\.\w+)*\b/,
-      lookbehind: !0,
-      inside: {
-        punctuation: /\./
-      }
-    },
-    {
-      // class Foo : Bar
-      pattern: /(\b(?:class|interface)\s+[A-Z]\w*(?:\.\w+)*\s*:\s*)[A-Z]\w*(?:\.\w+)*\b/,
-      lookbehind: !0,
-      inside: {
-        punctuation: /\./
-      }
-    },
-    {
-      // class Foo
-      pattern: /((?:\b(?:class|interface|new)\s+)|(?:catch\s+\())[A-Z]\w*(?:\.\w+)*\b/,
-      lookbehind: !0,
-      inside: {
-        punctuation: /\./
-      }
-    }
-  ],
-  number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)f?/i
-});
-Prism.languages.insertBefore("csharp", "class-name", {
-  "generic-method": {
-    pattern: /\w+\s*<[^>\r\n]+?>\s*(?=\()/,
-    inside: {
-      function: /^\w+/,
-      "class-name": {
-        pattern: /\b[A-Z]\w*(?:\.\w+)*\b/,
-        inside: {
-          punctuation: /\./
-        }
-      },
-      keyword: Prism.languages.csharp.keyword,
-      punctuation: /[<>(),.:]/
-    }
-  },
-  preprocessor: {
-    pattern: /(^\s*)#.*/m,
-    lookbehind: !0,
-    alias: "property",
-    inside: {
-      // highlight preprocessor directives as keywords
-      directive: {
-        pattern: /(\s*#)\b(?:define|elif|else|endif|endregion|error|if|line|pragma|region|undef|warning)\b/,
-        lookbehind: !0,
-        alias: "keyword"
-      }
-    }
-  }
-});
-Prism.languages.dotnet = Prism.languages.csharp;
-Prism.languages.css = {
-  comment: /\/\*[\s\S]*?\*\//,
-  atrule: {
-    pattern: /@[\w-]+?.*?(?:;|(?=\s*\{))/i,
-    inside: {
-      rule: /@[\w-]+/
-      // See rest below
-    }
-  },
-  url: /url\((?:(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|.*?)\)/i,
-  selector: /[^{}\s][^{};]*?(?=\s*\{)/,
-  string: {
-    pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-    greedy: !0
-  },
-  property: /[-_a-z\xA0-\uFFFF][-\w\xA0-\uFFFF]*(?=\s*:)/i,
-  important: /\B!important\b/i,
-  function: /[-a-z0-9]+(?=\()/i,
-  punctuation: /[(){};:]/
-};
-Prism.languages.css.atrule.inside.rest = Prism.languages.css;
-Prism.languages.markup && (Prism.languages.insertBefore("markup", "tag", {
-  style: {
-    pattern: /(<style[\s\S]*?>)[\s\S]*?(?=<\/style>)/i,
-    lookbehind: !0,
-    inside: Prism.languages.css,
-    alias: "language-css",
-    greedy: !0
-  }
-}), Prism.languages.insertBefore("inside", "attr-value", {
-  "style-attr": {
-    pattern: /\s*style=("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/i,
-    inside: {
-      "attr-name": {
-        pattern: /^\s*style/i,
-        inside: Prism.languages.markup.tag.inside
-      },
-      punctuation: /^\s*=\s*['"]|['"]\s*$/,
-      "attr-value": {
-        pattern: /.+/i,
-        inside: Prism.languages.css
-      }
-    },
-    alias: "language-css"
-  }
-}, Prism.languages.markup.tag));
-Prism.languages.css.selector = {
-  pattern: /[^{}\s][^{}]*(?=\s*\{)/,
-  inside: {
-    "pseudo-element": /:(?:after|before|first-letter|first-line|selection)|::[-\w]+/,
-    "pseudo-class": /:[-\w]+(?:\(.*\))?/,
-    class: /\.[-:.\w]+/,
-    id: /#[-:.\w]+/,
-    attribute: /\[[^\]]+\]/
-  }
-};
-Prism.languages.insertBefore("css", "function", {
-  hexcode: /#[\da-f]{3,8}/i,
-  entity: /\\[\da-f]{1,8}/i,
-  number: /[\d%.]+/
-});
-Prism.languages.docker = {
-  keyword: {
-    pattern: /(^\s*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)/mi,
-    lookbehind: !0
-  },
-  string: /("|')(?:(?!\1)[^\\\r\n]|\\(?:\r\n|[\s\S]))*\1/,
-  comment: /#.*/,
-  punctuation: /---|\.\.\.|[:[\]{}\-,|>?]/
-};
-Prism.languages.dockerfile = Prism.languages.docker;
-Prism.languages.git = {
-  /*
-   * A simple one line comment like in a git status command
-   * For instance:
-   * $ git status
-   * # On branch infinite-scroll
-   * # Your branch and 'origin/sharedBranches/frontendTeam/infinite-scroll' have diverged,
-   * # and have 1 and 2 different commits each, respectively.
-   * nothing to commit (working directory clean)
-   */
-  comment: /^#.*/m,
-  /*
-   * Regexp to match the changed lines in a git diff output. Check the example below.
-   */
-  deleted: /^[-–].*/m,
-  inserted: /^\+.*/m,
-  /*
-   * a string (double and simple quote)
-   */
-  string: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/m,
-  /*
-   * a git command. It starts with a random prompt finishing by a $, then "git" then some other parameters
-   * For instance:
-   * $ git add file.txt
-   */
-  command: {
-    pattern: /^.*\$ git .*$/m,
-    inside: {
-      /*
-       * A git command can contain a parameter starting by a single or a double dash followed by a string
-       * For instance:
-       * $ git diff --cached
-       * $ git log -p
-       */
-      parameter: /\s--?\w+/m
-    }
-  },
-  /*
-   * Coordinates displayed in a git diff command
-   * For instance:
-   * $ git diff
-   * diff --git file.txt file.txt
-   * index 6214953..1d54a52 100644
-   * --- file.txt
-   * +++ file.txt
-   * @@ -1 +1,2 @@
-   * -Here's my tetx file
-   * +Here's my text file
-   * +And this is the second line
-   */
-  coord: /^@@.*@@$/m,
-  /*
-   * Match a "commit [SHA1]" line in a git log output.
-   * For instance:
-   * $ git log
-   * commit a11a14ef7e26f2ca62d4b35eac455ce636d0dc09
-   * Author: lgiraudel
-   * Date:   Mon Feb 17 11:18:34 2014 +0100
-   *
-   *     Add of a new line
-   */
-  commit_sha1: /^commit \w{40}$/m
-};
-Prism.languages.go = Prism.languages.extend("clike", {
-  keyword: /\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,
-  builtin: /\b(?:bool|byte|complex(?:64|128)|error|float(?:32|64)|rune|string|u?int(?:8|16|32|64)?|uintptr|append|cap|close|complex|copy|delete|imag|len|make|new|panic|print(?:ln)?|real|recover)\b/,
-  boolean: /\b(?:_|iota|nil|true|false)\b/,
-  operator: /[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,
-  number: /(?:\b0x[a-f\d]+|(?:\b\d+\.?\d*|\B\.\d+)(?:e[-+]?\d+)?)i?/i,
-  string: {
-    pattern: /(["'`])(\\[\s\S]|(?!\1)[^\\])*\1/,
-    greedy: !0
-  }
-});
-delete Prism.languages.go["class-name"];
-Prism.languages.graphql = {
-  comment: /#.*/,
-  string: {
-    pattern: /"(?:\\.|[^\\"\r\n])*"/,
-    greedy: !0
-  },
-  number: /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
-  boolean: /\b(?:true|false)\b/,
-  variable: /\$[a-z_]\w*/i,
-  directive: {
-    pattern: /@[a-z_]\w*/i,
-    alias: "function"
-  },
-  "attr-name": /[a-z_]\w*(?=\s*:)/i,
-  keyword: [
-    {
-      pattern: /(fragment\s+(?!on)[a-z_]\w*\s+|\.{3}\s*)on\b/,
-      lookbehind: !0
-    },
-    /\b(?:query|fragment|mutation)\b/
-  ],
-  operator: /!|=|\.{3}/,
-  punctuation: /[!(){}\[\]:=,]/
-};
-Prism.languages.groovy = Prism.languages.extend("clike", {
-  keyword: /\b(?:as|def|in|abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|trait|transient|try|void|volatile|while)\b/,
-  string: [
-    {
-      pattern: /("""|''')[\s\S]*?\1|(?:\$\/)(?:\$\/\$|[\s\S])*?\/\$/,
-      greedy: !0
-    },
-    {
-      pattern: /(["'\/])(?:\\.|(?!\1)[^\\\r\n])*\1/,
-      greedy: !0
-    }
-  ],
-  number: /\b(?:0b[01_]+|0x[\da-f_]+(?:\.[\da-f_p\-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?[\d]+)?)[glidf]?\b/i,
-  operator: {
-    pattern: /(^|[^.])(?:~|==?~?|\?[.:]?|\*(?:[.=]|\*=?)?|\.[@&]|\.\.<|\.{1,2}(?!\.)|-[-=>]?|\+[+=]?|!=?|<(?:<=?|=>?)?|>(?:>>?=?|=)?|&[&=]?|\|[|=]?|\/=?|\^=?|%=?)/,
-    lookbehind: !0
-  },
-  punctuation: /\.+|[{}[\];(),:$]/
-});
-Prism.languages.insertBefore("groovy", "string", {
-  shebang: {
-    pattern: /#!.+/,
-    alias: "comment"
-  }
-});
-Prism.languages.insertBefore("groovy", "punctuation", {
-  "spock-block": /\b(?:setup|given|when|then|and|cleanup|expect|where):/
-});
-Prism.languages.insertBefore("groovy", "function", {
-  annotation: {
-    alias: "punctuation",
-    pattern: /(^|[^.])@\w+/,
-    lookbehind: !0
-  }
-});
-Prism.hooks.add("wrap", function(o) {
-  if (o.language === "groovy" && o.type === "string") {
-    var i = o.content[0];
-    if (i != "'") {
-      var A = /([^\\])(?:\$(?:\{.*?\}|[\w.]+))/;
-      i === "$" && (A = /([^\$])(?:\$(?:\{.*?\}|[\w.]+))/), o.content = o.content.replace(/&lt;/g, "<").replace(/&amp;/g, "&"), o.content = Prism.highlight(o.content, {
-        expression: {
-          pattern: A,
-          lookbehind: !0,
-          inside: Prism.languages.groovy
-        }
-      }), o.classes.push(i === "/" ? "regex" : "gstring");
-    }
-  }
-});
-(function(o) {
-  o.languages.haml = {
-    // Multiline stuff should appear before the rest
-    "multiline-comment": {
-      pattern: /((?:^|\r?\n|\r)([\t ]*))(?:\/|-#).*(?:(?:\r?\n|\r)\2[\t ]+.+)*/,
-      lookbehind: !0,
-      alias: "comment"
-    },
-    "multiline-code": [
-      {
-        pattern: /((?:^|\r?\n|\r)([\t ]*)(?:[~-]|[&!]?=)).*,[\t ]*(?:(?:\r?\n|\r)\2[\t ]+.*,[\t ]*)*(?:(?:\r?\n|\r)\2[\t ]+.+)/,
-        lookbehind: !0,
-        inside: {
-          rest: o.languages.ruby
-        }
-      },
-      {
-        pattern: /((?:^|\r?\n|\r)([\t ]*)(?:[~-]|[&!]?=)).*\|[\t ]*(?:(?:\r?\n|\r)\2[\t ]+.*\|[\t ]*)*/,
-        lookbehind: !0,
-        inside: {
-          rest: o.languages.ruby
-        }
-      }
-    ],
-    // See at the end of the file for known filters
-    filter: {
-      pattern: /((?:^|\r?\n|\r)([\t ]*)):[\w-]+(?:(?:\r?\n|\r)(?:\2[\t ]+.+|\s*?(?=\r?\n|\r)))+/,
-      lookbehind: !0,
-      inside: {
-        "filter-name": {
-          pattern: /^:[\w-]+/,
-          alias: "variable"
-        }
-      }
-    },
-    markup: {
-      pattern: /((?:^|\r?\n|\r)[\t ]*)<.+/,
-      lookbehind: !0,
-      inside: {
-        rest: o.languages.markup
-      }
-    },
-    doctype: {
-      pattern: /((?:^|\r?\n|\r)[\t ]*)!!!(?: .+)?/,
-      lookbehind: !0
-    },
-    tag: {
-      // Allows for one nested group of braces
-      pattern: /((?:^|\r?\n|\r)[\t ]*)[%.#][\w\-#.]*[\w\-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^}])+\}|\[[^\]]+\])*[\/<>]*/,
-      lookbehind: !0,
-      inside: {
-        attributes: [
-          {
-            // Lookbehind tries to prevent interpolations from breaking it all
-            // Allows for one nested group of braces
-            pattern: /(^|[^#])\{(?:\{[^}]+\}|[^}])+\}/,
-            lookbehind: !0,
-            inside: {
-              rest: o.languages.ruby
-            }
-          },
-          {
-            pattern: /\([^)]+\)/,
-            inside: {
-              "attr-value": {
-                pattern: /(=\s*)(?:"(?:\\.|[^\\"\r\n])*"|[^)\s]+)/,
-                lookbehind: !0
-              },
-              "attr-name": /[\w:-]+(?=\s*!?=|\s*[,)])/,
-              punctuation: /[=(),]/
-            }
-          },
-          {
-            pattern: /\[[^\]]+\]/,
-            inside: {
-              rest: o.languages.ruby
-            }
+          scope: {
+            1: "keyword",
+            3: "variable.constant"
           }
-        ],
-        punctuation: /[<>]/
-      }
-    },
-    code: {
-      pattern: /((?:^|\r?\n|\r)[\t ]*(?:[~-]|[&!]?=)).+/,
-      lookbehind: !0,
-      inside: {
-        rest: o.languages.ruby
-      }
-    },
-    // Interpolations in plain text
-    interpolation: {
-      pattern: /#\{[^}]+\}/,
-      inside: {
-        delimiter: {
-          pattern: /^#\{|\}$/,
-          alias: "punctuation"
         },
-        rest: o.languages.ruby
-      }
-    },
-    punctuation: {
-      pattern: /((?:^|\r?\n|\r)[\t ]*)[~=\-&!]+/,
-      lookbehind: !0
-    }
-  };
-  for (var i = "((?:^|\\r?\\n|\\r)([\\t ]*)):{{filter_name}}(?:(?:\\r?\\n|\\r)(?:\\2[\\t ]+.+|\\s*?(?=\\r?\\n|\\r)))+", A = [
-    "css",
-    { filter: "coffee", language: "coffeescript" },
-    "erb",
-    "javascript",
-    "less",
-    "markdown",
-    "ruby",
-    "scss",
-    "textile"
-  ], a = {}, _ = 0, I = A.length; _ < I; _++) {
-    var S = A[_];
-    S = typeof S == "string" ? { filter: S, language: S } : S, o.languages[S.language] && (a["filter-" + S.filter] = {
-      pattern: RegExp(i.replace("{{filter_name}}", S.filter)),
-      lookbehind: !0,
-      inside: {
-        "filter-name": {
-          pattern: /^:[\w-]+/,
-          alias: "variable"
-        },
-        rest: o.languages[S.language]
-      }
-    });
-  }
-  o.languages.insertBefore("haml", "filter", a);
-})(Prism);
-(function(o) {
-  o.languages.handlebars = {
-    comment: /\{\{![\s\S]*?\}\}/,
-    delimiter: {
-      pattern: /^\{\{\{?|\}\}\}?$/i,
-      alias: "punctuation"
-    },
-    string: /(["'])(?:\\.|(?!\1)[^\\\r\n])*\1/,
-    number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
-    boolean: /\b(?:true|false)\b/,
-    block: {
-      pattern: /^(\s*~?\s*)[#\/]\S+?(?=\s*~?\s*$|\s)/i,
-      lookbehind: !0,
-      alias: "keyword"
-    },
-    brackets: {
-      pattern: /\[[^\]]+\]/,
-      inside: {
-        punctuation: /\[|\]/,
-        variable: /[\s\S]+/
-      }
-    },
-    punctuation: /[!"#%&'()*+,.\/;<=>@\[\\\]^`{|}~]/,
-    variable: /[^!"#%&'()*+,.\/;<=>@\[\\\]^`{|}~\s]+/
-  }, o.hooks.add("before-tokenize", function(i) {
-    var A = /\{\{\{[\s\S]+?\}\}\}|\{\{[\s\S]+?\}\}/g;
-    o.languages["markup-templating"].buildPlaceholders(i, "handlebars", A);
-  }), o.hooks.add("after-tokenize", function(i) {
-    o.languages["markup-templating"].tokenizePlaceholders(i, "handlebars");
-  });
-})(Prism);
-Prism.languages.http = {
-  "request-line": {
-    pattern: /^(?:POST|GET|PUT|DELETE|OPTIONS|PATCH|TRACE|CONNECT)\shttps?:\/\/\S+\sHTTP\/[0-9.]+/m,
-    inside: {
-      // HTTP Verb
-      property: /^(?:POST|GET|PUT|DELETE|OPTIONS|PATCH|TRACE|CONNECT)\b/,
-      // Path or query argument
-      "attr-name": /:\w+/
-    }
-  },
-  "response-status": {
-    pattern: /^HTTP\/1.[01] \d+.*/m,
-    inside: {
-      // Status, e.g. 200 OK
-      property: {
-        pattern: /(^HTTP\/1.[01] )\d+.*/i,
-        lookbehind: !0
-      }
-    }
-  },
-  // HTTP header name
-  "header-name": {
-    pattern: /^[\w-]+:(?=.)/m,
-    alias: "keyword"
-  }
-};
-var X = {
-  "application/json": Prism.languages.javascript,
-  "application/xml": Prism.languages.markup,
-  "text/xml": Prism.languages.markup,
-  "text/html": Prism.languages.markup
-};
-for (var K in X)
-  if (X[K]) {
-    var Q = {};
-    Q[K] = {
-      pattern: new RegExp("(content-type:\\s*" + K + "[\\w\\W]*?)(?:\\r?\\n|\\r){2}[\\w\\W]*", "i"),
-      lookbehind: !0,
-      inside: {
-        rest: X[K]
-      }
-    }, Prism.languages.insertBefore("http", "header-name", Q);
-  }
-Prism.languages.java = Prism.languages.extend("clike", {
-  keyword: /\b(?:abstract|continue|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|protected|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|strictfp|volatile|const|float|native|super|while)\b/,
-  number: /\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp-]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?[df]?/i,
-  operator: {
-    pattern: /(^|[^.])(?:\+[+=]?|-[-=]?|!=?|<<?=?|>>?>?=?|==?|&[&=]?|\|[|=]?|\*=?|\/=?|%=?|\^=?|[?:~])/m,
-    lookbehind: !0
-  }
-});
-Prism.languages.insertBefore("java", "function", {
-  annotation: {
-    alias: "punctuation",
-    pattern: /(^|[^.])@\w+/,
-    lookbehind: !0
-  }
-});
-Prism.languages.insertBefore("java", "class-name", {
-  generics: {
-    pattern: /<\s*\w+(?:\.\w+)?(?:\s*,\s*\w+(?:\.\w+)?)*>/i,
-    alias: "function",
-    inside: {
-      keyword: Prism.languages.java.keyword,
-      punctuation: /[<>(),.:]/
-    }
-  }
-});
-Prism.languages.javascript = Prism.languages.extend("clike", {
-  keyword: /\b(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/,
-  number: /\b(?:0[xX][\dA-Fa-f]+|0[bB][01]+|0[oO][0-7]+|NaN|Infinity)\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
-  // Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
-  function: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*\()/i,
-  operator: /-[-=]?|\+[+=]?|!=?=?|<<?=?|>>?>?=?|=(?:==?|>)?|&[&=]?|\|[|=]?|\*\*?=?|\/=?|~|\^=?|%=?|\?|\.{3}/
-});
-Prism.languages.insertBefore("javascript", "keyword", {
-  regex: {
-    pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
-    lookbehind: !0,
-    greedy: !0
-  },
-  // This must be declared before keyword because we use "function" inside the look-forward
-  "function-variable": {
-    pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=\s*(?:function\b|(?:\([^()]*\)|[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/i,
-    alias: "function"
-  },
-  constant: /\b[A-Z][A-Z\d_]*\b/
-});
-Prism.languages.insertBefore("javascript", "string", {
-  "template-string": {
-    pattern: /`(?:\\[\s\S]|[^\\`])*`/,
-    greedy: !0,
-    inside: {
-      interpolation: {
-        pattern: /\$\{[^}]+\}/,
-        inside: {
-          "interpolation-punctuation": {
-            pattern: /^\$\{|\}$/,
-            alias: "punctuation"
-          },
-          rest: Prism.languages.javascript
-        }
-      },
-      string: /[\s\S]+/
-    }
-  }
-});
-Prism.languages.markup && Prism.languages.insertBefore("markup", "tag", {
-  script: {
-    pattern: /(<script[\s\S]*?>)[\s\S]*?(?=<\/script>)/i,
-    lookbehind: !0,
-    inside: Prism.languages.javascript,
-    alias: "language-javascript",
-    greedy: !0
-  }
-});
-Prism.languages.js = Prism.languages.javascript;
-Prism.languages.json = {
-  property: /"(?:\\.|[^\\"\r\n])*"(?=\s*:)/i,
-  string: {
-    pattern: /"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
-    greedy: !0
-  },
-  number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
-  punctuation: /[{}[\]);,]/,
-  operator: /:/g,
-  boolean: /\b(?:true|false)\b/i,
-  null: /\bnull\b/i
-};
-Prism.languages.jsonp = Prism.languages.json;
-(function(o) {
-  var i = o.util.clone(o.languages.javascript);
-  o.languages.jsx = o.languages.extend("markup", i), o.languages.jsx.tag.pattern = /<\/?[\w.:-]+\s*(?:\s+(?:[\w.:-]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s{'">=]+|\{(?:\{[^}]*\}|[^{}])+\}))?|\{\.{3}[a-z_$][\w$]*(?:\.[a-z_$][\w$]*)*\}))*\s*\/?>/i, o.languages.jsx.tag.inside["attr-value"].pattern = /=(?!\{)(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">]+)/i, o.languages.insertBefore("inside", "attr-name", {
-    spread: {
-      pattern: /\{\.{3}[a-z_$][\w$]*(?:\.[a-z_$][\w$]*)*\}/,
-      inside: {
-        punctuation: /\.{3}|[{}.]/,
-        "attr-value": /\w+/
-      }
-    }
-  }, o.languages.jsx.tag), o.languages.insertBefore("inside", "attr-value", {
-    script: {
-      // Allow for one level of nesting
-      pattern: /=(\{(?:\{[^}]*\}|[^}])+\})/i,
-      inside: {
-        "script-punctuation": {
-          pattern: /^=(?={)/,
-          alias: "punctuation"
-        },
-        rest: o.languages.jsx
-      },
-      alias: "language-javascript"
-    }
-  }, o.languages.jsx.tag);
-  var A = function(_) {
-    return typeof _ == "string" ? _ : typeof _.content == "string" ? _.content : _.content.map(A).join("");
-  }, a = function(_) {
-    for (var I = [], S = 0; S < _.length; S++) {
-      var k = _[S], c = !1;
-      if (typeof k != "string" && (k.type === "tag" && k.content[0] && k.content[0].type === "tag" ? k.content[0].content[0].content === "</" ? I.length > 0 && I[I.length - 1].tagName === A(k.content[0].content[1]) && I.pop() : k.content[k.content.length - 1].content === "/>" || I.push({
-        tagName: A(k.content[0].content[1]),
-        openedBraces: 0
-      }) : I.length > 0 && k.type === "punctuation" && k.content === "{" ? I[I.length - 1].openedBraces++ : I.length > 0 && I[I.length - 1].openedBraces > 0 && k.type === "punctuation" && k.content === "}" ? I[I.length - 1].openedBraces-- : c = !0), (c || typeof k == "string") && I.length > 0 && I[I.length - 1].openedBraces === 0) {
-        var b = A(k);
-        S < _.length - 1 && (typeof _[S + 1] == "string" || _[S + 1].type === "plain-text") && (b += A(_[S + 1]), _.splice(S + 1, 1)), S > 0 && (typeof _[S - 1] == "string" || _[S - 1].type === "plain-text") && (b = A(_[S - 1]) + b, _.splice(S - 1, 1), S--), _[S] = new o.Token("plain-text", b, null, b);
-      }
-      k.content && typeof k.content != "string" && a(k.content);
-    }
-  };
-  o.hooks.add("after-tokenize", function(_) {
-    _.language !== "jsx" && _.language !== "tsx" || a(_.tokens);
-  });
-})(Prism);
-(function(o) {
-  o.languages.kotlin = o.languages.extend("clike", {
-    keyword: {
-      // The lookbehind prevents wrong highlighting of e.g. kotlin.properties.get
-      pattern: /(^|[^.])\b(?:abstract|annotation|as|break|by|catch|class|companion|const|constructor|continue|crossinline|data|do|else|enum|final|finally|for|fun|get|if|import|in|init|inline|inner|interface|internal|is|lateinit|noinline|null|object|open|out|override|package|private|protected|public|reified|return|sealed|set|super|tailrec|this|throw|to|try|val|var|when|where|while)\b/,
-      lookbehind: !0
-    },
-    function: [
-      /\w+(?=\s*\()/,
-      {
-        pattern: /(\.)\w+(?=\s*\{)/,
-        lookbehind: !0
-      }
-    ],
-    number: /\b(?:0[bx][\da-fA-F]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?[fFL]?)\b/,
-    operator: /\+[+=]?|-[-=>]?|==?=?|!(?:!|==?)?|[\/*%<>]=?|[?:]:?|\.\.|&&|\|\||\b(?:and|inv|or|shl|shr|ushr|xor)\b/
-  }), delete o.languages.kotlin["class-name"], o.languages.insertBefore("kotlin", "string", {
-    "raw-string": {
-      pattern: /("""|''')[\s\S]*?\1/,
-      alias: "string"
-      // See interpolation below
-    }
-  }), o.languages.insertBefore("kotlin", "keyword", {
-    annotation: {
-      pattern: /\B@(?:\w+:)?(?:[A-Z]\w*|\[[^\]]+\])/,
-      alias: "builtin"
-    }
-  }), o.languages.insertBefore("kotlin", "function", {
-    label: {
-      pattern: /\w+@|@\w+/,
-      alias: "symbol"
-    }
-  });
-  var i = [
-    {
-      pattern: /\$\{[^}]+\}/,
-      inside: {
-        delimiter: {
-          pattern: /^\$\{|\}$/,
-          alias: "variable"
-        },
-        rest: o.languages.kotlin
-      }
-    },
-    {
-      pattern: /\$\w+/,
-      alias: "variable"
-    }
-  ];
-  o.languages.kotlin.string.inside = o.languages.kotlin["raw-string"].inside = {
-    interpolation: i
-  };
-})(Prism);
-(function(o) {
-  var i = /\\(?:[^a-z()[\]]|[a-z*]+)/i, A = {
-    "equation-command": {
-      pattern: i,
-      alias: "regex"
-    }
-  };
-  o.languages.latex = {
-    comment: /%.*/m,
-    // the verbatim environment prints whitespace to the document
-    cdata: {
-      pattern: /(\\begin\{((?:verbatim|lstlisting)\*?)\})[\s\S]*?(?=\\end\{\2\})/,
-      lookbehind: !0
-    },
-    /*
-     * equations can be between $ $ or \( \) or \[ \]
-     * (all are multiline)
-     */
-    equation: [
-      {
-        pattern: /\$(?:\\[\s\S]|[^\\$])*\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/,
-        inside: A,
-        alias: "string"
-      },
-      {
-        pattern: /(\\begin\{((?:equation|math|eqnarray|align|multline|gather)\*?)\})[\s\S]*?(?=\\end\{\2\})/,
-        lookbehind: !0,
-        inside: A,
-        alias: "string"
-      }
-    ],
-    /*
-     * arguments which are keywords or references are highlighted
-     * as keywords
-     */
-    keyword: {
-      pattern: /(\\(?:begin|end|ref|cite|label|usepackage|documentclass)(?:\[[^\]]+\])?\{)[^}]+(?=\})/,
-      lookbehind: !0
-    },
-    url: {
-      pattern: /(\\url\{)[^}]+(?=\})/,
-      lookbehind: !0
-    },
-    /*
-     * section or chapter headlines are highlighted as bold so that
-     * they stand out more
-     */
-    headline: {
-      pattern: /(\\(?:part|chapter|section|subsection|frametitle|subsubsection|paragraph|subparagraph|subsubparagraph|subsubsubparagraph)\*?(?:\[[^\]]+\])?\{)[^}]+(?=\}(?:\[[^\]]+\])?)/,
-      lookbehind: !0,
-      alias: "class-name"
-    },
-    function: {
-      pattern: i,
-      alias: "selector"
-    },
-    punctuation: /[[\]{}&]/
-  };
-})(Prism);
-Prism.languages.less = Prism.languages.extend("css", {
-  comment: [
-    /\/\*[\s\S]*?\*\//,
-    {
-      pattern: /(^|[^\\])\/\/.*/,
-      lookbehind: !0
-    }
-  ],
-  atrule: {
-    pattern: /@[\w-]+?(?:\([^{}]+\)|[^(){};])*?(?=\s*\{)/i,
-    inside: {
-      punctuation: /[:()]/
-    }
-  },
-  // selectors and mixins are considered the same
-  selector: {
-    pattern: /(?:@\{[\w-]+\}|[^{};\s@])(?:@\{[\w-]+\}|\([^{}]*\)|[^{};@])*?(?=\s*\{)/,
-    inside: {
-      // mixin parameters
-      variable: /@+[\w-]+/
-    }
-  },
-  property: /(?:@\{[\w-]+\}|[\w-])+(?:\+_?)?(?=\s*:)/i,
-  punctuation: /[{}();:,]/,
-  operator: /[+\-*\/]/
-});
-Prism.languages.insertBefore("less", "punctuation", {
-  function: Prism.languages.less.function
-});
-Prism.languages.insertBefore("less", "property", {
-  variable: [
-    // Variable declaration (the colon must be consumed!)
-    {
-      pattern: /@[\w-]+\s*:/,
-      inside: {
-        punctuation: /:/
-      }
-    },
-    // Variable usage
-    /@@?[\w-]+/
-  ],
-  "mixin-usage": {
-    pattern: /([{;]\s*)[.#](?!\d)[\w-]+.*?(?=[(;])/,
-    lookbehind: !0,
-    alias: "function"
-  }
-});
-Prism.languages.markdown = Prism.languages.extend("markup", {});
-Prism.languages.insertBefore("markdown", "prolog", {
-  blockquote: {
-    // > ...
-    pattern: /^>(?:[\t ]*>)*/m,
-    alias: "punctuation"
-  },
-  code: [
-    {
-      // Prefixed by 4 spaces or 1 tab
-      pattern: /^(?: {4}|\t).+/m,
-      alias: "keyword"
-    },
-    {
-      // `code`
-      // ``code``
-      pattern: /``.+?``|`[^`\n]+`/,
-      alias: "keyword"
-    }
-  ],
-  title: [
-    {
-      // title 1
-      // =======
-      // title 2
-      // -------
-      pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/,
-      alias: "important",
-      inside: {
-        punctuation: /==+$|--+$/
-      }
-    },
-    {
-      // # title 1
-      // ###### title 6
-      pattern: /(^\s*)#+.+/m,
-      lookbehind: !0,
-      alias: "important",
-      inside: {
-        punctuation: /^#+|#+$/
-      }
-    }
-  ],
-  hr: {
-    // ***
-    // ---
-    // * * *
-    // -----------
-    pattern: /(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,
-    lookbehind: !0,
-    alias: "punctuation"
-  },
-  list: {
-    // * item
-    // + item
-    // - item
-    // 1. item
-    pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
-    lookbehind: !0,
-    alias: "punctuation"
-  },
-  "url-reference": {
-    // [id]: http://example.com "Optional title"
-    // [id]: http://example.com 'Optional title'
-    // [id]: http://example.com (Optional title)
-    // [id]: <http://example.com> "Optional title"
-    pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,
-    inside: {
-      variable: {
-        pattern: /^(!?\[)[^\]]+/,
-        lookbehind: !0
-      },
-      string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
-      punctuation: /^[\[\]!:]|[<>]/
-    },
-    alias: "url"
-  },
-  bold: {
-    // **strong**
-    // __strong__
-    // Allow only one line break
-    pattern: /(^|[^\\])(\*\*|__)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
-    lookbehind: !0,
-    inside: {
-      punctuation: /^\*\*|^__|\*\*$|__$/
-    }
-  },
-  italic: {
-    // *em*
-    // _em_
-    // Allow only one line break
-    pattern: /(^|[^\\])([*_])(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
-    lookbehind: !0,
-    inside: {
-      punctuation: /^[*_]|[*_]$/
-    }
-  },
-  url: {
-    // [example](http://example.com "Optional title")
-    // [example] [id]
-    pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/,
-    inside: {
-      variable: {
-        pattern: /(!?\[)[^\]]+(?=\]$)/,
-        lookbehind: !0
-      },
-      string: {
-        pattern: /"(?:\\.|[^"\\])*"(?=\)$)/
-      }
-    }
-  }
-});
-Prism.languages.markdown.bold.inside.url = Prism.languages.markdown.url;
-Prism.languages.markdown.italic.inside.url = Prism.languages.markdown.url;
-Prism.languages.markdown.bold.inside.italic = Prism.languages.markdown.italic;
-Prism.languages.markdown.italic.inside.bold = Prism.languages.markdown.bold;
-Prism.languages.markup = {
-  comment: /<!--[\s\S]*?-->/,
-  prolog: /<\?[\s\S]+?\?>/,
-  doctype: /<!DOCTYPE[\s\S]+?>/i,
-  cdata: /<!\[CDATA\[[\s\S]*?]]>/i,
-  tag: {
-    pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i,
-    greedy: !0,
-    inside: {
-      tag: {
-        pattern: /^<\/?[^\s>\/]+/i,
-        inside: {
-          punctuation: /^<\/?/,
-          namespace: /^[^\s>\/:]+:/
-        }
-      },
-      "attr-value": {
-        pattern: /=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+)/i,
-        inside: {
-          punctuation: [
-            /^=/,
+        C,
+        {
+          scope: "function",
+          relevance: 0,
+          beginKeywords: "fn function",
+          end: /[;{]/,
+          excludeEnd: !0,
+          illegal: "[$%\\[]",
+          contains: [
+            { beginKeywords: "use" },
+            e.UNDERSCORE_TITLE_MODE,
             {
-              pattern: /(^|[^\\])["']/,
-              lookbehind: !0
+              begin: "=>",
+              // No markup, just a relevance booster
+              endsParent: !0
+            },
+            {
+              scope: "params",
+              begin: "\\(",
+              end: "\\)",
+              excludeBegin: !0,
+              excludeEnd: !0,
+              keywords: x,
+              contains: [
+                "self",
+                ee,
+                c,
+                M,
+                e.C_BLOCK_COMMENT_MODE,
+                _,
+                f
+              ]
             }
           ]
-        }
-      },
-      punctuation: /\/?>/,
-      "attr-name": {
-        pattern: /[^\s>\/]+/,
-        inside: {
-          namespace: /^[^\s>\/:]+:/
-        }
-      }
-    }
-  },
-  entity: /&#?[\da-z]{1,8};/i
-};
-Prism.languages.markup.tag.inside["attr-value"].inside.entity = Prism.languages.markup.entity;
-Prism.hooks.add("wrap", function(o) {
-  o.type === "entity" && (o.attributes.title = o.content.replace(/&amp;/, "&"));
-});
-Prism.languages.xml = Prism.languages.markup;
-Prism.languages.html = Prism.languages.markup;
-Prism.languages.mathml = Prism.languages.markup;
-Prism.languages.svg = Prism.languages.markup;
-Prism.languages["markup-templating"] = {};
-Object.defineProperties(Prism.languages["markup-templating"], {
-  buildPlaceholders: {
-    // Tokenize all inline templating expressions matching placeholderPattern
-    // If the replaceFilter function is provided, it will be called with every match.
-    // If it returns false, the match will not be replaced.
-    value: function(o, i, A, a) {
-      o.language === i && (o.tokenStack = [], o.code = o.code.replace(A, function(_) {
-        if (typeof a == "function" && !a(_))
-          return _;
-        for (var I = o.tokenStack.length; o.code.indexOf("___" + i.toUpperCase() + I + "___") !== -1; )
-          ++I;
-        return o.tokenStack[I] = _, "___" + i.toUpperCase() + I + "___";
-      }), o.grammar = Prism.languages.markup);
-    }
-  },
-  tokenizePlaceholders: {
-    // Replace placeholders with proper tokens after tokenizing
-    value: function(o, i) {
-      if (!(o.language !== i || !o.tokenStack)) {
-        o.grammar = Prism.languages[i];
-        var A = 0, a = Object.keys(o.tokenStack), _ = function(I) {
-          if (!(A >= a.length))
-            for (var S = 0; S < I.length; S++) {
-              var k = I[S];
-              if (typeof k == "string" || k.content && typeof k.content == "string") {
-                var c = a[A], b = o.tokenStack[c], P = typeof k == "string" ? k : k.content, y = P.indexOf("___" + i.toUpperCase() + c + "___");
-                if (y > -1) {
-                  ++A;
-                  var L = P.substring(0, y), N = new Prism.Token(i, Prism.tokenize(b, o.grammar, i), "language-" + i, b), j = P.substring(y + ("___" + i.toUpperCase() + c + "___").length), T;
-                  if (L || j ? (T = [L, N, j].filter(function(O) {
-                    return !!O;
-                  }), _(T)) : T = N, typeof k == "string" ? Array.prototype.splice.apply(I, [S, 1].concat(T)) : k.content = T, A >= a.length)
-                    break;
-                }
-              } else k.content && typeof k.content != "string" && _(k.content);
+        },
+        {
+          scope: "class",
+          variants: [
+            {
+              beginKeywords: "enum",
+              illegal: /[($"]/
+            },
+            {
+              beginKeywords: "class interface trait",
+              illegal: /[:($"]/
             }
-        };
-        _(o.tokens);
-      }
-    }
+          ],
+          relevance: 0,
+          end: /\{/,
+          excludeEnd: !0,
+          contains: [
+            { beginKeywords: "extends implements" },
+            e.UNDERSCORE_TITLE_MODE
+          ]
+        },
+        // both use and namespace still use "old style" rules (vs multi-match)
+        // because the namespace name can include `\` and we still want each
+        // element to be treated as its own *individual* title
+        {
+          beginKeywords: "namespace",
+          relevance: 0,
+          end: ";",
+          illegal: /[.']/,
+          contains: [e.inherit(e.UNDERSCORE_TITLE_MODE, { scope: "title.class" })]
+        },
+        {
+          beginKeywords: "use",
+          relevance: 0,
+          end: ";",
+          contains: [
+            // TODO: title.function vs title.class
+            {
+              match: /\b(as|const|function)\b/,
+              scope: "keyword"
+            },
+            // TODO: could be title.class or title.function
+            e.UNDERSCORE_TITLE_MODE
+          ]
+        },
+        _,
+        f
+      ]
+    };
   }
-});
-Prism.languages.nginx = Prism.languages.extend("clike", {
-  comment: {
-    pattern: /(^|[^"{\\])#.*/,
-    lookbehind: !0
-  },
-  keyword: /\b(?:CONTENT_|DOCUMENT_|GATEWAY_|HTTP_|HTTPS|if_not_empty|PATH_|QUERY_|REDIRECT_|REMOTE_|REQUEST_|SCGI|SCRIPT_|SERVER_|http|events|accept_mutex|accept_mutex_delay|access_log|add_after_body|add_before_body|add_header|addition_types|aio|alias|allow|ancient_browser|ancient_browser_value|auth|auth_basic|auth_basic_user_file|auth_http|auth_http_header|auth_http_timeout|autoindex|autoindex_exact_size|autoindex_localtime|break|charset|charset_map|charset_types|chunked_transfer_encoding|client_body_buffer_size|client_body_in_file_only|client_body_in_single_buffer|client_body_temp_path|client_body_timeout|client_header_buffer_size|client_header_timeout|client_max_body_size|connection_pool_size|create_full_put_path|daemon|dav_access|dav_methods|debug_connection|debug_points|default_type|deny|devpoll_changes|devpoll_events|directio|directio_alignment|disable_symlinks|empty_gif|env|epoll_events|error_log|error_page|expires|fastcgi_buffer_size|fastcgi_buffers|fastcgi_busy_buffers_size|fastcgi_cache|fastcgi_cache_bypass|fastcgi_cache_key|fastcgi_cache_lock|fastcgi_cache_lock_timeout|fastcgi_cache_methods|fastcgi_cache_min_uses|fastcgi_cache_path|fastcgi_cache_purge|fastcgi_cache_use_stale|fastcgi_cache_valid|fastcgi_connect_timeout|fastcgi_hide_header|fastcgi_ignore_client_abort|fastcgi_ignore_headers|fastcgi_index|fastcgi_intercept_errors|fastcgi_keep_conn|fastcgi_max_temp_file_size|fastcgi_next_upstream|fastcgi_no_cache|fastcgi_param|fastcgi_pass|fastcgi_pass_header|fastcgi_read_timeout|fastcgi_redirect_errors|fastcgi_send_timeout|fastcgi_split_path_info|fastcgi_store|fastcgi_store_access|fastcgi_temp_file_write_size|fastcgi_temp_path|flv|geo|geoip_city|geoip_country|google_perftools_profiles|gzip|gzip_buffers|gzip_comp_level|gzip_disable|gzip_http_version|gzip_min_length|gzip_proxied|gzip_static|gzip_types|gzip_vary|if|if_modified_since|ignore_invalid_headers|image_filter|image_filter_buffer|image_filter_jpeg_quality|image_filter_sharpen|image_filter_transparency|imap_capabilities|imap_client_buffer|include|index|internal|ip_hash|keepalive|keepalive_disable|keepalive_requests|keepalive_timeout|kqueue_changes|kqueue_events|large_client_header_buffers|limit_conn|limit_conn_log_level|limit_conn_zone|limit_except|limit_rate|limit_rate_after|limit_req|limit_req_log_level|limit_req_zone|limit_zone|lingering_close|lingering_time|lingering_timeout|listen|location|lock_file|log_format|log_format_combined|log_not_found|log_subrequest|map|map_hash_bucket_size|map_hash_max_size|master_process|max_ranges|memcached_buffer_size|memcached_connect_timeout|memcached_next_upstream|memcached_pass|memcached_read_timeout|memcached_send_timeout|merge_slashes|min_delete_depth|modern_browser|modern_browser_value|mp4|mp4_buffer_size|mp4_max_buffer_size|msie_padding|msie_refresh|multi_accept|open_file_cache|open_file_cache_errors|open_file_cache_min_uses|open_file_cache_valid|open_log_file_cache|optimize_server_names|override_charset|pcre_jit|perl|perl_modules|perl_require|perl_set|pid|pop3_auth|pop3_capabilities|port_in_redirect|post_action|postpone_output|protocol|proxy|proxy_buffer|proxy_buffer_size|proxy_buffering|proxy_buffers|proxy_busy_buffers_size|proxy_cache|proxy_cache_bypass|proxy_cache_key|proxy_cache_lock|proxy_cache_lock_timeout|proxy_cache_methods|proxy_cache_min_uses|proxy_cache_path|proxy_cache_use_stale|proxy_cache_valid|proxy_connect_timeout|proxy_cookie_domain|proxy_cookie_path|proxy_headers_hash_bucket_size|proxy_headers_hash_max_size|proxy_hide_header|proxy_http_version|proxy_ignore_client_abort|proxy_ignore_headers|proxy_intercept_errors|proxy_max_temp_file_size|proxy_method|proxy_next_upstream|proxy_no_cache|proxy_pass|proxy_pass_error_message|proxy_pass_header|proxy_pass_request_body|proxy_pass_request_headers|proxy_read_timeout|proxy_redirect|proxy_redirect_errors|proxy_send_lowat|proxy_send_timeout|proxy_set_body|proxy_set_header|proxy_ssl_session_reuse|proxy_store|proxy_store_access|proxy_temp_file_write_size|proxy_temp_path|proxy_timeout|proxy_upstream_fail_timeout|proxy_upstream_max_fails|random_index|read_ahead|real_ip_header|recursive_error_pages|request_pool_size|reset_timedout_connection|resolver|resolver_timeout|return|rewrite|root|rtsig_overflow_events|rtsig_overflow_test|rtsig_overflow_threshold|rtsig_signo|satisfy|satisfy_any|secure_link_secret|send_lowat|send_timeout|sendfile|sendfile_max_chunk|server|server_name|server_name_in_redirect|server_names_hash_bucket_size|server_names_hash_max_size|server_tokens|set|set_real_ip_from|smtp_auth|smtp_capabilities|so_keepalive|source_charset|split_clients|ssi|ssi_silent_errors|ssi_types|ssi_value_length|ssl|ssl_certificate|ssl_certificate_key|ssl_ciphers|ssl_client_certificate|ssl_crl|ssl_dhparam|ssl_engine|ssl_prefer_server_ciphers|ssl_protocols|ssl_session_cache|ssl_session_timeout|ssl_verify_client|ssl_verify_depth|starttls|stub_status|sub_filter|sub_filter_once|sub_filter_types|tcp_nodelay|tcp_nopush|timeout|timer_resolution|try_files|types|types_hash_bucket_size|types_hash_max_size|underscores_in_headers|uninitialized_variable_warn|upstream|use|user|userid|userid_domain|userid_expires|userid_name|userid_p3p|userid_path|userid_service|valid_referers|variables_hash_bucket_size|variables_hash_max_size|worker_connections|worker_cpu_affinity|worker_priority|worker_processes|worker_rlimit_core|worker_rlimit_nofile|worker_rlimit_sigpending|working_directory|xclient|xml_entities|xslt_entities|xslt_stylesheet|xslt_types)\b/i
-});
-Prism.languages.insertBefore("nginx", "keyword", {
-  variable: /\$[a-z_]+/i
-});
-Prism.languages.objectivec = Prism.languages.extend("c", {
-  keyword: /\b(?:asm|typeof|inline|auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|int|long|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while|in|self|super)\b|(?:@interface|@end|@implementation|@protocol|@class|@public|@protected|@private|@property|@try|@catch|@finally|@throw|@synthesize|@dynamic|@selector)\b/,
-  string: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|@"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"/,
-  operator: /-[->]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|\|?|[~^%?*\/@]/
-});
-(function(o) {
-  o.languages.php = o.languages.extend("clike", {
-    keyword: /\b(?:and|or|xor|array|as|break|case|cfunction|class|const|continue|declare|default|die|do|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|for|foreach|function|include|include_once|global|if|new|return|static|switch|use|require|require_once|var|while|abstract|interface|public|implements|private|protected|parent|throw|null|echo|print|trait|namespace|final|yield|goto|instanceof|finally|try|catch)\b/i,
-    constant: /\b[A-Z0-9_]{2,}\b/,
-    comment: {
-      pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|\/\/.*)/,
-      lookbehind: !0
-    }
-  }), o.languages.insertBefore("php", "string", {
-    "shell-comment": {
-      pattern: /(^|[^\\])#.*/,
-      lookbehind: !0,
-      alias: "comment"
-    }
-  }), o.languages.insertBefore("php", "keyword", {
-    delimiter: {
-      pattern: /\?>|<\?(?:php|=)?/i,
-      alias: "important"
-    },
-    variable: /\$+(?:\w+\b|(?={))/i,
-    package: {
-      pattern: /(\\|namespace\s+|use\s+)[\w\\]+/,
-      lookbehind: !0,
-      inside: {
-        punctuation: /\\/
-      }
-    }
-  }), o.languages.insertBefore("php", "operator", {
-    property: {
-      pattern: /(->)[\w]+/,
-      lookbehind: !0
-    }
-  }), o.languages.insertBefore("php", "string", {
-    "nowdoc-string": {
-      pattern: /<<<'([^']+)'(?:\r\n?|\n)(?:.*(?:\r\n?|\n))*?\1;/,
-      greedy: !0,
-      alias: "string",
-      inside: {
-        delimiter: {
-          pattern: /^<<<'[^']+'|[a-z_]\w*;$/i,
-          alias: "symbol",
-          inside: {
-            punctuation: /^<<<'?|[';]$/
-          }
+  return yt = n, yt;
+}
+var Nt, Bn;
+function Ia() {
+  if (Bn) return Nt;
+  Bn = 1;
+  function n(e) {
+    return {
+      name: "PHP template",
+      subLanguage: "xml",
+      contains: [
+        {
+          begin: /<\?(php|=)?/,
+          end: /\?>/,
+          subLanguage: "php",
+          contains: [
+            // We don't want the php closing tag ?> to close the PHP block when
+            // inside any of the following blocks:
+            {
+              begin: "/\\*",
+              end: "\\*/",
+              skip: !0
+            },
+            {
+              begin: 'b"',
+              end: '"',
+              skip: !0
+            },
+            {
+              begin: "b'",
+              end: "'",
+              skip: !0
+            },
+            e.inherit(e.APOS_STRING_MODE, {
+              illegal: null,
+              className: null,
+              contains: null,
+              skip: !0
+            }),
+            e.inherit(e.QUOTE_STRING_MODE, {
+              illegal: null,
+              className: null,
+              contains: null,
+              skip: !0
+            })
+          ]
         }
-      }
-    },
-    "heredoc-string": {
-      pattern: /<<<(?:"([^"]+)"(?:\r\n?|\n)(?:.*(?:\r\n?|\n))*?\1;|([a-z_]\w*)(?:\r\n?|\n)(?:.*(?:\r\n?|\n))*?\2;)/i,
-      greedy: !0,
-      alias: "string",
-      inside: {
-        delimiter: {
-          pattern: /^<<<(?:"[^"]+"|[a-z_]\w*)|[a-z_]\w*;$/i,
-          alias: "symbol",
-          inside: {
-            punctuation: /^<<<"?|[";]$/
+      ]
+    };
+  }
+  return Nt = n, Nt;
+}
+var vt, Pn;
+function La() {
+  if (Pn) return vt;
+  Pn = 1;
+  function n(e) {
+    return {
+      name: "Plain text",
+      aliases: [
+        "text",
+        "txt"
+      ],
+      disableAutodetect: !0
+    };
+  }
+  return vt = n, vt;
+}
+var St, Un;
+function Da() {
+  if (Un) return St;
+  Un = 1;
+  function n(e) {
+    const t = e.regex, r = new RegExp("[\\p{XID_Start}_]\\p{XID_Continue}*", "u"), i = [
+      "and",
+      "as",
+      "assert",
+      "async",
+      "await",
+      "break",
+      "case",
+      "class",
+      "continue",
+      "def",
+      "del",
+      "elif",
+      "else",
+      "except",
+      "finally",
+      "for",
+      "from",
+      "global",
+      "if",
+      "import",
+      "in",
+      "is",
+      "lambda",
+      "match",
+      "nonlocal|10",
+      "not",
+      "or",
+      "pass",
+      "raise",
+      "return",
+      "try",
+      "while",
+      "with",
+      "yield"
+    ], a = {
+      $pattern: /[A-Za-z]\w+|__\w+__/,
+      keyword: i,
+      built_in: [
+        "__import__",
+        "abs",
+        "all",
+        "any",
+        "ascii",
+        "bin",
+        "bool",
+        "breakpoint",
+        "bytearray",
+        "bytes",
+        "callable",
+        "chr",
+        "classmethod",
+        "compile",
+        "complex",
+        "delattr",
+        "dict",
+        "dir",
+        "divmod",
+        "enumerate",
+        "eval",
+        "exec",
+        "filter",
+        "float",
+        "format",
+        "frozenset",
+        "getattr",
+        "globals",
+        "hasattr",
+        "hash",
+        "help",
+        "hex",
+        "id",
+        "input",
+        "int",
+        "isinstance",
+        "issubclass",
+        "iter",
+        "len",
+        "list",
+        "locals",
+        "map",
+        "max",
+        "memoryview",
+        "min",
+        "next",
+        "object",
+        "oct",
+        "open",
+        "ord",
+        "pow",
+        "print",
+        "property",
+        "range",
+        "repr",
+        "reversed",
+        "round",
+        "set",
+        "setattr",
+        "slice",
+        "sorted",
+        "staticmethod",
+        "str",
+        "sum",
+        "super",
+        "tuple",
+        "type",
+        "vars",
+        "zip"
+      ],
+      literal: [
+        "__debug__",
+        "Ellipsis",
+        "False",
+        "None",
+        "NotImplemented",
+        "True"
+      ],
+      type: [
+        "Any",
+        "Callable",
+        "Coroutine",
+        "Dict",
+        "List",
+        "Literal",
+        "Generic",
+        "Optional",
+        "Sequence",
+        "Set",
+        "Tuple",
+        "Type",
+        "Union"
+      ]
+    }, d = {
+      className: "meta",
+      begin: /^(>>>|\.\.\.) /
+    }, l = {
+      className: "subst",
+      begin: /\{/,
+      end: /\}/,
+      keywords: a,
+      illegal: /#/
+    }, u = {
+      begin: /\{\{/,
+      relevance: 0
+    }, p = {
+      className: "string",
+      contains: [e.BACKSLASH_ESCAPE],
+      variants: [
+        {
+          begin: /([uU]|[bB]|[rR]|[bB][rR]|[rR][bB])?'''/,
+          end: /'''/,
+          contains: [
+            e.BACKSLASH_ESCAPE,
+            d
+          ],
+          relevance: 10
+        },
+        {
+          begin: /([uU]|[bB]|[rR]|[bB][rR]|[rR][bB])?"""/,
+          end: /"""/,
+          contains: [
+            e.BACKSLASH_ESCAPE,
+            d
+          ],
+          relevance: 10
+        },
+        {
+          begin: /([fF][rR]|[rR][fF]|[fF])'''/,
+          end: /'''/,
+          contains: [
+            e.BACKSLASH_ESCAPE,
+            d,
+            u,
+            l
+          ]
+        },
+        {
+          begin: /([fF][rR]|[rR][fF]|[fF])"""/,
+          end: /"""/,
+          contains: [
+            e.BACKSLASH_ESCAPE,
+            d,
+            u,
+            l
+          ]
+        },
+        {
+          begin: /([uU]|[rR])'/,
+          end: /'/,
+          relevance: 10
+        },
+        {
+          begin: /([uU]|[rR])"/,
+          end: /"/,
+          relevance: 10
+        },
+        {
+          begin: /([bB]|[bB][rR]|[rR][bB])'/,
+          end: /'/
+        },
+        {
+          begin: /([bB]|[bB][rR]|[rR][bB])"/,
+          end: /"/
+        },
+        {
+          begin: /([fF][rR]|[rR][fF]|[fF])'/,
+          end: /'/,
+          contains: [
+            e.BACKSLASH_ESCAPE,
+            u,
+            l
+          ]
+        },
+        {
+          begin: /([fF][rR]|[rR][fF]|[fF])"/,
+          end: /"/,
+          contains: [
+            e.BACKSLASH_ESCAPE,
+            u,
+            l
+          ]
+        },
+        e.APOS_STRING_MODE,
+        e.QUOTE_STRING_MODE
+      ]
+    }, h = "[0-9](_?[0-9])*", g = `(\\b(${h}))?\\.(${h})|\\b(${h})\\.`, _ = `\\b|${i.join("|")}`, f = {
+      className: "number",
+      relevance: 0,
+      variants: [
+        // exponentfloat, pointfloat
+        // https://docs.python.org/3.9/reference/lexical_analysis.html#floating-point-literals
+        // optionally imaginary
+        // https://docs.python.org/3.9/reference/lexical_analysis.html#imaginary-literals
+        // Note: no leading \b because floats can start with a decimal point
+        // and we don't want to mishandle e.g. `fn(.5)`,
+        // no trailing \b for pointfloat because it can end with a decimal point
+        // and we don't want to mishandle e.g. `0..hex()`; this should be safe
+        // because both MUST contain a decimal point and so cannot be confused with
+        // the interior part of an identifier
+        {
+          begin: `(\\b(${h})|(${g}))[eE][+-]?(${h})[jJ]?(?=${_})`
+        },
+        {
+          begin: `(${g})[jJ]?`
+        },
+        // decinteger, bininteger, octinteger, hexinteger
+        // https://docs.python.org/3.9/reference/lexical_analysis.html#integer-literals
+        // optionally "long" in Python 2
+        // https://docs.python.org/2.7/reference/lexical_analysis.html#integer-and-long-integer-literals
+        // decinteger is optionally imaginary
+        // https://docs.python.org/3.9/reference/lexical_analysis.html#imaginary-literals
+        {
+          begin: `\\b([1-9](_?[0-9])*|0+(_?0)*)[lLjJ]?(?=${_})`
+        },
+        {
+          begin: `\\b0[bB](_?[01])+[lL]?(?=${_})`
+        },
+        {
+          begin: `\\b0[oO](_?[0-7])+[lL]?(?=${_})`
+        },
+        {
+          begin: `\\b0[xX](_?[0-9a-fA-F])+[lL]?(?=${_})`
+        },
+        // imagnumber (digitpart-based)
+        // https://docs.python.org/3.9/reference/lexical_analysis.html#imaginary-literals
+        {
+          begin: `\\b(${h})[jJ](?=${_})`
+        }
+      ]
+    }, k = {
+      className: "comment",
+      begin: t.lookahead(/# type:/),
+      end: /$/,
+      keywords: a,
+      contains: [
+        {
+          // prevent keywords from coloring `type`
+          begin: /# type:/
+        },
+        // comment within a datatype comment includes no keywords
+        {
+          begin: /#/,
+          end: /\b\B/,
+          endsWithParent: !0
+        }
+      ]
+    }, w = {
+      className: "params",
+      variants: [
+        // Exclude params in functions without params
+        {
+          className: "",
+          begin: /\(\s*\)/,
+          skip: !0
+        },
+        {
+          begin: /\(/,
+          end: /\)/,
+          excludeBegin: !0,
+          excludeEnd: !0,
+          keywords: a,
+          contains: [
+            "self",
+            d,
+            f,
+            p,
+            e.HASH_COMMENT_MODE
+          ]
+        }
+      ]
+    };
+    return l.contains = [
+      p,
+      f,
+      d
+    ], {
+      name: "Python",
+      aliases: [
+        "py",
+        "gyp",
+        "ipython"
+      ],
+      unicodeRegex: !0,
+      keywords: a,
+      illegal: /(<\/|\?)|=>/,
+      contains: [
+        d,
+        f,
+        {
+          // very common convention
+          scope: "variable.language",
+          match: /\bself\b/
+        },
+        {
+          // eat "if" prior to string so that it won't accidentally be
+          // labeled as an f-string
+          beginKeywords: "if",
+          relevance: 0
+        },
+        { match: /\bor\b/, scope: "keyword" },
+        p,
+        k,
+        e.HASH_COMMENT_MODE,
+        {
+          match: [
+            /\bdef/,
+            /\s+/,
+            r
+          ],
+          scope: {
+            1: "keyword",
+            3: "title.function"
+          },
+          contains: [w]
+        },
+        {
+          variants: [
+            {
+              match: [
+                /\bclass/,
+                /\s+/,
+                r,
+                /\s*/,
+                /\(\s*/,
+                r,
+                /\s*\)/
+              ]
+            },
+            {
+              match: [
+                /\bclass/,
+                /\s+/,
+                r
+              ]
+            }
+          ],
+          scope: {
+            1: "keyword",
+            3: "title.class",
+            6: "title.class.inherited"
           }
         },
-        interpolation: null
-        // See below
-      }
-    },
-    "single-quoted-string": {
-      pattern: /'(?:\\[\s\S]|[^\\'])*'/,
-      greedy: !0,
-      alias: "string"
-    },
-    "double-quoted-string": {
-      pattern: /"(?:\\[\s\S]|[^\\"])*"/,
-      greedy: !0,
-      alias: "string",
-      inside: {
-        interpolation: null
-        // See below
-      }
-    }
-  }), delete o.languages.php.string;
-  var i = {
-    pattern: /{\$(?:{(?:{[^{}]+}|[^{}]+)}|[^{}])+}|(^|[^\\{])\$+(?:\w+(?:\[.+?]|->\w+)*)/,
-    lookbehind: !0,
-    inside: {
-      rest: o.languages.php
-    }
-  };
-  o.languages.php["heredoc-string"].inside.interpolation = i, o.languages.php["double-quoted-string"].inside.interpolation = i, o.hooks.add("before-tokenize", function(A) {
-    if (/(?:<\?php|<\?)/ig.test(A.code)) {
-      var a = /(?:<\?php|<\?)[\s\S]*?(?:\?>|$)/ig;
-      o.languages["markup-templating"].buildPlaceholders(A, "php", a);
-    }
-  }), o.hooks.add("after-tokenize", function(A) {
-    o.languages["markup-templating"].tokenizePlaceholders(A, "php");
-  });
-})(Prism);
-Prism.languages.insertBefore("php", "variable", {
-  this: /\$this\b/,
-  global: /\$(?:_(?:SERVER|GET|POST|FILES|REQUEST|SESSION|ENV|COOKIE)|GLOBALS|HTTP_RAW_POST_DATA|argc|argv|php_errormsg|http_response_header)\b/,
-  scope: {
-    pattern: /\b[\w\\]+::/,
-    inside: {
-      keyword: /static|self|parent/,
-      punctuation: /::|\\/
-    }
-  }
-});
-Prism.languages.powershell = {
-  comment: [
-    {
-      pattern: /(^|[^`])<#[\s\S]*?#>/,
-      lookbehind: !0
-    },
-    {
-      pattern: /(^|[^`])#.*/,
-      lookbehind: !0
-    }
-  ],
-  string: [
-    {
-      pattern: /"(?:`[\s\S]|[^`"])*"/,
-      greedy: !0,
-      inside: {
-        function: {
-          pattern: /(^|[^`])\$\(.*?\)/,
-          lookbehind: !0,
-          // Populated at end of file
-          inside: {}
+        {
+          className: "meta",
+          begin: /^[\t ]*@/,
+          end: /(?=#)|$/,
+          contains: [
+            f,
+            w,
+            p
+          ]
         }
-      }
+      ]
+    };
+  }
+  return St = n, St;
+}
+var Tt, $n;
+function Ba() {
+  if ($n) return Tt;
+  $n = 1;
+  function n(e) {
+    return {
+      aliases: ["pycon"],
+      contains: [
+        {
+          className: "meta.prompt",
+          starts: {
+            // a space separates the REPL prefix from the actual code
+            // this is purely for cleaner HTML output
+            end: / |$/,
+            starts: {
+              end: "$",
+              subLanguage: "python"
+            }
+          },
+          variants: [
+            { begin: /^>>>(?=[ ]|$)/ },
+            { begin: /^\.\.\.(?=[ ]|$)/ }
+          ]
+        }
+      ]
+    };
+  }
+  return Tt = n, Tt;
+}
+var xt, zn;
+function Pa() {
+  if (zn) return xt;
+  zn = 1;
+  function n(e) {
+    const t = e.regex, r = /(?:(?:[a-zA-Z]|\.[._a-zA-Z])[._a-zA-Z0-9]*)|\.(?!\d)/, i = t.either(
+      // Special case: only hexadecimal binary powers can contain fractions
+      /0[xX][0-9a-fA-F]+\.[0-9a-fA-F]*[pP][+-]?\d+i?/,
+      // Hexadecimal numbers without fraction and optional binary power
+      /0[xX][0-9a-fA-F]+(?:[pP][+-]?\d+)?[Li]?/,
+      // Decimal numbers
+      /(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?[Li]?/
+    ), s = /[=!<>:]=|\|\||&&|:::?|<-|<<-|->>|->|\|>|[-+*\/?!$&|:<=>@^~]|\*\*/, o = t.either(
+      /[()]/,
+      /[{}]/,
+      /\[\[/,
+      /[[\]]/,
+      /\\/,
+      /,/
+    );
+    return {
+      name: "R",
+      keywords: {
+        $pattern: r,
+        keyword: "function if in break next repeat else for while",
+        literal: "NULL NA TRUE FALSE Inf NaN NA_integer_|10 NA_real_|10 NA_character_|10 NA_complex_|10",
+        built_in: (
+          // Builtin constants
+          "LETTERS letters month.abb month.name pi T F abs acos acosh all any anyNA Arg as.call as.character as.complex as.double as.environment as.integer as.logical as.null.default as.numeric as.raw asin asinh atan atanh attr attributes baseenv browser c call ceiling class Conj cos cosh cospi cummax cummin cumprod cumsum digamma dim dimnames emptyenv exp expression floor forceAndCall gamma gc.time globalenv Im interactive invisible is.array is.atomic is.call is.character is.complex is.double is.environment is.expression is.finite is.function is.infinite is.integer is.language is.list is.logical is.matrix is.na is.name is.nan is.null is.numeric is.object is.pairlist is.raw is.recursive is.single is.symbol lazyLoadDBfetch length lgamma list log max min missing Mod names nargs nzchar oldClass on.exit pos.to.env proc.time prod quote range Re rep retracemem return round seq_along seq_len seq.int sign signif sin sinh sinpi sqrt standardGeneric substitute sum switch tan tanh tanpi tracemem trigamma trunc unclass untracemem UseMethod xtfrm"
+        )
+      },
+      contains: [
+        // Roxygen comments
+        e.COMMENT(
+          /#'/,
+          /$/,
+          { contains: [
+            {
+              // Handle `@examples` separately to cause all subsequent code
+              // until the next `@`-tag on its own line to be kept as-is,
+              // preventing highlighting. This code is example R code, so nested
+              // doctags shouldn’t be treated as such. See
+              // `test/markup/r/roxygen.txt` for an example.
+              scope: "doctag",
+              match: /@examples/,
+              starts: {
+                end: t.lookahead(t.either(
+                  // end if another doc comment
+                  /\n^#'\s*(?=@[a-zA-Z]+)/,
+                  // or a line with no comment
+                  /\n^(?!#')/
+                )),
+                endsParent: !0
+              }
+            },
+            {
+              // Handle `@param` to highlight the parameter name following
+              // after.
+              scope: "doctag",
+              begin: "@param",
+              end: /$/,
+              contains: [
+                {
+                  scope: "variable",
+                  variants: [
+                    { match: r },
+                    { match: /`(?:\\.|[^`\\])+`/ }
+                  ],
+                  endsParent: !0
+                }
+              ]
+            },
+            {
+              scope: "doctag",
+              match: /@[a-zA-Z]+/
+            },
+            {
+              scope: "keyword",
+              match: /\\[a-zA-Z]+/
+            }
+          ] }
+        ),
+        e.HASH_COMMENT_MODE,
+        {
+          scope: "string",
+          contains: [e.BACKSLASH_ESCAPE],
+          variants: [
+            e.END_SAME_AS_BEGIN({
+              begin: /[rR]"(-*)\(/,
+              end: /\)(-*)"/
+            }),
+            e.END_SAME_AS_BEGIN({
+              begin: /[rR]"(-*)\{/,
+              end: /\}(-*)"/
+            }),
+            e.END_SAME_AS_BEGIN({
+              begin: /[rR]"(-*)\[/,
+              end: /\](-*)"/
+            }),
+            e.END_SAME_AS_BEGIN({
+              begin: /[rR]'(-*)\(/,
+              end: /\)(-*)'/
+            }),
+            e.END_SAME_AS_BEGIN({
+              begin: /[rR]'(-*)\{/,
+              end: /\}(-*)'/
+            }),
+            e.END_SAME_AS_BEGIN({
+              begin: /[rR]'(-*)\[/,
+              end: /\](-*)'/
+            }),
+            {
+              begin: '"',
+              end: '"',
+              relevance: 0
+            },
+            {
+              begin: "'",
+              end: "'",
+              relevance: 0
+            }
+          ]
+        },
+        // Matching numbers immediately following punctuation and operators is
+        // tricky since we need to look at the character ahead of a number to
+        // ensure the number is not part of an identifier, and we cannot use
+        // negative look-behind assertions. So instead we explicitly handle all
+        // possible combinations of (operator|punctuation), number.
+        // TODO: replace with negative look-behind when available
+        // { begin: /(?<![a-zA-Z0-9._])0[xX][0-9a-fA-F]+\.[0-9a-fA-F]*[pP][+-]?\d+i?/ },
+        // { begin: /(?<![a-zA-Z0-9._])0[xX][0-9a-fA-F]+([pP][+-]?\d+)?[Li]?/ },
+        // { begin: /(?<![a-zA-Z0-9._])(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?[Li]?/ }
+        {
+          relevance: 0,
+          variants: [
+            {
+              scope: {
+                1: "operator",
+                2: "number"
+              },
+              match: [
+                s,
+                i
+              ]
+            },
+            {
+              scope: {
+                1: "operator",
+                2: "number"
+              },
+              match: [
+                /%[^%]*%/,
+                i
+              ]
+            },
+            {
+              scope: {
+                1: "punctuation",
+                2: "number"
+              },
+              match: [
+                o,
+                i
+              ]
+            },
+            {
+              scope: { 2: "number" },
+              match: [
+                /[^a-zA-Z0-9._]|^/,
+                // not part of an identifier, or start of document
+                i
+              ]
+            }
+          ]
+        },
+        // Operators/punctuation when they're not directly followed by numbers
+        {
+          // Relevance boost for the most common assignment form.
+          scope: { 3: "operator" },
+          match: [
+            r,
+            /\s+/,
+            /<-/,
+            /\s+/
+          ]
+        },
+        {
+          scope: "operator",
+          relevance: 0,
+          variants: [
+            { match: s },
+            { match: /%[^%]*%/ }
+          ]
+        },
+        {
+          scope: "punctuation",
+          relevance: 0,
+          match: o
+        },
+        {
+          // Escaped identifier
+          begin: "`",
+          end: "`",
+          contains: [{ begin: /\\./ }]
+        }
+      ]
+    };
+  }
+  return xt = n, xt;
+}
+var Rt, Fn;
+function Ua() {
+  if (Fn) return Rt;
+  Fn = 1;
+  function n(e) {
+    const t = e.regex, r = /(r#)?/, i = t.concat(r, e.UNDERSCORE_IDENT_RE), s = t.concat(r, e.IDENT_RE), o = {
+      className: "title.function.invoke",
+      relevance: 0,
+      begin: t.concat(
+        /\b/,
+        /(?!let|for|while|if|else|match\b)/,
+        s,
+        t.lookahead(/\s*\(/)
+      )
+    }, c = "([ui](8|16|32|64|128|size)|f(32|64))?", a = [
+      "abstract",
+      "as",
+      "async",
+      "await",
+      "become",
+      "box",
+      "break",
+      "const",
+      "continue",
+      "crate",
+      "do",
+      "dyn",
+      "else",
+      "enum",
+      "extern",
+      "false",
+      "final",
+      "fn",
+      "for",
+      "if",
+      "impl",
+      "in",
+      "let",
+      "loop",
+      "macro",
+      "match",
+      "mod",
+      "move",
+      "mut",
+      "override",
+      "priv",
+      "pub",
+      "ref",
+      "return",
+      "self",
+      "Self",
+      "static",
+      "struct",
+      "super",
+      "trait",
+      "true",
+      "try",
+      "type",
+      "typeof",
+      "union",
+      "unsafe",
+      "unsized",
+      "use",
+      "virtual",
+      "where",
+      "while",
+      "yield"
+    ], d = [
+      "true",
+      "false",
+      "Some",
+      "None",
+      "Ok",
+      "Err"
+    ], l = [
+      // functions
+      "drop ",
+      // traits
+      "Copy",
+      "Send",
+      "Sized",
+      "Sync",
+      "Drop",
+      "Fn",
+      "FnMut",
+      "FnOnce",
+      "ToOwned",
+      "Clone",
+      "Debug",
+      "PartialEq",
+      "PartialOrd",
+      "Eq",
+      "Ord",
+      "AsRef",
+      "AsMut",
+      "Into",
+      "From",
+      "Default",
+      "Iterator",
+      "Extend",
+      "IntoIterator",
+      "DoubleEndedIterator",
+      "ExactSizeIterator",
+      "SliceConcatExt",
+      "ToString",
+      // macros
+      "assert!",
+      "assert_eq!",
+      "bitflags!",
+      "bytes!",
+      "cfg!",
+      "col!",
+      "concat!",
+      "concat_idents!",
+      "debug_assert!",
+      "debug_assert_eq!",
+      "env!",
+      "eprintln!",
+      "panic!",
+      "file!",
+      "format!",
+      "format_args!",
+      "include_bytes!",
+      "include_str!",
+      "line!",
+      "local_data_key!",
+      "module_path!",
+      "option_env!",
+      "print!",
+      "println!",
+      "select!",
+      "stringify!",
+      "try!",
+      "unimplemented!",
+      "unreachable!",
+      "vec!",
+      "write!",
+      "writeln!",
+      "macro_rules!",
+      "assert_ne!",
+      "debug_assert_ne!"
+    ], u = [
+      "i8",
+      "i16",
+      "i32",
+      "i64",
+      "i128",
+      "isize",
+      "u8",
+      "u16",
+      "u32",
+      "u64",
+      "u128",
+      "usize",
+      "f32",
+      "f64",
+      "str",
+      "char",
+      "bool",
+      "Box",
+      "Option",
+      "Result",
+      "String",
+      "Vec"
+    ];
+    return {
+      name: "Rust",
+      aliases: ["rs"],
+      keywords: {
+        $pattern: e.IDENT_RE + "!?",
+        type: u,
+        keyword: a,
+        literal: d,
+        built_in: l
+      },
+      illegal: "</",
+      contains: [
+        e.C_LINE_COMMENT_MODE,
+        e.COMMENT("/\\*", "\\*/", { contains: ["self"] }),
+        e.inherit(e.QUOTE_STRING_MODE, {
+          begin: /b?"/,
+          illegal: null
+        }),
+        {
+          className: "symbol",
+          // negative lookahead to avoid matching `'`
+          begin: /'[a-zA-Z_][a-zA-Z0-9_]*(?!')/
+        },
+        {
+          scope: "string",
+          variants: [
+            { begin: /b?r(#*)"(.|\n)*?"\1(?!#)/ },
+            {
+              begin: /b?'/,
+              end: /'/,
+              contains: [
+                {
+                  scope: "char.escape",
+                  match: /\\('|\w|x\w{2}|u\w{4}|U\w{8})/
+                }
+              ]
+            }
+          ]
+        },
+        {
+          className: "number",
+          variants: [
+            { begin: "\\b0b([01_]+)" + c },
+            { begin: "\\b0o([0-7_]+)" + c },
+            { begin: "\\b0x([A-Fa-f0-9_]+)" + c },
+            { begin: "\\b(\\d[\\d_]*(\\.[0-9_]+)?([eE][+-]?[0-9_]+)?)" + c }
+          ],
+          relevance: 0
+        },
+        {
+          begin: [
+            /fn/,
+            /\s+/,
+            i
+          ],
+          className: {
+            1: "keyword",
+            3: "title.function"
+          }
+        },
+        {
+          className: "meta",
+          begin: "#!?\\[",
+          end: "\\]",
+          contains: [
+            {
+              className: "string",
+              begin: /"/,
+              end: /"/,
+              contains: [
+                e.BACKSLASH_ESCAPE
+              ]
+            }
+          ]
+        },
+        {
+          begin: [
+            /let/,
+            /\s+/,
+            /(?:mut\s+)?/,
+            i
+          ],
+          className: {
+            1: "keyword",
+            3: "keyword",
+            4: "variable"
+          }
+        },
+        // must come before impl/for rule later
+        {
+          begin: [
+            /for/,
+            /\s+/,
+            i,
+            /\s+/,
+            /in/
+          ],
+          className: {
+            1: "keyword",
+            3: "variable",
+            5: "keyword"
+          }
+        },
+        {
+          begin: [
+            /type/,
+            /\s+/,
+            i
+          ],
+          className: {
+            1: "keyword",
+            3: "title.class"
+          }
+        },
+        {
+          begin: [
+            /(?:trait|enum|struct|union|impl|for)/,
+            /\s+/,
+            i
+          ],
+          className: {
+            1: "keyword",
+            3: "title.class"
+          }
+        },
+        {
+          begin: e.IDENT_RE + "::",
+          keywords: {
+            keyword: "Self",
+            built_in: l,
+            type: u
+          }
+        },
+        {
+          className: "punctuation",
+          begin: "->"
+        },
+        o
+      ]
+    };
+  }
+  return Rt = n, Rt;
+}
+var At, Kn;
+function $a() {
+  if (Kn) return At;
+  Kn = 1;
+  const n = (d) => ({
+    IMPORTANT: {
+      scope: "meta",
+      begin: "!important"
     },
-    {
-      pattern: /'(?:[^']|'')*'/,
-      greedy: !0
+    BLOCK_COMMENT: d.C_BLOCK_COMMENT_MODE,
+    HEXCOLOR: {
+      scope: "number",
+      begin: /#(([0-9a-fA-F]{3,4})|(([0-9a-fA-F]{2}){3,4}))\b/
+    },
+    FUNCTION_DISPATCH: {
+      className: "built_in",
+      begin: /[\w-]+(?=\()/
+    },
+    ATTRIBUTE_SELECTOR_MODE: {
+      scope: "selector-attr",
+      begin: /\[/,
+      end: /\]/,
+      illegal: "$",
+      contains: [
+        d.APOS_STRING_MODE,
+        d.QUOTE_STRING_MODE
+      ]
+    },
+    CSS_NUMBER_MODE: {
+      scope: "number",
+      begin: d.NUMBER_RE + "(%|em|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|px|deg|grad|rad|turn|s|ms|Hz|kHz|dpi|dpcm|dppx)?",
+      relevance: 0
+    },
+    CSS_VARIABLE: {
+      className: "attr",
+      begin: /--[A-Za-z_][A-Za-z0-9_-]*/
     }
-  ],
-  // Matches name spaces as well as casts, attribute decorators. Force starting with letter to avoid matching array indices
-  // Supports two levels of nested brackets (e.g. `[OutputType([System.Collections.Generic.List[int]])]`)
-  namespace: /\[[a-z](?:\[(?:\[[^\]]*]|[^\[\]])*]|[^\[\]])*]/i,
-  boolean: /\$(?:true|false)\b/i,
-  variable: /\$\w+\b/i,
-  // Cmdlets and aliases. Aliases should come last, otherwise "write" gets preferred over "write-host" for example
-  // Get-Command | ?{ $_.ModuleName -match "Microsoft.PowerShell.(Util|Core|Management)" }
-  // Get-Alias | ?{ $_.ReferencedCommand.Module.Name -match "Microsoft.PowerShell.(Util|Core|Management)" }
-  function: [
-    /\b(?:Add-(?:Computer|Content|History|Member|PSSnapin|Type)|Checkpoint-Computer|Clear-(?:Content|EventLog|History|Item|ItemProperty|Variable)|Compare-Object|Complete-Transaction|Connect-PSSession|ConvertFrom-(?:Csv|Json|StringData)|Convert-Path|ConvertTo-(?:Csv|Html|Json|Xml)|Copy-(?:Item|ItemProperty)|Debug-Process|Disable-(?:ComputerRestore|PSBreakpoint|PSRemoting|PSSessionConfiguration)|Disconnect-PSSession|Enable-(?:ComputerRestore|PSBreakpoint|PSRemoting|PSSessionConfiguration)|Enter-PSSession|Exit-PSSession|Export-(?:Alias|Clixml|Console|Csv|FormatData|ModuleMember|PSSession)|ForEach-Object|Format-(?:Custom|List|Table|Wide)|Get-(?:Alias|ChildItem|Command|ComputerRestorePoint|Content|ControlPanelItem|Culture|Date|Event|EventLog|EventSubscriber|FormatData|Help|History|Host|HotFix|Item|ItemProperty|Job|Location|Member|Module|Process|PSBreakpoint|PSCallStack|PSDrive|PSProvider|PSSession|PSSessionConfiguration|PSSnapin|Random|Service|TraceSource|Transaction|TypeData|UICulture|Unique|Variable|WmiObject)|Group-Object|Import-(?:Alias|Clixml|Csv|LocalizedData|Module|PSSession)|Invoke-(?:Command|Expression|History|Item|RestMethod|WebRequest|WmiMethod)|Join-Path|Limit-EventLog|Measure-(?:Command|Object)|Move-(?:Item|ItemProperty)|New-(?:Alias|Event|EventLog|Item|ItemProperty|Module|ModuleManifest|Object|PSDrive|PSSession|PSSessionConfigurationFile|PSSessionOption|PSTransportOption|Service|TimeSpan|Variable|WebServiceProxy)|Out-(?:Default|File|GridView|Host|Null|Printer|String)|Pop-Location|Push-Location|Read-Host|Receive-(?:Job|PSSession)|Register-(?:EngineEvent|ObjectEvent|PSSessionConfiguration|WmiEvent)|Remove-(?:Computer|Event|EventLog|Item|ItemProperty|Job|Module|PSBreakpoint|PSDrive|PSSession|PSSnapin|TypeData|Variable|WmiObject)|Rename-(?:Computer|Item|ItemProperty)|Reset-ComputerMachinePassword|Resolve-Path|Restart-(?:Computer|Service)|Restore-Computer|Resume-(?:Job|Service)|Save-Help|Select-(?:Object|String|Xml)|Send-MailMessage|Set-(?:Alias|Content|Date|Item|ItemProperty|Location|PSBreakpoint|PSDebug|PSSessionConfiguration|Service|StrictMode|TraceSource|Variable|WmiInstance)|Show-(?:Command|ControlPanelItem|EventLog)|Sort-Object|Split-Path|Start-(?:Job|Process|Service|Sleep|Transaction)|Stop-(?:Computer|Job|Process|Service)|Suspend-(?:Job|Service)|Tee-Object|Test-(?:ComputerSecureChannel|Connection|ModuleManifest|Path|PSSessionConfigurationFile)|Trace-Command|Unblock-File|Undo-Transaction|Unregister-(?:Event|PSSessionConfiguration)|Update-(?:FormatData|Help|List|TypeData)|Use-Transaction|Wait-(?:Event|Job|Process)|Where-Object|Write-(?:Debug|Error|EventLog|Host|Output|Progress|Verbose|Warning))\b/i,
-    /\b(?:ac|cat|chdir|clc|cli|clp|clv|compare|copy|cp|cpi|cpp|cvpa|dbp|del|diff|dir|ebp|echo|epal|epcsv|epsn|erase|fc|fl|ft|fw|gal|gbp|gc|gci|gcs|gdr|gi|gl|gm|gp|gps|group|gsv|gu|gv|gwmi|iex|ii|ipal|ipcsv|ipsn|irm|iwmi|iwr|kill|lp|ls|measure|mi|mount|move|mp|mv|nal|ndr|ni|nv|ogv|popd|ps|pushd|pwd|rbp|rd|rdr|ren|ri|rm|rmdir|rni|rnp|rp|rv|rvpa|rwmi|sal|saps|sasv|sbp|sc|select|set|shcm|si|sl|sleep|sls|sort|sp|spps|spsv|start|sv|swmi|tee|trcm|type|write)\b/i
-  ],
-  // per http://technet.microsoft.com/en-us/library/hh847744.aspx
-  keyword: /\b(?:Begin|Break|Catch|Class|Continue|Data|Define|Do|DynamicParam|Else|ElseIf|End|Exit|Filter|Finally|For|ForEach|From|Function|If|InlineScript|Parallel|Param|Process|Return|Sequence|Switch|Throw|Trap|Try|Until|Using|Var|While|Workflow)\b/i,
-  operator: {
-    pattern: /(\W?)(?:!|-(eq|ne|gt|ge|lt|le|sh[lr]|not|b?(?:and|x?or)|(?:Not)?(?:Like|Match|Contains|In)|Replace|Join|is(?:Not)?|as)\b|-[-=]?|\+[+=]?|[*\/%]=?)/i,
-    lookbehind: !0
-  },
-  punctuation: /[|{}[\];(),.]/
-};
-Prism.languages.powershell.string[0].inside.boolean = Prism.languages.powershell.boolean;
-Prism.languages.powershell.string[0].inside.variable = Prism.languages.powershell.variable;
-Prism.languages.powershell.string[0].inside.function.inside = Prism.languages.powershell;
-Prism.languages.properties = {
-  comment: /^[ \t]*[#!].*$/m,
-  "attr-value": {
-    pattern: /(^[ \t]*(?:\\(?:\r\n|[\s\S])|[^\\\s:=])+?(?: *[=:] *| ))(?:\\(?:\r\n|[\s\S])|[^\\\r\n])+/m,
-    lookbehind: !0
-  },
-  "attr-name": /^[ \t]*(?:\\(?:\r\n|[\s\S])|[^\\\s:=])+?(?= *[=:] *| )/m,
-  punctuation: /[=:]/
-};
-Prism.languages.python = {
-  comment: {
-    pattern: /(^|[^\\])#.*/,
-    lookbehind: !0
-  },
-  "triple-quoted-string": {
-    pattern: /("""|''')[\s\S]+?\1/,
-    greedy: !0,
-    alias: "string"
-  },
-  string: {
-    pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
-    greedy: !0
-  },
-  function: {
-    pattern: /((?:^|\s)def[ \t]+)[a-zA-Z_]\w*(?=\s*\()/g,
-    lookbehind: !0
-  },
-  "class-name": {
-    pattern: /(\bclass\s+)\w+/i,
-    lookbehind: !0
-  },
-  keyword: /\b(?:as|assert|async|await|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|nonlocal|pass|print|raise|return|try|while|with|yield)\b/,
-  builtin: /\b(?:__import__|abs|all|any|apply|ascii|basestring|bin|bool|buffer|bytearray|bytes|callable|chr|classmethod|cmp|coerce|compile|complex|delattr|dict|dir|divmod|enumerate|eval|execfile|file|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|intern|isinstance|issubclass|iter|len|list|locals|long|map|max|memoryview|min|next|object|oct|open|ord|pow|property|range|raw_input|reduce|reload|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unichr|unicode|vars|xrange|zip)\b/,
-  boolean: /\b(?:True|False|None)\b/,
-  number: /(?:\b(?=\d)|\B(?=\.))(?:0[bo])?(?:(?:\d|0x[\da-f])[\da-f]*\.?\d*|\.\d+)(?:e[+-]?\d+)?j?\b/i,
-  operator: /[-+%=]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]|\b(?:or|and|not)\b/,
-  punctuation: /[{}[\];(),.:]/
-};
-(function(o) {
-  o.languages.sass = o.languages.extend("css", {
-    // Sass comments don't need to be closed, only indented
-    comment: {
-      pattern: /^([ \t]*)\/[\/*].*(?:(?:\r?\n|\r)\1[ \t]+.+)*/m,
-      lookbehind: !0
+  }), e = [
+    "a",
+    "abbr",
+    "address",
+    "article",
+    "aside",
+    "audio",
+    "b",
+    "blockquote",
+    "body",
+    "button",
+    "canvas",
+    "caption",
+    "cite",
+    "code",
+    "dd",
+    "del",
+    "details",
+    "dfn",
+    "div",
+    "dl",
+    "dt",
+    "em",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hgroup",
+    "html",
+    "i",
+    "iframe",
+    "img",
+    "input",
+    "ins",
+    "kbd",
+    "label",
+    "legend",
+    "li",
+    "main",
+    "mark",
+    "menu",
+    "nav",
+    "object",
+    "ol",
+    "optgroup",
+    "option",
+    "p",
+    "picture",
+    "q",
+    "quote",
+    "samp",
+    "section",
+    "select",
+    "source",
+    "span",
+    "strong",
+    "summary",
+    "sup",
+    "table",
+    "tbody",
+    "td",
+    "textarea",
+    "tfoot",
+    "th",
+    "thead",
+    "time",
+    "tr",
+    "ul",
+    "var",
+    "video"
+  ], t = [
+    "defs",
+    "g",
+    "marker",
+    "mask",
+    "pattern",
+    "svg",
+    "switch",
+    "symbol",
+    "feBlend",
+    "feColorMatrix",
+    "feComponentTransfer",
+    "feComposite",
+    "feConvolveMatrix",
+    "feDiffuseLighting",
+    "feDisplacementMap",
+    "feFlood",
+    "feGaussianBlur",
+    "feImage",
+    "feMerge",
+    "feMorphology",
+    "feOffset",
+    "feSpecularLighting",
+    "feTile",
+    "feTurbulence",
+    "linearGradient",
+    "radialGradient",
+    "stop",
+    "circle",
+    "ellipse",
+    "image",
+    "line",
+    "path",
+    "polygon",
+    "polyline",
+    "rect",
+    "text",
+    "use",
+    "textPath",
+    "tspan",
+    "foreignObject",
+    "clipPath"
+  ], r = [
+    ...e,
+    ...t
+  ], i = [
+    "any-hover",
+    "any-pointer",
+    "aspect-ratio",
+    "color",
+    "color-gamut",
+    "color-index",
+    "device-aspect-ratio",
+    "device-height",
+    "device-width",
+    "display-mode",
+    "forced-colors",
+    "grid",
+    "height",
+    "hover",
+    "inverted-colors",
+    "monochrome",
+    "orientation",
+    "overflow-block",
+    "overflow-inline",
+    "pointer",
+    "prefers-color-scheme",
+    "prefers-contrast",
+    "prefers-reduced-motion",
+    "prefers-reduced-transparency",
+    "resolution",
+    "scan",
+    "scripting",
+    "update",
+    "width",
+    // TODO: find a better solution?
+    "min-width",
+    "max-width",
+    "min-height",
+    "max-height"
+  ].sort().reverse(), s = [
+    "active",
+    "any-link",
+    "blank",
+    "checked",
+    "current",
+    "default",
+    "defined",
+    "dir",
+    // dir()
+    "disabled",
+    "drop",
+    "empty",
+    "enabled",
+    "first",
+    "first-child",
+    "first-of-type",
+    "fullscreen",
+    "future",
+    "focus",
+    "focus-visible",
+    "focus-within",
+    "has",
+    // has()
+    "host",
+    // host or host()
+    "host-context",
+    // host-context()
+    "hover",
+    "indeterminate",
+    "in-range",
+    "invalid",
+    "is",
+    // is()
+    "lang",
+    // lang()
+    "last-child",
+    "last-of-type",
+    "left",
+    "link",
+    "local-link",
+    "not",
+    // not()
+    "nth-child",
+    // nth-child()
+    "nth-col",
+    // nth-col()
+    "nth-last-child",
+    // nth-last-child()
+    "nth-last-col",
+    // nth-last-col()
+    "nth-last-of-type",
+    //nth-last-of-type()
+    "nth-of-type",
+    //nth-of-type()
+    "only-child",
+    "only-of-type",
+    "optional",
+    "out-of-range",
+    "past",
+    "placeholder-shown",
+    "read-only",
+    "read-write",
+    "required",
+    "right",
+    "root",
+    "scope",
+    "target",
+    "target-within",
+    "user-invalid",
+    "valid",
+    "visited",
+    "where"
+    // where()
+  ].sort().reverse(), o = [
+    "after",
+    "backdrop",
+    "before",
+    "cue",
+    "cue-region",
+    "first-letter",
+    "first-line",
+    "grammar-error",
+    "marker",
+    "part",
+    "placeholder",
+    "selection",
+    "slotted",
+    "spelling-error"
+  ].sort().reverse(), c = [
+    "accent-color",
+    "align-content",
+    "align-items",
+    "align-self",
+    "alignment-baseline",
+    "all",
+    "anchor-name",
+    "animation",
+    "animation-composition",
+    "animation-delay",
+    "animation-direction",
+    "animation-duration",
+    "animation-fill-mode",
+    "animation-iteration-count",
+    "animation-name",
+    "animation-play-state",
+    "animation-range",
+    "animation-range-end",
+    "animation-range-start",
+    "animation-timeline",
+    "animation-timing-function",
+    "appearance",
+    "aspect-ratio",
+    "backdrop-filter",
+    "backface-visibility",
+    "background",
+    "background-attachment",
+    "background-blend-mode",
+    "background-clip",
+    "background-color",
+    "background-image",
+    "background-origin",
+    "background-position",
+    "background-position-x",
+    "background-position-y",
+    "background-repeat",
+    "background-size",
+    "baseline-shift",
+    "block-size",
+    "border",
+    "border-block",
+    "border-block-color",
+    "border-block-end",
+    "border-block-end-color",
+    "border-block-end-style",
+    "border-block-end-width",
+    "border-block-start",
+    "border-block-start-color",
+    "border-block-start-style",
+    "border-block-start-width",
+    "border-block-style",
+    "border-block-width",
+    "border-bottom",
+    "border-bottom-color",
+    "border-bottom-left-radius",
+    "border-bottom-right-radius",
+    "border-bottom-style",
+    "border-bottom-width",
+    "border-collapse",
+    "border-color",
+    "border-end-end-radius",
+    "border-end-start-radius",
+    "border-image",
+    "border-image-outset",
+    "border-image-repeat",
+    "border-image-slice",
+    "border-image-source",
+    "border-image-width",
+    "border-inline",
+    "border-inline-color",
+    "border-inline-end",
+    "border-inline-end-color",
+    "border-inline-end-style",
+    "border-inline-end-width",
+    "border-inline-start",
+    "border-inline-start-color",
+    "border-inline-start-style",
+    "border-inline-start-width",
+    "border-inline-style",
+    "border-inline-width",
+    "border-left",
+    "border-left-color",
+    "border-left-style",
+    "border-left-width",
+    "border-radius",
+    "border-right",
+    "border-right-color",
+    "border-right-style",
+    "border-right-width",
+    "border-spacing",
+    "border-start-end-radius",
+    "border-start-start-radius",
+    "border-style",
+    "border-top",
+    "border-top-color",
+    "border-top-left-radius",
+    "border-top-right-radius",
+    "border-top-style",
+    "border-top-width",
+    "border-width",
+    "bottom",
+    "box-align",
+    "box-decoration-break",
+    "box-direction",
+    "box-flex",
+    "box-flex-group",
+    "box-lines",
+    "box-ordinal-group",
+    "box-orient",
+    "box-pack",
+    "box-shadow",
+    "box-sizing",
+    "break-after",
+    "break-before",
+    "break-inside",
+    "caption-side",
+    "caret-color",
+    "clear",
+    "clip",
+    "clip-path",
+    "clip-rule",
+    "color",
+    "color-interpolation",
+    "color-interpolation-filters",
+    "color-profile",
+    "color-rendering",
+    "color-scheme",
+    "column-count",
+    "column-fill",
+    "column-gap",
+    "column-rule",
+    "column-rule-color",
+    "column-rule-style",
+    "column-rule-width",
+    "column-span",
+    "column-width",
+    "columns",
+    "contain",
+    "contain-intrinsic-block-size",
+    "contain-intrinsic-height",
+    "contain-intrinsic-inline-size",
+    "contain-intrinsic-size",
+    "contain-intrinsic-width",
+    "container",
+    "container-name",
+    "container-type",
+    "content",
+    "content-visibility",
+    "counter-increment",
+    "counter-reset",
+    "counter-set",
+    "cue",
+    "cue-after",
+    "cue-before",
+    "cursor",
+    "cx",
+    "cy",
+    "direction",
+    "display",
+    "dominant-baseline",
+    "empty-cells",
+    "enable-background",
+    "field-sizing",
+    "fill",
+    "fill-opacity",
+    "fill-rule",
+    "filter",
+    "flex",
+    "flex-basis",
+    "flex-direction",
+    "flex-flow",
+    "flex-grow",
+    "flex-shrink",
+    "flex-wrap",
+    "float",
+    "flood-color",
+    "flood-opacity",
+    "flow",
+    "font",
+    "font-display",
+    "font-family",
+    "font-feature-settings",
+    "font-kerning",
+    "font-language-override",
+    "font-optical-sizing",
+    "font-palette",
+    "font-size",
+    "font-size-adjust",
+    "font-smooth",
+    "font-smoothing",
+    "font-stretch",
+    "font-style",
+    "font-synthesis",
+    "font-synthesis-position",
+    "font-synthesis-small-caps",
+    "font-synthesis-style",
+    "font-synthesis-weight",
+    "font-variant",
+    "font-variant-alternates",
+    "font-variant-caps",
+    "font-variant-east-asian",
+    "font-variant-emoji",
+    "font-variant-ligatures",
+    "font-variant-numeric",
+    "font-variant-position",
+    "font-variation-settings",
+    "font-weight",
+    "forced-color-adjust",
+    "gap",
+    "glyph-orientation-horizontal",
+    "glyph-orientation-vertical",
+    "grid",
+    "grid-area",
+    "grid-auto-columns",
+    "grid-auto-flow",
+    "grid-auto-rows",
+    "grid-column",
+    "grid-column-end",
+    "grid-column-start",
+    "grid-gap",
+    "grid-row",
+    "grid-row-end",
+    "grid-row-start",
+    "grid-template",
+    "grid-template-areas",
+    "grid-template-columns",
+    "grid-template-rows",
+    "hanging-punctuation",
+    "height",
+    "hyphenate-character",
+    "hyphenate-limit-chars",
+    "hyphens",
+    "icon",
+    "image-orientation",
+    "image-rendering",
+    "image-resolution",
+    "ime-mode",
+    "initial-letter",
+    "initial-letter-align",
+    "inline-size",
+    "inset",
+    "inset-area",
+    "inset-block",
+    "inset-block-end",
+    "inset-block-start",
+    "inset-inline",
+    "inset-inline-end",
+    "inset-inline-start",
+    "isolation",
+    "justify-content",
+    "justify-items",
+    "justify-self",
+    "kerning",
+    "left",
+    "letter-spacing",
+    "lighting-color",
+    "line-break",
+    "line-height",
+    "line-height-step",
+    "list-style",
+    "list-style-image",
+    "list-style-position",
+    "list-style-type",
+    "margin",
+    "margin-block",
+    "margin-block-end",
+    "margin-block-start",
+    "margin-bottom",
+    "margin-inline",
+    "margin-inline-end",
+    "margin-inline-start",
+    "margin-left",
+    "margin-right",
+    "margin-top",
+    "margin-trim",
+    "marker",
+    "marker-end",
+    "marker-mid",
+    "marker-start",
+    "marks",
+    "mask",
+    "mask-border",
+    "mask-border-mode",
+    "mask-border-outset",
+    "mask-border-repeat",
+    "mask-border-slice",
+    "mask-border-source",
+    "mask-border-width",
+    "mask-clip",
+    "mask-composite",
+    "mask-image",
+    "mask-mode",
+    "mask-origin",
+    "mask-position",
+    "mask-repeat",
+    "mask-size",
+    "mask-type",
+    "masonry-auto-flow",
+    "math-depth",
+    "math-shift",
+    "math-style",
+    "max-block-size",
+    "max-height",
+    "max-inline-size",
+    "max-width",
+    "min-block-size",
+    "min-height",
+    "min-inline-size",
+    "min-width",
+    "mix-blend-mode",
+    "nav-down",
+    "nav-index",
+    "nav-left",
+    "nav-right",
+    "nav-up",
+    "none",
+    "normal",
+    "object-fit",
+    "object-position",
+    "offset",
+    "offset-anchor",
+    "offset-distance",
+    "offset-path",
+    "offset-position",
+    "offset-rotate",
+    "opacity",
+    "order",
+    "orphans",
+    "outline",
+    "outline-color",
+    "outline-offset",
+    "outline-style",
+    "outline-width",
+    "overflow",
+    "overflow-anchor",
+    "overflow-block",
+    "overflow-clip-margin",
+    "overflow-inline",
+    "overflow-wrap",
+    "overflow-x",
+    "overflow-y",
+    "overlay",
+    "overscroll-behavior",
+    "overscroll-behavior-block",
+    "overscroll-behavior-inline",
+    "overscroll-behavior-x",
+    "overscroll-behavior-y",
+    "padding",
+    "padding-block",
+    "padding-block-end",
+    "padding-block-start",
+    "padding-bottom",
+    "padding-inline",
+    "padding-inline-end",
+    "padding-inline-start",
+    "padding-left",
+    "padding-right",
+    "padding-top",
+    "page",
+    "page-break-after",
+    "page-break-before",
+    "page-break-inside",
+    "paint-order",
+    "pause",
+    "pause-after",
+    "pause-before",
+    "perspective",
+    "perspective-origin",
+    "place-content",
+    "place-items",
+    "place-self",
+    "pointer-events",
+    "position",
+    "position-anchor",
+    "position-visibility",
+    "print-color-adjust",
+    "quotes",
+    "r",
+    "resize",
+    "rest",
+    "rest-after",
+    "rest-before",
+    "right",
+    "rotate",
+    "row-gap",
+    "ruby-align",
+    "ruby-position",
+    "scale",
+    "scroll-behavior",
+    "scroll-margin",
+    "scroll-margin-block",
+    "scroll-margin-block-end",
+    "scroll-margin-block-start",
+    "scroll-margin-bottom",
+    "scroll-margin-inline",
+    "scroll-margin-inline-end",
+    "scroll-margin-inline-start",
+    "scroll-margin-left",
+    "scroll-margin-right",
+    "scroll-margin-top",
+    "scroll-padding",
+    "scroll-padding-block",
+    "scroll-padding-block-end",
+    "scroll-padding-block-start",
+    "scroll-padding-bottom",
+    "scroll-padding-inline",
+    "scroll-padding-inline-end",
+    "scroll-padding-inline-start",
+    "scroll-padding-left",
+    "scroll-padding-right",
+    "scroll-padding-top",
+    "scroll-snap-align",
+    "scroll-snap-stop",
+    "scroll-snap-type",
+    "scroll-timeline",
+    "scroll-timeline-axis",
+    "scroll-timeline-name",
+    "scrollbar-color",
+    "scrollbar-gutter",
+    "scrollbar-width",
+    "shape-image-threshold",
+    "shape-margin",
+    "shape-outside",
+    "shape-rendering",
+    "speak",
+    "speak-as",
+    "src",
+    // @font-face
+    "stop-color",
+    "stop-opacity",
+    "stroke",
+    "stroke-dasharray",
+    "stroke-dashoffset",
+    "stroke-linecap",
+    "stroke-linejoin",
+    "stroke-miterlimit",
+    "stroke-opacity",
+    "stroke-width",
+    "tab-size",
+    "table-layout",
+    "text-align",
+    "text-align-all",
+    "text-align-last",
+    "text-anchor",
+    "text-combine-upright",
+    "text-decoration",
+    "text-decoration-color",
+    "text-decoration-line",
+    "text-decoration-skip",
+    "text-decoration-skip-ink",
+    "text-decoration-style",
+    "text-decoration-thickness",
+    "text-emphasis",
+    "text-emphasis-color",
+    "text-emphasis-position",
+    "text-emphasis-style",
+    "text-indent",
+    "text-justify",
+    "text-orientation",
+    "text-overflow",
+    "text-rendering",
+    "text-shadow",
+    "text-size-adjust",
+    "text-transform",
+    "text-underline-offset",
+    "text-underline-position",
+    "text-wrap",
+    "text-wrap-mode",
+    "text-wrap-style",
+    "timeline-scope",
+    "top",
+    "touch-action",
+    "transform",
+    "transform-box",
+    "transform-origin",
+    "transform-style",
+    "transition",
+    "transition-behavior",
+    "transition-delay",
+    "transition-duration",
+    "transition-property",
+    "transition-timing-function",
+    "translate",
+    "unicode-bidi",
+    "user-modify",
+    "user-select",
+    "vector-effect",
+    "vertical-align",
+    "view-timeline",
+    "view-timeline-axis",
+    "view-timeline-inset",
+    "view-timeline-name",
+    "view-transition-name",
+    "visibility",
+    "voice-balance",
+    "voice-duration",
+    "voice-family",
+    "voice-pitch",
+    "voice-range",
+    "voice-rate",
+    "voice-stress",
+    "voice-volume",
+    "white-space",
+    "white-space-collapse",
+    "widows",
+    "width",
+    "will-change",
+    "word-break",
+    "word-spacing",
+    "word-wrap",
+    "writing-mode",
+    "x",
+    "y",
+    "z-index",
+    "zoom"
+  ].sort().reverse();
+  function a(d) {
+    const l = n(d), u = o, p = s, h = "@[a-z-]+", g = "and or not only", f = {
+      className: "variable",
+      begin: "(\\$" + "[a-zA-Z-][a-zA-Z0-9_-]*" + ")\\b",
+      relevance: 0
+    };
+    return {
+      name: "SCSS",
+      case_insensitive: !0,
+      illegal: "[=/|']",
+      contains: [
+        d.C_LINE_COMMENT_MODE,
+        d.C_BLOCK_COMMENT_MODE,
+        // to recognize keyframe 40% etc which are outside the scope of our
+        // attribute value mode
+        l.CSS_NUMBER_MODE,
+        {
+          className: "selector-id",
+          begin: "#[A-Za-z0-9_-]+",
+          relevance: 0
+        },
+        {
+          className: "selector-class",
+          begin: "\\.[A-Za-z0-9_-]+",
+          relevance: 0
+        },
+        l.ATTRIBUTE_SELECTOR_MODE,
+        {
+          className: "selector-tag",
+          begin: "\\b(" + r.join("|") + ")\\b",
+          // was there, before, but why?
+          relevance: 0
+        },
+        {
+          className: "selector-pseudo",
+          begin: ":(" + p.join("|") + ")"
+        },
+        {
+          className: "selector-pseudo",
+          begin: ":(:)?(" + u.join("|") + ")"
+        },
+        f,
+        {
+          // pseudo-selector params
+          begin: /\(/,
+          end: /\)/,
+          contains: [l.CSS_NUMBER_MODE]
+        },
+        l.CSS_VARIABLE,
+        {
+          className: "attribute",
+          begin: "\\b(" + c.join("|") + ")\\b"
+        },
+        { begin: "\\b(whitespace|wait|w-resize|visible|vertical-text|vertical-ideographic|uppercase|upper-roman|upper-alpha|underline|transparent|top|thin|thick|text|text-top|text-bottom|tb-rl|table-header-group|table-footer-group|sw-resize|super|strict|static|square|solid|small-caps|separate|se-resize|scroll|s-resize|rtl|row-resize|ridge|right|repeat|repeat-y|repeat-x|relative|progress|pointer|overline|outside|outset|oblique|nowrap|not-allowed|normal|none|nw-resize|no-repeat|no-drop|newspaper|ne-resize|n-resize|move|middle|medium|ltr|lr-tb|lowercase|lower-roman|lower-alpha|loose|list-item|line|line-through|line-edge|lighter|left|keep-all|justify|italic|inter-word|inter-ideograph|inside|inset|inline|inline-block|inherit|inactive|ideograph-space|ideograph-parenthesis|ideograph-numeric|ideograph-alpha|horizontal|hidden|help|hand|groove|fixed|ellipsis|e-resize|double|dotted|distribute|distribute-space|distribute-letter|distribute-all-lines|disc|disabled|default|decimal|dashed|crosshair|collapse|col-resize|circle|char|center|capitalize|break-word|break-all|bottom|both|bolder|bold|block|bidi-override|below|baseline|auto|always|all-scroll|absolute|table|table-cell)\\b" },
+        {
+          begin: /:/,
+          end: /[;}{]/,
+          relevance: 0,
+          contains: [
+            l.BLOCK_COMMENT,
+            f,
+            l.HEXCOLOR,
+            l.CSS_NUMBER_MODE,
+            d.QUOTE_STRING_MODE,
+            d.APOS_STRING_MODE,
+            l.IMPORTANT,
+            l.FUNCTION_DISPATCH
+          ]
+        },
+        // matching these here allows us to treat them more like regular CSS
+        // rules so everything between the {} gets regular rule highlighting,
+        // which is what we want for page and font-face
+        {
+          begin: "@(page|font-face)",
+          keywords: {
+            $pattern: h,
+            keyword: "@page @font-face"
+          }
+        },
+        {
+          begin: "@",
+          end: "[{;]",
+          returnBegin: !0,
+          keywords: {
+            $pattern: /[a-z-]+/,
+            keyword: g,
+            attribute: i.join(" ")
+          },
+          contains: [
+            {
+              begin: h,
+              className: "keyword"
+            },
+            {
+              begin: /[a-z-]+(?=:)/,
+              className: "attribute"
+            },
+            f,
+            d.QUOTE_STRING_MODE,
+            d.APOS_STRING_MODE,
+            l.HEXCOLOR,
+            l.CSS_NUMBER_MODE
+          ]
+        },
+        l.FUNCTION_DISPATCH
+      ]
+    };
+  }
+  return At = a, At;
+}
+var Ot, qn;
+function za() {
+  if (qn) return Ot;
+  qn = 1;
+  function n(e) {
+    return {
+      name: "Shell Session",
+      aliases: [
+        "console",
+        "shellsession"
+      ],
+      contains: [
+        {
+          className: "meta.prompt",
+          // We cannot add \s (spaces) in the regular expression otherwise it will be too broad and produce unexpected result.
+          // For instance, in the following example, it would match "echo /path/to/home >" as a prompt:
+          // echo /path/to/home > t.exe
+          begin: /^\s{0,3}[/~\w\d[\]()@-]*[>%$#][ ]?/,
+          starts: {
+            end: /[^\\](?=\s*$)/,
+            subLanguage: "bash"
+          }
+        }
+      ]
+    };
+  }
+  return Ot = n, Ot;
+}
+var Mt, Hn;
+function Fa() {
+  if (Hn) return Mt;
+  Hn = 1;
+  function n(e) {
+    const t = e.regex, r = e.COMMENT("--", "$"), i = {
+      scope: "string",
+      variants: [
+        {
+          begin: /'/,
+          end: /'/,
+          contains: [{ match: /''/ }]
+        }
+      ]
+    }, s = {
+      begin: /"/,
+      end: /"/,
+      contains: [{ match: /""/ }]
+    }, o = [
+      "true",
+      "false",
+      // Not sure it's correct to call NULL literal, and clauses like IS [NOT] NULL look strange that way.
+      // "null",
+      "unknown"
+    ], c = [
+      "double precision",
+      "large object",
+      "with timezone",
+      "without timezone"
+    ], a = [
+      "bigint",
+      "binary",
+      "blob",
+      "boolean",
+      "char",
+      "character",
+      "clob",
+      "date",
+      "dec",
+      "decfloat",
+      "decimal",
+      "float",
+      "int",
+      "integer",
+      "interval",
+      "nchar",
+      "nclob",
+      "national",
+      "numeric",
+      "real",
+      "row",
+      "smallint",
+      "time",
+      "timestamp",
+      "varchar",
+      "varying",
+      // modifier (character varying)
+      "varbinary"
+    ], d = [
+      "add",
+      "asc",
+      "collation",
+      "desc",
+      "final",
+      "first",
+      "last",
+      "view"
+    ], l = [
+      "abs",
+      "acos",
+      "all",
+      "allocate",
+      "alter",
+      "and",
+      "any",
+      "are",
+      "array",
+      "array_agg",
+      "array_max_cardinality",
+      "as",
+      "asensitive",
+      "asin",
+      "asymmetric",
+      "at",
+      "atan",
+      "atomic",
+      "authorization",
+      "avg",
+      "begin",
+      "begin_frame",
+      "begin_partition",
+      "between",
+      "bigint",
+      "binary",
+      "blob",
+      "boolean",
+      "both",
+      "by",
+      "call",
+      "called",
+      "cardinality",
+      "cascaded",
+      "case",
+      "cast",
+      "ceil",
+      "ceiling",
+      "char",
+      "char_length",
+      "character",
+      "character_length",
+      "check",
+      "classifier",
+      "clob",
+      "close",
+      "coalesce",
+      "collate",
+      "collect",
+      "column",
+      "commit",
+      "condition",
+      "connect",
+      "constraint",
+      "contains",
+      "convert",
+      "copy",
+      "corr",
+      "corresponding",
+      "cos",
+      "cosh",
+      "count",
+      "covar_pop",
+      "covar_samp",
+      "create",
+      "cross",
+      "cube",
+      "cume_dist",
+      "current",
+      "current_catalog",
+      "current_date",
+      "current_default_transform_group",
+      "current_path",
+      "current_role",
+      "current_row",
+      "current_schema",
+      "current_time",
+      "current_timestamp",
+      "current_path",
+      "current_role",
+      "current_transform_group_for_type",
+      "current_user",
+      "cursor",
+      "cycle",
+      "date",
+      "day",
+      "deallocate",
+      "dec",
+      "decimal",
+      "decfloat",
+      "declare",
+      "default",
+      "define",
+      "delete",
+      "dense_rank",
+      "deref",
+      "describe",
+      "deterministic",
+      "disconnect",
+      "distinct",
+      "double",
+      "drop",
+      "dynamic",
+      "each",
+      "element",
+      "else",
+      "empty",
+      "end",
+      "end_frame",
+      "end_partition",
+      "end-exec",
+      "equals",
+      "escape",
+      "every",
+      "except",
+      "exec",
+      "execute",
+      "exists",
+      "exp",
+      "external",
+      "extract",
+      "false",
+      "fetch",
+      "filter",
+      "first_value",
+      "float",
+      "floor",
+      "for",
+      "foreign",
+      "frame_row",
+      "free",
+      "from",
+      "full",
+      "function",
+      "fusion",
+      "get",
+      "global",
+      "grant",
+      "group",
+      "grouping",
+      "groups",
+      "having",
+      "hold",
+      "hour",
+      "identity",
+      "in",
+      "indicator",
+      "initial",
+      "inner",
+      "inout",
+      "insensitive",
+      "insert",
+      "int",
+      "integer",
+      "intersect",
+      "intersection",
+      "interval",
+      "into",
+      "is",
+      "join",
+      "json_array",
+      "json_arrayagg",
+      "json_exists",
+      "json_object",
+      "json_objectagg",
+      "json_query",
+      "json_table",
+      "json_table_primitive",
+      "json_value",
+      "lag",
+      "language",
+      "large",
+      "last_value",
+      "lateral",
+      "lead",
+      "leading",
+      "left",
+      "like",
+      "like_regex",
+      "listagg",
+      "ln",
+      "local",
+      "localtime",
+      "localtimestamp",
+      "log",
+      "log10",
+      "lower",
+      "match",
+      "match_number",
+      "match_recognize",
+      "matches",
+      "max",
+      "member",
+      "merge",
+      "method",
+      "min",
+      "minute",
+      "mod",
+      "modifies",
+      "module",
+      "month",
+      "multiset",
+      "national",
+      "natural",
+      "nchar",
+      "nclob",
+      "new",
+      "no",
+      "none",
+      "normalize",
+      "not",
+      "nth_value",
+      "ntile",
+      "null",
+      "nullif",
+      "numeric",
+      "octet_length",
+      "occurrences_regex",
+      "of",
+      "offset",
+      "old",
+      "omit",
+      "on",
+      "one",
+      "only",
+      "open",
+      "or",
+      "order",
+      "out",
+      "outer",
+      "over",
+      "overlaps",
+      "overlay",
+      "parameter",
+      "partition",
+      "pattern",
+      "per",
+      "percent",
+      "percent_rank",
+      "percentile_cont",
+      "percentile_disc",
+      "period",
+      "portion",
+      "position",
+      "position_regex",
+      "power",
+      "precedes",
+      "precision",
+      "prepare",
+      "primary",
+      "procedure",
+      "ptf",
+      "range",
+      "rank",
+      "reads",
+      "real",
+      "recursive",
+      "ref",
+      "references",
+      "referencing",
+      "regr_avgx",
+      "regr_avgy",
+      "regr_count",
+      "regr_intercept",
+      "regr_r2",
+      "regr_slope",
+      "regr_sxx",
+      "regr_sxy",
+      "regr_syy",
+      "release",
+      "result",
+      "return",
+      "returns",
+      "revoke",
+      "right",
+      "rollback",
+      "rollup",
+      "row",
+      "row_number",
+      "rows",
+      "running",
+      "savepoint",
+      "scope",
+      "scroll",
+      "search",
+      "second",
+      "seek",
+      "select",
+      "sensitive",
+      "session_user",
+      "set",
+      "show",
+      "similar",
+      "sin",
+      "sinh",
+      "skip",
+      "smallint",
+      "some",
+      "specific",
+      "specifictype",
+      "sql",
+      "sqlexception",
+      "sqlstate",
+      "sqlwarning",
+      "sqrt",
+      "start",
+      "static",
+      "stddev_pop",
+      "stddev_samp",
+      "submultiset",
+      "subset",
+      "substring",
+      "substring_regex",
+      "succeeds",
+      "sum",
+      "symmetric",
+      "system",
+      "system_time",
+      "system_user",
+      "table",
+      "tablesample",
+      "tan",
+      "tanh",
+      "then",
+      "time",
+      "timestamp",
+      "timezone_hour",
+      "timezone_minute",
+      "to",
+      "trailing",
+      "translate",
+      "translate_regex",
+      "translation",
+      "treat",
+      "trigger",
+      "trim",
+      "trim_array",
+      "true",
+      "truncate",
+      "uescape",
+      "union",
+      "unique",
+      "unknown",
+      "unnest",
+      "update",
+      "upper",
+      "user",
+      "using",
+      "value",
+      "values",
+      "value_of",
+      "var_pop",
+      "var_samp",
+      "varbinary",
+      "varchar",
+      "varying",
+      "versioning",
+      "when",
+      "whenever",
+      "where",
+      "width_bucket",
+      "window",
+      "with",
+      "within",
+      "without",
+      "year"
+    ], u = [
+      "abs",
+      "acos",
+      "array_agg",
+      "asin",
+      "atan",
+      "avg",
+      "cast",
+      "ceil",
+      "ceiling",
+      "coalesce",
+      "corr",
+      "cos",
+      "cosh",
+      "count",
+      "covar_pop",
+      "covar_samp",
+      "cume_dist",
+      "dense_rank",
+      "deref",
+      "element",
+      "exp",
+      "extract",
+      "first_value",
+      "floor",
+      "json_array",
+      "json_arrayagg",
+      "json_exists",
+      "json_object",
+      "json_objectagg",
+      "json_query",
+      "json_table",
+      "json_table_primitive",
+      "json_value",
+      "lag",
+      "last_value",
+      "lead",
+      "listagg",
+      "ln",
+      "log",
+      "log10",
+      "lower",
+      "max",
+      "min",
+      "mod",
+      "nth_value",
+      "ntile",
+      "nullif",
+      "percent_rank",
+      "percentile_cont",
+      "percentile_disc",
+      "position",
+      "position_regex",
+      "power",
+      "rank",
+      "regr_avgx",
+      "regr_avgy",
+      "regr_count",
+      "regr_intercept",
+      "regr_r2",
+      "regr_slope",
+      "regr_sxx",
+      "regr_sxy",
+      "regr_syy",
+      "row_number",
+      "sin",
+      "sinh",
+      "sqrt",
+      "stddev_pop",
+      "stddev_samp",
+      "substring",
+      "substring_regex",
+      "sum",
+      "tan",
+      "tanh",
+      "translate",
+      "translate_regex",
+      "treat",
+      "trim",
+      "trim_array",
+      "unnest",
+      "upper",
+      "value_of",
+      "var_pop",
+      "var_samp",
+      "width_bucket"
+    ], p = [
+      "current_catalog",
+      "current_date",
+      "current_default_transform_group",
+      "current_path",
+      "current_role",
+      "current_schema",
+      "current_transform_group_for_type",
+      "current_user",
+      "session_user",
+      "system_time",
+      "system_user",
+      "current_time",
+      "localtime",
+      "current_timestamp",
+      "localtimestamp"
+    ], h = [
+      "create table",
+      "insert into",
+      "primary key",
+      "foreign key",
+      "not null",
+      "alter table",
+      "add constraint",
+      "grouping sets",
+      "on overflow",
+      "character set",
+      "respect nulls",
+      "ignore nulls",
+      "nulls first",
+      "nulls last",
+      "depth first",
+      "breadth first"
+    ], g = u, _ = [
+      ...l,
+      ...d
+    ].filter((R) => !u.includes(R)), f = {
+      scope: "variable",
+      match: /@[a-z0-9][a-z0-9_]*/
+    }, k = {
+      scope: "operator",
+      match: /[-+*/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?/,
+      relevance: 0
+    }, w = {
+      match: t.concat(/\b/, t.either(...g), /\s*\(/),
+      relevance: 0,
+      keywords: { built_in: g }
+    };
+    function N(R) {
+      return t.concat(
+        /\b/,
+        t.either(...R.map((C) => C.replace(/\s+/, "\\s+"))),
+        /\b/
+      );
     }
-  }), o.languages.insertBefore("sass", "atrule", {
-    // We want to consume the whole line
-    "atrule-line": {
-      // Includes support for = and + shortcuts
-      pattern: /^(?:[ \t]*)[@+=].+/m,
-      inside: {
-        atrule: /(?:@[\w-]+|[+=])/m
-      }
+    const I = {
+      scope: "keyword",
+      match: N(h),
+      relevance: 0
+    };
+    function x(R, {
+      exceptions: C,
+      when: v
+    } = {}) {
+      const M = v;
+      return C = C || [], R.map((z) => z.match(/\|\d+$/) || C.includes(z) ? z : M(z) ? `${z}|0` : z);
     }
-  }), delete o.languages.sass.atrule;
-  var i = /\$[-\w]+|#\{\$[-\w]+\}/, A = [
-    /[+*\/%]|[=!]=|<=?|>=?|\b(?:and|or|not)\b/,
-    {
-      pattern: /(\s+)-(?=\s)/,
-      lookbehind: !0
-    }
+    return {
+      name: "SQL",
+      case_insensitive: !0,
+      // does not include {} or HTML tags `</`
+      illegal: /[{}]|<\//,
+      keywords: {
+        $pattern: /\b[\w\.]+/,
+        keyword: x(_, { when: (R) => R.length < 3 }),
+        literal: o,
+        type: a,
+        built_in: p
+      },
+      contains: [
+        {
+          scope: "type",
+          match: N(c)
+        },
+        I,
+        w,
+        f,
+        i,
+        s,
+        e.C_NUMBER_MODE,
+        e.C_BLOCK_COMMENT_MODE,
+        r,
+        k
+      ]
+    };
+  }
+  return Mt = n, Mt;
+}
+var Ct, Gn;
+function Ka() {
+  if (Gn) return Ct;
+  Gn = 1;
+  function n(v) {
+    return v ? typeof v == "string" ? v : v.source : null;
+  }
+  function e(v) {
+    return t("(?=", v, ")");
+  }
+  function t(...v) {
+    return v.map((z) => n(z)).join("");
+  }
+  function r(v) {
+    const M = v[v.length - 1];
+    return typeof M == "object" && M.constructor === Object ? (v.splice(v.length - 1, 1), M) : {};
+  }
+  function i(...v) {
+    return "(" + (r(v).capture ? "" : "?:") + v.map((K) => n(K)).join("|") + ")";
+  }
+  const s = (v) => t(
+    /\b/,
+    v,
+    /\w$/.test(v) ? /\b/ : /\B/
+  ), o = [
+    "Protocol",
+    // contextual
+    "Type"
+    // contextual
+  ].map(s), c = [
+    "init",
+    "self"
+  ].map(s), a = [
+    "Any",
+    "Self"
+  ], d = [
+    // strings below will be fed into the regular `keywords` engine while regex
+    // will result in additional modes being created to scan for those keywords to
+    // avoid conflicts with other rules
+    "actor",
+    "any",
+    // contextual
+    "associatedtype",
+    "async",
+    "await",
+    /as\?/,
+    // operator
+    /as!/,
+    // operator
+    "as",
+    // operator
+    "borrowing",
+    // contextual
+    "break",
+    "case",
+    "catch",
+    "class",
+    "consume",
+    // contextual
+    "consuming",
+    // contextual
+    "continue",
+    "convenience",
+    // contextual
+    "copy",
+    // contextual
+    "default",
+    "defer",
+    "deinit",
+    "didSet",
+    // contextual
+    "distributed",
+    "do",
+    "dynamic",
+    // contextual
+    "each",
+    "else",
+    "enum",
+    "extension",
+    "fallthrough",
+    /fileprivate\(set\)/,
+    "fileprivate",
+    "final",
+    // contextual
+    "for",
+    "func",
+    "get",
+    // contextual
+    "guard",
+    "if",
+    "import",
+    "indirect",
+    // contextual
+    "infix",
+    // contextual
+    /init\?/,
+    /init!/,
+    "inout",
+    /internal\(set\)/,
+    "internal",
+    "in",
+    "is",
+    // operator
+    "isolated",
+    // contextual
+    "nonisolated",
+    // contextual
+    "lazy",
+    // contextual
+    "let",
+    "macro",
+    "mutating",
+    // contextual
+    "nonmutating",
+    // contextual
+    /open\(set\)/,
+    // contextual
+    "open",
+    // contextual
+    "operator",
+    "optional",
+    // contextual
+    "override",
+    // contextual
+    "package",
+    "postfix",
+    // contextual
+    "precedencegroup",
+    "prefix",
+    // contextual
+    /private\(set\)/,
+    "private",
+    "protocol",
+    /public\(set\)/,
+    "public",
+    "repeat",
+    "required",
+    // contextual
+    "rethrows",
+    "return",
+    "set",
+    // contextual
+    "some",
+    // contextual
+    "static",
+    "struct",
+    "subscript",
+    "super",
+    "switch",
+    "throws",
+    "throw",
+    /try\?/,
+    // operator
+    /try!/,
+    // operator
+    "try",
+    // operator
+    "typealias",
+    /unowned\(safe\)/,
+    // contextual
+    /unowned\(unsafe\)/,
+    // contextual
+    "unowned",
+    // contextual
+    "var",
+    "weak",
+    // contextual
+    "where",
+    "while",
+    "willSet"
+    // contextual
+  ], l = [
+    "false",
+    "nil",
+    "true"
+  ], u = [
+    "assignment",
+    "associativity",
+    "higherThan",
+    "left",
+    "lowerThan",
+    "none",
+    "right"
+  ], p = [
+    "#colorLiteral",
+    "#column",
+    "#dsohandle",
+    "#else",
+    "#elseif",
+    "#endif",
+    "#error",
+    "#file",
+    "#fileID",
+    "#fileLiteral",
+    "#filePath",
+    "#function",
+    "#if",
+    "#imageLiteral",
+    "#keyPath",
+    "#line",
+    "#selector",
+    "#sourceLocation",
+    "#warning"
+  ], h = [
+    "abs",
+    "all",
+    "any",
+    "assert",
+    "assertionFailure",
+    "debugPrint",
+    "dump",
+    "fatalError",
+    "getVaList",
+    "isKnownUniquelyReferenced",
+    "max",
+    "min",
+    "numericCast",
+    "pointwiseMax",
+    "pointwiseMin",
+    "precondition",
+    "preconditionFailure",
+    "print",
+    "readLine",
+    "repeatElement",
+    "sequence",
+    "stride",
+    "swap",
+    "swift_unboxFromSwiftValueWithType",
+    "transcode",
+    "type",
+    "unsafeBitCast",
+    "unsafeDowncast",
+    "withExtendedLifetime",
+    "withUnsafeMutablePointer",
+    "withUnsafePointer",
+    "withVaList",
+    "withoutActuallyEscaping",
+    "zip"
+  ], g = i(
+    /[/=\-+!*%<>&|^~?]/,
+    /[\u00A1-\u00A7]/,
+    /[\u00A9\u00AB]/,
+    /[\u00AC\u00AE]/,
+    /[\u00B0\u00B1]/,
+    /[\u00B6\u00BB\u00BF\u00D7\u00F7]/,
+    /[\u2016-\u2017]/,
+    /[\u2020-\u2027]/,
+    /[\u2030-\u203E]/,
+    /[\u2041-\u2053]/,
+    /[\u2055-\u205E]/,
+    /[\u2190-\u23FF]/,
+    /[\u2500-\u2775]/,
+    /[\u2794-\u2BFF]/,
+    /[\u2E00-\u2E7F]/,
+    /[\u3001-\u3003]/,
+    /[\u3008-\u3020]/,
+    /[\u3030]/
+  ), _ = i(
+    g,
+    /[\u0300-\u036F]/,
+    /[\u1DC0-\u1DFF]/,
+    /[\u20D0-\u20FF]/,
+    /[\uFE00-\uFE0F]/,
+    /[\uFE20-\uFE2F]/
+    // TODO: The following characters are also allowed, but the regex isn't supported yet.
+    // /[\u{E0100}-\u{E01EF}]/u
+  ), f = t(g, _, "*"), k = i(
+    /[a-zA-Z_]/,
+    /[\u00A8\u00AA\u00AD\u00AF\u00B2-\u00B5\u00B7-\u00BA]/,
+    /[\u00BC-\u00BE\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF]/,
+    /[\u0100-\u02FF\u0370-\u167F\u1681-\u180D\u180F-\u1DBF]/,
+    /[\u1E00-\u1FFF]/,
+    /[\u200B-\u200D\u202A-\u202E\u203F-\u2040\u2054\u2060-\u206F]/,
+    /[\u2070-\u20CF\u2100-\u218F\u2460-\u24FF\u2776-\u2793]/,
+    /[\u2C00-\u2DFF\u2E80-\u2FFF]/,
+    /[\u3004-\u3007\u3021-\u302F\u3031-\u303F\u3040-\uD7FF]/,
+    /[\uF900-\uFD3D\uFD40-\uFDCF\uFDF0-\uFE1F\uFE30-\uFE44]/,
+    /[\uFE47-\uFEFE\uFF00-\uFFFD]/
+    // Should be /[\uFE47-\uFFFD]/, but we have to exclude FEFF.
+    // The following characters are also allowed, but the regexes aren't supported yet.
+    // /[\u{10000}-\u{1FFFD}\u{20000-\u{2FFFD}\u{30000}-\u{3FFFD}\u{40000}-\u{4FFFD}]/u,
+    // /[\u{50000}-\u{5FFFD}\u{60000-\u{6FFFD}\u{70000}-\u{7FFFD}\u{80000}-\u{8FFFD}]/u,
+    // /[\u{90000}-\u{9FFFD}\u{A0000-\u{AFFFD}\u{B0000}-\u{BFFFD}\u{C0000}-\u{CFFFD}]/u,
+    // /[\u{D0000}-\u{DFFFD}\u{E0000-\u{EFFFD}]/u
+  ), w = i(
+    k,
+    /\d/,
+    /[\u0300-\u036F\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F]/
+  ), N = t(k, w, "*"), I = t(/[A-Z]/, w, "*"), x = [
+    "attached",
+    "autoclosure",
+    t(/convention\(/, i("swift", "block", "c"), /\)/),
+    "discardableResult",
+    "dynamicCallable",
+    "dynamicMemberLookup",
+    "escaping",
+    "freestanding",
+    "frozen",
+    "GKInspectable",
+    "IBAction",
+    "IBDesignable",
+    "IBInspectable",
+    "IBOutlet",
+    "IBSegueAction",
+    "inlinable",
+    "main",
+    "nonobjc",
+    "NSApplicationMain",
+    "NSCopying",
+    "NSManaged",
+    t(/objc\(/, N, /\)/),
+    "objc",
+    "objcMembers",
+    "propertyWrapper",
+    "requires_stored_property_inits",
+    "resultBuilder",
+    "Sendable",
+    "testable",
+    "UIApplicationMain",
+    "unchecked",
+    "unknown",
+    "usableFromInline",
+    "warn_unqualified_access"
+  ], R = [
+    "iOS",
+    "iOSApplicationExtension",
+    "macOS",
+    "macOSApplicationExtension",
+    "macCatalyst",
+    "macCatalystApplicationExtension",
+    "watchOS",
+    "watchOSApplicationExtension",
+    "tvOS",
+    "tvOSApplicationExtension",
+    "swift"
   ];
-  o.languages.insertBefore("sass", "property", {
-    // We want to consume the whole line
-    "variable-line": {
-      pattern: /^[ \t]*\$.+/m,
-      inside: {
-        punctuation: /:/,
-        variable: i,
-        operator: A
+  function C(v) {
+    const M = {
+      match: /\s+/,
+      relevance: 0
+    }, z = v.COMMENT(
+      "/\\*",
+      "\\*/",
+      { contains: ["self"] }
+    ), K = [
+      v.C_LINE_COMMENT_MODE,
+      z
+    ], j = {
+      match: [
+        /\./,
+        i(...o, ...c)
+      ],
+      className: { 2: "keyword" }
+    }, Q = {
+      // Consume .keyword to prevent highlighting properties and methods as keywords.
+      match: t(/\./, i(...d)),
+      relevance: 0
+    }, ee = d.filter((F) => typeof F == "string").concat(["_|0"]), G = d.filter((F) => typeof F != "string").concat(a).map(s), b = { variants: [
+      {
+        className: "keyword",
+        match: i(...G, ...c)
       }
-    },
-    // We want to consume the whole line
-    "property-line": {
-      pattern: /^[ \t]*(?:[^:\s]+ *:.*|:[^:\s]+.*)/m,
-      inside: {
-        property: [
-          /[^:\s]+(?=\s*:)/,
+    ] }, E = {
+      $pattern: i(
+        /\b\w+/,
+        // regular keywords
+        /#\w+/
+        // number keywords
+      ),
+      keyword: ee.concat(p),
+      literal: l
+    }, S = [
+      j,
+      Q,
+      b
+    ], D = {
+      // Consume .built_in to prevent highlighting properties and methods.
+      match: t(/\./, i(...h)),
+      relevance: 0
+    }, q = {
+      className: "built_in",
+      match: t(/\b/, i(...h), /(?=\()/)
+    }, V = [
+      D,
+      q
+    ], ie = {
+      // Prevent -> from being highlighting as an operator.
+      match: /->/,
+      relevance: 0
+    }, pe = {
+      className: "operator",
+      relevance: 0,
+      variants: [
+        { match: f },
+        {
+          // dot-operator: only operators that start with a dot are allowed to use dots as
+          // characters (..., ...<, .*, etc). So there rule here is: a dot followed by one or more
+          // characters that may also include dots.
+          match: `\\.(\\.|${_})+`
+        }
+      ]
+    }, Z = [
+      ie,
+      pe
+    ], Y = "([0-9]_*)+", be = "([0-9a-fA-F]_*)+", W = {
+      className: "number",
+      relevance: 0,
+      variants: [
+        // decimal floating-point-literal (subsumes decimal-literal)
+        { match: `\\b(${Y})(\\.(${Y}))?([eE][+-]?(${Y}))?\\b` },
+        // hexadecimal floating-point-literal (subsumes hexadecimal-literal)
+        { match: `\\b0x(${be})(\\.(${be}))?([pP][+-]?(${Y}))?\\b` },
+        // octal-literal
+        { match: /\b0o([0-7]_*)+\b/ },
+        // binary-literal
+        { match: /\b0b([01]_*)+\b/ }
+      ]
+    }, H = (F = "") => ({
+      className: "subst",
+      variants: [
+        { match: t(/\\/, F, /[0\\tnr"']/) },
+        { match: t(/\\/, F, /u\{[0-9a-fA-F]{1,8}\}/) }
+      ]
+    }), te = (F = "") => ({
+      className: "subst",
+      match: t(/\\/, F, /[\t ]*(?:[\r\n]|\r\n)/)
+    }), ae = (F = "") => ({
+      className: "subst",
+      label: "interpol",
+      begin: t(/\\/, F, /\(/),
+      end: /\)/
+    }), se = (F = "") => ({
+      begin: t(F, /"""/),
+      end: t(/"""/, F),
+      contains: [
+        H(F),
+        te(F),
+        ae(F)
+      ]
+    }), ce = (F = "") => ({
+      begin: t(F, /"/),
+      end: t(/"/, F),
+      contains: [
+        H(F),
+        ae(F)
+      ]
+    }), oe = {
+      className: "string",
+      variants: [
+        se(),
+        se("#"),
+        se("##"),
+        se("###"),
+        ce(),
+        ce("#"),
+        ce("##"),
+        ce("###")
+      ]
+    }, Me = [
+      v.BACKSLASH_ESCAPE,
+      {
+        begin: /\[/,
+        end: /\]/,
+        relevance: 0,
+        contains: [v.BACKSLASH_ESCAPE]
+      }
+    ], le = {
+      begin: /\/[^\s](?=[^/\n]*\/)/,
+      end: /\//,
+      contains: Me
+    }, Ce = (F) => {
+      const Ke = t(F, /\//), Le = t(/\//, F);
+      return {
+        begin: Ke,
+        end: Le,
+        contains: [
+          ...Me,
           {
-            pattern: /(:)[^:\s]+/,
-            lookbehind: !0
+            scope: "comment",
+            begin: `#(?!.*${Le})`,
+            end: /$/
           }
-        ],
-        punctuation: /:/,
-        variable: i,
-        operator: A,
-        important: o.languages.sass.important
-      }
-    }
-  }), delete o.languages.sass.property, delete o.languages.sass.important, delete o.languages.sass.selector, o.languages.insertBefore("sass", "punctuation", {
-    selector: {
-      pattern: /([ \t]*)\S(?:,?[^,\r\n]+)*(?:,(?:\r?\n|\r)\1[ \t]+\S(?:,?[^,\r\n]+)*)*/,
-      lookbehind: !0
-    }
-  });
-})(Prism);
-Prism.languages.scala = Prism.languages.extend("java", {
-  keyword: /<-|=>|\b(?:abstract|case|catch|class|def|do|else|extends|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|self|super|this|throw|trait|try|type|val|var|while|with|yield)\b/,
-  string: [
-    {
-      pattern: /"""[\s\S]*?"""/,
-      greedy: !0
-    },
-    {
-      pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
-      greedy: !0
-    }
-  ],
-  builtin: /\b(?:String|Int|Long|Short|Byte|Boolean|Double|Float|Char|Any|AnyRef|AnyVal|Unit|Nothing)\b/,
-  number: /\b0x[\da-f]*\.?[\da-f]+|(?:\b\d+\.?\d*|\B\.\d+)(?:e\d+)?[dfl]?/i,
-  symbol: /'[^\d\s\\]\w*/
-});
-delete Prism.languages.scala["class-name"];
-delete Prism.languages.scala.function;
-Prism.languages.scss = Prism.languages.extend("css", {
-  comment: {
-    pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|\/\/.*)/,
-    lookbehind: !0
-  },
-  atrule: {
-    pattern: /@[\w-]+(?:\([^()]+\)|[^(])*?(?=\s+[{;])/,
-    inside: {
-      rule: /@[\w-]+/
-      // See rest below
-    }
-  },
-  // url, compassified
-  url: /(?:[-a-z]+-)*url(?=\()/i,
-  // CSS selector regex is not appropriate for Sass
-  // since there can be lot more things (var, @ directive, nesting..)
-  // a selector must start at the end of a property or after a brace (end of other rules or nesting)
-  // it can contain some characters that aren't used for defining rules or end of selector, & (parent selector), or interpolated variable
-  // the end of a selector is found when there is no rules in it ( {} or {\s}) or if there is a property (because an interpolated var
-  // can "pass" as a selector- e.g: proper#{$erty})
-  // this one was hard to do, so please be careful if you edit this one :)
-  selector: {
-    // Initial look-ahead is used to prevent matching of blank selectors
-    pattern: /(?=\S)[^@;{}()]?(?:[^@;{}()]|&|#\{\$[-\w]+\})+(?=\s*\{(?:\}|\s|[^}]+[:{][^}]+))/m,
-    inside: {
-      parent: {
-        pattern: /&/,
-        alias: "important"
-      },
-      placeholder: /%[-\w]+/,
-      variable: /\$[-\w]+|#\{\$[-\w]+\}/
-    }
-  }
-});
-Prism.languages.insertBefore("scss", "atrule", {
-  keyword: [
-    /@(?:if|else(?: if)?|for|each|while|import|extend|debug|warn|mixin|include|function|return|content)/i,
-    {
-      pattern: /( +)(?:from|through)(?= )/,
-      lookbehind: !0
-    }
-  ]
-});
-Prism.languages.scss.property = {
-  pattern: /(?:[\w-]|\$[-\w]+|#\{\$[-\w]+\})+(?=\s*:)/i,
-  inside: {
-    variable: /\$[-\w]+|#\{\$[-\w]+\}/
-  }
-};
-Prism.languages.insertBefore("scss", "important", {
-  // var and interpolated vars
-  variable: /\$[-\w]+|#\{\$[-\w]+\}/
-});
-Prism.languages.insertBefore("scss", "function", {
-  placeholder: {
-    pattern: /%[-\w]+/,
-    alias: "selector"
-  },
-  statement: {
-    pattern: /\B!(?:default|optional)\b/i,
-    alias: "keyword"
-  },
-  boolean: /\b(?:true|false)\b/,
-  null: /\bnull\b/,
-  operator: {
-    pattern: /(\s)(?:[-+*\/%]|[=!]=|<=?|>=?|and|or|not)(?=\s)/,
-    lookbehind: !0
-  }
-});
-Prism.languages.scss.atrule.inside.rest = Prism.languages.scss;
-Prism.languages.sql = {
-  comment: {
-    pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*)/,
-    lookbehind: !0
-  },
-  string: {
-    pattern: /(^|[^@\\])("|')(?:\\[\s\S]|(?!\2)[^\\])*\2/,
-    greedy: !0,
-    lookbehind: !0
-  },
-  variable: /@[\w.$]+|@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
-  function: /\b(?:AVG|COUNT|FIRST|FORMAT|LAST|LCASE|LEN|MAX|MID|MIN|MOD|NOW|ROUND|SUM|UCASE)(?=\s*\()/i,
-  // Should we highlight user defined functions too?
-  keyword: /\b(?:ACTION|ADD|AFTER|ALGORITHM|ALL|ALTER|ANALYZE|ANY|APPLY|AS|ASC|AUTHORIZATION|AUTO_INCREMENT|BACKUP|BDB|BEGIN|BERKELEYDB|BIGINT|BINARY|BIT|BLOB|BOOL|BOOLEAN|BREAK|BROWSE|BTREE|BULK|BY|CALL|CASCADED?|CASE|CHAIN|CHAR(?:ACTER|SET)?|CHECK(?:POINT)?|CLOSE|CLUSTERED|COALESCE|COLLATE|COLUMNS?|COMMENT|COMMIT(?:TED)?|COMPUTE|CONNECT|CONSISTENT|CONSTRAINT|CONTAINS(?:TABLE)?|CONTINUE|CONVERT|CREATE|CROSS|CURRENT(?:_DATE|_TIME|_TIMESTAMP|_USER)?|CURSOR|CYCLE|DATA(?:BASES?)?|DATE(?:TIME)?|DAY|DBCC|DEALLOCATE|DEC|DECIMAL|DECLARE|DEFAULT|DEFINER|DELAYED|DELETE|DELIMITERS?|DENY|DESC|DESCRIBE|DETERMINISTIC|DISABLE|DISCARD|DISK|DISTINCT|DISTINCTROW|DISTRIBUTED|DO|DOUBLE|DROP|DUMMY|DUMP(?:FILE)?|DUPLICATE|ELSE(?:IF)?|ENABLE|ENCLOSED|END|ENGINE|ENUM|ERRLVL|ERRORS|ESCAPED?|EXCEPT|EXEC(?:UTE)?|EXISTS|EXIT|EXPLAIN|EXTENDED|FETCH|FIELDS|FILE|FILLFACTOR|FIRST|FIXED|FLOAT|FOLLOWING|FOR(?: EACH ROW)?|FORCE|FOREIGN|FREETEXT(?:TABLE)?|FROM|FULL|FUNCTION|GEOMETRY(?:COLLECTION)?|GLOBAL|GOTO|GRANT|GROUP|HANDLER|HASH|HAVING|HOLDLOCK|HOUR|IDENTITY(?:_INSERT|COL)?|IF|IGNORE|IMPORT|INDEX|INFILE|INNER|INNODB|INOUT|INSERT|INT|INTEGER|INTERSECT|INTERVAL|INTO|INVOKER|ISOLATION|ITERATE|JOIN|KEYS?|KILL|LANGUAGE|LAST|LEAVE|LEFT|LEVEL|LIMIT|LINENO|LINES|LINESTRING|LOAD|LOCAL|LOCK|LONG(?:BLOB|TEXT)|LOOP|MATCH(?:ED)?|MEDIUM(?:BLOB|INT|TEXT)|MERGE|MIDDLEINT|MINUTE|MODE|MODIFIES|MODIFY|MONTH|MULTI(?:LINESTRING|POINT|POLYGON)|NATIONAL|NATURAL|NCHAR|NEXT|NO|NONCLUSTERED|NULLIF|NUMERIC|OFF?|OFFSETS?|ON|OPEN(?:DATASOURCE|QUERY|ROWSET)?|OPTIMIZE|OPTION(?:ALLY)?|ORDER|OUT(?:ER|FILE)?|OVER|PARTIAL|PARTITION|PERCENT|PIVOT|PLAN|POINT|POLYGON|PRECEDING|PRECISION|PREPARE|PREV|PRIMARY|PRINT|PRIVILEGES|PROC(?:EDURE)?|PUBLIC|PURGE|QUICK|RAISERROR|READS?|REAL|RECONFIGURE|REFERENCES|RELEASE|RENAME|REPEAT(?:ABLE)?|REPLACE|REPLICATION|REQUIRE|RESIGNAL|RESTORE|RESTRICT|RETURNS?|REVOKE|RIGHT|ROLLBACK|ROUTINE|ROW(?:COUNT|GUIDCOL|S)?|RTREE|RULE|SAVE(?:POINT)?|SCHEMA|SECOND|SELECT|SERIAL(?:IZABLE)?|SESSION(?:_USER)?|SET(?:USER)?|SHARE|SHOW|SHUTDOWN|SIMPLE|SMALLINT|SNAPSHOT|SOME|SONAME|SQL|START(?:ING)?|STATISTICS|STATUS|STRIPED|SYSTEM_USER|TABLES?|TABLESPACE|TEMP(?:ORARY|TABLE)?|TERMINATED|TEXT(?:SIZE)?|THEN|TIME(?:STAMP)?|TINY(?:BLOB|INT|TEXT)|TOP?|TRAN(?:SACTIONS?)?|TRIGGER|TRUNCATE|TSEQUAL|TYPES?|UNBOUNDED|UNCOMMITTED|UNDEFINED|UNION|UNIQUE|UNLOCK|UNPIVOT|UNSIGNED|UPDATE(?:TEXT)?|USAGE|USE|USER|USING|VALUES?|VAR(?:BINARY|CHAR|CHARACTER|YING)|VIEW|WAITFOR|WARNINGS|WHEN|WHERE|WHILE|WITH(?: ROLLUP|IN)?|WORK|WRITE(?:TEXT)?|YEAR)\b/i,
-  boolean: /\b(?:TRUE|FALSE|NULL)\b/i,
-  number: /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
-  operator: /[-+*\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|LIKE|NOT|OR|IS|DIV|REGEXP|RLIKE|SOUNDS LIKE|XOR)\b/i,
-  punctuation: /[;[\]()`,.]/
-};
-(function(o) {
-  var i = {
-    url: /url\((["']?).*?\1\)/i,
-    string: {
-      pattern: /("|')(?:(?!\1)[^\\\r\n]|\\(?:\r\n|[\s\S]))*\1/,
-      greedy: !0
-    },
-    interpolation: null,
-    // See below
-    func: null,
-    // See below
-    important: /\B!(?:important|optional)\b/i,
-    keyword: {
-      pattern: /(^|\s+)(?:(?:if|else|for|return|unless)(?=\s+|$)|@[\w-]+)/,
-      lookbehind: !0
-    },
-    hexcode: /#[\da-f]{3,6}/i,
-    number: /\b\d+(?:\.\d+)?%?/,
-    boolean: /\b(?:true|false)\b/,
-    operator: [
-      // We want non-word chars around "-" because it is
-      // accepted in property names.
-      /~|[+!\/%<>?=]=?|[-:]=|\*[*=]?|\.+|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/
-    ],
-    punctuation: /[{}()\[\];:,]/
-  };
-  i.interpolation = {
-    pattern: /\{[^\r\n}:]+\}/,
-    alias: "variable",
-    inside: {
-      delimiter: {
-        pattern: /^{|}$/,
-        alias: "punctuation"
-      },
-      rest: i
-    }
-  }, i.func = {
-    pattern: /[\w-]+\([^)]*\).*/,
-    inside: {
-      function: /^[^(]+/,
-      rest: i
-    }
-  }, o.languages.stylus = {
-    comment: {
-      pattern: /(^|[^\\])(\/\*[\s\S]*?\*\/|\/\/.*)/,
-      lookbehind: !0
-    },
-    "atrule-declaration": {
-      pattern: /(^\s*)@.+/m,
-      lookbehind: !0,
-      inside: {
-        atrule: /^@[\w-]+/,
-        rest: i
-      }
-    },
-    "variable-declaration": {
-      pattern: /(^[ \t]*)[\w$-]+\s*.?=[ \t]*(?:(?:\{[^}]*\}|.+)|$)/m,
-      lookbehind: !0,
-      inside: {
-        variable: /^\S+/,
-        rest: i
-      }
-    },
-    statement: {
-      pattern: /(^[ \t]*)(?:if|else|for|return|unless)[ \t]+.+/m,
-      lookbehind: !0,
-      inside: {
-        keyword: /^\S+/,
-        rest: i
-      }
-    },
-    // A property/value pair cannot end with a comma or a brace
-    // It cannot have indented content unless it ended with a semicolon
-    "property-declaration": {
-      pattern: /((?:^|\{)([ \t]*))(?:[\w-]|\{[^}\r\n]+\})+(?:\s*:\s*|[ \t]+)[^{\r\n]*(?:;|[^{\r\n,](?=$)(?!(\r?\n|\r)(?:\{|\2[ \t]+)))/m,
-      lookbehind: !0,
-      inside: {
-        property: {
-          pattern: /^[^\s:]+/,
-          inside: {
-            interpolation: i.interpolation
-          }
+        ]
+      };
+    }, Se = {
+      scope: "regexp",
+      variants: [
+        Ce("###"),
+        Ce("##"),
+        Ce("#"),
+        le
+      ]
+    }, T = { match: t(/`/, N, /`/) }, ze = {
+      className: "variable",
+      match: /\$\d+/
+    }, J = {
+      className: "variable",
+      match: `\\$${w}+`
+    }, P = [
+      T,
+      ze,
+      J
+    ], Te = {
+      match: /(@|#(un)?)available/,
+      scope: "keyword",
+      starts: { contains: [
+        {
+          begin: /\(/,
+          end: /\)/,
+          keywords: R,
+          contains: [
+            ...Z,
+            W,
+            oe
+          ]
+        }
+      ] }
+    }, fe = {
+      scope: "keyword",
+      match: t(/@/, i(...x), e(i(/\(/, /\s+/)))
+    }, Ie = {
+      scope: "meta",
+      match: t(/@/, N)
+    }, me = [
+      Te,
+      fe,
+      Ie
+    ], m = {
+      match: e(/\b[A-Z]/),
+      relevance: 0,
+      contains: [
+        {
+          // Common Apple frameworks, for relevance boost
+          className: "type",
+          match: t(/(AV|CA|CF|CG|CI|CL|CM|CN|CT|MK|MP|MTK|MTL|NS|SCN|SK|UI|WK|XC)/, w, "+")
         },
-        rest: i
+        {
+          // Type identifier
+          className: "type",
+          match: I,
+          relevance: 0
+        },
+        {
+          // Optional type
+          match: /[?!]+/,
+          relevance: 0
+        },
+        {
+          // Variadic parameter
+          match: /\.\.\./,
+          relevance: 0
+        },
+        {
+          // Protocol composition
+          match: t(/\s+&\s+/, e(I)),
+          relevance: 0
+        }
+      ]
+    }, y = {
+      begin: /</,
+      end: />/,
+      keywords: E,
+      contains: [
+        ...K,
+        ...S,
+        ...me,
+        ie,
+        m
+      ]
+    };
+    m.contains.push(y);
+    const A = {
+      match: t(N, /\s*:/),
+      keywords: "_|0",
+      relevance: 0
+    }, B = {
+      begin: /\(/,
+      end: /\)/,
+      relevance: 0,
+      keywords: E,
+      contains: [
+        "self",
+        A,
+        ...K,
+        Se,
+        ...S,
+        ...V,
+        ...Z,
+        W,
+        oe,
+        ...P,
+        ...me,
+        m
+      ]
+    }, X = {
+      begin: /</,
+      end: />/,
+      keywords: "repeat each",
+      contains: [
+        ...K,
+        m
+      ]
+    }, de = {
+      begin: i(
+        e(t(N, /\s*:/)),
+        e(t(N, /\s+/, N, /\s*:/))
+      ),
+      end: /:/,
+      relevance: 0,
+      contains: [
+        {
+          className: "keyword",
+          match: /\b_\b/
+        },
+        {
+          className: "params",
+          match: N
+        }
+      ]
+    }, Fe = {
+      begin: /\(/,
+      end: /\)/,
+      keywords: E,
+      contains: [
+        de,
+        ...K,
+        ...S,
+        ...Z,
+        W,
+        oe,
+        ...me,
+        m,
+        B
+      ],
+      endsParent: !0,
+      illegal: /["']/
+    }, je = {
+      match: [
+        /(func|macro)/,
+        /\s+/,
+        i(T.match, N, f)
+      ],
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      contains: [
+        X,
+        Fe,
+        M
+      ],
+      illegal: [
+        /\[/,
+        /%/
+      ]
+    }, wr = {
+      match: [
+        /\b(?:subscript|init[?!]?)/,
+        /\s*(?=[<(])/
+      ],
+      className: { 1: "keyword" },
+      contains: [
+        X,
+        Fe,
+        M
+      ],
+      illegal: /\[|%/
+    }, yr = {
+      match: [
+        /operator/,
+        /\s+/,
+        f
+      ],
+      className: {
+        1: "keyword",
+        3: "title"
       }
-    },
-    // A selector can contain parentheses only as part of a pseudo-element
-    // It can span multiple lines.
-    // It must end with a comma or an accolade or have indented content.
-    selector: {
-      pattern: /(^[ \t]*)(?:(?=\S)(?:[^{}\r\n:()]|::?[\w-]+(?:\([^)\r\n]*\))?|\{[^}\r\n]+\})+)(?:(?:\r?\n|\r)(?:\1(?:(?=\S)(?:[^{}\r\n:()]|::?[\w-]+(?:\([^)\r\n]*\))?|\{[^}\r\n]+\})+)))*(?:,$|\{|(?=(?:\r?\n|\r)(?:\{|\1[ \t]+)))/m,
-      lookbehind: !0,
-      inside: {
-        interpolation: i.interpolation,
-        punctuation: /[{},]/
+    }, Nr = {
+      begin: [
+        /precedencegroup/,
+        /\s+/,
+        I
+      ],
+      className: {
+        1: "keyword",
+        3: "title"
+      },
+      contains: [m],
+      keywords: [
+        ...u,
+        ...l
+      ],
+      end: /}/
+    }, vr = {
+      match: [
+        /class\b/,
+        /\s+/,
+        /func\b/,
+        /\s+/,
+        /\b[A-Za-z_][A-Za-z0-9_]*\b/
+      ],
+      scope: {
+        1: "keyword",
+        3: "keyword",
+        5: "title.function"
       }
-    },
-    func: i.func,
-    string: i.string,
-    interpolation: i.interpolation,
-    punctuation: /[{}()\[\];:.]/
-  };
-})(Prism);
-Prism.languages.swift = Prism.languages.extend("clike", {
-  string: {
-    pattern: /("|')(\\(?:\((?:[^()]|\([^)]+\))+\)|\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-    greedy: !0,
-    inside: {
-      interpolation: {
-        pattern: /\\\((?:[^()]|\([^)]+\))+\)/,
-        inside: {
-          delimiter: {
-            pattern: /^\\\(|\)$/,
-            alias: "variable"
+    }, Sr = {
+      match: [
+        /class\b/,
+        /\s+/,
+        /var\b/
+      ],
+      scope: {
+        1: "keyword",
+        3: "keyword"
+      }
+    }, Tr = {
+      begin: [
+        /(struct|protocol|class|extension|enum|actor)/,
+        /\s+/,
+        N,
+        /\s*/
+      ],
+      beginScope: {
+        1: "keyword",
+        3: "title.class"
+      },
+      keywords: E,
+      contains: [
+        X,
+        ...S,
+        {
+          begin: /:/,
+          end: /\{/,
+          keywords: E,
+          contains: [
+            {
+              scope: "title.class.inherited",
+              match: I
+            },
+            ...S
+          ],
+          relevance: 0
+        }
+      ]
+    };
+    for (const F of oe.variants) {
+      const Ke = F.contains.find((xr) => xr.label === "interpol");
+      Ke.keywords = E;
+      const Le = [
+        ...S,
+        ...V,
+        ...Z,
+        W,
+        oe,
+        ...P
+      ];
+      Ke.contains = [
+        ...Le,
+        {
+          begin: /\(/,
+          end: /\)/,
+          contains: [
+            "self",
+            ...Le
+          ]
+        }
+      ];
+    }
+    return {
+      name: "Swift",
+      keywords: E,
+      contains: [
+        ...K,
+        je,
+        wr,
+        vr,
+        Sr,
+        Tr,
+        yr,
+        Nr,
+        {
+          beginKeywords: "import",
+          end: /$/,
+          contains: [...K],
+          relevance: 0
+        },
+        Se,
+        ...S,
+        ...V,
+        ...Z,
+        W,
+        oe,
+        ...P,
+        ...me,
+        m,
+        B
+      ]
+    };
+  }
+  return Ct = C, Ct;
+}
+var It, Zn;
+function qa() {
+  if (Zn) return It;
+  Zn = 1;
+  function n(e) {
+    const t = "true false yes no null", r = "[\\w#;/?:@&=+$,.~*'()[\\]]+", i = {
+      className: "attr",
+      variants: [
+        // added brackets support and special char support
+        { begin: /[\w*@][\w*@ :()\./-]*:(?=[ \t]|$)/ },
+        {
+          // double quoted keys - with brackets and special char support
+          begin: /"[\w*@][\w*@ :()\./-]*":(?=[ \t]|$)/
+        },
+        {
+          // single quoted keys - with brackets and special char support
+          begin: /'[\w*@][\w*@ :()\./-]*':(?=[ \t]|$)/
+        }
+      ]
+    }, s = {
+      className: "template-variable",
+      variants: [
+        {
+          // jinja templates Ansible
+          begin: /\{\{/,
+          end: /\}\}/
+        },
+        {
+          // Ruby i18n
+          begin: /%\{/,
+          end: /\}/
+        }
+      ]
+    }, o = {
+      className: "string",
+      relevance: 0,
+      begin: /'/,
+      end: /'/,
+      contains: [
+        {
+          match: /''/,
+          scope: "char.escape",
+          relevance: 0
+        }
+      ]
+    }, c = {
+      className: "string",
+      relevance: 0,
+      variants: [
+        {
+          begin: /"/,
+          end: /"/
+        },
+        { begin: /\S+/ }
+      ],
+      contains: [
+        e.BACKSLASH_ESCAPE,
+        s
+      ]
+    }, a = e.inherit(c, { variants: [
+      {
+        begin: /'/,
+        end: /'/,
+        contains: [
+          {
+            begin: /''/,
+            relevance: 0
           }
-          // See rest below
+        ]
+      },
+      {
+        begin: /"/,
+        end: /"/
+      },
+      { begin: /[^\s,{}[\]]+/ }
+    ] }), h = {
+      className: "number",
+      begin: "\\b" + "[0-9]{4}(-[0-9][0-9]){0,2}" + "([Tt \\t][0-9][0-9]?(:[0-9][0-9]){2})?" + "(\\.[0-9]*)?" + "([ \\t])*(Z|[-+][0-9][0-9]?(:[0-9][0-9])?)?" + "\\b"
+    }, g = {
+      end: ",",
+      endsWithParent: !0,
+      excludeEnd: !0,
+      keywords: t,
+      relevance: 0
+    }, _ = {
+      begin: /\{/,
+      end: /\}/,
+      contains: [g],
+      illegal: "\\n",
+      relevance: 0
+    }, f = {
+      begin: "\\[",
+      end: "\\]",
+      contains: [g],
+      illegal: "\\n",
+      relevance: 0
+    }, k = [
+      i,
+      {
+        className: "meta",
+        begin: "^---\\s*$",
+        relevance: 10
+      },
+      {
+        // multi line string
+        // Blocks start with a | or > followed by a newline
+        //
+        // Indentation of subsequent lines must be the same to
+        // be considered part of the block
+        className: "string",
+        begin: "[\\|>]([1-9]?[+-])?[ ]*\\n( +)[^ ][^\\n]*\\n(\\2[^\\n]+\\n?)*"
+      },
+      {
+        // Ruby/Rails erb
+        begin: "<%[%=-]?",
+        end: "[%-]?%>",
+        subLanguage: "ruby",
+        excludeBegin: !0,
+        excludeEnd: !0,
+        relevance: 0
+      },
+      {
+        // named tags
+        className: "type",
+        begin: "!\\w+!" + r
+      },
+      // https://yaml.org/spec/1.2/spec.html#id2784064
+      {
+        // verbatim tags
+        className: "type",
+        begin: "!<" + r + ">"
+      },
+      {
+        // primary tags
+        className: "type",
+        begin: "!" + r
+      },
+      {
+        // secondary tags
+        className: "type",
+        begin: "!!" + r
+      },
+      {
+        // fragment id &ref
+        className: "meta",
+        begin: "&" + e.UNDERSCORE_IDENT_RE + "$"
+      },
+      {
+        // fragment reference *ref
+        className: "meta",
+        begin: "\\*" + e.UNDERSCORE_IDENT_RE + "$"
+      },
+      {
+        // array listing
+        className: "bullet",
+        // TODO: remove |$ hack when we have proper look-ahead support
+        begin: "-(?=[ ]|$)",
+        relevance: 0
+      },
+      e.HASH_COMMENT_MODE,
+      {
+        beginKeywords: t,
+        keywords: { literal: t }
+      },
+      h,
+      // numbers are any valid C-style number that
+      // sit isolated from other words
+      {
+        className: "number",
+        begin: e.C_NUMBER_RE + "\\b",
+        relevance: 0
+      },
+      _,
+      f,
+      o,
+      c
+    ], w = [...k];
+    return w.pop(), w.push(a), g.contains = w, {
+      name: "YAML",
+      case_insensitive: !0,
+      aliases: ["yml"],
+      contains: k
+    };
+  }
+  return It = n, It;
+}
+var Lt, Wn;
+function Ha() {
+  if (Wn) return Lt;
+  Wn = 1;
+  const n = "[A-Za-z$_][0-9A-Za-z$_]*", e = [
+    "as",
+    // for exports
+    "in",
+    "of",
+    "if",
+    "for",
+    "while",
+    "finally",
+    "var",
+    "new",
+    "function",
+    "do",
+    "return",
+    "void",
+    "else",
+    "break",
+    "catch",
+    "instanceof",
+    "with",
+    "throw",
+    "case",
+    "default",
+    "try",
+    "switch",
+    "continue",
+    "typeof",
+    "delete",
+    "let",
+    "yield",
+    "const",
+    "class",
+    // JS handles these with a special rule
+    // "get",
+    // "set",
+    "debugger",
+    "async",
+    "await",
+    "static",
+    "import",
+    "from",
+    "export",
+    "extends",
+    // It's reached stage 3, which is "recommended for implementation":
+    "using"
+  ], t = [
+    "true",
+    "false",
+    "null",
+    "undefined",
+    "NaN",
+    "Infinity"
+  ], r = [
+    // Fundamental objects
+    "Object",
+    "Function",
+    "Boolean",
+    "Symbol",
+    // numbers and dates
+    "Math",
+    "Date",
+    "Number",
+    "BigInt",
+    // text
+    "String",
+    "RegExp",
+    // Indexed collections
+    "Array",
+    "Float32Array",
+    "Float64Array",
+    "Int8Array",
+    "Uint8Array",
+    "Uint8ClampedArray",
+    "Int16Array",
+    "Int32Array",
+    "Uint16Array",
+    "Uint32Array",
+    "BigInt64Array",
+    "BigUint64Array",
+    // Keyed collections
+    "Set",
+    "Map",
+    "WeakSet",
+    "WeakMap",
+    // Structured data
+    "ArrayBuffer",
+    "SharedArrayBuffer",
+    "Atomics",
+    "DataView",
+    "JSON",
+    // Control abstraction objects
+    "Promise",
+    "Generator",
+    "GeneratorFunction",
+    "AsyncFunction",
+    // Reflection
+    "Reflect",
+    "Proxy",
+    // Internationalization
+    "Intl",
+    // WebAssembly
+    "WebAssembly"
+  ], i = [
+    "Error",
+    "EvalError",
+    "InternalError",
+    "RangeError",
+    "ReferenceError",
+    "SyntaxError",
+    "TypeError",
+    "URIError"
+  ], s = [
+    "setInterval",
+    "setTimeout",
+    "clearInterval",
+    "clearTimeout",
+    "require",
+    "exports",
+    "eval",
+    "isFinite",
+    "isNaN",
+    "parseFloat",
+    "parseInt",
+    "decodeURI",
+    "decodeURIComponent",
+    "encodeURI",
+    "encodeURIComponent",
+    "escape",
+    "unescape"
+  ], o = [
+    "arguments",
+    "this",
+    "super",
+    "console",
+    "window",
+    "document",
+    "localStorage",
+    "sessionStorage",
+    "module",
+    "global"
+    // Node.js
+  ], c = [].concat(
+    s,
+    r,
+    i
+  );
+  function a(l) {
+    const u = l.regex, p = (H, { after: te }) => {
+      const ae = "</" + H[0].slice(1);
+      return H.input.indexOf(ae, te) !== -1;
+    }, h = n, g = {
+      begin: "<>",
+      end: "</>"
+    }, _ = /<[A-Za-z0-9\\._:-]+\s*\/>/, f = {
+      begin: /<[A-Za-z0-9\\._:-]+/,
+      end: /\/[A-Za-z0-9\\._:-]+>|\/>/,
+      /**
+       * @param {RegExpMatchArray} match
+       * @param {CallbackResponse} response
+       */
+      isTrulyOpeningTag: (H, te) => {
+        const ae = H[0].length + H.index, se = H.input[ae];
+        if (
+          // HTML should not include another raw `<` inside a tag
+          // nested type?
+          // `<Array<Array<number>>`, etc.
+          se === "<" || // the , gives away that this is not HTML
+          // `<T, A extends keyof T, V>`
+          se === ","
+        ) {
+          te.ignoreMatch();
+          return;
+        }
+        se === ">" && (p(H, { after: ae }) || te.ignoreMatch());
+        let ce;
+        const oe = H.input.substring(ae);
+        if (ce = oe.match(/^\s*=/)) {
+          te.ignoreMatch();
+          return;
+        }
+        if ((ce = oe.match(/^\s+extends\s+/)) && ce.index === 0) {
+          te.ignoreMatch();
+          return;
         }
       }
-    }
-  },
-  keyword: /\b(?:as|associativity|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic(?:Type)?|else|enum|extension|fallthrough|final|for|func|get|guard|if|import|in|infix|init|inout|internal|is|lazy|left|let|mutating|new|none|nonmutating|operator|optional|override|postfix|precedence|prefix|private|Protocol|public|repeat|required|rethrows|return|right|safe|self|Self|set|static|struct|subscript|super|switch|throws?|try|Type|typealias|unowned|unsafe|var|weak|where|while|willSet|__(?:COLUMN__|FILE__|FUNCTION__|LINE__))\b/,
-  number: /\b(?:[\d_]+(?:\.[\de_]+)?|0x[a-f0-9_]+(?:\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\b/i,
-  constant: /\b(?:nil|[A-Z_]{2,}|k[A-Z][A-Za-z_]+)\b/,
-  atrule: /@\b(?:IB(?:Outlet|Designable|Action|Inspectable)|class_protocol|exported|noreturn|NS(?:Copying|Managed)|objc|UIApplicationMain|auto_closure)\b/,
-  builtin: /\b(?:[A-Z]\S+|abs|advance|alignof(?:Value)?|assert|contains|count(?:Elements)?|debugPrint(?:ln)?|distance|drop(?:First|Last)|dump|enumerate|equal|filter|find|first|getVaList|indices|isEmpty|join|last|lexicographicalCompare|map|max(?:Element)?|min(?:Element)?|numericCast|overlaps|partition|print(?:ln)?|reduce|reflect|reverse|sizeof(?:Value)?|sort(?:ed)?|split|startsWith|stride(?:of(?:Value)?)?|suffix|swap|toDebugString|toString|transcode|underestimateCount|unsafeBitCast|with(?:ExtendedLifetime|Unsafe(?:MutablePointers?|Pointers?)|VaList))\b/
-});
-Prism.languages.swift.string.inside.interpolation.inside.rest = Prism.languages.swift;
-Prism.languages.typescript = Prism.languages.extend("javascript", {
-  // From JavaScript Prism keyword list and TypeScript language spec: https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#221-reserved-words
-  keyword: /\b(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield|module|declare|constructor|namespace|abstract|require|type)\b/,
-  builtin: /\b(?:string|Function|any|number|boolean|Array|symbol|console)\b/
-});
-Prism.languages.ts = Prism.languages.typescript;
-Prism.languages.wiki = Prism.languages.extend("markup", {
-  "block-comment": {
-    pattern: /(^|[^\\])\/\*[\s\S]*?\*\//,
-    lookbehind: !0,
-    alias: "comment"
-  },
-  heading: {
-    pattern: /^(=+).+?\1/m,
-    inside: {
-      punctuation: /^=+|=+$/,
-      important: /.+/
-    }
-  },
-  emphasis: {
-    // TODO Multi-line
-    pattern: /('{2,5}).+?\1/,
-    inside: {
-      "bold italic": {
-        pattern: /(''''').+?(?=\1)/,
-        lookbehind: !0
-      },
-      bold: {
-        pattern: /(''')[^'](?:.*?[^'])?(?=\1)/,
-        lookbehind: !0
-      },
-      italic: {
-        pattern: /('')[^'](?:.*?[^'])?(?=\1)/,
-        lookbehind: !0
-      },
-      punctuation: /^''+|''+$/
-    }
-  },
-  hr: {
-    pattern: /^-{4,}/m,
-    alias: "punctuation"
-  },
-  url: [
-    /ISBN +(?:97[89][ -]?)?(?:\d[ -]?){9}[\dx]\b|(?:RFC|PMID) +\d+/i,
-    /\[\[.+?\]\]|\[.+?\]/
-  ],
-  variable: [
-    /__[A-Z]+__/,
-    // FIXME Nested structures should be handled
-    // {{formatnum:{{#expr:{{{3}}}}}}}
-    /\{{3}.+?\}{3}/,
-    /\{\{.+?\}\}/
-  ],
-  symbol: [
-    /^#redirect/im,
-    /~{3,5}/
-  ],
-  // Handle table attrs:
-  // {|
-  // ! style="text-align:left;"| Item
-  // |}
-  "table-tag": {
-    pattern: /((?:^|[|!])[|!])[^|\r\n]+\|(?!\|)/m,
-    lookbehind: !0,
-    inside: {
-      "table-bar": {
-        pattern: /\|$/,
-        alias: "punctuation"
-      },
-      rest: Prism.languages.markup.tag.inside
-    }
-  },
-  punctuation: /^(?:\{\||\|\}|\|-|[*#:;!|])|\|\||!!/m
-});
-Prism.languages.insertBefore("wiki", "tag", {
-  // Prevent highlighting inside <nowiki>, <source> and <pre> tags
-  nowiki: {
-    pattern: /<(nowiki|pre|source)\b[\s\S]*?>[\s\S]*?<\/\1>/i,
-    inside: {
-      tag: {
-        pattern: /<(?:nowiki|pre|source)\b[\s\S]*?>|<\/(?:nowiki|pre|source)>/i,
-        inside: Prism.languages.markup.tag.inside
+    }, k = {
+      $pattern: n,
+      keyword: e,
+      literal: t,
+      built_in: c,
+      "variable.language": o
+    }, w = "[0-9](_?[0-9])*", N = `\\.(${w})`, I = "0|[1-9](_?[0-9])*|0[0-7]*[89][0-9]*", x = {
+      className: "number",
+      variants: [
+        // DecimalLiteral
+        { begin: `(\\b(${I})((${N})|\\.)?|(${N}))[eE][+-]?(${w})\\b` },
+        { begin: `\\b(${I})\\b((${N})\\b|\\.)?|(${N})\\b` },
+        // DecimalBigIntegerLiteral
+        { begin: "\\b(0|[1-9](_?[0-9])*)n\\b" },
+        // NonDecimalIntegerLiteral
+        { begin: "\\b0[xX][0-9a-fA-F](_?[0-9a-fA-F])*n?\\b" },
+        { begin: "\\b0[bB][0-1](_?[0-1])*n?\\b" },
+        { begin: "\\b0[oO][0-7](_?[0-7])*n?\\b" },
+        // LegacyOctalIntegerLiteral (does not include underscore separators)
+        // https://tc39.es/ecma262/#sec-additional-syntax-numeric-literals
+        { begin: "\\b0[0-7]+n?\\b" }
+      ],
+      relevance: 0
+    }, R = {
+      className: "subst",
+      begin: "\\$\\{",
+      end: "\\}",
+      keywords: k,
+      contains: []
+      // defined later
+    }, C = {
+      begin: ".?html`",
+      end: "",
+      starts: {
+        end: "`",
+        returnEnd: !1,
+        contains: [
+          l.BACKSLASH_ESCAPE,
+          R
+        ],
+        subLanguage: "xml"
       }
+    }, v = {
+      begin: ".?css`",
+      end: "",
+      starts: {
+        end: "`",
+        returnEnd: !1,
+        contains: [
+          l.BACKSLASH_ESCAPE,
+          R
+        ],
+        subLanguage: "css"
+      }
+    }, M = {
+      begin: ".?gql`",
+      end: "",
+      starts: {
+        end: "`",
+        returnEnd: !1,
+        contains: [
+          l.BACKSLASH_ESCAPE,
+          R
+        ],
+        subLanguage: "graphql"
+      }
+    }, z = {
+      className: "string",
+      begin: "`",
+      end: "`",
+      contains: [
+        l.BACKSLASH_ESCAPE,
+        R
+      ]
+    }, j = {
+      className: "comment",
+      variants: [
+        l.COMMENT(
+          /\/\*\*(?!\/)/,
+          "\\*/",
+          {
+            relevance: 0,
+            contains: [
+              {
+                begin: "(?=@[A-Za-z]+)",
+                relevance: 0,
+                contains: [
+                  {
+                    className: "doctag",
+                    begin: "@[A-Za-z]+"
+                  },
+                  {
+                    className: "type",
+                    begin: "\\{",
+                    end: "\\}",
+                    excludeEnd: !0,
+                    excludeBegin: !0,
+                    relevance: 0
+                  },
+                  {
+                    className: "variable",
+                    begin: h + "(?=\\s*(-)|$)",
+                    endsParent: !0,
+                    relevance: 0
+                  },
+                  // eat spaces (not newlines) so we can find
+                  // types or variables
+                  {
+                    begin: /(?=[^\n])\s/,
+                    relevance: 0
+                  }
+                ]
+              }
+            ]
+          }
+        ),
+        l.C_BLOCK_COMMENT_MODE,
+        l.C_LINE_COMMENT_MODE
+      ]
+    }, Q = [
+      l.APOS_STRING_MODE,
+      l.QUOTE_STRING_MODE,
+      C,
+      v,
+      M,
+      z,
+      // Skip numbers when they are part of a variable name
+      { match: /\$\d+/ },
+      x
+      // This is intentional:
+      // See https://github.com/highlightjs/highlight.js/issues/3288
+      // hljs.REGEXP_MODE
+    ];
+    R.contains = Q.concat({
+      // we need to pair up {} inside our subst to prevent
+      // it from ending too early by matching another }
+      begin: /\{/,
+      end: /\}/,
+      keywords: k,
+      contains: [
+        "self"
+      ].concat(Q)
+    });
+    const ee = [].concat(j, R.contains), G = ee.concat([
+      // eat recursive parens in sub expressions
+      {
+        begin: /(\s*)\(/,
+        end: /\)/,
+        keywords: k,
+        contains: ["self"].concat(ee)
+      }
+    ]), b = {
+      className: "params",
+      // convert this to negative lookbehind in v12
+      begin: /(\s*)\(/,
+      // to match the parms with
+      end: /\)/,
+      excludeBegin: !0,
+      excludeEnd: !0,
+      keywords: k,
+      contains: G
+    }, E = {
+      variants: [
+        // class Car extends vehicle
+        {
+          match: [
+            /class/,
+            /\s+/,
+            h,
+            /\s+/,
+            /extends/,
+            /\s+/,
+            u.concat(h, "(", u.concat(/\./, h), ")*")
+          ],
+          scope: {
+            1: "keyword",
+            3: "title.class",
+            5: "keyword",
+            7: "title.class.inherited"
+          }
+        },
+        // class Car
+        {
+          match: [
+            /class/,
+            /\s+/,
+            h
+          ],
+          scope: {
+            1: "keyword",
+            3: "title.class"
+          }
+        }
+      ]
+    }, S = {
+      relevance: 0,
+      match: u.either(
+        // Hard coded exceptions
+        /\bJSON/,
+        // Float32Array, OutT
+        /\b[A-Z][a-z]+([A-Z][a-z]*|\d)*/,
+        // CSSFactory, CSSFactoryT
+        /\b[A-Z]{2,}([A-Z][a-z]+|\d)+([A-Z][a-z]*)*/,
+        // FPs, FPsT
+        /\b[A-Z]{2,}[a-z]+([A-Z][a-z]+|\d)*([A-Z][a-z]*)*/
+        // P
+        // single letters are not highlighted
+        // BLAH
+        // this will be flagged as a UPPER_CASE_CONSTANT instead
+      ),
+      className: "title.class",
+      keywords: {
+        _: [
+          // se we still get relevance credit for JS library classes
+          ...r,
+          ...i
+        ]
+      }
+    }, D = {
+      label: "use_strict",
+      className: "meta",
+      relevance: 10,
+      begin: /^\s*['"]use (strict|asm)['"]/
+    }, q = {
+      variants: [
+        {
+          match: [
+            /function/,
+            /\s+/,
+            h,
+            /(?=\s*\()/
+          ]
+        },
+        // anonymous function
+        {
+          match: [
+            /function/,
+            /\s*(?=\()/
+          ]
+        }
+      ],
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      label: "func.def",
+      contains: [b],
+      illegal: /%/
+    }, V = {
+      relevance: 0,
+      match: /\b[A-Z][A-Z_0-9]+\b/,
+      className: "variable.constant"
+    };
+    function ie(H) {
+      return u.concat("(?!", H.join("|"), ")");
     }
+    const pe = {
+      match: u.concat(
+        /\b/,
+        ie([
+          ...s,
+          "super",
+          "import"
+        ].map((H) => `${H}\\s*\\(`)),
+        h,
+        u.lookahead(/\s*\(/)
+      ),
+      className: "title.function",
+      relevance: 0
+    }, Z = {
+      begin: u.concat(/\./, u.lookahead(
+        u.concat(h, /(?![0-9A-Za-z$_(])/)
+      )),
+      end: h,
+      excludeBegin: !0,
+      keywords: "prototype",
+      className: "property",
+      relevance: 0
+    }, Y = {
+      match: [
+        /get|set/,
+        /\s+/,
+        h,
+        /(?=\()/
+      ],
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      contains: [
+        {
+          // eat to avoid empty params
+          begin: /\(\)/
+        },
+        b
+      ]
+    }, be = "(\\([^()]*(\\([^()]*(\\([^()]*\\)[^()]*)*\\)[^()]*)*\\)|" + l.UNDERSCORE_IDENT_RE + ")\\s*=>", W = {
+      match: [
+        /const|var|let/,
+        /\s+/,
+        h,
+        /\s*/,
+        /=\s*/,
+        /(async\s*)?/,
+        // async is optional
+        u.lookahead(be)
+      ],
+      keywords: "async",
+      className: {
+        1: "keyword",
+        3: "title.function"
+      },
+      contains: [
+        b
+      ]
+    };
+    return {
+      name: "JavaScript",
+      aliases: ["js", "jsx", "mjs", "cjs"],
+      keywords: k,
+      // this will be extended by TypeScript
+      exports: { PARAMS_CONTAINS: G, CLASS_REFERENCE: S },
+      illegal: /#(?![$_A-z])/,
+      contains: [
+        l.SHEBANG({
+          label: "shebang",
+          binary: "node",
+          relevance: 5
+        }),
+        D,
+        l.APOS_STRING_MODE,
+        l.QUOTE_STRING_MODE,
+        C,
+        v,
+        M,
+        z,
+        j,
+        // Skip numbers when they are part of a variable name
+        { match: /\$\d+/ },
+        x,
+        S,
+        {
+          scope: "attr",
+          match: h + u.lookahead(":"),
+          relevance: 0
+        },
+        W,
+        {
+          // "value" container
+          begin: "(" + l.RE_STARTERS_RE + "|\\b(case|return|throw)\\b)\\s*",
+          keywords: "return throw case",
+          relevance: 0,
+          contains: [
+            j,
+            l.REGEXP_MODE,
+            {
+              className: "function",
+              // we have to count the parens to make sure we actually have the
+              // correct bounding ( ) before the =>.  There could be any number of
+              // sub-expressions inside also surrounded by parens.
+              begin: be,
+              returnBegin: !0,
+              end: "\\s*=>",
+              contains: [
+                {
+                  className: "params",
+                  variants: [
+                    {
+                      begin: l.UNDERSCORE_IDENT_RE,
+                      relevance: 0
+                    },
+                    {
+                      className: null,
+                      begin: /\(\s*\)/,
+                      skip: !0
+                    },
+                    {
+                      begin: /(\s*)\(/,
+                      end: /\)/,
+                      excludeBegin: !0,
+                      excludeEnd: !0,
+                      keywords: k,
+                      contains: G
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              // could be a comma delimited list of params to a function call
+              begin: /,/,
+              relevance: 0
+            },
+            {
+              match: /\s+/,
+              relevance: 0
+            },
+            {
+              // JSX
+              variants: [
+                { begin: g.begin, end: g.end },
+                { match: _ },
+                {
+                  begin: f.begin,
+                  // we carefully check the opening tag to see if it truly
+                  // is a tag and not a false positive
+                  "on:begin": f.isTrulyOpeningTag,
+                  end: f.end
+                }
+              ],
+              subLanguage: "xml",
+              contains: [
+                {
+                  begin: f.begin,
+                  end: f.end,
+                  skip: !0,
+                  contains: ["self"]
+                }
+              ]
+            }
+          ]
+        },
+        q,
+        {
+          // prevent this from getting swallowed up by function
+          // since they appear "function like"
+          beginKeywords: "while if switch catch for"
+        },
+        {
+          // we have to count the parens to make sure we actually have the correct
+          // bounding ( ).  There could be any number of sub-expressions inside
+          // also surrounded by parens.
+          begin: "\\b(?!function)" + l.UNDERSCORE_IDENT_RE + "\\([^()]*(\\([^()]*(\\([^()]*\\)[^()]*)*\\)[^()]*)*\\)\\s*\\{",
+          // end parens
+          returnBegin: !0,
+          label: "func.def",
+          contains: [
+            b,
+            l.inherit(l.TITLE_MODE, { begin: h, className: "title.function" })
+          ]
+        },
+        // catch ... so it won't trigger the property rule below
+        {
+          match: /\.\.\./,
+          relevance: 0
+        },
+        Z,
+        // hack: prevents detection of keywords in some circumstances
+        // .keyword()
+        // $keyword = x
+        {
+          match: "\\$" + h,
+          relevance: 0
+        },
+        {
+          match: [/\bconstructor(?=\s*\()/],
+          className: { 1: "title.function" },
+          contains: [b]
+        },
+        pe,
+        V,
+        E,
+        Y,
+        {
+          match: /\$[(.]/
+          // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`
+        }
+      ]
+    };
   }
-});
-Prism.languages.yaml = {
-  scalar: {
-    pattern: /([\-:]\s*(?:![^\s]+)?[ \t]*[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)[^\r\n]+(?:\2[^\r\n]+)*)/,
-    lookbehind: !0,
-    alias: "string"
-  },
-  comment: /#.*/,
-  key: {
-    pattern: /(\s*(?:^|[:\-,[{\r\n?])[ \t]*(?:![^\s]+)?[ \t]*)[^\r\n{[\]},#\s]+?(?=\s*:\s)/,
-    lookbehind: !0,
-    alias: "atrule"
-  },
-  directive: {
-    pattern: /(^[ \t]*)%.+/m,
-    lookbehind: !0,
-    alias: "important"
-  },
-  datetime: {
-    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)(?:\d{4}-\d\d?-\d\d?(?:[tT]|[ \t]+)\d\d?:\d{2}:\d{2}(?:\.\d*)?[ \t]*(?:Z|[-+]\d\d?(?::\d{2})?)?|\d{4}-\d{2}-\d{2}|\d\d?:\d{2}(?::\d{2}(?:\.\d*)?)?)(?=[ \t]*(?:$|,|]|}))/m,
-    lookbehind: !0,
-    alias: "number"
-  },
-  boolean: {
-    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)(?:true|false)[ \t]*(?=$|,|]|})/im,
-    lookbehind: !0,
-    alias: "important"
-  },
-  null: {
-    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)(?:null|~)[ \t]*(?=$|,|]|})/im,
-    lookbehind: !0,
-    alias: "important"
-  },
-  string: {
-    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)("|')(?:(?!\2)[^\\\r\n]|\\.)*\2(?=[ \t]*(?:$|,|]|}))/m,
-    lookbehind: !0,
-    greedy: !0
-  },
-  number: {
-    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)[+-]?(?:0x[\da-f]+|0o[0-7]+|(?:\d+\.?\d*|\.?\d+)(?:e[+-]?\d+)?|\.inf|\.nan)[ \t]*(?=$|,|]|})/im,
-    lookbehind: !0
-  },
-  tag: /![^\s]+/,
-  important: /[&*][\w]+/,
-  punctuation: /---|[:[\]{}\-,|>?]|\.\.\./
-};
-class se {
+  function d(l) {
+    const u = l.regex, p = a(l), h = n, g = [
+      "any",
+      "void",
+      "number",
+      "boolean",
+      "string",
+      "object",
+      "never",
+      "symbol",
+      "bigint",
+      "unknown"
+    ], _ = {
+      begin: [
+        /namespace/,
+        /\s+/,
+        l.IDENT_RE
+      ],
+      beginScope: {
+        1: "keyword",
+        3: "title.class"
+      }
+    }, f = {
+      beginKeywords: "interface",
+      end: /\{/,
+      excludeEnd: !0,
+      keywords: {
+        keyword: "interface extends",
+        built_in: g
+      },
+      contains: [p.exports.CLASS_REFERENCE]
+    }, k = {
+      className: "meta",
+      relevance: 10,
+      begin: /^\s*['"]use strict['"]/
+    }, w = [
+      "type",
+      // "namespace",
+      "interface",
+      "public",
+      "private",
+      "protected",
+      "implements",
+      "declare",
+      "abstract",
+      "readonly",
+      "enum",
+      "override",
+      "satisfies"
+    ], N = {
+      $pattern: n,
+      keyword: e.concat(w),
+      literal: t,
+      built_in: c.concat(g),
+      "variable.language": o
+    }, I = {
+      className: "meta",
+      begin: "@" + h
+    }, x = (M, z, K) => {
+      const j = M.contains.findIndex((Q) => Q.label === z);
+      if (j === -1)
+        throw new Error("can not find mode to replace");
+      M.contains.splice(j, 1, K);
+    };
+    Object.assign(p.keywords, N), p.exports.PARAMS_CONTAINS.push(I);
+    const R = p.contains.find((M) => M.scope === "attr"), C = Object.assign(
+      {},
+      R,
+      { match: u.concat(h, u.lookahead(/\s*\?:/)) }
+    );
+    p.exports.PARAMS_CONTAINS.push([
+      p.exports.CLASS_REFERENCE,
+      // class reference for highlighting the params types
+      R,
+      // highlight the params key
+      C
+      // Added for optional property assignment highlighting
+    ]), p.contains = p.contains.concat([
+      I,
+      _,
+      f,
+      C
+      // Added for optional property assignment highlighting
+    ]), x(p, "shebang", l.SHEBANG()), x(p, "use_strict", k);
+    const v = p.contains.find((M) => M.label === "func.def");
+    return v.relevance = 0, Object.assign(p, {
+      name: "TypeScript",
+      aliases: [
+        "ts",
+        "tsx",
+        "mts",
+        "cts"
+      ]
+    }), p;
+  }
+  return Lt = d, Lt;
+}
+var Dt, Yn;
+function Ga() {
+  if (Yn) return Dt;
+  Yn = 1;
+  function n(e) {
+    const t = e.regex, r = {
+      className: "string",
+      begin: /"(""|[^/n])"C\b/
+    }, i = {
+      className: "string",
+      begin: /"/,
+      end: /"/,
+      illegal: /\n/,
+      contains: [
+        {
+          // double quote escape
+          begin: /""/
+        }
+      ]
+    }, s = /\d{1,2}\/\d{1,2}\/\d{4}/, o = /\d{4}-\d{1,2}-\d{1,2}/, c = /(\d|1[012])(:\d+){0,2} *(AM|PM)/, a = /\d{1,2}(:\d{1,2}){1,2}/, d = {
+      className: "literal",
+      variants: [
+        {
+          // #YYYY-MM-DD# (ISO-Date) or #M/D/YYYY# (US-Date)
+          begin: t.concat(/# */, t.either(o, s), / *#/)
+        },
+        {
+          // #H:mm[:ss]# (24h Time)
+          begin: t.concat(/# */, a, / *#/)
+        },
+        {
+          // #h[:mm[:ss]] A# (12h Time)
+          begin: t.concat(/# */, c, / *#/)
+        },
+        {
+          // date plus time
+          begin: t.concat(
+            /# */,
+            t.either(o, s),
+            / +/,
+            t.either(c, a),
+            / *#/
+          )
+        }
+      ]
+    }, l = {
+      className: "number",
+      relevance: 0,
+      variants: [
+        {
+          // Float
+          begin: /\b\d[\d_]*((\.[\d_]+(E[+-]?[\d_]+)?)|(E[+-]?[\d_]+))[RFD@!#]?/
+        },
+        {
+          // Integer (base 10)
+          begin: /\b\d[\d_]*((U?[SIL])|[%&])?/
+        },
+        {
+          // Integer (base 16)
+          begin: /&H[\dA-F_]+((U?[SIL])|[%&])?/
+        },
+        {
+          // Integer (base 8)
+          begin: /&O[0-7_]+((U?[SIL])|[%&])?/
+        },
+        {
+          // Integer (base 2)
+          begin: /&B[01_]+((U?[SIL])|[%&])?/
+        }
+      ]
+    }, u = {
+      className: "label",
+      begin: /^\w+:/
+    }, p = e.COMMENT(/'''/, /$/, { contains: [
+      {
+        className: "doctag",
+        begin: /<\/?/,
+        end: />/
+      }
+    ] }), h = e.COMMENT(null, /$/, { variants: [
+      { begin: /'/ },
+      {
+        // TODO: Use multi-class for leading spaces
+        begin: /([\t ]|^)REM(?=\s)/
+      }
+    ] });
+    return {
+      name: "Visual Basic .NET",
+      aliases: ["vb"],
+      case_insensitive: !0,
+      classNameAliases: { label: "symbol" },
+      keywords: {
+        keyword: "addhandler alias aggregate ansi as async assembly auto binary by byref byval call case catch class compare const continue custom declare default delegate dim distinct do each equals else elseif end enum erase error event exit explicit finally for friend from function get global goto group handles if implements imports in inherits interface into iterator join key let lib loop me mid module mustinherit mustoverride mybase myclass namespace narrowing new next notinheritable notoverridable of off on operator option optional order overloads overridable overrides paramarray partial preserve private property protected public raiseevent readonly redim removehandler resume return select set shadows shared skip static step stop structure strict sub synclock take text then throw to try unicode until using when where while widening with withevents writeonly yield",
+        built_in: (
+          // Operators https://docs.microsoft.com/dotnet/visual-basic/language-reference/operators
+          "addressof and andalso await directcast gettype getxmlnamespace is isfalse isnot istrue like mod nameof new not or orelse trycast typeof xor cbool cbyte cchar cdate cdbl cdec cint clng cobj csbyte cshort csng cstr cuint culng cushort"
+        ),
+        type: (
+          // Data types https://docs.microsoft.com/dotnet/visual-basic/language-reference/data-types
+          "boolean byte char date decimal double integer long object sbyte short single string uinteger ulong ushort"
+        ),
+        literal: "true false nothing"
+      },
+      illegal: "//|\\{|\\}|endif|gosub|variant|wend|^\\$ ",
+      contains: [
+        r,
+        i,
+        d,
+        l,
+        u,
+        p,
+        h,
+        {
+          className: "meta",
+          // TODO: Use multi-class for indentation once available
+          begin: /[\t ]*#(const|disable|else|elseif|enable|end|externalsource|if|region)\b/,
+          end: /$/,
+          keywords: { keyword: "const disable else elseif enable end externalsource if region then" },
+          contains: [h]
+        }
+      ]
+    };
+  }
+  return Dt = n, Dt;
+}
+var Bt, Xn;
+function Za() {
+  if (Xn) return Bt;
+  Xn = 1;
+  function n(e) {
+    e.regex;
+    const t = e.COMMENT(/\(;/, /;\)/);
+    t.contains.push("self");
+    const r = e.COMMENT(/;;/, /$/), i = [
+      "anyfunc",
+      "block",
+      "br",
+      "br_if",
+      "br_table",
+      "call",
+      "call_indirect",
+      "data",
+      "drop",
+      "elem",
+      "else",
+      "end",
+      "export",
+      "func",
+      "global.get",
+      "global.set",
+      "local.get",
+      "local.set",
+      "local.tee",
+      "get_global",
+      "get_local",
+      "global",
+      "if",
+      "import",
+      "local",
+      "loop",
+      "memory",
+      "memory.grow",
+      "memory.size",
+      "module",
+      "mut",
+      "nop",
+      "offset",
+      "param",
+      "result",
+      "return",
+      "select",
+      "set_global",
+      "set_local",
+      "start",
+      "table",
+      "tee_local",
+      "then",
+      "type",
+      "unreachable"
+    ], s = {
+      begin: [
+        /(?:func|call|call_indirect)/,
+        /\s+/,
+        /\$[^\s)]+/
+      ],
+      className: {
+        1: "keyword",
+        3: "title.function"
+      }
+    }, o = {
+      className: "variable",
+      begin: /\$[\w_]+/
+    }, c = {
+      match: /(\((?!;)|\))+/,
+      className: "punctuation",
+      relevance: 0
+    }, a = {
+      className: "number",
+      relevance: 0,
+      // borrowed from Prism, TODO: split out into variants
+      match: /[+-]?\b(?:\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(?:[eE][+-]?\d(?:_?\d)*)?|0x[\da-fA-F](?:_?[\da-fA-F])*(?:\.[\da-fA-F](?:_?[\da-fA-D])*)?(?:[pP][+-]?\d(?:_?\d)*)?)\b|\binf\b|\bnan(?::0x[\da-fA-F](?:_?[\da-fA-D])*)?\b/
+    }, d = {
+      // look-ahead prevents us from gobbling up opcodes
+      match: /(i32|i64|f32|f64)(?!\.)/,
+      className: "type"
+    }, l = {
+      className: "keyword",
+      // borrowed from Prism, TODO: split out into variants
+      match: /\b(f32|f64|i32|i64)(?:\.(?:abs|add|and|ceil|clz|const|convert_[su]\/i(?:32|64)|copysign|ctz|demote\/f64|div(?:_[su])?|eqz?|extend_[su]\/i32|floor|ge(?:_[su])?|gt(?:_[su])?|le(?:_[su])?|load(?:(?:8|16|32)_[su])?|lt(?:_[su])?|max|min|mul|nearest|neg?|or|popcnt|promote\/f32|reinterpret\/[fi](?:32|64)|rem_[su]|rot[lr]|shl|shr_[su]|store(?:8|16|32)?|sqrt|sub|trunc(?:_[su]\/f(?:32|64))?|wrap\/i64|xor))\b/
+    };
+    return {
+      name: "WebAssembly",
+      keywords: {
+        $pattern: /[\w.]+/,
+        keyword: i
+      },
+      contains: [
+        r,
+        t,
+        {
+          match: [
+            /(?:offset|align)/,
+            /\s*/,
+            /=/
+          ],
+          className: {
+            1: "keyword",
+            3: "operator"
+          }
+        },
+        o,
+        c,
+        s,
+        e.QUOTE_STRING_MODE,
+        d,
+        l,
+        a
+      ]
+    };
+  }
+  return Bt = n, Bt;
+}
+var O = da;
+O.registerLanguage("xml", ua());
+O.registerLanguage("bash", ga());
+O.registerLanguage("c", pa());
+O.registerLanguage("cpp", ba());
+O.registerLanguage("csharp", ha());
+O.registerLanguage("css", fa());
+O.registerLanguage("markdown", ma());
+O.registerLanguage("diff", _a());
+O.registerLanguage("ruby", Ea());
+O.registerLanguage("go", ka());
+O.registerLanguage("graphql", wa());
+O.registerLanguage("ini", ya());
+O.registerLanguage("java", Na());
+O.registerLanguage("javascript", va());
+O.registerLanguage("json", Sa());
+O.registerLanguage("kotlin", Ta());
+O.registerLanguage("less", xa());
+O.registerLanguage("lua", Ra());
+O.registerLanguage("makefile", Aa());
+O.registerLanguage("perl", Oa());
+O.registerLanguage("objectivec", Ma());
+O.registerLanguage("php", Ca());
+O.registerLanguage("php-template", Ia());
+O.registerLanguage("plaintext", La());
+O.registerLanguage("python", Da());
+O.registerLanguage("python-repl", Ba());
+O.registerLanguage("r", Pa());
+O.registerLanguage("rust", Ua());
+O.registerLanguage("scss", $a());
+O.registerLanguage("shell", za());
+O.registerLanguage("sql", Fa());
+O.registerLanguage("swift", Ka());
+O.registerLanguage("yaml", qa());
+O.registerLanguage("typescript", Ha());
+O.registerLanguage("vbnet", Ga());
+O.registerLanguage("wasm", Za());
+O.HighlightJS = O;
+O.default = O;
+var Wa = O;
+const Ya = /* @__PURE__ */ mi(Wa);
+class Xa {
   /**
    * @constructor
    */
   constructor() {
-    this.highlighter = ie;
+    this.highlighter = Ya;
   }
   /**
    *
-   * @returns {Prism} - syntax highlighter
+   * @returns {hljs} - syntax highlighter
    */
   get getHighlighter() {
     return this.highlighter;
   }
 }
-class Ae {
+class Qa {
   /**
-   * Represents ShowdownConverter
-   *
-   * @param {String} flavor - flavor of the converter
-  	 */
-  constructor(i = "github") {
-    this.converter = new de.Converter(), this.setFlavor(i), this.codeHighlighter = new se().getHighlighter;
+   * Represents MarkdownConverter
+   */
+  constructor() {
+    this.converter = new or({ gfm: !0 }), this.codeHighlighter = new Xa().getHighlighter;
   }
   /**
-   * Get the showdown converter
+   * Get the markdown converter
    *
-   * @returns {showdown.Converter} - showdown markdown converter
+   * @returns {Marked} - marked markdown converter
    */
   get getConverter() {
     return this.converter;
-  }
-  /**
-   * Set the flavor of the showdown converter
-   *
-   * @param {String} flavor - flavor of the converter
-   */
-  setFlavor(i) {
-    this.converter.setFlavor(i);
   }
   /**
    * Generate html from the markdown
@@ -4891,9 +14285,9 @@ class Ae {
    * @param {String} markdown - markdown from the editor
    * @returns {String} - the generated html
    */
-  makeHtml(i) {
-    const A = this.converter.makeHtml(i);
-    return this.codeHighlighter == null ? A : this.addCodeHighlighting(A);
+  makeHtml(e) {
+    const t = this.converter.parse(e);
+    return this.codeHighlighter == null ? t : this.addCodeHighlighting(t);
   }
   /**
    * Get a syntax highlighted version of the given html code tags
@@ -4901,16 +14295,16 @@ class Ae {
    * @param {String} html - the generated html
    * @returns {String} - the generated html with syntax highlight
    */
-  addCodeHighlighting(i) {
-    const A = document.createElement("div");
-    A.innerHTML = i;
-    const a = A.getElementsByTagName("code");
-    for (let _ = 0; _ < a.length; _++)
-      this.codeHighlighter.highlightElement(a[_]);
-    return A.innerHTML;
+  addCodeHighlighting(e) {
+    const t = document.createElement("div");
+    t.innerHTML = e;
+    const r = t.getElementsByTagName("code");
+    for (let i = 0; i < r.length; i++)
+      this.codeHighlighter.highlightElement(r[i]);
+    return t.innerHTML;
   }
 }
-class Z {
+class ne {
   /**
    * Represents a HTMLElement
    *
@@ -4920,8 +14314,8 @@ class Z {
    * @param {Element} parent - the parent element of the created element
    * @param {Object} params - additional parameters for the created element
    */
-  constructor(i, A, a, _ = {}) {
-    this.init(i, A, a, _);
+  constructor(e, t, r, i = {}) {
+    this.init(e, t, r, i);
   }
   /**
    * Initialize HTML element
@@ -4933,9 +14327,9 @@ class Z {
    * @param {Element} parent - the parent element of the created element
    * @param {Object} params - additional parameters for the created element
    */
-  init(i, A, a, _) {
-    const I = Z.createElement(i, A, _);
-    a && Z.appendElementToParent(I, a), this.setElementByClassName(A);
+  init(e, t, r, i) {
+    const s = ne.createElement(e, t, i);
+    r && ne.appendElementToParent(s, r), this.setElementByClassName(t);
   }
   /**
    * Get the element
@@ -4950,17 +14344,17 @@ class Z {
    *
    * @param {Element} element - the new value of the element
    */
-  set setElement(i) {
-    this.element = i;
+  set setElement(e) {
+    this.element = e;
   }
   /**
    * Get the element by the class name with querySelector
    *
    * @param {String} className - the string value of the class name without dot
    */
-  setElementByClassName(i) {
-    const A = i.split(" ").join(".");
-    this.element = document.querySelector(`.${A}`);
+  setElementByClassName(e) {
+    const t = e.split(" ").join(".");
+    this.element = document.querySelector(`.${t}`);
   }
   /**
    * Create an eventListener for the html element
@@ -4968,8 +14362,8 @@ class Z {
    * @param {String} event - the string value of the event name
    * @param {Function} callback - the function that should be run when the event is fired
    */
-  addEventListener(i, A) {
-    this.element.addEventListener(i, A);
+  addEventListener(e, t) {
+    this.element.addEventListener(e, t);
   }
   /**
    * Create a new element of given type with class name and parameters
@@ -4979,12 +14373,12 @@ class Z {
    * @param {Object} params - parameter object to set attribute of the element
    * @returns {Element} - return a new element
    */
-  static createElement(i, A, a) {
-    const _ = document.createElement(i);
-    _.className = A;
-    for (const I of Object.keys(a))
-      _[I] = a[I];
-    return _;
+  static createElement(e, t, r) {
+    const i = document.createElement(e);
+    i.className = t;
+    for (const s of Object.keys(r))
+      i[s] = r[s];
+    return i;
   }
   /**
    * Append the element to the parent element as a child
@@ -4992,8 +14386,8 @@ class Z {
    * @param {Element} element - the element that will be appended to the parent
    * @param {Element} parent - the parent element that will contain the given element
    */
-  static appendElementToParent(i, A) {
-    A.appendChild(i);
+  static appendElementToParent(e, t) {
+    t.appendChild(e);
   }
   /**
    *
@@ -5003,11 +14397,11 @@ class Z {
    * @param params
    * @returns {HTMLElement}
    */
-  static create(i, A, a = null, _ = {}) {
-    return new Z(i, A, a, _);
+  static create(e, t, r = null, i = {}) {
+    return new ne(e, t, r, i);
   }
 }
-class oe extends Z {
+class Va extends ne {
   /**
    * Represents TextareaEditor
    *
@@ -5015,8 +14409,8 @@ class oe extends Z {
    * @param {String} className
    * @param {Element} parent
    */
-  constructor(i, A) {
-    super("textarea", i, A);
+  constructor(e, t) {
+    super("textarea", e, t);
   }
   /**
    * Get the initialized editor element
@@ -5039,8 +14433,8 @@ class oe extends Z {
    *
    * @param {String} content - content for the editor
    */
-  setContent(i) {
-    this.element.value = i;
+  setContent(e) {
+    this.element.value = e;
   }
   /**
    * Alternative for getContent()
@@ -5057,24 +14451,24 @@ class oe extends Z {
    *
    * @param {String} markdown - content for the editor
    */
-  setMarkdown(i) {
-    this.setContent(i);
+  setMarkdown(e) {
+    this.setContent(e);
   }
   /**
    * Append the given value to the content of the editor
    *
    * @param {String} content - additional content for the editor
    */
-  appendContent(i) {
-    this.element.value = this.editor.value + i;
+  appendContent(e) {
+    this.element.value = this.editor.value + e;
   }
   /**
    * Prepend the given value to the content of the editor
    *
    * @param {String} content - additional content for the editor
    */
-  prependContent(i) {
-    this.element.value = i + this.editor.value;
+  prependContent(e) {
+    this.element.value = e + this.editor.value;
   }
   /**
    * Refresh preview automatically if the editor content is changed
@@ -5082,14 +14476,14 @@ class oe extends Z {
    * @param {Element|Array} element - contains the compiled html content
    * @param {Converter} converter - converts the markdown to html
    */
-  convertMarkdownToHtmlEventListener(i, A) {
+  convertMarkdownToHtmlEventListener(e, t) {
     this.addEventListener("input", () => {
-      const a = A.makeHtml(this.getContent());
-      if (i instanceof Array)
-        for (const _ of i)
-          _.innerHTML = a;
+      const r = t.makeHtml(this.getContent());
+      if (e instanceof Array)
+        for (const i of e)
+          i.innerHTML = r;
       else
-        i.innerHTML = a;
+        e.innerHTML = r;
     });
   }
   /**
@@ -5097,9 +14491,9 @@ class oe extends Z {
    *
    * @param {Element} element - this element gets the content of the editor
    */
-  copyMarkdownContentToHiddenInputEventListener(i) {
+  copyMarkdownContentToHiddenInputEventListener(e) {
     this.addEventListener("input", () => {
-      i.innerHTML = this.getContent();
+      e.innerHTML = this.getContent();
     });
   }
   /**
@@ -5107,16 +14501,16 @@ class oe extends Z {
    * @returns {string}
    */
   getSelectedContent() {
-    const i = this.element.selectionStart, A = this.element.selectionEnd;
-    return this.element.value.substring(i, A);
+    const e = this.element.selectionStart, t = this.element.selectionEnd;
+    return this.element.value.substring(e, t);
   }
   /**
    *
    * @param content
    */
-  setSelectedContent(i) {
-    const A = this.element.selectionStart, a = this.element.selectionEnd;
-    this.element.value = this.element.value.substring(0, A) + i + this.element.value.substring(a);
+  setSelectedContent(e) {
+    const t = this.element.selectionStart, r = this.element.selectionEnd;
+    this.element.value = this.element.value.substring(0, t) + e + this.element.value.substring(r);
   }
   /**
    *
@@ -5129,18 +14523,18 @@ class oe extends Z {
    *
    * @param {Number} position
    */
-  setCursorPosition(i) {
-    this.element.selectionStart = i, this.element.selectionEnd = i;
+  setCursorPosition(e) {
+    this.element.selectionStart = e, this.element.selectionEnd = e;
   }
   /**
    * Process the content by triggering the input event
    */
   processContent() {
-    const i = new Event("input");
-    this.element.dispatchEvent(i);
+    const e = new Event("input");
+    this.element.dispatchEvent(e);
   }
 }
-class Ce extends Z {
+class Ja extends ne {
   /**
    * Represents Preview
    *
@@ -5148,8 +14542,8 @@ class Ce extends Z {
    * @param className
    * @param parent
    */
-  constructor(i, A) {
-    super("div", i, A);
+  constructor(e, t) {
+    super("div", e, t);
   }
   /**
    * Get the preview element
@@ -5160,332 +14554,87 @@ class Ce extends Z {
     return this.element;
   }
 }
-var re = { exports: {} };
-(function(o) {
-  (function(i, A, a) {
-    if (!i)
-      return;
-    for (var _ = {
-      8: "backspace",
-      9: "tab",
-      13: "enter",
-      16: "shift",
-      17: "ctrl",
-      18: "alt",
-      20: "capslock",
-      27: "esc",
-      32: "space",
-      33: "pageup",
-      34: "pagedown",
-      35: "end",
-      36: "home",
-      37: "left",
-      38: "up",
-      39: "right",
-      40: "down",
-      45: "ins",
-      46: "del",
-      91: "meta",
-      93: "meta",
-      224: "meta"
-    }, I = {
-      106: "*",
-      107: "+",
-      109: "-",
-      110: ".",
-      111: "/",
-      186: ";",
-      187: "=",
-      188: ",",
-      189: "-",
-      190: ".",
-      191: "/",
-      192: "`",
-      219: "[",
-      220: "\\",
-      221: "]",
-      222: "'"
-    }, S = {
-      "~": "`",
-      "!": "1",
-      "@": "2",
-      "#": "3",
-      $: "4",
-      "%": "5",
-      "^": "6",
-      "&": "7",
-      "*": "8",
-      "(": "9",
-      ")": "0",
-      _: "-",
-      "+": "=",
-      ":": ";",
-      '"': "'",
-      "<": ",",
-      ">": ".",
-      "?": "/",
-      "|": "\\"
-    }, k = {
-      option: "alt",
-      command: "meta",
-      return: "enter",
-      escape: "esc",
-      plus: "+",
-      mod: /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? "meta" : "ctrl"
-    }, c, b = 1; b < 20; ++b)
-      _[111 + b] = "f" + b;
-    for (b = 0; b <= 9; ++b)
-      _[b + 96] = b.toString();
-    function P(n, g, s) {
-      if (n.addEventListener) {
-        n.addEventListener(g, s, !1);
-        return;
-      }
-      n.attachEvent("on" + g, s);
-    }
-    function y(n) {
-      if (n.type == "keypress") {
-        var g = String.fromCharCode(n.which);
-        return n.shiftKey || (g = g.toLowerCase()), g;
-      }
-      return _[n.which] ? _[n.which] : I[n.which] ? I[n.which] : String.fromCharCode(n.which).toLowerCase();
-    }
-    function L(n, g) {
-      return n.sort().join(",") === g.sort().join(",");
-    }
-    function N(n) {
-      var g = [];
-      return n.shiftKey && g.push("shift"), n.altKey && g.push("alt"), n.ctrlKey && g.push("ctrl"), n.metaKey && g.push("meta"), g;
-    }
-    function j(n) {
-      if (n.preventDefault) {
-        n.preventDefault();
-        return;
-      }
-      n.returnValue = !1;
-    }
-    function T(n) {
-      if (n.stopPropagation) {
-        n.stopPropagation();
-        return;
-      }
-      n.cancelBubble = !0;
-    }
-    function O(n) {
-      return n == "shift" || n == "ctrl" || n == "alt" || n == "meta";
-    }
-    function U() {
-      if (!c) {
-        c = {};
-        for (var n in _)
-          n > 95 && n < 112 || _.hasOwnProperty(n) && (c[_[n]] = n);
-      }
-      return c;
-    }
-    function x(n, g, s) {
-      return s || (s = U()[n] ? "keydown" : "keypress"), s == "keypress" && g.length && (s = "keydown"), s;
-    }
-    function H(n) {
-      return n === "+" ? ["+"] : (n = n.replace(/\+{2}/g, "+plus"), n.split("+"));
-    }
-    function e(n, g) {
-      var s, u, C, w = [];
-      for (s = H(n), C = 0; C < s.length; ++C)
-        u = s[C], k[u] && (u = k[u]), g && g != "keypress" && S[u] && (u = S[u], w.push("shift")), O(u) && w.push(u);
-      return g = x(u, w, g), {
-        key: u,
-        modifiers: w,
-        action: g
-      };
-    }
-    function t(n, g) {
-      return n === null || n === A ? !1 : n === g ? !0 : t(n.parentNode, g);
-    }
-    function r(n) {
-      var g = this;
-      if (n = n || A, !(g instanceof r))
-        return new r(n);
-      g.target = n, g._callbacks = {}, g._directMap = {};
-      var s = {}, u, C = !1, w = !1, p = !1;
-      function l(m) {
-        m = m || {};
-        var R = !1, M;
-        for (M in s) {
-          if (m[M]) {
-            R = !0;
-            continue;
-          }
-          s[M] = 0;
-        }
-        R || (p = !1);
-      }
-      function h(m, R, M, D, B, V) {
-        var F, G, Y = [], W = M.type;
-        if (!g._callbacks[m])
-          return [];
-        for (W == "keyup" && O(m) && (R = [m]), F = 0; F < g._callbacks[m].length; ++F)
-          if (G = g._callbacks[m][F], !(!D && G.seq && s[G.seq] != G.level) && W == G.action && (W == "keypress" && !M.metaKey && !M.ctrlKey || L(R, G.modifiers))) {
-            var ae = !D && G.combo == B, ne = D && G.seq == D && G.level == V;
-            (ae || ne) && g._callbacks[m].splice(F, 1), Y.push(G);
-          }
-        return Y;
-      }
-      function d(m, R, M, D) {
-        g.stopCallback(R, R.target || R.srcElement, M, D) || m(R, M) === !1 && (j(R), T(R));
-      }
-      g._handleKey = function(m, R, M) {
-        var D = h(m, R, M), B, V = {}, F = 0, G = !1;
-        for (B = 0; B < D.length; ++B)
-          D[B].seq && (F = Math.max(F, D[B].level));
-        for (B = 0; B < D.length; ++B) {
-          if (D[B].seq) {
-            if (D[B].level != F)
-              continue;
-            G = !0, V[D[B].seq] = 1, d(D[B].callback, M, D[B].combo, D[B].seq);
-            continue;
-          }
-          G || d(D[B].callback, M, D[B].combo);
-        }
-        var Y = M.type == "keypress" && w;
-        M.type == p && !O(m) && !Y && l(V), w = G && M.type == "keydown";
-      };
-      function f(m) {
-        typeof m.which != "number" && (m.which = m.keyCode);
-        var R = y(m);
-        if (R) {
-          if (m.type == "keyup" && C === R) {
-            C = !1;
-            return;
-          }
-          g.handleKey(R, N(m), m);
-        }
-      }
-      function v() {
-        clearTimeout(u), u = setTimeout(l, 1e3);
-      }
-      function E(m, R, M, D) {
-        s[m] = 0;
-        function B(W) {
-          return function() {
-            p = W, ++s[m], v();
-          };
-        }
-        function V(W) {
-          d(M, W, m), D !== "keyup" && (C = y(W)), setTimeout(l, 10);
-        }
-        for (var F = 0; F < R.length; ++F) {
-          var G = F + 1 === R.length, Y = G ? V : B(D || e(R[F + 1]).action);
-          z(R[F], Y, D, m, F);
-        }
-      }
-      function z(m, R, M, D, B) {
-        g._directMap[m + ":" + M] = R, m = m.replace(/\s+/g, " ");
-        var V = m.split(" "), F;
-        if (V.length > 1) {
-          E(m, V, R, M);
-          return;
-        }
-        F = e(m, M), g._callbacks[F.key] = g._callbacks[F.key] || [], h(F.key, F.modifiers, { type: F.action }, D, m, B), g._callbacks[F.key][D ? "unshift" : "push"]({
-          callback: R,
-          modifiers: F.modifiers,
-          action: F.action,
-          seq: D,
-          level: B,
-          combo: m
-        });
-      }
-      g._bindMultiple = function(m, R, M) {
-        for (var D = 0; D < m.length; ++D)
-          z(m[D], R, M);
-      }, P(n, "keypress", f), P(n, "keydown", f), P(n, "keyup", f);
-    }
-    r.prototype.bind = function(n, g, s) {
-      var u = this;
-      return n = n instanceof Array ? n : [n], u._bindMultiple.call(u, n, g, s), u;
-    }, r.prototype.unbind = function(n, g) {
-      var s = this;
-      return s.bind.call(s, n, function() {
-      }, g);
-    }, r.prototype.trigger = function(n, g) {
-      var s = this;
-      return s._directMap[n + ":" + g] && s._directMap[n + ":" + g]({}, n), s;
-    }, r.prototype.reset = function() {
-      var n = this;
-      return n._callbacks = {}, n._directMap = {}, n;
-    }, r.prototype.stopCallback = function(n, g) {
-      var s = this;
-      return (" " + g.className + " ").indexOf(" mousetrap ") > -1 || t(g, s.target) ? !1 : g.tagName == "INPUT" || g.tagName == "SELECT" || g.tagName == "TEXTAREA" || g.isContentEditable;
-    }, r.prototype.handleKey = function() {
-      var n = this;
-      return n._handleKey.apply(n, arguments);
-    }, r.addKeycodes = function(n) {
-      for (var g in n)
-        n.hasOwnProperty(g) && (_[g] = n[g]);
-      c = null;
-    }, r.init = function() {
-      var n = r(A);
-      for (var g in n)
-        g.charAt(0) !== "_" && (r[g] = /* @__PURE__ */ function(s) {
-          return function() {
-            return n[s].apply(n, arguments);
-          };
-        }(g));
-    }, r.init(), i.Mousetrap = r, o.exports && (o.exports = r);
-  })(typeof window < "u" ? window : null, typeof window < "u" ? document : null);
-})(re);
-var Ie = re.exports;
-const ce = /* @__PURE__ */ J(Ie);
-(function(o) {
-  var i = {}, A = o.prototype.stopCallback;
-  o.prototype.stopCallback = function(a, _, I, S) {
-    var k = this;
-    return k.paused ? !0 : i[I] || i[S] ? !1 : A.call(k, a, _, I);
-  }, o.prototype.bindGlobal = function(a, _, I) {
-    var S = this;
-    if (S.bind(a, _, I), a instanceof Array) {
-      for (var k = 0; k < a.length; k++)
-        i[a[k]] = !0;
-      return;
-    }
-    i[a] = !0;
-  }, o.init();
-})(Mousetrap);
-class te {
+const Qn = {
+  ctrl: "ctrlKey",
+  control: "ctrlKey",
+  shift: "shiftKey",
+  alt: "altKey",
+  option: "altKey",
+  meta: "metaKey",
+  cmd: "metaKey",
+  command: "metaKey"
+}, ja = {
+  tab: "Tab",
+  enter: "Enter",
+  space: "Space",
+  esc: "Escape",
+  escape: "Escape"
+};
+function es(n) {
+  return /^[a-z]$/.test(n) ? `Key${n.toUpperCase()}` : /^[0-9]$/.test(n) ? `Digit${n}` : ja[n] || n;
+}
+function ts(n) {
+  const e = { ctrlKey: !1, shiftKey: !1, altKey: !1, metaKey: !1, code: null };
+  return n.toLowerCase().split("+").forEach((t) => {
+    const r = t.trim();
+    Qn[r] ? e[Qn[r]] = !0 : r && (e.code = es(r));
+  }), e;
+}
+function ns(n, e) {
+  return e.code === n.code && e.ctrlKey === n.ctrlKey && e.shiftKey === n.shiftKey && e.altKey === n.altKey && e.metaKey === n.metaKey;
+}
+class kr {
   /**
    * Represents UserInteraction
    *
    * @constructor
-   * @param {Element} element
+   * @param {Element|null} element - element to scope key bindings to;
+   *   defaults to the whole document (global bindings)
    */
-  constructor(i = null) {
-    this.mousetrap = new ce(i);
+  constructor(e = null) {
+    this.target = e || document;
   }
   /**
+   * Bind a combo to a callback on the given target.
    *
-   * @param key
-   * @param callback
+   * @param {EventTarget} target
+   * @param {String} key - combo string, e.g. 'ctrl+b'
+   * @param {Function} callback - receives the KeyboardEvent
    */
-  keyboardEvent(i, A) {
-    this.mousetrap.bind(i, A);
+  bindKey(e, t, r) {
+    const i = ts(t);
+    e.addEventListener("keydown", (s) => {
+      ns(i, s) && r(s);
+    });
   }
   /**
+   * Bind a combo scoped to this instance's element.
    *
-   * @param key
-   * @param callback
+   * @param {String} key
+   * @param {Function} callback
    */
-  keyboardEventGlobal(i, A) {
-    this.mousetrap.bindGlobal(i, A);
+  keyboardEvent(e, t) {
+    this.bindKey(this.target, e, t);
+  }
+  /**
+   * Bind a combo globally (document level), firing regardless of focus.
+   *
+   * @param {String} key
+   * @param {Function} callback
+   */
+  keyboardEventGlobal(e, t) {
+    this.bindKey(document, e, t);
   }
 }
-class le extends te {
+class rs extends kr {
   /**
    * Represents EditorUserInteraction
    *
    * @constructor
    * @param {TextareaEditor} editor
    */
-  constructor(i) {
-    super(i.getEditor), this.editor = i;
+  constructor(e) {
+    super(e.getEditor), this.editor = e;
   }
   /**
    *
@@ -5493,17 +14642,17 @@ class le extends te {
    * @param prefix
    * @param suffix
    */
-  insertKeyboardEvent(i, A = "", a = "") {
-    this.keyboardEvent(i, (_) => {
-      _.preventDefault();
-      const I = this.editor.getCursorPosition(), S = this.editor.getSelectedContent();
-      this.editor.setSelectedContent(A + S + a);
-      const k = S.length === 0 ? I + A.length : I + (A + S + a).length;
-      this.editor.setCursorPosition(k), this.editor.processContent();
+  insertKeyboardEvent(e, t = "", r = "") {
+    this.keyboardEvent(e, (i) => {
+      i.preventDefault();
+      const s = this.editor.getCursorPosition(), o = this.editor.getSelectedContent();
+      this.editor.setSelectedContent(t + o + r);
+      const c = o.length === 0 ? s + t.length : s + (t + o + r).length;
+      this.editor.setCursorPosition(c), this.editor.processContent();
     });
   }
 }
-const fe = {
+const is = {
   helpDialog: {
     title: "Keyboard commands",
     button: "Press ctr+h",
@@ -5563,7 +14712,7 @@ const fe = {
     ]
   }
 };
-class pe extends Z {
+class as extends ne {
   /**
    * Represents Preview
    *
@@ -5571,8 +14720,8 @@ class pe extends Z {
    * @param className
    * @param parent
    */
-  constructor(i, A) {
-    super("div", i, A), this.initHelpDialogContent();
+  constructor(e, t) {
+    super("div", e, t), this.initHelpDialogContent();
   }
   /**
    * Get the help dialog element
@@ -5586,61 +14735,61 @@ class pe extends Z {
    * Initialize Help Dialog
    */
   initHelpDialogContent() {
-    const { title: i, content: A, button: a } = fe.helpDialog;
-    this.initTitle(i), this.initContent(A), this.initButton(a);
+    const { title: e, content: t, button: r } = is.helpDialog;
+    this.initTitle(e), this.initContent(t), this.initButton(r);
   }
   /**
    * Initialize help dialog button
    *
    * @param button {@type String}
    */
-  initButton(i) {
-    const A = Z.create("div", "cd-help-dialog-button", this.element.parentNode);
-    A.element.innerHTML = `<span>?</span><span>${i}</span>`;
+  initButton(e) {
+    const t = ne.create("div", "cd-help-dialog-button", this.element.parentNode);
+    t.element.innerHTML = `<span>?</span><span>${e}</span>`;
   }
   /**
    * Initialize help dialog title
    *
    * @param title {@type String}
    */
-  initTitle(i) {
-    const A = Z.create("h2", "cd-help-dialog__title", this.element);
-    A.element.innerText = i;
+  initTitle(e) {
+    const t = ne.create("h2", "cd-help-dialog__title", this.element);
+    t.element.innerText = e;
   }
   /**
    * Initialize help dialog content
    *
    * @param content {@type Object}
    */
-  initContent(i) {
-    const A = Z.create("ul", "cd-help-dialog__command-list", this.element);
-    i.forEach((a) => {
-      const _ = Z.create(
+  initContent(e) {
+    const t = ne.create("ul", "cd-help-dialog__command-list", this.element);
+    e.forEach((r) => {
+      const i = ne.create(
         "li",
-        "cd-help-dialog__command-item cd-help-dialog__command-item--" + a.code.replace(/\+/g, "-"),
-        A.element
+        "cd-help-dialog__command-item cd-help-dialog__command-item--" + r.code.replace(/\+/g, "-"),
+        t.element
       );
-      _.element.innerHTML = "<strong>" + a.code + "</strong> - " + a.description;
+      i.element.innerHTML = "<strong>" + r.code + "</strong> - " + r.description;
     });
   }
 }
-class he {
+class os {
   /**
    * Represents Calmdown
    *
    * @constructor
    * @param {Object} settings
    */
-  constructor(i = {}) {
-    this.setDefaults(i), this.init();
+  constructor(e = {}) {
+    this.setDefaults(e), this.init();
   }
   /**
    * Set the default values for the Calmdown properties
    *
    * @param {Object} settings
    */
-  setDefaults(i) {
-    this.settings = Object.assign(ge, i), this.calmdown = document.querySelector(`.${this.settings.selector}`), this.calmdown.style = `width: ${this.settings.width}; height: ${this.settings.height};`;
+  setDefaults(e) {
+    this.settings = Object.assign(Or, e), this.calmdown = document.querySelector(`.${this.settings.selector}`), this.calmdown.style = `width: ${this.settings.width}; height: ${this.settings.height};`;
   }
   /**
    * Initialize Calmdown
@@ -5670,20 +14819,20 @@ class he {
    * Initialize toolbar
    */
   initToolbar() {
-    this.toolbar = new Z("div", this.settings.bodySelector, this.calmdown).getElement;
+    this.toolbar = new ne("div", this.settings.bodySelector, this.calmdown).getElement;
   }
   /**
    * Initialize resizer div
    */
   initResize() {
-    this.resize = new Z("div", "cd-resize", this.calmdown).getElement, Z.create("span", "cd-bars", this.resize);
-    let i = !1;
-    this.resize.addEventListener("mousedown", (A) => {
-      A.preventDefault(), i = !0;
-    }), document.addEventListener("mousemove", (A) => {
-      i && (this.settings.height = `${A.clientY - this.calmdown.offsetTop + this.resize.offsetHeight / 2}px`, this.calmdown.style.height = this.settings.height);
-    }), document.addEventListener("mouseup", (A) => {
-      A.preventDefault(), i = !1;
+    this.resize = new ne("div", "cd-resize", this.calmdown).getElement, ne.create("span", "cd-bars", this.resize);
+    let e = !1;
+    this.resize.addEventListener("mousedown", (t) => {
+      t.preventDefault(), e = !0;
+    }), document.addEventListener("mousemove", (t) => {
+      e && (this.settings.height = `${t.clientY - this.calmdown.offsetTop + this.resize.offsetHeight / 2}px`, this.calmdown.style.height = this.settings.height);
+    }), document.addEventListener("mouseup", (t) => {
+      t.preventDefault(), e = !1;
     });
   }
   /**
@@ -5693,7 +14842,7 @@ class he {
    * to the server for further processing.
    */
   initHiddenHtmlInput() {
-    this.settings.htmlInputSelector != null && (this.htmlInputElement = new Z(
+    this.settings.htmlInputSelector != null && (this.htmlInputElement = new ne(
       "textarea",
       this.settings.htmlInputSelector,
       this.calmdown,
@@ -5710,7 +14859,7 @@ class he {
    * to the server for further processing.
    */
   initHiddenMarkdownInput() {
-    this.settings.markdownInputSelector != null && (this.markdownInputElement = new Z(
+    this.settings.markdownInputSelector != null && (this.markdownInputElement = new ne(
       "textarea",
       this.settings.markdownInputSelector,
       this.calmdown,
@@ -5724,46 +14873,46 @@ class he {
    * Initialize markdown converter
    */
   initConverter() {
-    this.converter = new Ae();
+    this.converter = new Qa();
   }
   /**
    * Initialize default value
    */
   initDefaultContent() {
-    const i = this.calmdown.hasAttribute("data-cd-content") ? this.calmdown.getAttribute("data-cd-content") : "", A = this.calmdown.textContent.length <= 0 ? "" : this.calmdown.textContent, a = this.settings.defaultContent.length <= 0 ? "" : this.settings.defaultContent;
-    if (A.length > 0 && (this.calmdown.textContent = ""), i.length > 0) {
-      this.content = i, A.length > 0 && console.warn("Attribute data-cd-content is set. HTML content will be ignored!"), a.length > 0 && console.warn("Attribute data-cd-content is set. Settings content will be ignored!");
+    const e = this.calmdown.hasAttribute("data-cd-content") ? this.calmdown.getAttribute("data-cd-content") : "", t = this.calmdown.textContent.length <= 0 ? "" : this.calmdown.textContent, r = this.settings.defaultContent.length <= 0 ? "" : this.settings.defaultContent;
+    if (t.length > 0 && (this.calmdown.textContent = ""), e.length > 0) {
+      this.content = e, t.length > 0 && console.warn("Attribute data-cd-content is set. HTML content will be ignored!"), r.length > 0 && console.warn("Attribute data-cd-content is set. Settings content will be ignored!");
       return;
     }
-    if (A.length > 0) {
-      this.content = A, a.length > 0 && console.warn("HTML content is set. Settings content will be ignored!");
+    if (t.length > 0) {
+      this.content = t, r.length > 0 && console.warn("HTML content is set. Settings content will be ignored!");
       return;
     }
-    this.content = a;
+    this.content = r;
   }
   /**
    * Initialize editor area
    */
   initEditor() {
-    this.editor = new oe(this.settings.editorSelector, this.calmdown), this.editor.getEditor.value = this.content;
+    this.editor = new Va(this.settings.editorSelector, this.calmdown), this.editor.getEditor.value = this.content;
   }
   /**
    * Initialize preview area
    */
   initPreview() {
-    this.preview = new Ce(this.settings.previewSelector, this.calmdown);
+    this.preview = new Ja(this.settings.previewSelector, this.calmdown);
   }
   /**
    * Initialize help dialog
    */
   initHelpDialog() {
-    this.helpDialog = new pe(this.settings.helpDialogSelector, this.calmdown);
+    this.helpDialog = new as(this.settings.helpDialogSelector, this.calmdown);
   }
   /**
    *
    */
   initUserInteraction() {
-    this.globalUserInteraction = new te(), this.editorUserInteraction = new le(this.editor);
+    this.globalUserInteraction = new kr(), this.editorUserInteraction = new rs(this.editor);
   }
   /**
    * Initialize event listeners
@@ -5778,18 +14927,18 @@ class he {
    * Set the view to show editor or preview or both
    */
   viewChangeEvents() {
-    let i = this.settings.defaultLayoutSelector;
-    const A = "cd-layout-editor", a = "cd-layout-preview", _ = "cd-layout-both", I = "cd-layout-full", S = "cd-layout-help-dialog";
-    this.globalUserInteraction.keyboardEventGlobal("alt+1", (k) => {
-      k.preventDefault(), this.calmdown.classList.remove(S), this.calmdown.classList.remove(A), this.calmdown.classList.remove(a), this.calmdown.classList.add(_), i = _, this.editor.getEditor.focus();
-    }), this.globalUserInteraction.keyboardEventGlobal("alt+2", (k) => {
-      k.preventDefault(), this.calmdown.classList.remove(S), this.calmdown.classList.remove(a), this.calmdown.classList.remove(_), this.calmdown.classList.add(A), i = A, this.editor.getEditor.focus();
-    }), this.globalUserInteraction.keyboardEventGlobal("alt+3", (k) => {
-      k.preventDefault(), this.calmdown.classList.remove(S), this.calmdown.classList.remove(_), this.calmdown.classList.remove(A), this.calmdown.classList.add(a), i = a;
-    }), this.globalUserInteraction.keyboardEventGlobal("alt+enter", (k) => {
-      k.preventDefault(), this.calmdown.classList.toggle(I);
-    }), this.globalUserInteraction.keyboardEventGlobal("ctrl+h", (k) => {
-      k.preventDefault(), this.calmdown.classList.remove(_), this.calmdown.classList.remove(A), this.calmdown.classList.remove(a), this.calmdown.classList.toggle(S), this.calmdown.classList.contains(S) || this.calmdown.classList.add(i);
+    let e = this.settings.defaultLayoutSelector;
+    const t = "cd-layout-editor", r = "cd-layout-preview", i = "cd-layout-both", s = "cd-layout-full", o = "cd-layout-help-dialog";
+    this.globalUserInteraction.keyboardEventGlobal("alt+1", (c) => {
+      c.preventDefault(), this.calmdown.classList.remove(o), this.calmdown.classList.remove(t), this.calmdown.classList.remove(r), this.calmdown.classList.add(i), e = i, this.editor.getEditor.focus();
+    }), this.globalUserInteraction.keyboardEventGlobal("alt+2", (c) => {
+      c.preventDefault(), this.calmdown.classList.remove(o), this.calmdown.classList.remove(r), this.calmdown.classList.remove(i), this.calmdown.classList.add(t), e = t, this.editor.getEditor.focus();
+    }), this.globalUserInteraction.keyboardEventGlobal("alt+3", (c) => {
+      c.preventDefault(), this.calmdown.classList.remove(o), this.calmdown.classList.remove(i), this.calmdown.classList.remove(t), this.calmdown.classList.add(r), e = r;
+    }), this.globalUserInteraction.keyboardEventGlobal("alt+enter", (c) => {
+      c.preventDefault(), this.calmdown.classList.toggle(s);
+    }), this.globalUserInteraction.keyboardEventGlobal("ctrl+h", (c) => {
+      c.preventDefault(), this.calmdown.classList.remove(i), this.calmdown.classList.remove(t), this.calmdown.classList.remove(r), this.calmdown.classList.toggle(o), this.calmdown.classList.contains(o) || this.calmdown.classList.add(e);
     });
   }
   /**
@@ -5811,11 +14960,11 @@ class he {
    *
    * @param {String} content - the new value of the editor
    */
-  setContent(i) {
-    this.editor.setContent(i), this.editor.processContent();
+  setContent(e) {
+    this.editor.setContent(e), this.editor.processContent();
   }
 }
 export {
-  he as default
+  os as default
 };
 //# sourceMappingURL=calmdown.min.mjs.map

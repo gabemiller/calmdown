@@ -1,27 +1,33 @@
-// Name of code highlight themes given by PrismJS
-// themes: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight
+// Code highlight themes provided by highlight.js, scoped under the
+// cd-highlight-* root classes so the active theme can be switched via the
+// `codeHighlightStyle` setting (see Config.js). highlight.js themes target
+// the `.hljs` class that highlight.js adds to <code> elements.
+//
+// NOTE: import paths must NOT end in `.css` — Dart Sass treats a `.css`
+// import as a plain passthrough `@import url(...)` (not scoped, broken at
+// runtime). Without the extension it resolves via loadPaths and inlines.
 
-.cd-highlight-default{
-  @import "prismjs/themes/prism";
+.cd-highlight-default {
+  @import "highlight.js/styles/default";
 }
-.cd-highlight-okaidia{
-  @import "prismjs/themes/prism-okaidia";
+.cd-highlight-okaidia {
+  @import "highlight.js/styles/monokai";
 }
 .cd-highlight-coy {
-  @import "prismjs/themes/prism-coy";
+  @import "highlight.js/styles/github";
 }
 .cd-highlight-dark {
-  @import "prismjs/themes/prism-dark";
+  @import "highlight.js/styles/github-dark";
 }
 .cd-highlight-funky {
-  @import "prismjs/themes/prism-funky";
+  @import "highlight.js/styles/color-brewer";
 }
 .cd-highlight-solarizedlight {
-  @import "prismjs/themes/prism-solarizedlight";
+  @import "highlight.js/styles/base16/solarized-light";
 }
 .cd-highlight-tomorrow {
-  @import "prismjs/themes/prism-tomorrow";
+  @import "highlight.js/styles/base16/tomorrow";
 }
 .cd-highlight-twilight {
-  @import "prismjs/themes/prism-twilight";
+  @import "highlight.js/styles/base16/twilight";
 }
