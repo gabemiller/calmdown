@@ -1,0 +1,5821 @@
+const ge = {
+  /**
+   * Set the width of the editor
+   *
+   * It can be any css width value like px, pt, %, em, rem etc.
+   * @type {String}
+   */
+  width: "100%",
+  /**
+   * Set the height of the editor
+   *
+   * It can be any css height value like px, pt, %, em, rem etc.
+   * @type {String}
+   */
+  height: "500px",
+  /**
+   * Set the editor selector class name
+   *
+   * This name should be the same class name as the class of the div
+   * that we want to be an editor
+   * @type {String}
+   */
+  selector: "calmdown",
+  /**
+   * Set the markdown editor (textarea) selector class name
+   *
+   * @type {String}
+   */
+  editorSelector: "cd-editor",
+  /**
+   * Set the preview (div) selector class name
+   *
+   * @type {String}
+   */
+  previewSelector: "cd-preview",
+  /**
+   * Set the help dialog (div) selector class name
+   *
+   * @type {String}
+   */
+  helpDialogSelector: "cd-help-dialog",
+  /**
+   * Set the help dialog open button (button) selector class name
+   */
+  helpDialogBtnOpenSelector: "cd-help-dialog__btn-open",
+  /**
+   * Set the help dialog close button (button) selector class name
+   */
+  helpDialogBtnCloseSelector: "cd-help-dialog__btn-close",
+  /**
+   * Set the hidden markdown textarea selector class name
+   *
+   * This textarea should be used when the data sent through
+   * a synchronous way like a classic http post
+   * Can be null, then it won't be generated
+   * @type {String|null}
+   */
+  markdownInputSelector: "cd-markdown-input",
+  /**
+   * Set the hidden html textarea selector class name
+   *
+   * This textarea should be used when the data sent through
+   * a synchronous way like a classic http post
+   * Can be null, then then it won't be generated
+   * @type {String|null}
+   */
+  htmlInputSelector: "cd-html-input",
+  /**
+   * Set the default theme of the editor
+   *
+   * theme_name: cd-theme-default, cd-theme-dark
+   * @type {String}
+   */
+  defaultThemeSelector: "cd-theme-default",
+  /**
+   * Set the default layout of the editor
+   *
+   * layout_name: cd-layout-both, cd-layout-editor, cd-layout-preview
+   * @type {String}
+   */
+  defaultLayoutSelector: "cd-layout-both",
+  /**
+   * Based on the name of code highlight themes given by PrismJS
+   *
+   * theme_name: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight
+   * @type {String} - cd-highlight-[theme_name]
+   */
+  codeHighlightStyle: "cd-highlight-default",
+  /**
+   * Set the markdown editor type
+   *
+   * Supported types: textarea
+   * @type {String}
+   */
+  editorType: "textarea",
+  /**
+   * Default content of the editor
+   * 
+   * @type {String}
+   */
+  defaultContent: ""
+};
+var q = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
+function J(o) {
+  return o && o.__esModule && Object.prototype.hasOwnProperty.call(o, "default") ? o.default : o;
+}
+var $ = { exports: {} };
+(function(o) {
+  (function() {
+    function i(e) {
+      var t = {
+        omitExtraWLInCodeBlocks: {
+          defaultValue: !1,
+          describe: "Omit the default extra whiteline added to code blocks",
+          type: "boolean"
+        },
+        noHeaderId: {
+          defaultValue: !1,
+          describe: "Turn on/off generated header id",
+          type: "boolean"
+        },
+        prefixHeaderId: {
+          defaultValue: !1,
+          describe: "Add a prefix to the generated header ids. Passing a string will prefix that string to the header id. Setting to true will add a generic 'section-' prefix",
+          type: "string"
+        },
+        rawPrefixHeaderId: {
+          defaultValue: !1,
+          describe: 'Setting this option to true will prevent showdown from modifying the prefix. This might result in malformed IDs (if, for instance, the " char is used in the prefix)',
+          type: "boolean"
+        },
+        ghCompatibleHeaderId: {
+          defaultValue: !1,
+          describe: "Generate header ids compatible with github style (spaces are replaced with dashes, a bunch of non alphanumeric chars are removed)",
+          type: "boolean"
+        },
+        rawHeaderId: {
+          defaultValue: !1,
+          describe: `Remove only spaces, ' and " from generated header ids (including prefixes), replacing them with dashes (-). WARNING: This might result in malformed ids`,
+          type: "boolean"
+        },
+        headerLevelStart: {
+          defaultValue: !1,
+          describe: "The header blocks level start",
+          type: "integer"
+        },
+        parseImgDimensions: {
+          defaultValue: !1,
+          describe: "Turn on/off image dimension parsing",
+          type: "boolean"
+        },
+        simplifiedAutoLink: {
+          defaultValue: !1,
+          describe: "Turn on/off GFM autolink style",
+          type: "boolean"
+        },
+        excludeTrailingPunctuationFromURLs: {
+          defaultValue: !1,
+          describe: "Excludes trailing punctuation from links generated with autoLinking",
+          type: "boolean"
+        },
+        literalMidWordUnderscores: {
+          defaultValue: !1,
+          describe: "Parse midword underscores as literal underscores",
+          type: "boolean"
+        },
+        literalMidWordAsterisks: {
+          defaultValue: !1,
+          describe: "Parse midword asterisks as literal asterisks",
+          type: "boolean"
+        },
+        strikethrough: {
+          defaultValue: !1,
+          describe: "Turn on/off strikethrough support",
+          type: "boolean"
+        },
+        tables: {
+          defaultValue: !1,
+          describe: "Turn on/off tables support",
+          type: "boolean"
+        },
+        tablesHeaderId: {
+          defaultValue: !1,
+          describe: "Add an id to table headers",
+          type: "boolean"
+        },
+        ghCodeBlocks: {
+          defaultValue: !0,
+          describe: "Turn on/off GFM fenced code blocks support",
+          type: "boolean"
+        },
+        tasklists: {
+          defaultValue: !1,
+          describe: "Turn on/off GFM tasklist support",
+          type: "boolean"
+        },
+        smoothLivePreview: {
+          defaultValue: !1,
+          describe: "Prevents weird effects in live previews due to incomplete input",
+          type: "boolean"
+        },
+        smartIndentationFix: {
+          defaultValue: !1,
+          description: "Tries to smartly fix indentation in es6 strings",
+          type: "boolean"
+        },
+        disableForced4SpacesIndentedSublists: {
+          defaultValue: !1,
+          description: "Disables the requirement of indenting nested sublists by 4 spaces",
+          type: "boolean"
+        },
+        simpleLineBreaks: {
+          defaultValue: !1,
+          description: "Parses simple line breaks as <br> (GFM Style)",
+          type: "boolean"
+        },
+        requireSpaceBeforeHeadingText: {
+          defaultValue: !1,
+          description: "Makes adding a space between `#` and the header text mandatory (GFM Style)",
+          type: "boolean"
+        },
+        ghMentions: {
+          defaultValue: !1,
+          description: "Enables github @mentions",
+          type: "boolean"
+        },
+        ghMentionsLink: {
+          defaultValue: "https://github.com/{u}",
+          description: "Changes the link generated by @mentions. Only applies if ghMentions option is enabled.",
+          type: "string"
+        },
+        encodeEmails: {
+          defaultValue: !0,
+          description: "Encode e-mail addresses through the use of Character Entities, transforming ASCII e-mail addresses into its equivalent decimal entities",
+          type: "boolean"
+        },
+        openLinksInNewWindow: {
+          defaultValue: !1,
+          description: "Open all links in new windows",
+          type: "boolean"
+        },
+        backslashEscapesHTMLTags: {
+          defaultValue: !1,
+          description: "Support for HTML Tag escaping. ex: <div>foo</div>",
+          type: "boolean"
+        },
+        emoji: {
+          defaultValue: !1,
+          description: "Enable emoji support. Ex: `this is a :smile: emoji`",
+          type: "boolean"
+        },
+        underline: {
+          defaultValue: !1,
+          description: "Enable support for underline. Syntax is double or triple underscores: `__underline word__`. With this option enabled, underscores no longer parses into `<em>` and `<strong>`",
+          type: "boolean"
+        },
+        completeHTMLDocument: {
+          defaultValue: !1,
+          description: "Outputs a complete html document, including `<html>`, `<head>` and `<body>` tags",
+          type: "boolean"
+        },
+        metadata: {
+          defaultValue: !1,
+          description: "Enable support for document metadata (defined at the top of the document between `«««` and `»»»` or between `---` and `---`).",
+          type: "boolean"
+        },
+        splitAdjacentBlockquotes: {
+          defaultValue: !1,
+          description: "Split adjacent blockquote blocks",
+          type: "boolean"
+        }
+      };
+      if (e === !1)
+        return JSON.parse(JSON.stringify(t));
+      var r = {};
+      for (var n in t)
+        t.hasOwnProperty(n) && (r[n] = t[n].defaultValue);
+      return r;
+    }
+    function A() {
+      var e = i(!0), t = {};
+      for (var r in e)
+        e.hasOwnProperty(r) && (t[r] = !0);
+      return t;
+    }
+    var a = {}, _ = {}, I = {}, S = i(!0), k = "vanilla", c = {
+      github: {
+        omitExtraWLInCodeBlocks: !0,
+        simplifiedAutoLink: !0,
+        excludeTrailingPunctuationFromURLs: !0,
+        literalMidWordUnderscores: !0,
+        strikethrough: !0,
+        tables: !0,
+        tablesHeaderId: !0,
+        ghCodeBlocks: !0,
+        tasklists: !0,
+        disableForced4SpacesIndentedSublists: !0,
+        simpleLineBreaks: !0,
+        requireSpaceBeforeHeadingText: !0,
+        ghCompatibleHeaderId: !0,
+        ghMentions: !0,
+        backslashEscapesHTMLTags: !0,
+        emoji: !0,
+        splitAdjacentBlockquotes: !0
+      },
+      original: {
+        noHeaderId: !0,
+        ghCodeBlocks: !1
+      },
+      ghost: {
+        omitExtraWLInCodeBlocks: !0,
+        parseImgDimensions: !0,
+        simplifiedAutoLink: !0,
+        excludeTrailingPunctuationFromURLs: !0,
+        literalMidWordUnderscores: !0,
+        strikethrough: !0,
+        tables: !0,
+        tablesHeaderId: !0,
+        ghCodeBlocks: !0,
+        tasklists: !0,
+        smoothLivePreview: !0,
+        simpleLineBreaks: !0,
+        requireSpaceBeforeHeadingText: !0,
+        ghMentions: !1,
+        encodeEmails: !0
+      },
+      vanilla: i(!0),
+      allOn: A()
+    };
+    a.helper = {}, a.extensions = {}, a.setOption = function(e, t) {
+      return S[e] = t, this;
+    }, a.getOption = function(e) {
+      return S[e];
+    }, a.getOptions = function() {
+      return S;
+    }, a.resetOptions = function() {
+      S = i(!0);
+    }, a.setFlavor = function(e) {
+      if (!c.hasOwnProperty(e))
+        throw Error(e + " flavor was not found");
+      a.resetOptions();
+      var t = c[e];
+      k = e;
+      for (var r in t)
+        t.hasOwnProperty(r) && (S[r] = t[r]);
+    }, a.getFlavor = function() {
+      return k;
+    }, a.getFlavorOptions = function(e) {
+      if (c.hasOwnProperty(e))
+        return c[e];
+    }, a.getDefaultOptions = function(e) {
+      return i(e);
+    }, a.subParser = function(e, t) {
+      if (a.helper.isString(e))
+        if (typeof t < "u")
+          _[e] = t;
+        else {
+          if (_.hasOwnProperty(e))
+            return _[e];
+          throw Error("SubParser named " + e + " not registered!");
+        }
+    }, a.extension = function(e, t) {
+      if (!a.helper.isString(e))
+        throw Error("Extension 'name' must be a string");
+      if (e = a.helper.stdExtName(e), a.helper.isUndefined(t)) {
+        if (!I.hasOwnProperty(e))
+          throw Error("Extension named " + e + " is not registered!");
+        return I[e];
+      } else {
+        typeof t == "function" && (t = t()), a.helper.isArray(t) || (t = [t]);
+        var r = b(t, e);
+        if (r.valid)
+          I[e] = t;
+        else
+          throw Error(r.error);
+      }
+    }, a.getAllExtensions = function() {
+      return I;
+    }, a.removeExtension = function(e) {
+      delete I[e];
+    }, a.resetExtensions = function() {
+      I = {};
+    };
+    function b(e, t) {
+      var r = t ? "Error in " + t + " extension->" : "Error in unnamed extension", n = {
+        valid: !0,
+        error: ""
+      };
+      a.helper.isArray(e) || (e = [e]);
+      for (var g = 0; g < e.length; ++g) {
+        var s = r + " sub-extension " + g + ": ", u = e[g];
+        if (typeof u != "object")
+          return n.valid = !1, n.error = s + "must be an object, but " + typeof u + " given", n;
+        if (!a.helper.isString(u.type))
+          return n.valid = !1, n.error = s + 'property "type" must be a string, but ' + typeof u.type + " given", n;
+        var C = u.type = u.type.toLowerCase();
+        if (C === "language" && (C = u.type = "lang"), C === "html" && (C = u.type = "output"), C !== "lang" && C !== "output" && C !== "listener")
+          return n.valid = !1, n.error = s + "type " + C + ' is not recognized. Valid values: "lang/language", "output/html" or "listener"', n;
+        if (C === "listener") {
+          if (a.helper.isUndefined(u.listeners))
+            return n.valid = !1, n.error = s + '. Extensions of type "listener" must have a property called "listeners"', n;
+        } else if (a.helper.isUndefined(u.filter) && a.helper.isUndefined(u.regex))
+          return n.valid = !1, n.error = s + C + ' extensions must define either a "regex" property or a "filter" method', n;
+        if (u.listeners) {
+          if (typeof u.listeners != "object")
+            return n.valid = !1, n.error = s + '"listeners" property must be an object but ' + typeof u.listeners + " given", n;
+          for (var w in u.listeners)
+            if (u.listeners.hasOwnProperty(w) && typeof u.listeners[w] != "function")
+              return n.valid = !1, n.error = s + '"listeners" property must be an hash of [event name]: [callback]. listeners.' + w + " must be a function but " + typeof u.listeners[w] + " given", n;
+        }
+        if (u.filter) {
+          if (typeof u.filter != "function")
+            return n.valid = !1, n.error = s + '"filter" must be a function, but ' + typeof u.filter + " given", n;
+        } else if (u.regex) {
+          if (a.helper.isString(u.regex) && (u.regex = new RegExp(u.regex, "g")), !(u.regex instanceof RegExp))
+            return n.valid = !1, n.error = s + '"regex" property must either be a string or a RegExp object, but ' + typeof u.regex + " given", n;
+          if (a.helper.isUndefined(u.replace))
+            return n.valid = !1, n.error = s + '"regex" extensions must implement a replace string or function', n;
+        }
+      }
+      return n;
+    }
+    a.validateExtension = function(e) {
+      var t = b(e, null);
+      return t.valid ? !0 : (console.warn(t.error), !1);
+    }, a.hasOwnProperty("helper") || (a.helper = {}), a.helper.isString = function(e) {
+      return typeof e == "string" || e instanceof String;
+    }, a.helper.isFunction = function(e) {
+      var t = {};
+      return e && t.toString.call(e) === "[object Function]";
+    }, a.helper.isArray = function(e) {
+      return Array.isArray(e);
+    }, a.helper.isUndefined = function(e) {
+      return typeof e > "u";
+    }, a.helper.forEach = function(e, t) {
+      if (a.helper.isUndefined(e))
+        throw new Error("obj param is required");
+      if (a.helper.isUndefined(t))
+        throw new Error("callback param is required");
+      if (!a.helper.isFunction(t))
+        throw new Error("callback param must be a function/closure");
+      if (typeof e.forEach == "function")
+        e.forEach(t);
+      else if (a.helper.isArray(e))
+        for (var r = 0; r < e.length; r++)
+          t(e[r], r, e);
+      else if (typeof e == "object")
+        for (var n in e)
+          e.hasOwnProperty(n) && t(e[n], n, e);
+      else
+        throw new Error("obj does not seem to be an array or an iterable object");
+    }, a.helper.stdExtName = function(e) {
+      return e.replace(/[_?*+\/\\.^-]/g, "").replace(/\s/g, "").toLowerCase();
+    };
+    function P(e, t) {
+      var r = t.charCodeAt(0);
+      return "¨E" + r + "E";
+    }
+    a.helper.escapeCharactersCallback = P, a.helper.escapeCharacters = function(e, t, r) {
+      var n = "([" + t.replace(/([\[\]\\])/g, "\\$1") + "])";
+      r && (n = "\\\\" + n);
+      var g = new RegExp(n, "g");
+      return e = e.replace(g, P), e;
+    };
+    var y = function(e, t, r, n) {
+      var g = n || "", s = g.indexOf("g") > -1, u = new RegExp(t + "|" + r, "g" + g.replace(/g/g, "")), C = new RegExp(t, g.replace(/g/g, "")), w = [], p, l, h, d, f;
+      do
+        for (p = 0; h = u.exec(e); )
+          if (C.test(h[0]))
+            p++ || (l = u.lastIndex, d = l - h[0].length);
+          else if (p && !--p) {
+            f = h.index + h[0].length;
+            var v = {
+              left: { start: d, end: l },
+              match: { start: l, end: h.index },
+              right: { start: h.index, end: f },
+              wholeMatch: { start: d, end: f }
+            };
+            if (w.push(v), !s)
+              return w;
+          }
+      while (p && (u.lastIndex = l));
+      return w;
+    };
+    a.helper.matchRecursiveRegExp = function(e, t, r, n) {
+      for (var g = y(e, t, r, n), s = [], u = 0; u < g.length; ++u)
+        s.push([
+          e.slice(g[u].wholeMatch.start, g[u].wholeMatch.end),
+          e.slice(g[u].match.start, g[u].match.end),
+          e.slice(g[u].left.start, g[u].left.end),
+          e.slice(g[u].right.start, g[u].right.end)
+        ]);
+      return s;
+    }, a.helper.replaceRecursiveRegExp = function(e, t, r, n, g) {
+      if (!a.helper.isFunction(t)) {
+        var s = t;
+        t = function() {
+          return s;
+        };
+      }
+      var u = y(e, r, n, g), C = e, w = u.length;
+      if (w > 0) {
+        var p = [];
+        u[0].wholeMatch.start !== 0 && p.push(e.slice(0, u[0].wholeMatch.start));
+        for (var l = 0; l < w; ++l)
+          p.push(
+            t(
+              e.slice(u[l].wholeMatch.start, u[l].wholeMatch.end),
+              e.slice(u[l].match.start, u[l].match.end),
+              e.slice(u[l].left.start, u[l].left.end),
+              e.slice(u[l].right.start, u[l].right.end)
+            )
+          ), l < w - 1 && p.push(e.slice(u[l].wholeMatch.end, u[l + 1].wholeMatch.start));
+        u[w - 1].wholeMatch.end < e.length && p.push(e.slice(u[w - 1].wholeMatch.end)), C = p.join("");
+      }
+      return C;
+    }, a.helper.regexIndexOf = function(e, t, r) {
+      if (!a.helper.isString(e))
+        throw "InvalidArgumentError: first parameter of showdown.helper.regexIndexOf function must be a string";
+      if (!(t instanceof RegExp))
+        throw "InvalidArgumentError: second parameter of showdown.helper.regexIndexOf function must be an instance of RegExp";
+      var n = e.substring(r || 0).search(t);
+      return n >= 0 ? n + (r || 0) : n;
+    }, a.helper.splitAtIndex = function(e, t) {
+      if (!a.helper.isString(e))
+        throw "InvalidArgumentError: first parameter of showdown.helper.regexIndexOf function must be a string";
+      return [e.substring(0, t), e.substring(t)];
+    }, a.helper.encodeEmailAddress = function(e) {
+      var t = [
+        function(r) {
+          return "&#" + r.charCodeAt(0) + ";";
+        },
+        function(r) {
+          return "&#x" + r.charCodeAt(0).toString(16) + ";";
+        },
+        function(r) {
+          return r;
+        }
+      ];
+      return e = e.replace(/./g, function(r) {
+        if (r === "@")
+          r = t[Math.floor(Math.random() * 2)](r);
+        else {
+          var n = Math.random();
+          r = n > 0.9 ? t[2](r) : n > 0.45 ? t[1](r) : t[0](r);
+        }
+        return r;
+      }), e;
+    }, typeof console > "u" && (console = {
+      warn: function(e) {
+        alert(e);
+      },
+      log: function(e) {
+        alert(e);
+      },
+      error: function(e) {
+        throw e;
+      }
+    }), a.helper.regexes = {
+      asteriskDashAndColon: /([*_:~])/g
+    }, a.helper.emojis = {
+      "+1": "👍",
+      "-1": "👎",
+      100: "💯",
+      1234: "🔢",
+      "1st_place_medal": "🥇",
+      "2nd_place_medal": "🥈",
+      "3rd_place_medal": "🥉",
+      "8ball": "🎱",
+      a: "🅰️",
+      ab: "🆎",
+      abc: "🔤",
+      abcd: "🔡",
+      accept: "🉑",
+      aerial_tramway: "🚡",
+      airplane: "✈️",
+      alarm_clock: "⏰",
+      alembic: "⚗️",
+      alien: "👽",
+      ambulance: "🚑",
+      amphora: "🏺",
+      anchor: "⚓️",
+      angel: "👼",
+      anger: "💢",
+      angry: "😠",
+      anguished: "😧",
+      ant: "🐜",
+      apple: "🍎",
+      aquarius: "♒️",
+      aries: "♈️",
+      arrow_backward: "◀️",
+      arrow_double_down: "⏬",
+      arrow_double_up: "⏫",
+      arrow_down: "⬇️",
+      arrow_down_small: "🔽",
+      arrow_forward: "▶️",
+      arrow_heading_down: "⤵️",
+      arrow_heading_up: "⤴️",
+      arrow_left: "⬅️",
+      arrow_lower_left: "↙️",
+      arrow_lower_right: "↘️",
+      arrow_right: "➡️",
+      arrow_right_hook: "↪️",
+      arrow_up: "⬆️",
+      arrow_up_down: "↕️",
+      arrow_up_small: "🔼",
+      arrow_upper_left: "↖️",
+      arrow_upper_right: "↗️",
+      arrows_clockwise: "🔃",
+      arrows_counterclockwise: "🔄",
+      art: "🎨",
+      articulated_lorry: "🚛",
+      artificial_satellite: "🛰",
+      astonished: "😲",
+      athletic_shoe: "👟",
+      atm: "🏧",
+      atom_symbol: "⚛️",
+      avocado: "🥑",
+      b: "🅱️",
+      baby: "👶",
+      baby_bottle: "🍼",
+      baby_chick: "🐤",
+      baby_symbol: "🚼",
+      back: "🔙",
+      bacon: "🥓",
+      badminton: "🏸",
+      baggage_claim: "🛄",
+      baguette_bread: "🥖",
+      balance_scale: "⚖️",
+      balloon: "🎈",
+      ballot_box: "🗳",
+      ballot_box_with_check: "☑️",
+      bamboo: "🎍",
+      banana: "🍌",
+      bangbang: "‼️",
+      bank: "🏦",
+      bar_chart: "📊",
+      barber: "💈",
+      baseball: "⚾️",
+      basketball: "🏀",
+      basketball_man: "⛹️",
+      basketball_woman: "⛹️&zwj;♀️",
+      bat: "🦇",
+      bath: "🛀",
+      bathtub: "🛁",
+      battery: "🔋",
+      beach_umbrella: "🏖",
+      bear: "🐻",
+      bed: "🛏",
+      bee: "🐝",
+      beer: "🍺",
+      beers: "🍻",
+      beetle: "🐞",
+      beginner: "🔰",
+      bell: "🔔",
+      bellhop_bell: "🛎",
+      bento: "🍱",
+      biking_man: "🚴",
+      bike: "🚲",
+      biking_woman: "🚴&zwj;♀️",
+      bikini: "👙",
+      biohazard: "☣️",
+      bird: "🐦",
+      birthday: "🎂",
+      black_circle: "⚫️",
+      black_flag: "🏴",
+      black_heart: "🖤",
+      black_joker: "🃏",
+      black_large_square: "⬛️",
+      black_medium_small_square: "◾️",
+      black_medium_square: "◼️",
+      black_nib: "✒️",
+      black_small_square: "▪️",
+      black_square_button: "🔲",
+      blonde_man: "👱",
+      blonde_woman: "👱&zwj;♀️",
+      blossom: "🌼",
+      blowfish: "🐡",
+      blue_book: "📘",
+      blue_car: "🚙",
+      blue_heart: "💙",
+      blush: "😊",
+      boar: "🐗",
+      boat: "⛵️",
+      bomb: "💣",
+      book: "📖",
+      bookmark: "🔖",
+      bookmark_tabs: "📑",
+      books: "📚",
+      boom: "💥",
+      boot: "👢",
+      bouquet: "💐",
+      bowing_man: "🙇",
+      bow_and_arrow: "🏹",
+      bowing_woman: "🙇&zwj;♀️",
+      bowling: "🎳",
+      boxing_glove: "🥊",
+      boy: "👦",
+      bread: "🍞",
+      bride_with_veil: "👰",
+      bridge_at_night: "🌉",
+      briefcase: "💼",
+      broken_heart: "💔",
+      bug: "🐛",
+      building_construction: "🏗",
+      bulb: "💡",
+      bullettrain_front: "🚅",
+      bullettrain_side: "🚄",
+      burrito: "🌯",
+      bus: "🚌",
+      business_suit_levitating: "🕴",
+      busstop: "🚏",
+      bust_in_silhouette: "👤",
+      busts_in_silhouette: "👥",
+      butterfly: "🦋",
+      cactus: "🌵",
+      cake: "🍰",
+      calendar: "📆",
+      call_me_hand: "🤙",
+      calling: "📲",
+      camel: "🐫",
+      camera: "📷",
+      camera_flash: "📸",
+      camping: "🏕",
+      cancer: "♋️",
+      candle: "🕯",
+      candy: "🍬",
+      canoe: "🛶",
+      capital_abcd: "🔠",
+      capricorn: "♑️",
+      car: "🚗",
+      card_file_box: "🗃",
+      card_index: "📇",
+      card_index_dividers: "🗂",
+      carousel_horse: "🎠",
+      carrot: "🥕",
+      cat: "🐱",
+      cat2: "🐈",
+      cd: "💿",
+      chains: "⛓",
+      champagne: "🍾",
+      chart: "💹",
+      chart_with_downwards_trend: "📉",
+      chart_with_upwards_trend: "📈",
+      checkered_flag: "🏁",
+      cheese: "🧀",
+      cherries: "🍒",
+      cherry_blossom: "🌸",
+      chestnut: "🌰",
+      chicken: "🐔",
+      children_crossing: "🚸",
+      chipmunk: "🐿",
+      chocolate_bar: "🍫",
+      christmas_tree: "🎄",
+      church: "⛪️",
+      cinema: "🎦",
+      circus_tent: "🎪",
+      city_sunrise: "🌇",
+      city_sunset: "🌆",
+      cityscape: "🏙",
+      cl: "🆑",
+      clamp: "🗜",
+      clap: "👏",
+      clapper: "🎬",
+      classical_building: "🏛",
+      clinking_glasses: "🥂",
+      clipboard: "📋",
+      clock1: "🕐",
+      clock10: "🕙",
+      clock1030: "🕥",
+      clock11: "🕚",
+      clock1130: "🕦",
+      clock12: "🕛",
+      clock1230: "🕧",
+      clock130: "🕜",
+      clock2: "🕑",
+      clock230: "🕝",
+      clock3: "🕒",
+      clock330: "🕞",
+      clock4: "🕓",
+      clock430: "🕟",
+      clock5: "🕔",
+      clock530: "🕠",
+      clock6: "🕕",
+      clock630: "🕡",
+      clock7: "🕖",
+      clock730: "🕢",
+      clock8: "🕗",
+      clock830: "🕣",
+      clock9: "🕘",
+      clock930: "🕤",
+      closed_book: "📕",
+      closed_lock_with_key: "🔐",
+      closed_umbrella: "🌂",
+      cloud: "☁️",
+      cloud_with_lightning: "🌩",
+      cloud_with_lightning_and_rain: "⛈",
+      cloud_with_rain: "🌧",
+      cloud_with_snow: "🌨",
+      clown_face: "🤡",
+      clubs: "♣️",
+      cocktail: "🍸",
+      coffee: "☕️",
+      coffin: "⚰️",
+      cold_sweat: "😰",
+      comet: "☄️",
+      computer: "💻",
+      computer_mouse: "🖱",
+      confetti_ball: "🎊",
+      confounded: "😖",
+      confused: "😕",
+      congratulations: "㊗️",
+      construction: "🚧",
+      construction_worker_man: "👷",
+      construction_worker_woman: "👷&zwj;♀️",
+      control_knobs: "🎛",
+      convenience_store: "🏪",
+      cookie: "🍪",
+      cool: "🆒",
+      policeman: "👮",
+      copyright: "©️",
+      corn: "🌽",
+      couch_and_lamp: "🛋",
+      couple: "👫",
+      couple_with_heart_woman_man: "💑",
+      couple_with_heart_man_man: "👨&zwj;❤️&zwj;👨",
+      couple_with_heart_woman_woman: "👩&zwj;❤️&zwj;👩",
+      couplekiss_man_man: "👨&zwj;❤️&zwj;💋&zwj;👨",
+      couplekiss_man_woman: "💏",
+      couplekiss_woman_woman: "👩&zwj;❤️&zwj;💋&zwj;👩",
+      cow: "🐮",
+      cow2: "🐄",
+      cowboy_hat_face: "🤠",
+      crab: "🦀",
+      crayon: "🖍",
+      credit_card: "💳",
+      crescent_moon: "🌙",
+      cricket: "🏏",
+      crocodile: "🐊",
+      croissant: "🥐",
+      crossed_fingers: "🤞",
+      crossed_flags: "🎌",
+      crossed_swords: "⚔️",
+      crown: "👑",
+      cry: "😢",
+      crying_cat_face: "😿",
+      crystal_ball: "🔮",
+      cucumber: "🥒",
+      cupid: "💘",
+      curly_loop: "➰",
+      currency_exchange: "💱",
+      curry: "🍛",
+      custard: "🍮",
+      customs: "🛃",
+      cyclone: "🌀",
+      dagger: "🗡",
+      dancer: "💃",
+      dancing_women: "👯",
+      dancing_men: "👯&zwj;♂️",
+      dango: "🍡",
+      dark_sunglasses: "🕶",
+      dart: "🎯",
+      dash: "💨",
+      date: "📅",
+      deciduous_tree: "🌳",
+      deer: "🦌",
+      department_store: "🏬",
+      derelict_house: "🏚",
+      desert: "🏜",
+      desert_island: "🏝",
+      desktop_computer: "🖥",
+      male_detective: "🕵️",
+      diamond_shape_with_a_dot_inside: "💠",
+      diamonds: "♦️",
+      disappointed: "😞",
+      disappointed_relieved: "😥",
+      dizzy: "💫",
+      dizzy_face: "😵",
+      do_not_litter: "🚯",
+      dog: "🐶",
+      dog2: "🐕",
+      dollar: "💵",
+      dolls: "🎎",
+      dolphin: "🐬",
+      door: "🚪",
+      doughnut: "🍩",
+      dove: "🕊",
+      dragon: "🐉",
+      dragon_face: "🐲",
+      dress: "👗",
+      dromedary_camel: "🐪",
+      drooling_face: "🤤",
+      droplet: "💧",
+      drum: "🥁",
+      duck: "🦆",
+      dvd: "📀",
+      "e-mail": "📧",
+      eagle: "🦅",
+      ear: "👂",
+      ear_of_rice: "🌾",
+      earth_africa: "🌍",
+      earth_americas: "🌎",
+      earth_asia: "🌏",
+      egg: "🥚",
+      eggplant: "🍆",
+      eight_pointed_black_star: "✴️",
+      eight_spoked_asterisk: "✳️",
+      electric_plug: "🔌",
+      elephant: "🐘",
+      email: "✉️",
+      end: "🔚",
+      envelope_with_arrow: "📩",
+      euro: "💶",
+      european_castle: "🏰",
+      european_post_office: "🏤",
+      evergreen_tree: "🌲",
+      exclamation: "❗️",
+      expressionless: "😑",
+      eye: "👁",
+      eye_speech_bubble: "👁&zwj;🗨",
+      eyeglasses: "👓",
+      eyes: "👀",
+      face_with_head_bandage: "🤕",
+      face_with_thermometer: "🤒",
+      fist_oncoming: "👊",
+      factory: "🏭",
+      fallen_leaf: "🍂",
+      family_man_woman_boy: "👪",
+      family_man_boy: "👨&zwj;👦",
+      family_man_boy_boy: "👨&zwj;👦&zwj;👦",
+      family_man_girl: "👨&zwj;👧",
+      family_man_girl_boy: "👨&zwj;👧&zwj;👦",
+      family_man_girl_girl: "👨&zwj;👧&zwj;👧",
+      family_man_man_boy: "👨&zwj;👨&zwj;👦",
+      family_man_man_boy_boy: "👨&zwj;👨&zwj;👦&zwj;👦",
+      family_man_man_girl: "👨&zwj;👨&zwj;👧",
+      family_man_man_girl_boy: "👨&zwj;👨&zwj;👧&zwj;👦",
+      family_man_man_girl_girl: "👨&zwj;👨&zwj;👧&zwj;👧",
+      family_man_woman_boy_boy: "👨&zwj;👩&zwj;👦&zwj;👦",
+      family_man_woman_girl: "👨&zwj;👩&zwj;👧",
+      family_man_woman_girl_boy: "👨&zwj;👩&zwj;👧&zwj;👦",
+      family_man_woman_girl_girl: "👨&zwj;👩&zwj;👧&zwj;👧",
+      family_woman_boy: "👩&zwj;👦",
+      family_woman_boy_boy: "👩&zwj;👦&zwj;👦",
+      family_woman_girl: "👩&zwj;👧",
+      family_woman_girl_boy: "👩&zwj;👧&zwj;👦",
+      family_woman_girl_girl: "👩&zwj;👧&zwj;👧",
+      family_woman_woman_boy: "👩&zwj;👩&zwj;👦",
+      family_woman_woman_boy_boy: "👩&zwj;👩&zwj;👦&zwj;👦",
+      family_woman_woman_girl: "👩&zwj;👩&zwj;👧",
+      family_woman_woman_girl_boy: "👩&zwj;👩&zwj;👧&zwj;👦",
+      family_woman_woman_girl_girl: "👩&zwj;👩&zwj;👧&zwj;👧",
+      fast_forward: "⏩",
+      fax: "📠",
+      fearful: "😨",
+      feet: "🐾",
+      female_detective: "🕵️&zwj;♀️",
+      ferris_wheel: "🎡",
+      ferry: "⛴",
+      field_hockey: "🏑",
+      file_cabinet: "🗄",
+      file_folder: "📁",
+      film_projector: "📽",
+      film_strip: "🎞",
+      fire: "🔥",
+      fire_engine: "🚒",
+      fireworks: "🎆",
+      first_quarter_moon: "🌓",
+      first_quarter_moon_with_face: "🌛",
+      fish: "🐟",
+      fish_cake: "🍥",
+      fishing_pole_and_fish: "🎣",
+      fist_raised: "✊",
+      fist_left: "🤛",
+      fist_right: "🤜",
+      flags: "🎏",
+      flashlight: "🔦",
+      fleur_de_lis: "⚜️",
+      flight_arrival: "🛬",
+      flight_departure: "🛫",
+      floppy_disk: "💾",
+      flower_playing_cards: "🎴",
+      flushed: "😳",
+      fog: "🌫",
+      foggy: "🌁",
+      football: "🏈",
+      footprints: "👣",
+      fork_and_knife: "🍴",
+      fountain: "⛲️",
+      fountain_pen: "🖋",
+      four_leaf_clover: "🍀",
+      fox_face: "🦊",
+      framed_picture: "🖼",
+      free: "🆓",
+      fried_egg: "🍳",
+      fried_shrimp: "🍤",
+      fries: "🍟",
+      frog: "🐸",
+      frowning: "😦",
+      frowning_face: "☹️",
+      frowning_man: "🙍&zwj;♂️",
+      frowning_woman: "🙍",
+      middle_finger: "🖕",
+      fuelpump: "⛽️",
+      full_moon: "🌕",
+      full_moon_with_face: "🌝",
+      funeral_urn: "⚱️",
+      game_die: "🎲",
+      gear: "⚙️",
+      gem: "💎",
+      gemini: "♊️",
+      ghost: "👻",
+      gift: "🎁",
+      gift_heart: "💝",
+      girl: "👧",
+      globe_with_meridians: "🌐",
+      goal_net: "🥅",
+      goat: "🐐",
+      golf: "⛳️",
+      golfing_man: "🏌️",
+      golfing_woman: "🏌️&zwj;♀️",
+      gorilla: "🦍",
+      grapes: "🍇",
+      green_apple: "🍏",
+      green_book: "📗",
+      green_heart: "💚",
+      green_salad: "🥗",
+      grey_exclamation: "❕",
+      grey_question: "❔",
+      grimacing: "😬",
+      grin: "😁",
+      grinning: "😀",
+      guardsman: "💂",
+      guardswoman: "💂&zwj;♀️",
+      guitar: "🎸",
+      gun: "🔫",
+      haircut_woman: "💇",
+      haircut_man: "💇&zwj;♂️",
+      hamburger: "🍔",
+      hammer: "🔨",
+      hammer_and_pick: "⚒",
+      hammer_and_wrench: "🛠",
+      hamster: "🐹",
+      hand: "✋",
+      handbag: "👜",
+      handshake: "🤝",
+      hankey: "💩",
+      hatched_chick: "🐥",
+      hatching_chick: "🐣",
+      headphones: "🎧",
+      hear_no_evil: "🙉",
+      heart: "❤️",
+      heart_decoration: "💟",
+      heart_eyes: "😍",
+      heart_eyes_cat: "😻",
+      heartbeat: "💓",
+      heartpulse: "💗",
+      hearts: "♥️",
+      heavy_check_mark: "✔️",
+      heavy_division_sign: "➗",
+      heavy_dollar_sign: "💲",
+      heavy_heart_exclamation: "❣️",
+      heavy_minus_sign: "➖",
+      heavy_multiplication_x: "✖️",
+      heavy_plus_sign: "➕",
+      helicopter: "🚁",
+      herb: "🌿",
+      hibiscus: "🌺",
+      high_brightness: "🔆",
+      high_heel: "👠",
+      hocho: "🔪",
+      hole: "🕳",
+      honey_pot: "🍯",
+      horse: "🐴",
+      horse_racing: "🏇",
+      hospital: "🏥",
+      hot_pepper: "🌶",
+      hotdog: "🌭",
+      hotel: "🏨",
+      hotsprings: "♨️",
+      hourglass: "⌛️",
+      hourglass_flowing_sand: "⏳",
+      house: "🏠",
+      house_with_garden: "🏡",
+      houses: "🏘",
+      hugs: "🤗",
+      hushed: "😯",
+      ice_cream: "🍨",
+      ice_hockey: "🏒",
+      ice_skate: "⛸",
+      icecream: "🍦",
+      id: "🆔",
+      ideograph_advantage: "🉐",
+      imp: "👿",
+      inbox_tray: "📥",
+      incoming_envelope: "📨",
+      tipping_hand_woman: "💁",
+      information_source: "ℹ️",
+      innocent: "😇",
+      interrobang: "⁉️",
+      iphone: "📱",
+      izakaya_lantern: "🏮",
+      jack_o_lantern: "🎃",
+      japan: "🗾",
+      japanese_castle: "🏯",
+      japanese_goblin: "👺",
+      japanese_ogre: "👹",
+      jeans: "👖",
+      joy: "😂",
+      joy_cat: "😹",
+      joystick: "🕹",
+      kaaba: "🕋",
+      key: "🔑",
+      keyboard: "⌨️",
+      keycap_ten: "🔟",
+      kick_scooter: "🛴",
+      kimono: "👘",
+      kiss: "💋",
+      kissing: "😗",
+      kissing_cat: "😽",
+      kissing_closed_eyes: "😚",
+      kissing_heart: "😘",
+      kissing_smiling_eyes: "😙",
+      kiwi_fruit: "🥝",
+      koala: "🐨",
+      koko: "🈁",
+      label: "🏷",
+      large_blue_circle: "🔵",
+      large_blue_diamond: "🔷",
+      large_orange_diamond: "🔶",
+      last_quarter_moon: "🌗",
+      last_quarter_moon_with_face: "🌜",
+      latin_cross: "✝️",
+      laughing: "😆",
+      leaves: "🍃",
+      ledger: "📒",
+      left_luggage: "🛅",
+      left_right_arrow: "↔️",
+      leftwards_arrow_with_hook: "↩️",
+      lemon: "🍋",
+      leo: "♌️",
+      leopard: "🐆",
+      level_slider: "🎚",
+      libra: "♎️",
+      light_rail: "🚈",
+      link: "🔗",
+      lion: "🦁",
+      lips: "👄",
+      lipstick: "💄",
+      lizard: "🦎",
+      lock: "🔒",
+      lock_with_ink_pen: "🔏",
+      lollipop: "🍭",
+      loop: "➿",
+      loud_sound: "🔊",
+      loudspeaker: "📢",
+      love_hotel: "🏩",
+      love_letter: "💌",
+      low_brightness: "🔅",
+      lying_face: "🤥",
+      m: "Ⓜ️",
+      mag: "🔍",
+      mag_right: "🔎",
+      mahjong: "🀄️",
+      mailbox: "📫",
+      mailbox_closed: "📪",
+      mailbox_with_mail: "📬",
+      mailbox_with_no_mail: "📭",
+      man: "👨",
+      man_artist: "👨&zwj;🎨",
+      man_astronaut: "👨&zwj;🚀",
+      man_cartwheeling: "🤸&zwj;♂️",
+      man_cook: "👨&zwj;🍳",
+      man_dancing: "🕺",
+      man_facepalming: "🤦&zwj;♂️",
+      man_factory_worker: "👨&zwj;🏭",
+      man_farmer: "👨&zwj;🌾",
+      man_firefighter: "👨&zwj;🚒",
+      man_health_worker: "👨&zwj;⚕️",
+      man_in_tuxedo: "🤵",
+      man_judge: "👨&zwj;⚖️",
+      man_juggling: "🤹&zwj;♂️",
+      man_mechanic: "👨&zwj;🔧",
+      man_office_worker: "👨&zwj;💼",
+      man_pilot: "👨&zwj;✈️",
+      man_playing_handball: "🤾&zwj;♂️",
+      man_playing_water_polo: "🤽&zwj;♂️",
+      man_scientist: "👨&zwj;🔬",
+      man_shrugging: "🤷&zwj;♂️",
+      man_singer: "👨&zwj;🎤",
+      man_student: "👨&zwj;🎓",
+      man_teacher: "👨&zwj;🏫",
+      man_technologist: "👨&zwj;💻",
+      man_with_gua_pi_mao: "👲",
+      man_with_turban: "👳",
+      tangerine: "🍊",
+      mans_shoe: "👞",
+      mantelpiece_clock: "🕰",
+      maple_leaf: "🍁",
+      martial_arts_uniform: "🥋",
+      mask: "😷",
+      massage_woman: "💆",
+      massage_man: "💆&zwj;♂️",
+      meat_on_bone: "🍖",
+      medal_military: "🎖",
+      medal_sports: "🏅",
+      mega: "📣",
+      melon: "🍈",
+      memo: "📝",
+      men_wrestling: "🤼&zwj;♂️",
+      menorah: "🕎",
+      mens: "🚹",
+      metal: "🤘",
+      metro: "🚇",
+      microphone: "🎤",
+      microscope: "🔬",
+      milk_glass: "🥛",
+      milky_way: "🌌",
+      minibus: "🚐",
+      minidisc: "💽",
+      mobile_phone_off: "📴",
+      money_mouth_face: "🤑",
+      money_with_wings: "💸",
+      moneybag: "💰",
+      monkey: "🐒",
+      monkey_face: "🐵",
+      monorail: "🚝",
+      moon: "🌔",
+      mortar_board: "🎓",
+      mosque: "🕌",
+      motor_boat: "🛥",
+      motor_scooter: "🛵",
+      motorcycle: "🏍",
+      motorway: "🛣",
+      mount_fuji: "🗻",
+      mountain: "⛰",
+      mountain_biking_man: "🚵",
+      mountain_biking_woman: "🚵&zwj;♀️",
+      mountain_cableway: "🚠",
+      mountain_railway: "🚞",
+      mountain_snow: "🏔",
+      mouse: "🐭",
+      mouse2: "🐁",
+      movie_camera: "🎥",
+      moyai: "🗿",
+      mrs_claus: "🤶",
+      muscle: "💪",
+      mushroom: "🍄",
+      musical_keyboard: "🎹",
+      musical_note: "🎵",
+      musical_score: "🎼",
+      mute: "🔇",
+      nail_care: "💅",
+      name_badge: "📛",
+      national_park: "🏞",
+      nauseated_face: "🤢",
+      necktie: "👔",
+      negative_squared_cross_mark: "❎",
+      nerd_face: "🤓",
+      neutral_face: "😐",
+      new: "🆕",
+      new_moon: "🌑",
+      new_moon_with_face: "🌚",
+      newspaper: "📰",
+      newspaper_roll: "🗞",
+      next_track_button: "⏭",
+      ng: "🆖",
+      no_good_man: "🙅&zwj;♂️",
+      no_good_woman: "🙅",
+      night_with_stars: "🌃",
+      no_bell: "🔕",
+      no_bicycles: "🚳",
+      no_entry: "⛔️",
+      no_entry_sign: "🚫",
+      no_mobile_phones: "📵",
+      no_mouth: "😶",
+      no_pedestrians: "🚷",
+      no_smoking: "🚭",
+      "non-potable_water": "🚱",
+      nose: "👃",
+      notebook: "📓",
+      notebook_with_decorative_cover: "📔",
+      notes: "🎶",
+      nut_and_bolt: "🔩",
+      o: "⭕️",
+      o2: "🅾️",
+      ocean: "🌊",
+      octopus: "🐙",
+      oden: "🍢",
+      office: "🏢",
+      oil_drum: "🛢",
+      ok: "🆗",
+      ok_hand: "👌",
+      ok_man: "🙆&zwj;♂️",
+      ok_woman: "🙆",
+      old_key: "🗝",
+      older_man: "👴",
+      older_woman: "👵",
+      om: "🕉",
+      on: "🔛",
+      oncoming_automobile: "🚘",
+      oncoming_bus: "🚍",
+      oncoming_police_car: "🚔",
+      oncoming_taxi: "🚖",
+      open_file_folder: "📂",
+      open_hands: "👐",
+      open_mouth: "😮",
+      open_umbrella: "☂️",
+      ophiuchus: "⛎",
+      orange_book: "📙",
+      orthodox_cross: "☦️",
+      outbox_tray: "📤",
+      owl: "🦉",
+      ox: "🐂",
+      package: "📦",
+      page_facing_up: "📄",
+      page_with_curl: "📃",
+      pager: "📟",
+      paintbrush: "🖌",
+      palm_tree: "🌴",
+      pancakes: "🥞",
+      panda_face: "🐼",
+      paperclip: "📎",
+      paperclips: "🖇",
+      parasol_on_ground: "⛱",
+      parking: "🅿️",
+      part_alternation_mark: "〽️",
+      partly_sunny: "⛅️",
+      passenger_ship: "🛳",
+      passport_control: "🛂",
+      pause_button: "⏸",
+      peace_symbol: "☮️",
+      peach: "🍑",
+      peanuts: "🥜",
+      pear: "🍐",
+      pen: "🖊",
+      pencil2: "✏️",
+      penguin: "🐧",
+      pensive: "😔",
+      performing_arts: "🎭",
+      persevere: "😣",
+      person_fencing: "🤺",
+      pouting_woman: "🙎",
+      phone: "☎️",
+      pick: "⛏",
+      pig: "🐷",
+      pig2: "🐖",
+      pig_nose: "🐽",
+      pill: "💊",
+      pineapple: "🍍",
+      ping_pong: "🏓",
+      pisces: "♓️",
+      pizza: "🍕",
+      place_of_worship: "🛐",
+      plate_with_cutlery: "🍽",
+      play_or_pause_button: "⏯",
+      point_down: "👇",
+      point_left: "👈",
+      point_right: "👉",
+      point_up: "☝️",
+      point_up_2: "👆",
+      police_car: "🚓",
+      policewoman: "👮&zwj;♀️",
+      poodle: "🐩",
+      popcorn: "🍿",
+      post_office: "🏣",
+      postal_horn: "📯",
+      postbox: "📮",
+      potable_water: "🚰",
+      potato: "🥔",
+      pouch: "👝",
+      poultry_leg: "🍗",
+      pound: "💷",
+      rage: "😡",
+      pouting_cat: "😾",
+      pouting_man: "🙎&zwj;♂️",
+      pray: "🙏",
+      prayer_beads: "📿",
+      pregnant_woman: "🤰",
+      previous_track_button: "⏮",
+      prince: "🤴",
+      princess: "👸",
+      printer: "🖨",
+      purple_heart: "💜",
+      purse: "👛",
+      pushpin: "📌",
+      put_litter_in_its_place: "🚮",
+      question: "❓",
+      rabbit: "🐰",
+      rabbit2: "🐇",
+      racehorse: "🐎",
+      racing_car: "🏎",
+      radio: "📻",
+      radio_button: "🔘",
+      radioactive: "☢️",
+      railway_car: "🚃",
+      railway_track: "🛤",
+      rainbow: "🌈",
+      rainbow_flag: "🏳️&zwj;🌈",
+      raised_back_of_hand: "🤚",
+      raised_hand_with_fingers_splayed: "🖐",
+      raised_hands: "🙌",
+      raising_hand_woman: "🙋",
+      raising_hand_man: "🙋&zwj;♂️",
+      ram: "🐏",
+      ramen: "🍜",
+      rat: "🐀",
+      record_button: "⏺",
+      recycle: "♻️",
+      red_circle: "🔴",
+      registered: "®️",
+      relaxed: "☺️",
+      relieved: "😌",
+      reminder_ribbon: "🎗",
+      repeat: "🔁",
+      repeat_one: "🔂",
+      rescue_worker_helmet: "⛑",
+      restroom: "🚻",
+      revolving_hearts: "💞",
+      rewind: "⏪",
+      rhinoceros: "🦏",
+      ribbon: "🎀",
+      rice: "🍚",
+      rice_ball: "🍙",
+      rice_cracker: "🍘",
+      rice_scene: "🎑",
+      right_anger_bubble: "🗯",
+      ring: "💍",
+      robot: "🤖",
+      rocket: "🚀",
+      rofl: "🤣",
+      roll_eyes: "🙄",
+      roller_coaster: "🎢",
+      rooster: "🐓",
+      rose: "🌹",
+      rosette: "🏵",
+      rotating_light: "🚨",
+      round_pushpin: "📍",
+      rowing_man: "🚣",
+      rowing_woman: "🚣&zwj;♀️",
+      rugby_football: "🏉",
+      running_man: "🏃",
+      running_shirt_with_sash: "🎽",
+      running_woman: "🏃&zwj;♀️",
+      sa: "🈂️",
+      sagittarius: "♐️",
+      sake: "🍶",
+      sandal: "👡",
+      santa: "🎅",
+      satellite: "📡",
+      saxophone: "🎷",
+      school: "🏫",
+      school_satchel: "🎒",
+      scissors: "✂️",
+      scorpion: "🦂",
+      scorpius: "♏️",
+      scream: "😱",
+      scream_cat: "🙀",
+      scroll: "📜",
+      seat: "💺",
+      secret: "㊙️",
+      see_no_evil: "🙈",
+      seedling: "🌱",
+      selfie: "🤳",
+      shallow_pan_of_food: "🥘",
+      shamrock: "☘️",
+      shark: "🦈",
+      shaved_ice: "🍧",
+      sheep: "🐑",
+      shell: "🐚",
+      shield: "🛡",
+      shinto_shrine: "⛩",
+      ship: "🚢",
+      shirt: "👕",
+      shopping: "🛍",
+      shopping_cart: "🛒",
+      shower: "🚿",
+      shrimp: "🦐",
+      signal_strength: "📶",
+      six_pointed_star: "🔯",
+      ski: "🎿",
+      skier: "⛷",
+      skull: "💀",
+      skull_and_crossbones: "☠️",
+      sleeping: "😴",
+      sleeping_bed: "🛌",
+      sleepy: "😪",
+      slightly_frowning_face: "🙁",
+      slightly_smiling_face: "🙂",
+      slot_machine: "🎰",
+      small_airplane: "🛩",
+      small_blue_diamond: "🔹",
+      small_orange_diamond: "🔸",
+      small_red_triangle: "🔺",
+      small_red_triangle_down: "🔻",
+      smile: "😄",
+      smile_cat: "😸",
+      smiley: "😃",
+      smiley_cat: "😺",
+      smiling_imp: "😈",
+      smirk: "😏",
+      smirk_cat: "😼",
+      smoking: "🚬",
+      snail: "🐌",
+      snake: "🐍",
+      sneezing_face: "🤧",
+      snowboarder: "🏂",
+      snowflake: "❄️",
+      snowman: "⛄️",
+      snowman_with_snow: "☃️",
+      sob: "😭",
+      soccer: "⚽️",
+      soon: "🔜",
+      sos: "🆘",
+      sound: "🔉",
+      space_invader: "👾",
+      spades: "♠️",
+      spaghetti: "🍝",
+      sparkle: "❇️",
+      sparkler: "🎇",
+      sparkles: "✨",
+      sparkling_heart: "💖",
+      speak_no_evil: "🙊",
+      speaker: "🔈",
+      speaking_head: "🗣",
+      speech_balloon: "💬",
+      speedboat: "🚤",
+      spider: "🕷",
+      spider_web: "🕸",
+      spiral_calendar: "🗓",
+      spiral_notepad: "🗒",
+      spoon: "🥄",
+      squid: "🦑",
+      stadium: "🏟",
+      star: "⭐️",
+      star2: "🌟",
+      star_and_crescent: "☪️",
+      star_of_david: "✡️",
+      stars: "🌠",
+      station: "🚉",
+      statue_of_liberty: "🗽",
+      steam_locomotive: "🚂",
+      stew: "🍲",
+      stop_button: "⏹",
+      stop_sign: "🛑",
+      stopwatch: "⏱",
+      straight_ruler: "📏",
+      strawberry: "🍓",
+      stuck_out_tongue: "😛",
+      stuck_out_tongue_closed_eyes: "😝",
+      stuck_out_tongue_winking_eye: "😜",
+      studio_microphone: "🎙",
+      stuffed_flatbread: "🥙",
+      sun_behind_large_cloud: "🌥",
+      sun_behind_rain_cloud: "🌦",
+      sun_behind_small_cloud: "🌤",
+      sun_with_face: "🌞",
+      sunflower: "🌻",
+      sunglasses: "😎",
+      sunny: "☀️",
+      sunrise: "🌅",
+      sunrise_over_mountains: "🌄",
+      surfing_man: "🏄",
+      surfing_woman: "🏄&zwj;♀️",
+      sushi: "🍣",
+      suspension_railway: "🚟",
+      sweat: "😓",
+      sweat_drops: "💦",
+      sweat_smile: "😅",
+      sweet_potato: "🍠",
+      swimming_man: "🏊",
+      swimming_woman: "🏊&zwj;♀️",
+      symbols: "🔣",
+      synagogue: "🕍",
+      syringe: "💉",
+      taco: "🌮",
+      tada: "🎉",
+      tanabata_tree: "🎋",
+      taurus: "♉️",
+      taxi: "🚕",
+      tea: "🍵",
+      telephone_receiver: "📞",
+      telescope: "🔭",
+      tennis: "🎾",
+      tent: "⛺️",
+      thermometer: "🌡",
+      thinking: "🤔",
+      thought_balloon: "💭",
+      ticket: "🎫",
+      tickets: "🎟",
+      tiger: "🐯",
+      tiger2: "🐅",
+      timer_clock: "⏲",
+      tipping_hand_man: "💁&zwj;♂️",
+      tired_face: "😫",
+      tm: "™️",
+      toilet: "🚽",
+      tokyo_tower: "🗼",
+      tomato: "🍅",
+      tongue: "👅",
+      top: "🔝",
+      tophat: "🎩",
+      tornado: "🌪",
+      trackball: "🖲",
+      tractor: "🚜",
+      traffic_light: "🚥",
+      train: "🚋",
+      train2: "🚆",
+      tram: "🚊",
+      triangular_flag_on_post: "🚩",
+      triangular_ruler: "📐",
+      trident: "🔱",
+      triumph: "😤",
+      trolleybus: "🚎",
+      trophy: "🏆",
+      tropical_drink: "🍹",
+      tropical_fish: "🐠",
+      truck: "🚚",
+      trumpet: "🎺",
+      tulip: "🌷",
+      tumbler_glass: "🥃",
+      turkey: "🦃",
+      turtle: "🐢",
+      tv: "📺",
+      twisted_rightwards_arrows: "🔀",
+      two_hearts: "💕",
+      two_men_holding_hands: "👬",
+      two_women_holding_hands: "👭",
+      u5272: "🈹",
+      u5408: "🈴",
+      u55b6: "🈺",
+      u6307: "🈯️",
+      u6708: "🈷️",
+      u6709: "🈶",
+      u6e80: "🈵",
+      u7121: "🈚️",
+      u7533: "🈸",
+      u7981: "🈲",
+      u7a7a: "🈳",
+      umbrella: "☔️",
+      unamused: "😒",
+      underage: "🔞",
+      unicorn: "🦄",
+      unlock: "🔓",
+      up: "🆙",
+      upside_down_face: "🙃",
+      v: "✌️",
+      vertical_traffic_light: "🚦",
+      vhs: "📼",
+      vibration_mode: "📳",
+      video_camera: "📹",
+      video_game: "🎮",
+      violin: "🎻",
+      virgo: "♍️",
+      volcano: "🌋",
+      volleyball: "🏐",
+      vs: "🆚",
+      vulcan_salute: "🖖",
+      walking_man: "🚶",
+      walking_woman: "🚶&zwj;♀️",
+      waning_crescent_moon: "🌘",
+      waning_gibbous_moon: "🌖",
+      warning: "⚠️",
+      wastebasket: "🗑",
+      watch: "⌚️",
+      water_buffalo: "🐃",
+      watermelon: "🍉",
+      wave: "👋",
+      wavy_dash: "〰️",
+      waxing_crescent_moon: "🌒",
+      wc: "🚾",
+      weary: "😩",
+      wedding: "💒",
+      weight_lifting_man: "🏋️",
+      weight_lifting_woman: "🏋️&zwj;♀️",
+      whale: "🐳",
+      whale2: "🐋",
+      wheel_of_dharma: "☸️",
+      wheelchair: "♿️",
+      white_check_mark: "✅",
+      white_circle: "⚪️",
+      white_flag: "🏳️",
+      white_flower: "💮",
+      white_large_square: "⬜️",
+      white_medium_small_square: "◽️",
+      white_medium_square: "◻️",
+      white_small_square: "▫️",
+      white_square_button: "🔳",
+      wilted_flower: "🥀",
+      wind_chime: "🎐",
+      wind_face: "🌬",
+      wine_glass: "🍷",
+      wink: "😉",
+      wolf: "🐺",
+      woman: "👩",
+      woman_artist: "👩&zwj;🎨",
+      woman_astronaut: "👩&zwj;🚀",
+      woman_cartwheeling: "🤸&zwj;♀️",
+      woman_cook: "👩&zwj;🍳",
+      woman_facepalming: "🤦&zwj;♀️",
+      woman_factory_worker: "👩&zwj;🏭",
+      woman_farmer: "👩&zwj;🌾",
+      woman_firefighter: "👩&zwj;🚒",
+      woman_health_worker: "👩&zwj;⚕️",
+      woman_judge: "👩&zwj;⚖️",
+      woman_juggling: "🤹&zwj;♀️",
+      woman_mechanic: "👩&zwj;🔧",
+      woman_office_worker: "👩&zwj;💼",
+      woman_pilot: "👩&zwj;✈️",
+      woman_playing_handball: "🤾&zwj;♀️",
+      woman_playing_water_polo: "🤽&zwj;♀️",
+      woman_scientist: "👩&zwj;🔬",
+      woman_shrugging: "🤷&zwj;♀️",
+      woman_singer: "👩&zwj;🎤",
+      woman_student: "👩&zwj;🎓",
+      woman_teacher: "👩&zwj;🏫",
+      woman_technologist: "👩&zwj;💻",
+      woman_with_turban: "👳&zwj;♀️",
+      womans_clothes: "👚",
+      womans_hat: "👒",
+      women_wrestling: "🤼&zwj;♀️",
+      womens: "🚺",
+      world_map: "🗺",
+      worried: "😟",
+      wrench: "🔧",
+      writing_hand: "✍️",
+      x: "❌",
+      yellow_heart: "💛",
+      yen: "💴",
+      yin_yang: "☯️",
+      yum: "😋",
+      zap: "⚡️",
+      zipper_mouth_face: "🤐",
+      zzz: "💤",
+      /* special emojis :P */
+      octocat: '<img width="20" height="20" align="absmiddle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAOwUlEQVR42uVbCVyO6RbPmn0sw9gZS0aZO4y5GTEUE2ObxjZjrbHEJVy3sWS5pkaWxjLEkCVDSbSgFLdESaWSLIVUSIi4kvb9f895vi/zbbR+yZ339/tbnu99n/ec/3Oe85xznufV0CjDBaAdwZqwnzCJ0FXjHV70/i8J5oQDhCFV8cJdq1atwqxZs+Ds7Iz4+HhqwgXCLELNKlK6G2Ej4e6lS5ewZcsWzJgxA+fOnWNZFqvzxT1v3boF/qcsBg0ahP3796OwsJAFWKYuIqjfPoS9cXFxWL58Obp06SInh5aWFr//jjoJWLlu3TolAorRuXNn7Ny5k4W4Spgj81xrgj5hLmED4RDhlNRygglBhADCSakpWxFMCHoETUJTwrYHDx7A1NT0je9nPHz4kN/fXl0EeI0aNeqtAjB69+4NPz8/FsSdlXvy5An8/f1hZ2cHCwsLGBsbY/To0cJy9PT0MGDAAAwePBhGRkbClNesWYODBw8iODgYOTk53M/d9evXo27duiW++8iRI3z/ZHURENOjR48ShSjGuHHjhHJ16tQp9TOKaNWqlZKpvw1MHluQOpSvk5eXh5YtW5ZbmarAvHnzmIBd6iCgXnZ2Npo1a1atCWAfwY5SHQTUKCoqQocOHao1AebmHBJgi7p8QBDP6epMwKFDvMDAWF0ELLS1ta3WBNy9e5cJMFIXAdvt7e2rNQHDhw9nAv5D+KKylV9y8+bNCi1pVYWZM2cyCfaVTcDdsqzH7xpBQRxcwqyylLdi5/K+KM/Q0dFhAqIri4Bn1T0AUgVpdmhYUeVHnD59+r1TnjF27Fgm4HhFCThoYmLyXhLQoEGD4mRKsyIE3OrZs+d7SQCDCyZcNSqv8k1evXoFTU3NUr+wzUcfYqRBf8yb/C2WzfoBFoTF08fBdMIITDD8CsP1+kL30x7Q6dYZH7drjfZ0f4fWLdG1Q1t81qMLBvTRwejB/TBl1BDMnzQGS2dMxKo5k7Fs9iSY/jAaBvR8Pc26pZaH02quLZSXgO6xsbGlelGnli1wZKcVMqN8gKcRwItrf+K/VB95doXaLwOJIVSzOU/+2Re5kV7IuuyJrIhTyLt6mmztLBBPNZLHoUAy9fE8UvJ8ikxfj8PwJPQErJeYlkquTZs2MQFLykuANgc/Jb2kn3Z3ZMaQUrmxwO1zyAo7gfRAJ6RfOIyMEFdkXj5F8BTK5lzxQv610yi8QcFatI8gQoCIK7x+hojwRnaE5H4JTiEj9Pjr/rJDqcZyn9b4ovu45LYbdWvXeqtsXMHiSlZ5CegRExPz1hd83PYj5POo0QinXyLFg48hnZTOiQ1Dzr1IZEaeQRoJn0HKZIR7lA2kfHrQUerXHTlx4ZL+rnjjFRGRGeYB5MUj2GnbW+XbuJFrp1heXgI6JCYmvvUFN1x3Aek3SWkapRAXMeJFGS8ge2Xfuog0toaykED3Mpk8+shOk+sv68Y50V9WuKewBKt5094o39atW/mRf5WXgIYZGRlo3Lixys4nj6A6Z1YMcqRCpwU4ouDlUyHk/QA/hNttR25Wlvh/ZthJUsil9ATQ/axkYbqEzDgfL0Ts/x35+aLyTES7IY36Q6w/+Q4/tP6wuUoZ9+7dy7ebVmQZjO/atavKzn32rAdeXkd6KCkXdAxZ13yFcLFnvPD73zrDVrsdTs6eggKSuSjjORHkUGoC0i86Iyc6QPQX7eqMnTodYNuzHU4vnosiaitMSUSavwMy6d3IvEUrzViVMrq5uXEX4ytCgL++vr5Sx7Vr1cIDX0dKkQJfj37Rs3jw1sBxkwlwGD4Ax3+ciN1faCHW76xQRFgAOcjSEMBkIe0x8nLzcez7kTg8Rh/uxuOxR/cTJISFSfq7eATpZCk8CAfXLVFJwIULXHnHoIoQYLtw4UKljps2aogXQcQuef/XAiMDKY+S4DhyEFwpDnCj9f+Afl8EbbWRTANaAdihlYoAMn8aZzyNuYODX/eD29TvRH/7v+qN8H27JdOAyWQfQQ74xPafVRLAPox9WUlK6hIGEgx4f00Kg2JcvHhRqeP6FIwknXemyen/2gLIIeC/CYk49M0AuE4xgtu0sThg8AUCN62TEuBdRgJo2Y+Kxh9D/k59SQiwH9QHobt3SAk4KSGA4oWjm1YqyVi8U6Soj4yOrHM/jTAyKVby/PnzIoNi8L+L4eXlpXoFcLcTgc1rAlISkJeXDxeK2A6P1hdTwI6mQPTJE+WbAlnJyE7PhNO3Q3BkrKGYWtxfHMkkmQLO0ilwA7+vXqAkn66urtBLUZ9iHfm30NBQaPAf165dA0d9vP2UlJSEp0+f4vHjx3j06JH4e+rUqUovcNmyGkiNEkLwklXsBG+ecMUOnfbYod1emG5uboFKJ8jPFVD0l0dBUHqoPDHpQeQEb0qc4FUHe3KAbYUT9JgzDbwOFL5MfN0fXkXhJ5PxSvLt2LFD1Ah5u4z1YJ14l4qnBe8v3rhxAzz4PAVG8nLHivIP0dHRiIiIQGRkpEgmrl69ClW1QBMjQ7LDW8hmU+RRI69ckJIkhL7jfRJBm62R+TJVYq6h0jhBRslsivqenT2MF/7OyI70VmkFhWnPJaS6OyPkt43IycqR9EfWlH7JDQUUTuNhCHR7Ke9YcRp/5coVoQPrcvnyZURFRYmBZlLS0kR8MVLD29sbnp6e8PHxQUBAgCgn8YO8E3z79m3BGKeVc+bMkXuBZt06SA12F/F5Go0gR4C8HBalPZMPXKL8lQKhPAqF+f97KXFyNx6HQsoPsshJ/kmAp2TKkJLISpXvjyxNhMYcDVLOEO+lPDi8B5mamipkZx1YF9YpJCRErAy+vr5CZ9ZdWABhDGEYYTBhAOFz3g4nfMJelNCbkNCpUye5F034mvxIPi1/FM+zQCw0k5B9O0iEr5kRXkqhMJOVf9NXIHjtT7hmaymSoBzKETimkAuFpaF1dkwI9RcmIYaXv3BJXoGCuyIgk5WpefPmKCgoYK46SmX/RKoL69Sfl0WuFEl1HlmWJXE5z6WmTZvKJxxmxkIQ3AuU5APk6NICj4hRT6eITTEEzqWk55HHPjz3cxJhNF5cxeNT9kj2cRDTQjEkzpDtjyyCic5l5fEA7uSHFEefR5pPsahrb2B9QkICFHeJ51HunkdLIg0VLY0BFKdLwllVHp4dHyvst3QuEiiju21vA/+VZkiluIKt4I3RIfWXQ4QgKUxkni47LJWUP3PmjHo2RxVI+CebmKJP6EiFDVurxUgmExe5PHlnPAkn8w4QqW62NCVmYopozid5H0CI9RKE21ggJeAYEeMnfitOnRn5XCfgeJ+VTosWQU8MOc6ZE0cqnUm4fv165SrPBVHCfMI4TowUfmOfsIcdJh92kBWmUcP6GDt8EDZbzIffH5tx3/ewSFjw5LKk0MEFEkZenDBjgew7Yiog5brkt+QrknvJmhIp4Apw/A1bVpjhG/0v5d7Vrl07bNu2TelUSqUoz8uI3Z49OEtBAy+TdP1CqKtwHzvQUxxgTJs2TeX5gdq1a0ObSmCjh+jB+NuvRamL1+3ls77HCip1rTSdJP5eNnMizKndjMLoH42G4bthX+FzHS3UVVEC69evH3799VeKMXJZrlWKclUGAZ5jxoxB02ZNsNlxH74aagBHZyex986HlVTczyGmI58h4CjL2toa48ePFxsUPEotWrQoc0GT0/C2bduiY8eO4ISMcxLeoOFYhS6qm2EpoZG65jmbv+dPSyRZlt5QfVjvtX19AOFNL+aDFNI4m0eFc9Ho5ORkaGtrl5kAVp6DMOk88efEjLe++ZhclZwHTJHEHbs4YOCmLj2645fdvwnTK42zoXtaEHwNDQ3LXdZm5yad3/2r+gQmDsRnIF5KAldX6zdsgG/GG8F44Vzcu3eP2y1K6GPr2rVrK1zbnz59Or/LoaoJCPZ4kCZsjw9GECL79OmDj9q2wb+320C3/5fgPQO6Vrzh+fpcDqxXr16lbHBwgkZXm6okYJr0ECMrX5vraiJ1lArEjrEnzWuOqemiYj9spGd2ee478XkiPsJakmJ83qA05/8qXNurJFLiunXrhpo1a6LxB02wyHIFZpovgOHwYfjZ0hK2lH5u2rwZ5suWYv5ycyUlmjRpgl69eimlrFy3kwuoyOvXr19frm3RokVMwPZ3TYC57E6xVq+e6KzVDSaL/oEp82Zh8IhhWLjGAp/p9oX5ujVKBNjY2MDV1VWuzd3dXaTesm2biUQuZ8u28elSPmKr8a4vdog8GnJpcT1N1KHUuBbt0jSgWuGbzJh3mVhh2TYHBwdxjFa2jVcZnvPVlQBOLXdZWlqW2ZFxNYYVlm07fPgwAgMD5dr4OD5HeHLFFxM+O42DGtXhIkFaMQlcUjIzM0P37t1Ro0YNpZPjPJcVK7SOjo5ybU5OTqIAo0gAh97VlgAZIj4l8Pn4WFaO64ocuXG6zJtDbMqySnC7IgF8uptLVrJtq1evFuWqak+A4j4i4TNpltiJ8LPiNFFFwNGjRyWFyfedAFUny/joekkEuLi4KK0CfykCeFnkiu1flgBeFtl3/D8SsMbKykpOifv37ysRcPz4cVHKUiSA8wwNdR9/VTMBSh9Y8S4Nf2qnSICiBbDzVCRg9uzZTMC+94kAv6FDh8opwRsVHPjItnl4eEDxHNLKlStFXV+2javQ/M1SpZe+1KA4L4G7WDG57fSm/OUbXiqG0ewAFYOeYcN4fwZhvLkp2y4tftrxcltdlf/w+fPn4qNGxTCYU2m6nrRu3VqunT/EoiuZvw6TTZHpyuNNmEaNGsndP3fu3OJAq1N1JOAHDmyKheVtNP4OkE2crULRAW7fvl20EyyLy24a8p+/7WISFixYIMLt4t82bNhQYjXqXREgPq3j74mlX3AmSL8E1eOPIBXnuVT5OsVZpuLnOMeOHeN7vifwiYhYzhC5IpwlOXj1QXWdBmy/XWU/X+UqMZfKBw4cKAobHPlJlZe9h6tOu+7cuSN2dg0MDMSSyZUpmXvaSD+crq/xvl0k9BTCRa7qEPq+5T4t6ffF52WVV+f1P6zyLG30bsU4AAAAAElFTkSuQmCC">',
+      showdown: '<img width="20" height="20" align="absmiddle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAECtaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzA2NyA3OS4xNTc3NDcsIDIwMTUvMDMvMzAtMjM6NDA6NDIgICAgICAgICI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgICAgICAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgICAgICAgICB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMTUtMDEtMTVUMjE6MDE6MTlaPC94bXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxNy0xMC0yNFQxMzozMTozMCswMTowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPHhtcDpNb2RpZnlEYXRlPjIwMTctMTAtMjRUMTM6MzE6MzArMDE6MDA8L3htcDpNb2RpZnlEYXRlPgogICAgICAgICA8cGhvdG9zaG9wOkNvbG9yTW9kZT4zPC9waG90b3Nob3A6Q29sb3JNb2RlPgogICAgICAgICA8cGhvdG9zaG9wOklDQ1Byb2ZpbGU+c1JHQiBJRUM2MTk2Ni0yLjE8L3Bob3Rvc2hvcDpJQ0NQcm9maWxlPgogICAgICAgICA8cGhvdG9zaG9wOlRleHRMYXllcnM+CiAgICAgICAgICAgIDxyZGY6QmFnPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHBob3Rvc2hvcDpMYXllck5hbWU+UyAtPC9waG90b3Nob3A6TGF5ZXJOYW1lPgogICAgICAgICAgICAgICAgICA8cGhvdG9zaG9wOkxheWVyVGV4dD5TIC08L3Bob3Rvc2hvcDpMYXllclRleHQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpCYWc+CiAgICAgICAgIDwvcGhvdG9zaG9wOlRleHRMYXllcnM+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgICAgIDx4bXBNTTpJbnN0YW5jZUlEPnhtcC5paWQ6N2NkMzQxNzctOWYyZi0yNDRiLWEyYjQtMzU1MzJkY2Y1MWJiPC94bXBNTTpJbnN0YW5jZUlEPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6M2E1YzgxYmYtYjhiNy0xMWU3LTk0NDktYTQ2MzdlZjJkNjMzPC94bXBNTTpEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06T3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3htcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkhpc3Rvcnk+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jcmVhdGVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTUtMDEtMTVUMjE6MDE6MTlaPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPnNhdmVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6ODZjNjBkMGQtOGY0Yy01ZTRlLWEwMjQtODI4ZWQyNTIwZDc3PC9zdEV2dDppbnN0YW5jZUlEPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE3LTEwLTI0VDEzOjMxOjMwKzAxOjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3N0RXZ0OnNvZnR3YXJlQWdlbnQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpjaGFuZ2VkPi88L3N0RXZ0OmNoYW5nZWQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jb252ZXJ0ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+ZnJvbSBhcHBsaWNhdGlvbi92bmQuYWRvYmUucGhvdG9zaG9wIHRvIGltYWdlL3BuZzwvc3RFdnQ6cGFyYW1ldGVycz4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmRlcml2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+Y29udmVydGVkIGZyb20gYXBwbGljYXRpb24vdm5kLmFkb2JlLnBob3Rvc2hvcCB0byBpbWFnZS9wbmc8L3N0RXZ0OnBhcmFtZXRlcnM+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5zYXZlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOjdjZDM0MTc3LTlmMmYtMjQ0Yi1hMmI0LTM1NTMyZGNmNTFiYjwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAxNy0xMC0yNFQxMzozMTozMCswMTowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L3htcE1NOkhpc3Rvcnk+CiAgICAgICAgIDx4bXBNTTpEZXJpdmVkRnJvbSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgIDxzdFJlZjppbnN0YW5jZUlEPnhtcC5paWQ6ODZjNjBkMGQtOGY0Yy01ZTRlLWEwMjQtODI4ZWQyNTIwZDc3PC9zdFJlZjppbnN0YW5jZUlEPgogICAgICAgICAgICA8c3RSZWY6ZG9jdW1lbnRJRD54bXAuZGlkOjYwQzVBRTY1RjY5Q0U0MTE5NDVBODU1RTNCQ0E3RUVCPC9zdFJlZjpkb2N1bWVudElEPgogICAgICAgICAgICA8c3RSZWY6b3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3N0UmVmOm9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPC94bXBNTTpEZXJpdmVkRnJvbT4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+MTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/Pse7bzcAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAA1JJREFUeNrsm1+OmlAUhz+aeS9dwZggJn1AnRUMO6jpBgZXULuC2hWUWUGZBTSxKyiuoA4mfUBMnB04K5g+9DihRBHlyh/lJLwIXLgf99xzzu9etZeXFy7Z3nDh1gBoAFy4XeVtQNO0zNcapmUDfUBPnFoBfhQGq6IBaHmjwD4Ahmk5wAD4kKG5J8CNwsAFaHe6DvA9cc0wCgOv8gDka3vA9RHNPgo0D7hNnJtGYWBXxgV2dH4MfMnRRA+Y1WIO2NJ5F/ikoKm3tYsChmkNFHW+fmHQMC1dfHaXPQP3wM1yMdc2B/AOGALTWobBmI1Shu0UGCwX83XyRBQGawHntTtdG5gUNfxVu4CTNqNv6/wWGL7kCc+1AmCYVisl3I2ydD4GYZUCs7IjoLXrxHIx9w9tLAqDCfBwDrXAY457x+cAoCfuwRGjYFUnAGk+PsjR7s8Dn1VeLWCYVlpDw+VivjVHSHt+u9PVJbzGzZXQWTkAkz0V31fATUaEsjVJlQBs4FeGcteLgzgbAALBA+4y3voAeJL8nA0AHfClnM1qm1HhnYUidCSE+KzvSSJUTwAxCOMcpfETMFYpfRUKIAbCFhC3OTJJJwqDWS0BxED0JZ4Pjix1P2+E0loCSMBwyK4S/xc1ojBwag8gMU84cvTKGgmlAYhngu1O9xAXuVE5J1QCQCz3bwHuHvdQui5QKQAxEO6eEKpsFCgTRSXkvdoxSlBMCxhJJbgrrbZRtHCiShN0pRB6PeQ3ckBw2K0oKXMBVYJIP+Nvh9qulFivGoBt1lLQxowT2ykBXCfnhZIglgYACWmqXQv+baioBYCeiCQHm+QEg1O7RhF7hO4OhSAhcJKSFU7qBGADwZeqMMuXn6TUBw8qlaMrirNb4LdhWlP+SWD+cjFfxTpuS2GUpik+o3jFSEkqbJiWn0P0OMSGqlWiOu0TvD+FRHZKAE+oW+cfRmEwqlsesJJEJs8y91QqP+9UL6lqEtz2gpuNEY5sm9sIHln2DRa2aFKGJtiXkZEMiWtgVvRKUSUFkSKt2S7fAGgAXLYpmQQXf36MUChTZdUa2u8/rkvPA6Tz30r4eH3ybcBS5gJ6SaNXb+aABkA1AMxKenclBZLW/He4cYEGwEXb3wEASelexk6LIIIAAAAASUVORK5CYII=">'
+    }, a.Converter = function(e) {
+      var t = {}, r = [], n = [], g = {}, s = k, u = {
+        parsed: {},
+        raw: "",
+        format: ""
+      };
+      C();
+      function C() {
+        e = e || {};
+        for (var d in S)
+          S.hasOwnProperty(d) && (t[d] = S[d]);
+        if (typeof e == "object")
+          for (var f in e)
+            e.hasOwnProperty(f) && (t[f] = e[f]);
+        else
+          throw Error("Converter expects the passed parameter to be an object, but " + typeof e + " was passed instead.");
+        t.extensions && a.helper.forEach(t.extensions, w);
+      }
+      function w(d, f) {
+        if (f = f || null, a.helper.isString(d))
+          if (d = a.helper.stdExtName(d), f = d, a.extensions[d]) {
+            console.warn("DEPRECATION WARNING: " + d + " is an old extension that uses a deprecated loading method.Please inform the developer that the extension should be updated!"), p(a.extensions[d], d);
+            return;
+          } else if (!a.helper.isUndefined(I[d]))
+            d = I[d];
+          else
+            throw Error('Extension "' + d + '" could not be loaded. It was either not found or is not a valid extension.');
+        typeof d == "function" && (d = d()), a.helper.isArray(d) || (d = [d]);
+        var v = b(d, f);
+        if (!v.valid)
+          throw Error(v.error);
+        for (var E = 0; E < d.length; ++E) {
+          switch (d[E].type) {
+            case "lang":
+              r.push(d[E]);
+              break;
+            case "output":
+              n.push(d[E]);
+              break;
+          }
+          if (d[E].hasOwnProperty("listeners"))
+            for (var z in d[E].listeners)
+              d[E].listeners.hasOwnProperty(z) && l(z, d[E].listeners[z]);
+        }
+      }
+      function p(d, f) {
+        typeof d == "function" && (d = d(new a.Converter())), a.helper.isArray(d) || (d = [d]);
+        var v = b(d, f);
+        if (!v.valid)
+          throw Error(v.error);
+        for (var E = 0; E < d.length; ++E)
+          switch (d[E].type) {
+            case "lang":
+              r.push(d[E]);
+              break;
+            case "output":
+              n.push(d[E]);
+              break;
+            default:
+              throw Error("Extension loader error: Type unrecognized!!!");
+          }
+      }
+      function l(d, f) {
+        if (!a.helper.isString(d))
+          throw Error("Invalid argument in converter.listen() method: name must be a string, but " + typeof d + " given");
+        if (typeof f != "function")
+          throw Error("Invalid argument in converter.listen() method: callback must be a function, but " + typeof f + " given");
+        g.hasOwnProperty(d) || (g[d] = []), g[d].push(f);
+      }
+      function h(d) {
+        var f = d.match(/^\s*/)[0].length, v = new RegExp("^\\s{0," + f + "}", "gm");
+        return d.replace(v, "");
+      }
+      this._dispatch = function(f, v, E, z) {
+        if (g.hasOwnProperty(f))
+          for (var m = 0; m < g[f].length; ++m) {
+            var R = g[f][m](f, v, this, E, z);
+            R && typeof R < "u" && (v = R);
+          }
+        return v;
+      }, this.listen = function(d, f) {
+        return l(d, f), this;
+      }, this.makeHtml = function(d) {
+        if (!d)
+          return d;
+        var f = {
+          gHtmlBlocks: [],
+          gHtmlMdBlocks: [],
+          gHtmlSpans: [],
+          gUrls: {},
+          gTitles: {},
+          gDimensions: {},
+          gListLevel: 0,
+          hashLinkCounts: {},
+          langExtensions: r,
+          outputModifiers: n,
+          converter: this,
+          ghCodeBlocks: [],
+          metadata: {
+            parsed: {},
+            raw: "",
+            format: ""
+          }
+        };
+        return d = d.replace(/¨/g, "¨T"), d = d.replace(/\$/g, "¨D"), d = d.replace(/\r\n/g, `
+`), d = d.replace(/\r/g, `
+`), d = d.replace(/\u00A0/g, " "), t.smartIndentationFix && (d = h(d)), d = `
+
+` + d + `
+
+`, d = a.subParser("detab")(d, t, f), d = d.replace(/^[ \t]+$/mg, ""), a.helper.forEach(r, function(v) {
+          d = a.subParser("runExtension")(v, d, t, f);
+        }), d = a.subParser("metadata")(d, t, f), d = a.subParser("hashPreCodeTags")(d, t, f), d = a.subParser("githubCodeBlocks")(d, t, f), d = a.subParser("hashHTMLBlocks")(d, t, f), d = a.subParser("hashCodeTags")(d, t, f), d = a.subParser("stripLinkDefinitions")(d, t, f), d = a.subParser("blockGamut")(d, t, f), d = a.subParser("unhashHTMLSpans")(d, t, f), d = a.subParser("unescapeSpecialChars")(d, t, f), d = d.replace(/¨D/g, "$$"), d = d.replace(/¨T/g, "¨"), d = a.subParser("completeHTMLDocument")(d, t, f), a.helper.forEach(n, function(v) {
+          d = a.subParser("runExtension")(v, d, t, f);
+        }), u = f.metadata, d;
+      }, this.setOption = function(d, f) {
+        t[d] = f;
+      }, this.getOption = function(d) {
+        return t[d];
+      }, this.getOptions = function() {
+        return t;
+      }, this.addExtension = function(d, f) {
+        f = f || null, w(d, f);
+      }, this.useExtension = function(d) {
+        w(d);
+      }, this.setFlavor = function(d) {
+        if (!c.hasOwnProperty(d))
+          throw Error(d + " flavor was not found");
+        var f = c[d];
+        s = d;
+        for (var v in f)
+          f.hasOwnProperty(v) && (t[v] = f[v]);
+      }, this.getFlavor = function() {
+        return s;
+      }, this.removeExtension = function(d) {
+        a.helper.isArray(d) || (d = [d]);
+        for (var f = 0; f < d.length; ++f) {
+          for (var v = d[f], E = 0; E < r.length; ++E)
+            r[E] === v && r[E].splice(E, 1);
+          for (var z = 0; z < n.length; ++E)
+            n[z] === v && n[z].splice(E, 1);
+        }
+      }, this.getAllExtensions = function() {
+        return {
+          language: r,
+          output: n
+        };
+      }, this.getMetadata = function(d) {
+        return d ? u.raw : u.parsed;
+      }, this.getMetadataFormat = function() {
+        return u.format;
+      }, this._setMetadataPair = function(d, f) {
+        u.parsed[d] = f;
+      }, this._setMetadataFormat = function(d) {
+        u.format = d;
+      }, this._setMetadataRaw = function(d) {
+        u.raw = d;
+      };
+    }, a.subParser("anchors", function(e, t, r) {
+      e = r.converter._dispatch("anchors.before", e, t, r);
+      var n = function(g, s, u, C, w, p, l) {
+        if (a.helper.isUndefined(l) && (l = ""), u = u.toLowerCase(), g.search(/\(<?\s*>? ?(['"].*['"])?\)$/m) > -1)
+          C = "";
+        else if (!C)
+          if (u || (u = s.toLowerCase().replace(/ ?\n/g, " ")), C = "#" + u, !a.helper.isUndefined(r.gUrls[u]))
+            C = r.gUrls[u], a.helper.isUndefined(r.gTitles[u]) || (l = r.gTitles[u]);
+          else
+            return g;
+        C = C.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback);
+        var h = '<a href="' + C + '"';
+        return l !== "" && l !== null && (l = l.replace(/"/g, "&quot;"), l = l.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback), h += ' title="' + l + '"'), t.openLinksInNewWindow && !/^#/.test(C) && (h += ' target="¨E95Eblank"'), h += ">" + s + "</a>", h;
+      };
+      return e = e.replace(/\[((?:\[[^\]]*]|[^\[\]])*)] ?(?:\n *)?\[(.*?)]()()()()/g, n), e = e.replace(
+        /\[((?:\[[^\]]*]|[^\[\]])*)]()[ \t]*\([ \t]?<([^>]*)>(?:[ \t]*((["'])([^"]*?)\5))?[ \t]?\)/g,
+        n
+      ), e = e.replace(
+        /\[((?:\[[^\]]*]|[^\[\]])*)]()[ \t]*\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?:[ \t]*((["'])([^"]*?)\5))?[ \t]?\)/g,
+        n
+      ), e = e.replace(/\[([^\[\]]+)]()()()()()/g, n), t.ghMentions && (e = e.replace(/(^|\s)(\\)?(@([a-z\d\-]+))(?=[.!?;,[\]()]|\s|$)/gmi, function(g, s, u, C, w) {
+        if (u === "\\")
+          return s + C;
+        if (!a.helper.isString(t.ghMentionsLink))
+          throw new Error("ghMentionsLink option must be a string");
+        var p = t.ghMentionsLink.replace(/\{u}/g, w), l = "";
+        return t.openLinksInNewWindow && (l = ' target="¨E95Eblank"'), s + '<a href="' + p + '"' + l + ">" + C + "</a>";
+      })), e = r.converter._dispatch("anchors.after", e, t, r), e;
+    });
+    var L = /([*~_]+|\b)(((https?|ftp|dict):\/\/|www\.)[^'">\s]+?\.[^'">\s]+?)()(\1)?(?=\s|$)(?!["<>])/gi, N = /([*~_]+|\b)(((https?|ftp|dict):\/\/|www\.)[^'">\s]+\.[^'">\s]+?)([.!?,()\[\]])?(\1)?(?=\s|$)(?!["<>])/gi, j = /()<(((https?|ftp|dict):\/\/|www\.)[^'">\s]+)()>()/gi, T = /(^|\s)(?:mailto:)?([A-Za-z0-9!#$%&'*+-/=?^_`{|}~.]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(?=$|\s)/gmi, O = /<()(?:mailto:)?([-.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)>/gi, U = function(e) {
+      return function(t, r, n, g, s, u, C) {
+        n = n.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback);
+        var w = n, p = "", l = "", h = r || "", d = C || "";
+        return /^www\./i.test(n) && (n = n.replace(/^www\./i, "http://www.")), e.excludeTrailingPunctuationFromURLs && u && (p = u), e.openLinksInNewWindow && (l = ' target="¨E95Eblank"'), h + '<a href="' + n + '"' + l + ">" + w + "</a>" + p + d;
+      };
+    }, x = function(e, t) {
+      return function(r, n, g) {
+        var s = "mailto:";
+        return n = n || "", g = a.subParser("unescapeSpecialChars")(g, e, t), e.encodeEmails ? (s = a.helper.encodeEmailAddress(s + g), g = a.helper.encodeEmailAddress(g)) : s = s + g, n + '<a href="' + s + '">' + g + "</a>";
+      };
+    };
+    a.subParser("autoLinks", function(e, t, r) {
+      return e = r.converter._dispatch("autoLinks.before", e, t, r), e = e.replace(j, U(t)), e = e.replace(O, x(t, r)), e = r.converter._dispatch("autoLinks.after", e, t, r), e;
+    }), a.subParser("simplifiedAutoLinks", function(e, t, r) {
+      return t.simplifiedAutoLink && (e = r.converter._dispatch("simplifiedAutoLinks.before", e, t, r), t.excludeTrailingPunctuationFromURLs ? e = e.replace(N, U(t)) : e = e.replace(L, U(t)), e = e.replace(T, x(t, r)), e = r.converter._dispatch("simplifiedAutoLinks.after", e, t, r)), e;
+    }), a.subParser("blockGamut", function(e, t, r) {
+      return e = r.converter._dispatch("blockGamut.before", e, t, r), e = a.subParser("blockQuotes")(e, t, r), e = a.subParser("headers")(e, t, r), e = a.subParser("horizontalRule")(e, t, r), e = a.subParser("lists")(e, t, r), e = a.subParser("codeBlocks")(e, t, r), e = a.subParser("tables")(e, t, r), e = a.subParser("hashHTMLBlocks")(e, t, r), e = a.subParser("paragraphs")(e, t, r), e = r.converter._dispatch("blockGamut.after", e, t, r), e;
+    }), a.subParser("blockQuotes", function(e, t, r) {
+      e = r.converter._dispatch("blockQuotes.before", e, t, r), e = e + `
+
+`;
+      var n = /(^ {0,3}>[ \t]?.+\n(.+\n)*\n*)+/gm;
+      return t.splitAdjacentBlockquotes && (n = /^ {0,3}>[\s\S]*?(?:\n\n)/gm), e = e.replace(n, function(g) {
+        return g = g.replace(/^[ \t]*>[ \t]?/gm, ""), g = g.replace(/¨0/g, ""), g = g.replace(/^[ \t]+$/gm, ""), g = a.subParser("githubCodeBlocks")(g, t, r), g = a.subParser("blockGamut")(g, t, r), g = g.replace(/(^|\n)/g, "$1  "), g = g.replace(/(\s*<pre>[^\r]+?<\/pre>)/gm, function(s, u) {
+          var C = u;
+          return C = C.replace(/^  /mg, "¨0"), C = C.replace(/¨0/g, ""), C;
+        }), a.subParser("hashBlock")(`<blockquote>
+` + g + `
+</blockquote>`, t, r);
+      }), e = r.converter._dispatch("blockQuotes.after", e, t, r), e;
+    }), a.subParser("codeBlocks", function(e, t, r) {
+      e = r.converter._dispatch("codeBlocks.before", e, t, r), e += "¨0";
+      var n = /(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=¨0))/g;
+      return e = e.replace(n, function(g, s, u) {
+        var C = s, w = u, p = `
+`;
+        return C = a.subParser("outdent")(C, t, r), C = a.subParser("encodeCode")(C, t, r), C = a.subParser("detab")(C, t, r), C = C.replace(/^\n+/g, ""), C = C.replace(/\n+$/g, ""), t.omitExtraWLInCodeBlocks && (p = ""), C = "<pre><code>" + C + p + "</code></pre>", a.subParser("hashBlock")(C, t, r) + w;
+      }), e = e.replace(/¨0/, ""), e = r.converter._dispatch("codeBlocks.after", e, t, r), e;
+    }), a.subParser("codeSpans", function(e, t, r) {
+      return e = r.converter._dispatch("codeSpans.before", e, t, r), typeof e > "u" && (e = ""), e = e.replace(
+        /(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm,
+        function(n, g, s, u) {
+          var C = u;
+          return C = C.replace(/^([ \t]*)/g, ""), C = C.replace(/[ \t]*$/g, ""), C = a.subParser("encodeCode")(C, t, r), C = g + "<code>" + C + "</code>", C = a.subParser("hashHTMLSpans")(C, t, r), C;
+        }
+      ), e = r.converter._dispatch("codeSpans.after", e, t, r), e;
+    }), a.subParser("completeHTMLDocument", function(e, t, r) {
+      if (!t.completeHTMLDocument)
+        return e;
+      e = r.converter._dispatch("completeHTMLDocument.before", e, t, r);
+      var n = "html", g = `<!DOCTYPE HTML>
+`, s = "", u = `<meta charset="utf-8">
+`, C = "", w = "";
+      typeof r.metadata.parsed.doctype < "u" && (g = "<!DOCTYPE " + r.metadata.parsed.doctype + `>
+`, n = r.metadata.parsed.doctype.toString().toLowerCase(), (n === "html" || n === "html5") && (u = '<meta charset="utf-8">'));
+      for (var p in r.metadata.parsed)
+        if (r.metadata.parsed.hasOwnProperty(p))
+          switch (p.toLowerCase()) {
+            case "doctype":
+              break;
+            case "title":
+              s = "<title>" + r.metadata.parsed.title + `</title>
+`;
+              break;
+            case "charset":
+              n === "html" || n === "html5" ? u = '<meta charset="' + r.metadata.parsed.charset + `">
+` : u = '<meta name="charset" content="' + r.metadata.parsed.charset + `">
+`;
+              break;
+            case "language":
+            case "lang":
+              C = ' lang="' + r.metadata.parsed[p] + '"', w += '<meta name="' + p + '" content="' + r.metadata.parsed[p] + `">
+`;
+              break;
+            default:
+              w += '<meta name="' + p + '" content="' + r.metadata.parsed[p] + `">
+`;
+          }
+      return e = g + "<html" + C + `>
+<head>
+` + s + u + w + `</head>
+<body>
+` + e.trim() + `
+</body>
+</html>`, e = r.converter._dispatch("completeHTMLDocument.after", e, t, r), e;
+    }), a.subParser("detab", function(e, t, r) {
+      return e = r.converter._dispatch("detab.before", e, t, r), e = e.replace(/\t(?=\t)/g, "    "), e = e.replace(/\t/g, "¨A¨B"), e = e.replace(/¨B(.+?)¨A/g, function(n, g) {
+        for (var s = g, u = 4 - s.length % 4, C = 0; C < u; C++)
+          s += " ";
+        return s;
+      }), e = e.replace(/¨A/g, "    "), e = e.replace(/¨B/g, ""), e = r.converter._dispatch("detab.after", e, t, r), e;
+    }), a.subParser("ellipsis", function(e, t, r) {
+      return e = r.converter._dispatch("ellipsis.before", e, t, r), e = e.replace(/\.\.\./g, "…"), e = r.converter._dispatch("ellipsis.after", e, t, r), e;
+    }), a.subParser("emoji", function(e, t, r) {
+      if (!t.emoji)
+        return e;
+      e = r.converter._dispatch("emoji.before", e, t, r);
+      var n = /:([\S]+?):/g;
+      return e = e.replace(n, function(g, s) {
+        return a.helper.emojis.hasOwnProperty(s) ? a.helper.emojis[s] : g;
+      }), e = r.converter._dispatch("emoji.after", e, t, r), e;
+    }), a.subParser("encodeAmpsAndAngles", function(e, t, r) {
+      return e = r.converter._dispatch("encodeAmpsAndAngles.before", e, t, r), e = e.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g, "&amp;"), e = e.replace(/<(?![a-z\/?$!])/gi, "&lt;"), e = e.replace(/</g, "&lt;"), e = e.replace(/>/g, "&gt;"), e = r.converter._dispatch("encodeAmpsAndAngles.after", e, t, r), e;
+    }), a.subParser("encodeBackslashEscapes", function(e, t, r) {
+      return e = r.converter._dispatch("encodeBackslashEscapes.before", e, t, r), e = e.replace(/\\(\\)/g, a.helper.escapeCharactersCallback), e = e.replace(/\\([`*_{}\[\]()>#+.!~=|-])/g, a.helper.escapeCharactersCallback), e = r.converter._dispatch("encodeBackslashEscapes.after", e, t, r), e;
+    }), a.subParser("encodeCode", function(e, t, r) {
+      return e = r.converter._dispatch("encodeCode.before", e, t, r), e = e.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/([*_{}\[\]\\=~-])/g, a.helper.escapeCharactersCallback), e = r.converter._dispatch("encodeCode.after", e, t, r), e;
+    }), a.subParser("escapeSpecialCharsWithinTagAttributes", function(e, t, r) {
+      e = r.converter._dispatch("escapeSpecialCharsWithinTagAttributes.before", e, t, r);
+      var n = /<\/?[a-z\d_:-]+(?:[\s]+[\s\S]+?)?>/gi, g = /<!(--(?:(?:[^>-]|-[^>])(?:[^-]|-[^-])*)--)>/gi;
+      return e = e.replace(n, function(s) {
+        return s.replace(/(.)<\/?code>(?=.)/g, "$1`").replace(/([\\`*_~=|])/g, a.helper.escapeCharactersCallback);
+      }), e = e.replace(g, function(s) {
+        return s.replace(/([\\`*_~=|])/g, a.helper.escapeCharactersCallback);
+      }), e = r.converter._dispatch("escapeSpecialCharsWithinTagAttributes.after", e, t, r), e;
+    }), a.subParser("githubCodeBlocks", function(e, t, r) {
+      return t.ghCodeBlocks ? (e = r.converter._dispatch("githubCodeBlocks.before", e, t, r), e += "¨0", e = e.replace(/(?:^|\n)(```+|~~~+)([^\s`~]*)\n([\s\S]*?)\n\1/g, function(n, g, s, u) {
+        var C = t.omitExtraWLInCodeBlocks ? "" : `
+`;
+        return u = a.subParser("encodeCode")(u, t, r), u = a.subParser("detab")(u, t, r), u = u.replace(/^\n+/g, ""), u = u.replace(/\n+$/g, ""), u = "<pre><code" + (s ? ' class="' + s + " language-" + s + '"' : "") + ">" + u + C + "</code></pre>", u = a.subParser("hashBlock")(u, t, r), `
+
+¨G` + (r.ghCodeBlocks.push({ text: n, codeblock: u }) - 1) + `G
+
+`;
+      }), e = e.replace(/¨0/, ""), r.converter._dispatch("githubCodeBlocks.after", e, t, r)) : e;
+    }), a.subParser("hashBlock", function(e, t, r) {
+      return e = r.converter._dispatch("hashBlock.before", e, t, r), e = e.replace(/(^\n+|\n+$)/g, ""), e = `
+
+¨K` + (r.gHtmlBlocks.push(e) - 1) + `K
+
+`, e = r.converter._dispatch("hashBlock.after", e, t, r), e;
+    }), a.subParser("hashCodeTags", function(e, t, r) {
+      e = r.converter._dispatch("hashCodeTags.before", e, t, r);
+      var n = function(g, s, u, C) {
+        var w = u + a.subParser("encodeCode")(s, t, r) + C;
+        return "¨C" + (r.gHtmlSpans.push(w) - 1) + "C";
+      };
+      return e = a.helper.replaceRecursiveRegExp(e, n, "<code\\b[^>]*>", "</code>", "gim"), e = r.converter._dispatch("hashCodeTags.after", e, t, r), e;
+    }), a.subParser("hashElement", function(e, t, r) {
+      return function(n, g) {
+        var s = g;
+        return s = s.replace(/\n\n/g, `
+`), s = s.replace(/^\n/, ""), s = s.replace(/\n+$/g, ""), s = `
+
+¨K` + (r.gHtmlBlocks.push(s) - 1) + `K
+
+`, s;
+      };
+    }), a.subParser("hashHTMLBlocks", function(e, t, r) {
+      e = r.converter._dispatch("hashHTMLBlocks.before", e, t, r);
+      var n = [
+        "pre",
+        "div",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "blockquote",
+        "table",
+        "dl",
+        "ol",
+        "ul",
+        "script",
+        "noscript",
+        "form",
+        "fieldset",
+        "iframe",
+        "math",
+        "style",
+        "section",
+        "header",
+        "footer",
+        "nav",
+        "article",
+        "aside",
+        "address",
+        "audio",
+        "canvas",
+        "figure",
+        "hgroup",
+        "output",
+        "video",
+        "p"
+      ], g = function(d, f, v, E) {
+        var z = d;
+        return v.search(/\bmarkdown\b/) !== -1 && (z = v + r.converter.makeHtml(f) + E), `
+
+¨K` + (r.gHtmlBlocks.push(z) - 1) + `K
+
+`;
+      };
+      t.backslashEscapesHTMLTags && (e = e.replace(/\\<(\/?[^>]+?)>/g, function(d, f) {
+        return "&lt;" + f + "&gt;";
+      }));
+      for (var s = 0; s < n.length; ++s)
+        for (var u, C = new RegExp("^ {0,3}(<" + n[s] + "\\b[^>]*>)", "im"), w = "<" + n[s] + "\\b[^>]*>", p = "</" + n[s] + ">"; (u = a.helper.regexIndexOf(e, C)) !== -1; ) {
+          var l = a.helper.splitAtIndex(e, u), h = a.helper.replaceRecursiveRegExp(l[1], g, w, p, "im");
+          if (h === l[1])
+            break;
+          e = l[0].concat(h);
+        }
+      return e = e.replace(
+        /(\n {0,3}(<(hr)\b([^<>])*?\/?>)[ \t]*(?=\n{2,}))/g,
+        a.subParser("hashElement")(e, t, r)
+      ), e = a.helper.replaceRecursiveRegExp(e, function(d) {
+        return `
+
+¨K` + (r.gHtmlBlocks.push(d) - 1) + `K
+
+`;
+      }, "^ {0,3}<!--", "-->", "gm"), e = e.replace(
+        /(?:\n\n)( {0,3}(?:<([?%])[^\r]*?\2>)[ \t]*(?=\n{2,}))/g,
+        a.subParser("hashElement")(e, t, r)
+      ), e = r.converter._dispatch("hashHTMLBlocks.after", e, t, r), e;
+    }), a.subParser("hashHTMLSpans", function(e, t, r) {
+      e = r.converter._dispatch("hashHTMLSpans.before", e, t, r);
+      function n(g) {
+        return "¨C" + (r.gHtmlSpans.push(g) - 1) + "C";
+      }
+      return e = e.replace(/<[^>]+?\/>/gi, function(g) {
+        return n(g);
+      }), e = e.replace(/<([^>]+?)>[\s\S]*?<\/\1>/g, function(g) {
+        return n(g);
+      }), e = e.replace(/<([^>]+?)\s[^>]+?>[\s\S]*?<\/\1>/g, function(g) {
+        return n(g);
+      }), e = e.replace(/<[^>]+?>/gi, function(g) {
+        return n(g);
+      }), e = r.converter._dispatch("hashHTMLSpans.after", e, t, r), e;
+    }), a.subParser("unhashHTMLSpans", function(e, t, r) {
+      e = r.converter._dispatch("unhashHTMLSpans.before", e, t, r);
+      for (var n = 0; n < r.gHtmlSpans.length; ++n) {
+        for (var g = r.gHtmlSpans[n], s = 0; /¨C(\d+)C/.test(g); ) {
+          var u = RegExp.$1;
+          if (g = g.replace("¨C" + u + "C", r.gHtmlSpans[u]), s === 10) {
+            console.error("maximum nesting of 10 spans reached!!!");
+            break;
+          }
+          ++s;
+        }
+        e = e.replace("¨C" + n + "C", g);
+      }
+      return e = r.converter._dispatch("unhashHTMLSpans.after", e, t, r), e;
+    }), a.subParser("hashPreCodeTags", function(e, t, r) {
+      e = r.converter._dispatch("hashPreCodeTags.before", e, t, r);
+      var n = function(g, s, u, C) {
+        var w = u + a.subParser("encodeCode")(s, t, r) + C;
+        return `
+
+¨G` + (r.ghCodeBlocks.push({ text: g, codeblock: w }) - 1) + `G
+
+`;
+      };
+      return e = a.helper.replaceRecursiveRegExp(e, n, "^ {0,3}<pre\\b[^>]*>\\s*<code\\b[^>]*>", "^ {0,3}</code>\\s*</pre>", "gim"), e = r.converter._dispatch("hashPreCodeTags.after", e, t, r), e;
+    }), a.subParser("headers", function(e, t, r) {
+      e = r.converter._dispatch("headers.before", e, t, r);
+      var n = isNaN(parseInt(t.headerLevelStart)) ? 1 : parseInt(t.headerLevelStart), g = t.smoothLivePreview ? /^(.+)[ \t]*\n={2,}[ \t]*\n+/gm : /^(.+)[ \t]*\n=+[ \t]*\n+/gm, s = t.smoothLivePreview ? /^(.+)[ \t]*\n-{2,}[ \t]*\n+/gm : /^(.+)[ \t]*\n-+[ \t]*\n+/gm;
+      e = e.replace(g, function(w, p) {
+        var l = a.subParser("spanGamut")(p, t, r), h = t.noHeaderId ? "" : ' id="' + C(p) + '"', d = n, f = "<h" + d + h + ">" + l + "</h" + d + ">";
+        return a.subParser("hashBlock")(f, t, r);
+      }), e = e.replace(s, function(w, p) {
+        var l = a.subParser("spanGamut")(p, t, r), h = t.noHeaderId ? "" : ' id="' + C(p) + '"', d = n + 1, f = "<h" + d + h + ">" + l + "</h" + d + ">";
+        return a.subParser("hashBlock")(f, t, r);
+      });
+      var u = t.requireSpaceBeforeHeadingText ? /^(#{1,6})[ \t]+(.+?)[ \t]*#*\n+/gm : /^(#{1,6})[ \t]*(.+?)[ \t]*#*\n+/gm;
+      e = e.replace(u, function(w, p, l) {
+        var h = l;
+        t.customizedHeaderId && (h = l.replace(/\s?\{([^{]+?)}\s*$/, ""));
+        var d = a.subParser("spanGamut")(h, t, r), f = t.noHeaderId ? "" : ' id="' + C(l) + '"', v = n - 1 + p.length, E = "<h" + v + f + ">" + d + "</h" + v + ">";
+        return a.subParser("hashBlock")(E, t, r);
+      });
+      function C(w) {
+        var p, l;
+        if (t.customizedHeaderId) {
+          var h = w.match(/\{([^{]+?)}\s*$/);
+          h && h[1] && (w = h[1]);
+        }
+        return p = w, a.helper.isString(t.prefixHeaderId) ? l = t.prefixHeaderId : t.prefixHeaderId === !0 ? l = "section-" : l = "", t.rawPrefixHeaderId || (p = l + p), t.ghCompatibleHeaderId ? p = p.replace(/ /g, "-").replace(/&amp;/g, "").replace(/¨T/g, "").replace(/¨D/g, "").replace(/[&+$,\/:;=?@"#{}|^¨~\[\]`\\*)(%.!'<>]/g, "").toLowerCase() : t.rawHeaderId ? p = p.replace(/ /g, "-").replace(/&amp;/g, "&").replace(/¨T/g, "¨").replace(/¨D/g, "$").replace(/["']/g, "-").toLowerCase() : p = p.replace(/[^\w]/g, "").toLowerCase(), t.rawPrefixHeaderId && (p = l + p), r.hashLinkCounts[p] ? p = p + "-" + r.hashLinkCounts[p]++ : r.hashLinkCounts[p] = 1, p;
+      }
+      return e = r.converter._dispatch("headers.after", e, t, r), e;
+    }), a.subParser("horizontalRule", function(e, t, r) {
+      e = r.converter._dispatch("horizontalRule.before", e, t, r);
+      var n = a.subParser("hashBlock")("<hr />", t, r);
+      return e = e.replace(/^ {0,2}( ?-){3,}[ \t]*$/gm, n), e = e.replace(/^ {0,2}( ?\*){3,}[ \t]*$/gm, n), e = e.replace(/^ {0,2}( ?_){3,}[ \t]*$/gm, n), e = r.converter._dispatch("horizontalRule.after", e, t, r), e;
+    }), a.subParser("images", function(e, t, r) {
+      e = r.converter._dispatch("images.before", e, t, r);
+      var n = /!\[([^\]]*?)][ \t]*()\([ \t]?<?([\S]+?(?:\([\S]*?\)[\S]*?)?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g, g = /!\[([^\]]*?)][ \t]*()\([ \t]?<([^>]*)>(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(?:(["'])([^"]*?)\6))?[ \t]?\)/g, s = /!\[([^\]]*?)][ \t]*()\([ \t]?<?(data:.+?\/.+?;base64,[A-Za-z0-9+/=\n]+?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(["'])([^"]*?)\6)?[ \t]?\)/g, u = /!\[([^\]]*?)] ?(?:\n *)?\[([\s\S]*?)]()()()()()/g, C = /!\[([^\[\]]+)]()()()()()/g;
+      function w(l, h, d, f, v, E, z, m) {
+        return f = f.replace(/\s/g, ""), p(l, h, d, f, v, E, z, m);
+      }
+      function p(l, h, d, f, v, E, z, m) {
+        var R = r.gUrls, M = r.gTitles, D = r.gDimensions;
+        if (d = d.toLowerCase(), m || (m = ""), l.search(/\(<?\s*>? ?(['"].*['"])?\)$/m) > -1)
+          f = "";
+        else if (f === "" || f === null)
+          if ((d === "" || d === null) && (d = h.toLowerCase().replace(/ ?\n/g, " ")), f = "#" + d, !a.helper.isUndefined(R[d]))
+            f = R[d], a.helper.isUndefined(M[d]) || (m = M[d]), a.helper.isUndefined(D[d]) || (v = D[d].width, E = D[d].height);
+          else
+            return l;
+        h = h.replace(/"/g, "&quot;").replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback), f = f.replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback);
+        var B = '<img src="' + f + '" alt="' + h + '"';
+        return m && (m = m.replace(/"/g, "&quot;").replace(a.helper.regexes.asteriskDashAndColon, a.helper.escapeCharactersCallback), B += ' title="' + m + '"'), v && E && (v = v === "*" ? "auto" : v, E = E === "*" ? "auto" : E, B += ' width="' + v + '"', B += ' height="' + E + '"'), B += " />", B;
+      }
+      return e = e.replace(u, p), e = e.replace(s, w), e = e.replace(g, p), e = e.replace(n, p), e = e.replace(C, p), e = r.converter._dispatch("images.after", e, t, r), e;
+    }), a.subParser("italicsAndBold", function(e, t, r) {
+      e = r.converter._dispatch("italicsAndBold.before", e, t, r);
+      function n(g, s, u) {
+        return s + g + u;
+      }
+      return t.literalMidWordUnderscores ? (e = e.replace(/\b___(\S[\s\S]*)___\b/g, function(g, s) {
+        return n(s, "<strong><em>", "</em></strong>");
+      }), e = e.replace(/\b__(\S[\s\S]*)__\b/g, function(g, s) {
+        return n(s, "<strong>", "</strong>");
+      }), e = e.replace(/\b_(\S[\s\S]*?)_\b/g, function(g, s) {
+        return n(s, "<em>", "</em>");
+      })) : (e = e.replace(/___(\S[\s\S]*?)___/g, function(g, s) {
+        return /\S$/.test(s) ? n(s, "<strong><em>", "</em></strong>") : g;
+      }), e = e.replace(/__(\S[\s\S]*?)__/g, function(g, s) {
+        return /\S$/.test(s) ? n(s, "<strong>", "</strong>") : g;
+      }), e = e.replace(/_([^\s_][\s\S]*?)_/g, function(g, s) {
+        return /\S$/.test(s) ? n(s, "<em>", "</em>") : g;
+      })), t.literalMidWordAsterisks ? (e = e.replace(/([^*]|^)\B\*\*\*(\S[\s\S]+?)\*\*\*\B(?!\*)/g, function(g, s, u) {
+        return n(u, s + "<strong><em>", "</em></strong>");
+      }), e = e.replace(/([^*]|^)\B\*\*(\S[\s\S]+?)\*\*\B(?!\*)/g, function(g, s, u) {
+        return n(u, s + "<strong>", "</strong>");
+      }), e = e.replace(/([^*]|^)\B\*(\S[\s\S]+?)\*\B(?!\*)/g, function(g, s, u) {
+        return n(u, s + "<em>", "</em>");
+      })) : (e = e.replace(/\*\*\*(\S[\s\S]*?)\*\*\*/g, function(g, s) {
+        return /\S$/.test(s) ? n(s, "<strong><em>", "</em></strong>") : g;
+      }), e = e.replace(/\*\*(\S[\s\S]*?)\*\*/g, function(g, s) {
+        return /\S$/.test(s) ? n(s, "<strong>", "</strong>") : g;
+      }), e = e.replace(/\*([^\s*][\s\S]*?)\*/g, function(g, s) {
+        return /\S$/.test(s) ? n(s, "<em>", "</em>") : g;
+      })), e = r.converter._dispatch("italicsAndBold.after", e, t, r), e;
+    }), a.subParser("lists", function(e, t, r) {
+      function n(u, C) {
+        r.gListLevel++, u = u.replace(/\n{2,}$/, `
+`), u += "¨0";
+        var w = /(\n)?(^ {0,3})([*+-]|\d+[.])[ \t]+((\[(x|X| )?])?[ \t]*[^\r]+?(\n{1,2}))(?=\n*(¨0| {0,3}([*+-]|\d+[.])[ \t]+))/gm, p = /\n[ \t]*\n(?!¨0)/.test(u);
+        return t.disableForced4SpacesIndentedSublists && (w = /(\n)?(^ {0,3})([*+-]|\d+[.])[ \t]+((\[(x|X| )?])?[ \t]*[^\r]+?(\n{1,2}))(?=\n*(¨0|\2([*+-]|\d+[.])[ \t]+))/gm), u = u.replace(w, function(l, h, d, f, v, E, z) {
+          z = z && z.trim() !== "";
+          var m = a.subParser("outdent")(v, t, r), R = "";
+          return E && t.tasklists && (R = ' class="task-list-item" style="list-style-type: none;"', m = m.replace(/^[ \t]*\[(x|X| )?]/m, function() {
+            var M = '<input type="checkbox" disabled style="margin: 0px 0.35em 0.25em -1.6em; vertical-align: middle;"';
+            return z && (M += " checked"), M += ">", M;
+          })), m = m.replace(/^([-*+]|\d\.)[ \t]+[\S\n ]*/g, function(M) {
+            return "¨A" + M;
+          }), h || m.search(/\n{2,}/) > -1 ? (m = a.subParser("githubCodeBlocks")(m, t, r), m = a.subParser("blockGamut")(m, t, r)) : (m = a.subParser("lists")(m, t, r), m = m.replace(/\n$/, ""), m = a.subParser("hashHTMLBlocks")(m, t, r), m = m.replace(/\n\n+/g, `
+
+`), p ? m = a.subParser("paragraphs")(m, t, r) : m = a.subParser("spanGamut")(m, t, r)), m = m.replace("¨A", ""), m = "<li" + R + ">" + m + `</li>
+`, m;
+        }), u = u.replace(/¨0/g, ""), r.gListLevel--, C && (u = u.replace(/\s+$/, "")), u;
+      }
+      function g(u, C) {
+        if (C === "ol") {
+          var w = u.match(/^ *(\d+)\./);
+          if (w && w[1] !== "1")
+            return ' start="' + w[1] + '"';
+        }
+        return "";
+      }
+      function s(u, C, w) {
+        var p = t.disableForced4SpacesIndentedSublists ? /^ ?\d+\.[ \t]/gm : /^ {0,3}\d+\.[ \t]/gm, l = t.disableForced4SpacesIndentedSublists ? /^ ?[*+-][ \t]/gm : /^ {0,3}[*+-][ \t]/gm, h = C === "ul" ? p : l, d = "";
+        if (u.search(h) !== -1)
+          (function v(E) {
+            var z = E.search(h), m = g(u, C);
+            z !== -1 ? (d += `
+
+<` + C + m + `>
+` + n(E.slice(0, z), !!w) + "</" + C + `>
+`, C = C === "ul" ? "ol" : "ul", h = C === "ul" ? p : l, v(E.slice(z))) : d += `
+
+<` + C + m + `>
+` + n(E, !!w) + "</" + C + `>
+`;
+          })(u);
+        else {
+          var f = g(u, C);
+          d = `
+
+<` + C + f + `>
+` + n(u, !!w) + "</" + C + `>
+`;
+        }
+        return d;
+      }
+      return e = r.converter._dispatch("lists.before", e, t, r), e += "¨0", r.gListLevel ? e = e.replace(
+        /^(( {0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(¨0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm,
+        function(u, C, w) {
+          var p = w.search(/[*+-]/g) > -1 ? "ul" : "ol";
+          return s(C, p, !0);
+        }
+      ) : e = e.replace(
+        /(\n\n|^\n?)(( {0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(¨0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm,
+        function(u, C, w, p) {
+          var l = p.search(/[*+-]/g) > -1 ? "ul" : "ol";
+          return s(w, l, !1);
+        }
+      ), e = e.replace(/¨0/, ""), e = r.converter._dispatch("lists.after", e, t, r), e;
+    }), a.subParser("metadata", function(e, t, r) {
+      if (!t.metadata)
+        return e;
+      e = r.converter._dispatch("metadata.before", e, t, r);
+      function n(g) {
+        r.metadata.raw = g, g = g.replace(/&/g, "&amp;").replace(/"/g, "&quot;"), g = g.replace(/\n {4}/g, " "), g.replace(/^([\S ]+): +([\s\S]+?)$/gm, function(s, u, C) {
+          return r.metadata.parsed[u] = C, "";
+        });
+      }
+      return e = e.replace(/^\s*«««+(\S*?)\n([\s\S]+?)\n»»»+\n/, function(g, s, u) {
+        return n(u), "¨M";
+      }), e = e.replace(/^\s*---+(\S*?)\n([\s\S]+?)\n---+\n/, function(g, s, u) {
+        return s && (r.metadata.format = s), n(u), "¨M";
+      }), e = e.replace(/¨M/g, ""), e = r.converter._dispatch("metadata.after", e, t, r), e;
+    }), a.subParser("outdent", function(e, t, r) {
+      return e = r.converter._dispatch("outdent.before", e, t, r), e = e.replace(/^(\t|[ ]{1,4})/gm, "¨0"), e = e.replace(/¨0/g, ""), e = r.converter._dispatch("outdent.after", e, t, r), e;
+    }), a.subParser("paragraphs", function(e, t, r) {
+      e = r.converter._dispatch("paragraphs.before", e, t, r), e = e.replace(/^\n+/g, ""), e = e.replace(/\n+$/g, "");
+      for (var n = e.split(/\n{2,}/g), g = [], s = n.length, u = 0; u < s; u++) {
+        var C = n[u];
+        C.search(/¨(K|G)(\d+)\1/g) >= 0 ? g.push(C) : C.search(/\S/) >= 0 && (C = a.subParser("spanGamut")(C, t, r), C = C.replace(/^([ \t]*)/g, "<p>"), C += "</p>", g.push(C));
+      }
+      for (s = g.length, u = 0; u < s; u++) {
+        for (var w = "", p = g[u], l = !1; /¨(K|G)(\d+)\1/.test(p); ) {
+          var h = RegExp.$1, d = RegExp.$2;
+          h === "K" ? w = r.gHtmlBlocks[d] : l ? w = a.subParser("encodeCode")(r.ghCodeBlocks[d].text, t, r) : w = r.ghCodeBlocks[d].codeblock, w = w.replace(/\$/g, "$$$$"), p = p.replace(/(\n\n)?¨(K|G)\d+\2(\n\n)?/, w), /^<pre\b[^>]*>\s*<code\b[^>]*>/.test(p) && (l = !0);
+        }
+        g[u] = p;
+      }
+      return e = g.join(`
+`), e = e.replace(/^\n+/g, ""), e = e.replace(/\n+$/g, ""), r.converter._dispatch("paragraphs.after", e, t, r);
+    }), a.subParser("runExtension", function(e, t, r, n) {
+      if (e.filter)
+        t = e.filter(t, n.converter, r);
+      else if (e.regex) {
+        var g = e.regex;
+        g instanceof RegExp || (g = new RegExp(g, "g")), t = t.replace(g, e.replace);
+      }
+      return t;
+    }), a.subParser("spanGamut", function(e, t, r) {
+      return e = r.converter._dispatch("spanGamut.before", e, t, r), e = a.subParser("codeSpans")(e, t, r), e = a.subParser("escapeSpecialCharsWithinTagAttributes")(e, t, r), e = a.subParser("encodeBackslashEscapes")(e, t, r), e = a.subParser("images")(e, t, r), e = a.subParser("anchors")(e, t, r), e = a.subParser("autoLinks")(e, t, r), e = a.subParser("simplifiedAutoLinks")(e, t, r), e = a.subParser("emoji")(e, t, r), e = a.subParser("underline")(e, t, r), e = a.subParser("italicsAndBold")(e, t, r), e = a.subParser("strikethrough")(e, t, r), e = a.subParser("ellipsis")(e, t, r), e = a.subParser("hashHTMLSpans")(e, t, r), e = a.subParser("encodeAmpsAndAngles")(e, t, r), t.simpleLineBreaks ? /\n\n¨K/.test(e) || (e = e.replace(/\n+/g, `<br />
+`)) : e = e.replace(/  +\n/g, `<br />
+`), e = r.converter._dispatch("spanGamut.after", e, t, r), e;
+    }), a.subParser("strikethrough", function(e, t, r) {
+      function n(g) {
+        return t.simplifiedAutoLink && (g = a.subParser("simplifiedAutoLinks")(g, t, r)), "<del>" + g + "</del>";
+      }
+      return t.strikethrough && (e = r.converter._dispatch("strikethrough.before", e, t, r), e = e.replace(/(?:~){2}([\s\S]+?)(?:~){2}/g, function(g, s) {
+        return n(s);
+      }), e = r.converter._dispatch("strikethrough.after", e, t, r)), e;
+    }), a.subParser("stripLinkDefinitions", function(e, t, r) {
+      var n = /^ {0,3}\[(.+)]:[ \t]*\n?[ \t]*<?([^>\s]+)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*\n?[ \t]*(?:(\n*)["|'(](.+?)["|')][ \t]*)?(?:\n+|(?=¨0))/gm, g = /^ {0,3}\[(.+)]:[ \t]*\n?[ \t]*<?(data:.+?\/.+?;base64,[A-Za-z0-9+/=\n]+?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*\n?[ \t]*(?:(\n*)["|'(](.+?)["|')][ \t]*)?(?:\n\n|(?=¨0)|(?=\n\[))/gm;
+      e += "¨0";
+      var s = function(u, C, w, p, l, h, d) {
+        return C = C.toLowerCase(), w.match(/^data:.+?\/.+?;base64,/) ? r.gUrls[C] = w.replace(/\s/g, "") : r.gUrls[C] = a.subParser("encodeAmpsAndAngles")(w, t, r), h ? h + d : (d && (r.gTitles[C] = d.replace(/"|'/g, "&quot;")), t.parseImgDimensions && p && l && (r.gDimensions[C] = {
+          width: p,
+          height: l
+        }), "");
+      };
+      return e = e.replace(g, s), e = e.replace(n, s), e = e.replace(/¨0/, ""), e;
+    }), a.subParser("tables", function(e, t, r) {
+      if (!t.tables)
+        return e;
+      var n = /^ {0,3}\|?.+\|.+\n {0,3}\|?[ \t]*:?[ \t]*(?:[-=]){2,}[ \t]*:?[ \t]*\|[ \t]*:?[ \t]*(?:[-=]){2,}[\s\S]+?(?:\n\n|¨0)/gm, g = /^ {0,3}\|.+\|[ \t]*\n {0,3}\|[ \t]*:?[ \t]*(?:[-=]){2,}[ \t]*:?[ \t]*\|[ \t]*\n( {0,3}\|.+\|[ \t]*\n)*(?:\n|¨0)/gm;
+      function s(l) {
+        return /^:[ \t]*--*$/.test(l) ? ' style="text-align:left;"' : /^--*[ \t]*:[ \t]*$/.test(l) ? ' style="text-align:right;"' : /^:[ \t]*--*[ \t]*:$/.test(l) ? ' style="text-align:center;"' : "";
+      }
+      function u(l, h) {
+        var d = "";
+        return l = l.trim(), (t.tablesHeaderId || t.tableHeaderId) && (d = ' id="' + l.replace(/ /g, "_").toLowerCase() + '"'), l = a.subParser("spanGamut")(l, t, r), "<th" + d + h + ">" + l + `</th>
+`;
+      }
+      function C(l, h) {
+        var d = a.subParser("spanGamut")(l, t, r);
+        return "<td" + h + ">" + d + `</td>
+`;
+      }
+      function w(l, h) {
+        for (var d = `<table>
+<thead>
+<tr>
+`, f = l.length, v = 0; v < f; ++v)
+          d += l[v];
+        for (d += `</tr>
+</thead>
+<tbody>
+`, v = 0; v < h.length; ++v) {
+          d += `<tr>
+`;
+          for (var E = 0; E < f; ++E)
+            d += h[v][E];
+          d += `</tr>
+`;
+        }
+        return d += `</tbody>
+</table>
+`, d;
+      }
+      function p(l) {
+        var h, d = l.split(`
+`);
+        for (h = 0; h < d.length; ++h)
+          /^ {0,3}\|/.test(d[h]) && (d[h] = d[h].replace(/^ {0,3}\|/, "")), /\|[ \t]*$/.test(d[h]) && (d[h] = d[h].replace(/\|[ \t]*$/, "")), d[h] = a.subParser("codeSpans")(d[h], t, r);
+        var f = d[0].split("|").map(function(B) {
+          return B.trim();
+        }), v = d[1].split("|").map(function(B) {
+          return B.trim();
+        }), E = [], z = [], m = [], R = [];
+        for (d.shift(), d.shift(), h = 0; h < d.length; ++h)
+          d[h].trim() !== "" && E.push(
+            d[h].split("|").map(function(B) {
+              return B.trim();
+            })
+          );
+        if (f.length < v.length)
+          return l;
+        for (h = 0; h < v.length; ++h)
+          m.push(s(v[h]));
+        for (h = 0; h < f.length; ++h)
+          a.helper.isUndefined(m[h]) && (m[h] = ""), z.push(u(f[h], m[h]));
+        for (h = 0; h < E.length; ++h) {
+          for (var M = [], D = 0; D < z.length; ++D)
+            a.helper.isUndefined(E[h][D]), M.push(C(E[h][D], m[D]));
+          R.push(M);
+        }
+        return w(z, R);
+      }
+      return e = r.converter._dispatch("tables.before", e, t, r), e = e.replace(/\\(\|)/g, a.helper.escapeCharactersCallback), e = e.replace(n, p), e = e.replace(g, p), e = r.converter._dispatch("tables.after", e, t, r), e;
+    }), a.subParser("underline", function(e, t, r) {
+      return t.underline && (e = r.converter._dispatch("underline.before", e, t, r), t.literalMidWordUnderscores ? e = e.replace(/\b_?__(\S[\s\S]*)___?\b/g, function(n, g) {
+        return "<u>" + g + "</u>";
+      }) : e = e.replace(/_?__(\S[\s\S]*?)___?/g, function(n, g) {
+        return /\S$/.test(g) ? "<u>" + g + "</u>" : n;
+      }), e = e.replace(/(_)/g, a.helper.escapeCharactersCallback), e = r.converter._dispatch("underline.after", e, t, r)), e;
+    }), a.subParser("unescapeSpecialChars", function(e, t, r) {
+      return e = r.converter._dispatch("unescapeSpecialChars.before", e, t, r), e = e.replace(/¨E(\d+)E/g, function(n, g) {
+        var s = parseInt(g);
+        return String.fromCharCode(s);
+      }), e = r.converter._dispatch("unescapeSpecialChars.after", e, t, r), e;
+    });
+    var H = this;
+    o.exports ? o.exports = a : H.showdown = a;
+  }).call(q);
+})($);
+var de = $.exports, ee = { exports: {} };
+(function(o) {
+  var i = typeof window < "u" ? window : typeof WorkerGlobalScope < "u" && self instanceof WorkerGlobalScope ? self : {}, A = function() {
+    var a = /\blang(?:uage)?-([\w-]+)\b/i, _ = 0, I = i.Prism = {
+      manual: i.Prism && i.Prism.manual,
+      disableWorkerMessageHandler: i.Prism && i.Prism.disableWorkerMessageHandler,
+      util: {
+        encode: function(c) {
+          return c instanceof S ? new S(c.type, I.util.encode(c.content), c.alias) : I.util.type(c) === "Array" ? c.map(I.util.encode) : c.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
+        },
+        type: function(c) {
+          return Object.prototype.toString.call(c).match(/\[object (\w+)\]/)[1];
+        },
+        objId: function(c) {
+          return c.__id || Object.defineProperty(c, "__id", { value: ++_ }), c.__id;
+        },
+        // Deep clone a language definition (e.g. to extend it)
+        clone: function(c, b) {
+          var P = I.util.type(c);
+          switch (b = b || {}, P) {
+            case "Object":
+              if (b[I.util.objId(c)])
+                return b[I.util.objId(c)];
+              var L = {};
+              b[I.util.objId(c)] = L;
+              for (var y in c)
+                c.hasOwnProperty(y) && (L[y] = I.util.clone(c[y], b));
+              return L;
+            case "Array":
+              if (b[I.util.objId(c)])
+                return b[I.util.objId(c)];
+              var L = [];
+              return b[I.util.objId(c)] = L, c.forEach(function(N, j) {
+                L[j] = I.util.clone(N, b);
+              }), L;
+          }
+          return c;
+        }
+      },
+      languages: {
+        extend: function(c, b) {
+          var P = I.util.clone(I.languages[c]);
+          for (var y in b)
+            P[y] = b[y];
+          return P;
+        },
+        /**
+         * Insert a token before another token in a language literal
+         * As this needs to recreate the object (we cannot actually insert before keys in object literals),
+         * we cannot just provide an object, we need anobject and a key.
+         * @param inside The key (or language id) of the parent
+         * @param before The key to insert before. If not provided, the function appends instead.
+         * @param insert Object with the key/value pairs to insert
+         * @param root The object that contains `inside`. If equal to Prism.languages, it can be omitted.
+         */
+        insertBefore: function(c, b, P, y) {
+          y = y || I.languages;
+          var L = y[c];
+          if (arguments.length == 2) {
+            P = arguments[1];
+            for (var N in P)
+              P.hasOwnProperty(N) && (L[N] = P[N]);
+            return L;
+          }
+          var j = {};
+          for (var T in L)
+            if (L.hasOwnProperty(T)) {
+              if (T == b)
+                for (var N in P)
+                  P.hasOwnProperty(N) && (j[N] = P[N]);
+              j[T] = L[T];
+            }
+          return I.languages.DFS(I.languages, function(O, U) {
+            U === y[c] && O != c && (this[O] = j);
+          }), y[c] = j;
+        },
+        // Traverse a language definition with Depth First Search
+        DFS: function(c, b, P, y) {
+          y = y || {};
+          for (var L in c)
+            c.hasOwnProperty(L) && (b.call(c, L, c[L], P || L), I.util.type(c[L]) === "Object" && !y[I.util.objId(c[L])] ? (y[I.util.objId(c[L])] = !0, I.languages.DFS(c[L], b, null, y)) : I.util.type(c[L]) === "Array" && !y[I.util.objId(c[L])] && (y[I.util.objId(c[L])] = !0, I.languages.DFS(c[L], b, L, y)));
+        }
+      },
+      plugins: {},
+      highlightAll: function(c, b) {
+        I.highlightAllUnder(document, c, b);
+      },
+      highlightAllUnder: function(c, b, P) {
+        var y = {
+          callback: P,
+          selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
+        };
+        I.hooks.run("before-highlightall", y);
+        for (var L = y.elements || c.querySelectorAll(y.selector), N = 0, j; j = L[N++]; )
+          I.highlightElement(j, b === !0, y.callback);
+      },
+      highlightElement: function(c, b, P) {
+        for (var y, L, N = c; N && !a.test(N.className); )
+          N = N.parentNode;
+        N && (y = (N.className.match(a) || [, ""])[1].toLowerCase(), L = I.languages[y]), c.className = c.className.replace(a, "").replace(/\s+/g, " ") + " language-" + y, c.parentNode && (N = c.parentNode, /pre/i.test(N.nodeName) && (N.className = N.className.replace(a, "").replace(/\s+/g, " ") + " language-" + y));
+        var j = c.textContent, T = {
+          element: c,
+          language: y,
+          grammar: L,
+          code: j
+        };
+        if (I.hooks.run("before-sanity-check", T), !T.code || !T.grammar) {
+          T.code && (I.hooks.run("before-highlight", T), T.element.textContent = T.code, I.hooks.run("after-highlight", T)), I.hooks.run("complete", T);
+          return;
+        }
+        if (I.hooks.run("before-highlight", T), b && i.Worker) {
+          var O = new Worker(I.filename);
+          O.onmessage = function(U) {
+            T.highlightedCode = U.data, I.hooks.run("before-insert", T), T.element.innerHTML = T.highlightedCode, P && P.call(T.element), I.hooks.run("after-highlight", T), I.hooks.run("complete", T);
+          }, O.postMessage(JSON.stringify({
+            language: T.language,
+            code: T.code,
+            immediateClose: !0
+          }));
+        } else
+          T.highlightedCode = I.highlight(T.code, T.grammar, T.language), I.hooks.run("before-insert", T), T.element.innerHTML = T.highlightedCode, P && P.call(c), I.hooks.run("after-highlight", T), I.hooks.run("complete", T);
+      },
+      highlight: function(c, b, P) {
+        var y = {
+          code: c,
+          grammar: b,
+          language: P
+        };
+        return I.hooks.run("before-tokenize", y), y.tokens = I.tokenize(y.code, y.grammar), I.hooks.run("after-tokenize", y), S.stringify(I.util.encode(y.tokens), y.language);
+      },
+      matchGrammar: function(c, b, P, y, L, N, j) {
+        var T = I.Token;
+        for (var O in P)
+          if (!(!P.hasOwnProperty(O) || !P[O])) {
+            if (O == j)
+              return;
+            var U = P[O];
+            U = I.util.type(U) === "Array" ? U : [U];
+            for (var x = 0; x < U.length; ++x) {
+              var H = U[x], e = H.inside, t = !!H.lookbehind, r = !!H.greedy, n = 0, g = H.alias;
+              if (r && !H.pattern.global) {
+                var s = H.pattern.toString().match(/[imuy]*$/)[0];
+                H.pattern = RegExp(H.pattern.source, s + "g");
+              }
+              H = H.pattern || H;
+              for (var u = y, C = L; u < b.length; C += b[u].length, ++u) {
+                var w = b[u];
+                if (b.length > c.length)
+                  return;
+                if (!(w instanceof T)) {
+                  if (r && u != b.length - 1) {
+                    H.lastIndex = C;
+                    var v = H.exec(c);
+                    if (!v)
+                      break;
+                    for (var f = v.index + (t ? v[1].length : 0), E = v.index + v[0].length, p = u, l = C, h = b.length; p < h && (l < E || !b[p].type && !b[p - 1].greedy); ++p)
+                      l += b[p].length, f >= l && (++u, C = l);
+                    if (b[u] instanceof T)
+                      continue;
+                    d = p - u, w = c.slice(C, l), v.index -= C;
+                  } else {
+                    H.lastIndex = 0;
+                    var v = H.exec(w), d = 1;
+                  }
+                  if (!v) {
+                    if (N)
+                      break;
+                    continue;
+                  }
+                  t && (n = v[1] ? v[1].length : 0);
+                  var f = v.index + n, v = v[0].slice(n), E = f + v.length, z = w.slice(0, f), m = w.slice(E), R = [u, d];
+                  z && (++u, C += z.length, R.push(z));
+                  var M = new T(O, e ? I.tokenize(v, e) : v, g, v, r);
+                  if (R.push(M), m && R.push(m), Array.prototype.splice.apply(b, R), d != 1 && I.matchGrammar(c, b, P, u, C, !0, O), N)
+                    break;
+                }
+              }
+            }
+          }
+      },
+      tokenize: function(c, b, P) {
+        var y = [c], L = b.rest;
+        if (L) {
+          for (var N in L)
+            b[N] = L[N];
+          delete b.rest;
+        }
+        return I.matchGrammar(c, y, b, 0, 0, !1), y;
+      },
+      hooks: {
+        all: {},
+        add: function(c, b) {
+          var P = I.hooks.all;
+          P[c] = P[c] || [], P[c].push(b);
+        },
+        run: function(c, b) {
+          var P = I.hooks.all[c];
+          if (!(!P || !P.length))
+            for (var y = 0, L; L = P[y++]; )
+              L(b);
+        }
+      }
+    }, S = I.Token = function(c, b, P, y, L) {
+      this.type = c, this.content = b, this.alias = P, this.length = (y || "").length | 0, this.greedy = !!L;
+    };
+    if (S.stringify = function(c, b, P) {
+      if (typeof c == "string")
+        return c;
+      if (I.util.type(c) === "Array")
+        return c.map(function(j) {
+          return S.stringify(j, b, c);
+        }).join("");
+      var y = {
+        type: c.type,
+        content: S.stringify(c.content, b, P),
+        tag: "span",
+        classes: ["token", c.type],
+        attributes: {},
+        language: b,
+        parent: P
+      };
+      if (c.alias) {
+        var L = I.util.type(c.alias) === "Array" ? c.alias : [c.alias];
+        Array.prototype.push.apply(y.classes, L);
+      }
+      I.hooks.run("wrap", y);
+      var N = Object.keys(y.attributes).map(function(j) {
+        return j + '="' + (y.attributes[j] || "").replace(/"/g, "&quot;") + '"';
+      }).join(" ");
+      return "<" + y.tag + ' class="' + y.classes.join(" ") + '"' + (N ? " " + N : "") + ">" + y.content + "</" + y.tag + ">";
+    }, !i.document)
+      return i.addEventListener && (I.disableWorkerMessageHandler || i.addEventListener("message", function(c) {
+        var b = JSON.parse(c.data), P = b.language, y = b.code, L = b.immediateClose;
+        i.postMessage(I.highlight(y, I.languages[P], P)), L && i.close();
+      }, !1)), i.Prism;
+    var k = document.currentScript || [].slice.call(document.getElementsByTagName("script")).pop();
+    return k && (I.filename = k.src, !I.manual && !k.hasAttribute("data-manual") && (document.readyState !== "loading" ? window.requestAnimationFrame ? window.requestAnimationFrame(I.highlightAll) : window.setTimeout(I.highlightAll, 16) : document.addEventListener("DOMContentLoaded", I.highlightAll))), i.Prism;
+  }();
+  o.exports && (o.exports = A), typeof q < "u" && (q.Prism = A), A.languages.markup = {
+    comment: /<!--[\s\S]*?-->/,
+    prolog: /<\?[\s\S]+?\?>/,
+    doctype: /<!DOCTYPE[\s\S]+?>/i,
+    cdata: /<!\[CDATA\[[\s\S]*?]]>/i,
+    tag: {
+      pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i,
+      greedy: !0,
+      inside: {
+        tag: {
+          pattern: /^<\/?[^\s>\/]+/i,
+          inside: {
+            punctuation: /^<\/?/,
+            namespace: /^[^\s>\/:]+:/
+          }
+        },
+        "attr-value": {
+          pattern: /=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+)/i,
+          inside: {
+            punctuation: [
+              /^=/,
+              {
+                pattern: /(^|[^\\])["']/,
+                lookbehind: !0
+              }
+            ]
+          }
+        },
+        punctuation: /\/?>/,
+        "attr-name": {
+          pattern: /[^\s>\/]+/,
+          inside: {
+            namespace: /^[^\s>\/:]+:/
+          }
+        }
+      }
+    },
+    entity: /&#?[\da-z]{1,8};/i
+  }, A.languages.markup.tag.inside["attr-value"].inside.entity = A.languages.markup.entity, A.hooks.add("wrap", function(a) {
+    a.type === "entity" && (a.attributes.title = a.content.replace(/&amp;/, "&"));
+  }), A.languages.xml = A.languages.markup, A.languages.html = A.languages.markup, A.languages.mathml = A.languages.markup, A.languages.svg = A.languages.markup, A.languages.css = {
+    comment: /\/\*[\s\S]*?\*\//,
+    atrule: {
+      pattern: /@[\w-]+?.*?(?:;|(?=\s*\{))/i,
+      inside: {
+        rule: /@[\w-]+/
+        // See rest below
+      }
+    },
+    url: /url\((?:(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|.*?)\)/i,
+    selector: /[^{}\s][^{};]*?(?=\s*\{)/,
+    string: {
+      pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+      greedy: !0
+    },
+    property: /[-_a-z\xA0-\uFFFF][-\w\xA0-\uFFFF]*(?=\s*:)/i,
+    important: /\B!important\b/i,
+    function: /[-a-z0-9]+(?=\()/i,
+    punctuation: /[(){};:]/
+  }, A.languages.css.atrule.inside.rest = A.languages.css, A.languages.markup && (A.languages.insertBefore("markup", "tag", {
+    style: {
+      pattern: /(<style[\s\S]*?>)[\s\S]*?(?=<\/style>)/i,
+      lookbehind: !0,
+      inside: A.languages.css,
+      alias: "language-css",
+      greedy: !0
+    }
+  }), A.languages.insertBefore("inside", "attr-value", {
+    "style-attr": {
+      pattern: /\s*style=("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/i,
+      inside: {
+        "attr-name": {
+          pattern: /^\s*style/i,
+          inside: A.languages.markup.tag.inside
+        },
+        punctuation: /^\s*=\s*['"]|['"]\s*$/,
+        "attr-value": {
+          pattern: /.+/i,
+          inside: A.languages.css
+        }
+      },
+      alias: "language-css"
+    }
+  }, A.languages.markup.tag)), A.languages.clike = {
+    comment: [
+      {
+        pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
+        lookbehind: !0
+      },
+      {
+        pattern: /(^|[^\\:])\/\/.*/,
+        lookbehind: !0,
+        greedy: !0
+      }
+    ],
+    string: {
+      pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+      greedy: !0
+    },
+    "class-name": {
+      pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[\w.\\]+/i,
+      lookbehind: !0,
+      inside: {
+        punctuation: /[.\\]/
+      }
+    },
+    keyword: /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
+    boolean: /\b(?:true|false)\b/,
+    function: /[a-z0-9_]+(?=\()/i,
+    number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?/i,
+    operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,
+    punctuation: /[{}[\];(),.:]/
+  }, A.languages.javascript = A.languages.extend("clike", {
+    keyword: /\b(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/,
+    number: /\b(?:0[xX][\dA-Fa-f]+|0[bB][01]+|0[oO][0-7]+|NaN|Infinity)\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
+    // Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
+    function: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*\()/i,
+    operator: /-[-=]?|\+[+=]?|!=?=?|<<?=?|>>?>?=?|=(?:==?|>)?|&[&=]?|\|[|=]?|\*\*?=?|\/=?|~|\^=?|%=?|\?|\.{3}/
+  }), A.languages.insertBefore("javascript", "keyword", {
+    regex: {
+      pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
+      lookbehind: !0,
+      greedy: !0
+    },
+    // This must be declared before keyword because we use "function" inside the look-forward
+    "function-variable": {
+      pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=\s*(?:function\b|(?:\([^()]*\)|[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/i,
+      alias: "function"
+    },
+    constant: /\b[A-Z][A-Z\d_]*\b/
+  }), A.languages.insertBefore("javascript", "string", {
+    "template-string": {
+      pattern: /`(?:\\[\s\S]|[^\\`])*`/,
+      greedy: !0,
+      inside: {
+        interpolation: {
+          pattern: /\$\{[^}]+\}/,
+          inside: {
+            "interpolation-punctuation": {
+              pattern: /^\$\{|\}$/,
+              alias: "punctuation"
+            },
+            rest: A.languages.javascript
+          }
+        },
+        string: /[\s\S]+/
+      }
+    }
+  }), A.languages.markup && A.languages.insertBefore("markup", "tag", {
+    script: {
+      pattern: /(<script[\s\S]*?>)[\s\S]*?(?=<\/script>)/i,
+      lookbehind: !0,
+      inside: A.languages.javascript,
+      alias: "language-javascript",
+      greedy: !0
+    }
+  }), A.languages.js = A.languages.javascript, function() {
+    typeof self > "u" || !self.Prism || !self.document || !document.querySelector || (self.Prism.fileHighlight = function() {
+      var a = {
+        js: "javascript",
+        py: "python",
+        rb: "ruby",
+        ps1: "powershell",
+        psm1: "powershell",
+        sh: "bash",
+        bat: "batch",
+        h: "c",
+        tex: "latex"
+      };
+      Array.prototype.slice.call(document.querySelectorAll("pre[data-src]")).forEach(function(_) {
+        for (var I = _.getAttribute("data-src"), S, k = _, c = /\blang(?:uage)?-(?!\*)([\w-]+)\b/i; k && !c.test(k.className); )
+          k = k.parentNode;
+        if (k && (S = (_.className.match(c) || [, ""])[1]), !S) {
+          var b = (I.match(/\.(\w+)$/) || [, ""])[1];
+          S = a[b] || b;
+        }
+        var P = document.createElement("code");
+        P.className = "language-" + S, _.textContent = "", P.textContent = "Loading…", _.appendChild(P);
+        var y = new XMLHttpRequest();
+        y.open("GET", I, !0), y.onreadystatechange = function() {
+          y.readyState == 4 && (y.status < 400 && y.responseText ? (P.textContent = y.responseText, A.highlightElement(P)) : y.status >= 400 ? P.textContent = "✖ Error " + y.status + " while fetching file: " + y.statusText : P.textContent = "✖ Error: File does not exist or is empty");
+        }, _.hasAttribute("data-download-link") && A.plugins.toolbar && A.plugins.toolbar.registerButton("download-file", function() {
+          var L = document.createElement("a");
+          return L.textContent = _.getAttribute("data-download-link-label") || "Download", L.setAttribute("download", ""), L.href = I, L;
+        }), y.send(null);
+      });
+    }, document.addEventListener("DOMContentLoaded", self.Prism.fileHighlight));
+  }();
+})(ee);
+var ue = ee.exports;
+const ie = /* @__PURE__ */ J(ue);
+Prism.languages.actionscript = Prism.languages.extend("javascript", {
+  keyword: /\b(?:as|break|case|catch|class|const|default|delete|do|else|extends|finally|for|function|if|implements|import|in|instanceof|interface|internal|is|native|new|null|package|private|protected|public|return|super|switch|this|throw|try|typeof|use|var|void|while|with|dynamic|each|final|get|include|namespace|native|override|set|static)\b/,
+  operator: /\+\+|--|(?:[+\-*\/%^]|&&?|\|\|?|<<?|>>?>?|[!=]=?)=?|[~?@]/
+});
+Prism.languages.actionscript["class-name"].alias = "function";
+Prism.languages.markup && Prism.languages.insertBefore("actionscript", "string", {
+  xml: {
+    pattern: /(^|[^.])<\/?\w+(?:\s+[^\s>\/=]+=("|')(?:\\[\s\S]|(?!\2)[^\\])*\2)*\s*\/?>/,
+    lookbehind: !0,
+    inside: {
+      rest: Prism.languages.markup
+    }
+  }
+});
+Prism.languages.apacheconf = {
+  comment: /#.*/,
+  "directive-inline": {
+    pattern: /^(\s*)\b(?:AcceptFilter|AcceptPathInfo|AccessFileName|Action|AddAlt|AddAltByEncoding|AddAltByType|AddCharset|AddDefaultCharset|AddDescription|AddEncoding|AddHandler|AddIcon|AddIconByEncoding|AddIconByType|AddInputFilter|AddLanguage|AddModuleInfo|AddOutputFilter|AddOutputFilterByType|AddType|Alias|AliasMatch|Allow|AllowCONNECT|AllowEncodedSlashes|AllowMethods|AllowOverride|AllowOverrideList|Anonymous|Anonymous_LogEmail|Anonymous_MustGiveEmail|Anonymous_NoUserID|Anonymous_VerifyEmail|AsyncRequestWorkerFactor|AuthBasicAuthoritative|AuthBasicFake|AuthBasicProvider|AuthBasicUseDigestAlgorithm|AuthDBDUserPWQuery|AuthDBDUserRealmQuery|AuthDBMGroupFile|AuthDBMType|AuthDBMUserFile|AuthDigestAlgorithm|AuthDigestDomain|AuthDigestNonceLifetime|AuthDigestProvider|AuthDigestQop|AuthDigestShmemSize|AuthFormAuthoritative|AuthFormBody|AuthFormDisableNoStore|AuthFormFakeBasicAuth|AuthFormLocation|AuthFormLoginRequiredLocation|AuthFormLoginSuccessLocation|AuthFormLogoutLocation|AuthFormMethod|AuthFormMimetype|AuthFormPassword|AuthFormProvider|AuthFormSitePassphrase|AuthFormSize|AuthFormUsername|AuthGroupFile|AuthLDAPAuthorizePrefix|AuthLDAPBindAuthoritative|AuthLDAPBindDN|AuthLDAPBindPassword|AuthLDAPCharsetConfig|AuthLDAPCompareAsUser|AuthLDAPCompareDNOnServer|AuthLDAPDereferenceAliases|AuthLDAPGroupAttribute|AuthLDAPGroupAttributeIsDN|AuthLDAPInitialBindAsUser|AuthLDAPInitialBindPattern|AuthLDAPMaxSubGroupDepth|AuthLDAPRemoteUserAttribute|AuthLDAPRemoteUserIsDN|AuthLDAPSearchAsUser|AuthLDAPSubGroupAttribute|AuthLDAPSubGroupClass|AuthLDAPUrl|AuthMerging|AuthName|AuthnCacheContext|AuthnCacheEnable|AuthnCacheProvideFor|AuthnCacheSOCache|AuthnCacheTimeout|AuthnzFcgiCheckAuthnProvider|AuthnzFcgiDefineProvider|AuthType|AuthUserFile|AuthzDBDLoginToReferer|AuthzDBDQuery|AuthzDBDRedirectQuery|AuthzDBMType|AuthzSendForbiddenOnFailure|BalancerGrowth|BalancerInherit|BalancerMember|BalancerPersist|BrowserMatch|BrowserMatchNoCase|BufferedLogs|BufferSize|CacheDefaultExpire|CacheDetailHeader|CacheDirLength|CacheDirLevels|CacheDisable|CacheEnable|CacheFile|CacheHeader|CacheIgnoreCacheControl|CacheIgnoreHeaders|CacheIgnoreNoLastMod|CacheIgnoreQueryString|CacheIgnoreURLSessionIdentifiers|CacheKeyBaseURL|CacheLastModifiedFactor|CacheLock|CacheLockMaxAge|CacheLockPath|CacheMaxExpire|CacheMaxFileSize|CacheMinExpire|CacheMinFileSize|CacheNegotiatedDocs|CacheQuickHandler|CacheReadSize|CacheReadTime|CacheRoot|CacheSocache|CacheSocacheMaxSize|CacheSocacheMaxTime|CacheSocacheMinTime|CacheSocacheReadSize|CacheSocacheReadTime|CacheStaleOnError|CacheStoreExpired|CacheStoreNoStore|CacheStorePrivate|CGIDScriptTimeout|CGIMapExtension|CharsetDefault|CharsetOptions|CharsetSourceEnc|CheckCaseOnly|CheckSpelling|ChrootDir|ContentDigest|CookieDomain|CookieExpires|CookieName|CookieStyle|CookieTracking|CoreDumpDirectory|CustomLog|Dav|DavDepthInfinity|DavGenericLockDB|DavLockDB|DavMinTimeout|DBDExptime|DBDInitSQL|DBDKeep|DBDMax|DBDMin|DBDParams|DBDPersist|DBDPrepareSQL|DBDriver|DefaultIcon|DefaultLanguage|DefaultRuntimeDir|DefaultType|Define|DeflateBufferSize|DeflateCompressionLevel|DeflateFilterNote|DeflateInflateLimitRequestBody|DeflateInflateRatioBurst|DeflateInflateRatioLimit|DeflateMemLevel|DeflateWindowSize|Deny|DirectoryCheckHandler|DirectoryIndex|DirectoryIndexRedirect|DirectorySlash|DocumentRoot|DTracePrivileges|DumpIOInput|DumpIOOutput|EnableExceptionHook|EnableMMAP|EnableSendfile|Error|ErrorDocument|ErrorLog|ErrorLogFormat|Example|ExpiresActive|ExpiresByType|ExpiresDefault|ExtendedStatus|ExtFilterDefine|ExtFilterOptions|FallbackResource|FileETag|FilterChain|FilterDeclare|FilterProtocol|FilterProvider|FilterTrace|ForceLanguagePriority|ForceType|ForensicLog|GprofDir|GracefulShutdownTimeout|Group|Header|HeaderName|HeartbeatAddress|HeartbeatListen|HeartbeatMaxServers|HeartbeatStorage|HeartbeatStorage|HostnameLookups|IdentityCheck|IdentityCheckTimeout|ImapBase|ImapDefault|ImapMenu|Include|IncludeOptional|IndexHeadInsert|IndexIgnore|IndexIgnoreReset|IndexOptions|IndexOrderDefault|IndexStyleSheet|InputSed|ISAPIAppendLogToErrors|ISAPIAppendLogToQuery|ISAPICacheFile|ISAPIFakeAsync|ISAPILogNotSupported|ISAPIReadAheadBuffer|KeepAlive|KeepAliveTimeout|KeptBodySize|LanguagePriority|LDAPCacheEntries|LDAPCacheTTL|LDAPConnectionPoolTTL|LDAPConnectionTimeout|LDAPLibraryDebug|LDAPOpCacheEntries|LDAPOpCacheTTL|LDAPReferralHopLimit|LDAPReferrals|LDAPRetries|LDAPRetryDelay|LDAPSharedCacheFile|LDAPSharedCacheSize|LDAPTimeout|LDAPTrustedClientCert|LDAPTrustedGlobalCert|LDAPTrustedMode|LDAPVerifyServerCert|LimitInternalRecursion|LimitRequestBody|LimitRequestFields|LimitRequestFieldSize|LimitRequestLine|LimitXMLRequestBody|Listen|ListenBackLog|LoadFile|LoadModule|LogFormat|LogLevel|LogMessage|LuaAuthzProvider|LuaCodeCache|LuaHookAccessChecker|LuaHookAuthChecker|LuaHookCheckUserID|LuaHookFixups|LuaHookInsertFilter|LuaHookLog|LuaHookMapToStorage|LuaHookTranslateName|LuaHookTypeChecker|LuaInherit|LuaInputFilter|LuaMapHandler|LuaOutputFilter|LuaPackageCPath|LuaPackagePath|LuaQuickHandler|LuaRoot|LuaScope|MaxConnectionsPerChild|MaxKeepAliveRequests|MaxMemFree|MaxRangeOverlaps|MaxRangeReversals|MaxRanges|MaxRequestWorkers|MaxSpareServers|MaxSpareThreads|MaxThreads|MergeTrailers|MetaDir|MetaFiles|MetaSuffix|MimeMagicFile|MinSpareServers|MinSpareThreads|MMapFile|ModemStandard|ModMimeUsePathInfo|MultiviewsMatch|Mutex|NameVirtualHost|NoProxy|NWSSLTrustedCerts|NWSSLUpgradeable|Options|Order|OutputSed|PassEnv|PidFile|PrivilegesMode|Protocol|ProtocolEcho|ProxyAddHeaders|ProxyBadHeader|ProxyBlock|ProxyDomain|ProxyErrorOverride|ProxyExpressDBMFile|ProxyExpressDBMType|ProxyExpressEnable|ProxyFtpDirCharset|ProxyFtpEscapeWildcards|ProxyFtpListOnWildcard|ProxyHTMLBufSize|ProxyHTMLCharsetOut|ProxyHTMLDocType|ProxyHTMLEnable|ProxyHTMLEvents|ProxyHTMLExtended|ProxyHTMLFixups|ProxyHTMLInterp|ProxyHTMLLinks|ProxyHTMLMeta|ProxyHTMLStripComments|ProxyHTMLURLMap|ProxyIOBufferSize|ProxyMaxForwards|ProxyPass|ProxyPassInherit|ProxyPassInterpolateEnv|ProxyPassMatch|ProxyPassReverse|ProxyPassReverseCookieDomain|ProxyPassReverseCookiePath|ProxyPreserveHost|ProxyReceiveBufferSize|ProxyRemote|ProxyRemoteMatch|ProxyRequests|ProxySCGIInternalRedirect|ProxySCGISendfile|ProxySet|ProxySourceAddress|ProxyStatus|ProxyTimeout|ProxyVia|ReadmeName|ReceiveBufferSize|Redirect|RedirectMatch|RedirectPermanent|RedirectTemp|ReflectorHeader|RemoteIPHeader|RemoteIPInternalProxy|RemoteIPInternalProxyList|RemoteIPProxiesHeader|RemoteIPTrustedProxy|RemoteIPTrustedProxyList|RemoveCharset|RemoveEncoding|RemoveHandler|RemoveInputFilter|RemoveLanguage|RemoveOutputFilter|RemoveType|RequestHeader|RequestReadTimeout|Require|RewriteBase|RewriteCond|RewriteEngine|RewriteMap|RewriteOptions|RewriteRule|RLimitCPU|RLimitMEM|RLimitNPROC|Satisfy|ScoreBoardFile|Script|ScriptAlias|ScriptAliasMatch|ScriptInterpreterSource|ScriptLog|ScriptLogBuffer|ScriptLogLength|ScriptSock|SecureListen|SeeRequestTail|SendBufferSize|ServerAdmin|ServerAlias|ServerLimit|ServerName|ServerPath|ServerRoot|ServerSignature|ServerTokens|Session|SessionCookieName|SessionCookieName2|SessionCookieRemove|SessionCryptoCipher|SessionCryptoDriver|SessionCryptoPassphrase|SessionCryptoPassphraseFile|SessionDBDCookieName|SessionDBDCookieName2|SessionDBDCookieRemove|SessionDBDDeleteLabel|SessionDBDInsertLabel|SessionDBDPerUser|SessionDBDSelectLabel|SessionDBDUpdateLabel|SessionEnv|SessionExclude|SessionHeader|SessionInclude|SessionMaxAge|SetEnv|SetEnvIf|SetEnvIfExpr|SetEnvIfNoCase|SetHandler|SetInputFilter|SetOutputFilter|SSIEndTag|SSIErrorMsg|SSIETag|SSILastModified|SSILegacyExprParser|SSIStartTag|SSITimeFormat|SSIUndefinedEcho|SSLCACertificateFile|SSLCACertificatePath|SSLCADNRequestFile|SSLCADNRequestPath|SSLCARevocationCheck|SSLCARevocationFile|SSLCARevocationPath|SSLCertificateChainFile|SSLCertificateFile|SSLCertificateKeyFile|SSLCipherSuite|SSLCompression|SSLCryptoDevice|SSLEngine|SSLFIPS|SSLHonorCipherOrder|SSLInsecureRenegotiation|SSLOCSPDefaultResponder|SSLOCSPEnable|SSLOCSPOverrideResponder|SSLOCSPResponderTimeout|SSLOCSPResponseMaxAge|SSLOCSPResponseTimeSkew|SSLOCSPUseRequestNonce|SSLOpenSSLConfCmd|SSLOptions|SSLPassPhraseDialog|SSLProtocol|SSLProxyCACertificateFile|SSLProxyCACertificatePath|SSLProxyCARevocationCheck|SSLProxyCARevocationFile|SSLProxyCARevocationPath|SSLProxyCheckPeerCN|SSLProxyCheckPeerExpire|SSLProxyCheckPeerName|SSLProxyCipherSuite|SSLProxyEngine|SSLProxyMachineCertificateChainFile|SSLProxyMachineCertificateFile|SSLProxyMachineCertificatePath|SSLProxyProtocol|SSLProxyVerify|SSLProxyVerifyDepth|SSLRandomSeed|SSLRenegBufferSize|SSLRequire|SSLRequireSSL|SSLSessionCache|SSLSessionCacheTimeout|SSLSessionTicketKeyFile|SSLSRPUnknownUserSeed|SSLSRPVerifierFile|SSLStaplingCache|SSLStaplingErrorCacheTimeout|SSLStaplingFakeTryLater|SSLStaplingForceURL|SSLStaplingResponderTimeout|SSLStaplingResponseMaxAge|SSLStaplingResponseTimeSkew|SSLStaplingReturnResponderErrors|SSLStaplingStandardCacheTimeout|SSLStrictSNIVHostCheck|SSLUserName|SSLUseStapling|SSLVerifyClient|SSLVerifyDepth|StartServers|StartThreads|Substitute|Suexec|SuexecUserGroup|ThreadLimit|ThreadsPerChild|ThreadStackSize|TimeOut|TraceEnable|TransferLog|TypesConfig|UnDefine|UndefMacro|UnsetEnv|Use|UseCanonicalName|UseCanonicalPhysicalPort|User|UserDir|VHostCGIMode|VHostCGIPrivs|VHostGroup|VHostPrivs|VHostSecure|VHostUser|VirtualDocumentRoot|VirtualDocumentRootIP|VirtualScriptAlias|VirtualScriptAliasIP|WatchdogInterval|XBitHack|xml2EncAlias|xml2EncDefault|xml2StartParse)\b/mi,
+    lookbehind: !0,
+    alias: "property"
+  },
+  "directive-block": {
+    pattern: /<\/?\b(?:AuthnProviderAlias|AuthzProviderAlias|Directory|DirectoryMatch|Else|ElseIf|Files|FilesMatch|If|IfDefine|IfModule|IfVersion|Limit|LimitExcept|Location|LocationMatch|Macro|Proxy|RequireAll|RequireAny|RequireNone|VirtualHost)\b *.*>/i,
+    inside: {
+      "directive-block": {
+        pattern: /^<\/?\w+/,
+        inside: {
+          punctuation: /^<\/?/
+        },
+        alias: "tag"
+      },
+      "directive-block-parameter": {
+        pattern: /.*[^>]/,
+        inside: {
+          punctuation: /:/,
+          string: {
+            pattern: /("|').*\1/,
+            inside: {
+              variable: /[$%]\{?(?:\w\.?[-+:]?)+\}?/
+            }
+          }
+        },
+        alias: "attr-value"
+      },
+      punctuation: />/
+    },
+    alias: "tag"
+  },
+  "directive-flags": {
+    pattern: /\[(?:\w,?)+\]/,
+    alias: "keyword"
+  },
+  string: {
+    pattern: /("|').*\1/,
+    inside: {
+      variable: /[$%]\{?(?:\w\.?[-+:]?)+\}?/
+    }
+  },
+  variable: /[$%]\{?(?:\w\.?[-+:]?)+\}?/,
+  regex: /\^?.*\$|\^.*\$?/
+};
+Prism.languages.aspnet = Prism.languages.extend("markup", {
+  "page-directive tag": {
+    pattern: /<%\s*@.*%>/i,
+    inside: {
+      "page-directive tag": /<%\s*@\s*(?:Assembly|Control|Implements|Import|Master(?:Type)?|OutputCache|Page|PreviousPageType|Reference|Register)?|%>/i,
+      rest: Prism.languages.markup.tag.inside
+    }
+  },
+  "directive tag": {
+    pattern: /<%.*%>/i,
+    inside: {
+      "directive tag": /<%\s*?[$=%#:]{0,2}|%>/i,
+      rest: Prism.languages.csharp
+    }
+  }
+});
+Prism.languages.aspnet.tag.pattern = /<(?!%)\/?[^\s>\/]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i;
+Prism.languages.insertBefore("inside", "punctuation", {
+  "directive tag": Prism.languages.aspnet["directive tag"]
+}, Prism.languages.aspnet.tag.inside["attr-value"]);
+Prism.languages.insertBefore("aspnet", "comment", {
+  "asp comment": /<%--[\s\S]*?--%>/
+});
+Prism.languages.insertBefore("aspnet", Prism.languages.javascript ? "script" : "tag", {
+  "asp script": {
+    pattern: /(<script(?=.*runat=['"]?server['"]?)[\s\S]*?>)[\s\S]*?(?=<\/script>)/i,
+    lookbehind: !0,
+    inside: Prism.languages.csharp || {}
+  }
+});
+(function(o) {
+  var i = {
+    variable: [
+      // Arithmetic Environment
+      {
+        pattern: /\$?\(\([\s\S]+?\)\)/,
+        inside: {
+          // If there is a $ sign at the beginning highlight $(( and )) as variable
+          variable: [
+            {
+              pattern: /(^\$\(\([\s\S]+)\)\)/,
+              lookbehind: !0
+            },
+            /^\$\(\(/
+          ],
+          number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee]-?\d+)?/,
+          // Operators according to https://www.gnu.org/software/bash/manual/bashref.html#Shell-Arithmetic
+          operator: /--?|-=|\+\+?|\+=|!=?|~|\*\*?|\*=|\/=?|%=?|<<=?|>>=?|<=?|>=?|==?|&&?|&=|\^=?|\|\|?|\|=|\?|:/,
+          // If there is no $ sign at the beginning highlight (( and )) as punctuation
+          punctuation: /\(\(?|\)\)?|,|;/
+        }
+      },
+      // Command Substitution
+      {
+        pattern: /\$\([^)]+\)|`[^`]+`/,
+        greedy: !0,
+        inside: {
+          variable: /^\$\(|^`|\)$|`$/
+        }
+      },
+      /\$(?:[\w#?*!@]+|\{[^}]+\})/i
+    ]
+  };
+  o.languages.bash = {
+    shebang: {
+      pattern: /^#!\s*\/bin\/bash|^#!\s*\/bin\/sh/,
+      alias: "important"
+    },
+    comment: {
+      pattern: /(^|[^"{\\])#.*/,
+      lookbehind: !0
+    },
+    string: [
+      //Support for Here-Documents https://en.wikipedia.org/wiki/Here_document
+      {
+        pattern: /((?:^|[^<])<<\s*)["']?(\w+?)["']?\s*\r?\n(?:[\s\S])*?\r?\n\2/,
+        lookbehind: !0,
+        greedy: !0,
+        inside: i
+      },
+      {
+        pattern: /(["'])(?:\\[\s\S]|\$\([^)]+\)|`[^`]+`|(?!\1)[^\\])*\1/,
+        greedy: !0,
+        inside: i
+      }
+    ],
+    variable: i.variable,
+    // Originally based on http://ss64.com/bash/
+    function: {
+      pattern: /(^|[\s;|&])(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|npm|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|[\s;|&])/,
+      lookbehind: !0
+    },
+    keyword: {
+      pattern: /(^|[\s;|&])(?:let|:|\.|if|then|else|elif|fi|for|break|continue|while|in|case|function|select|do|done|until|echo|exit|return|set|declare)(?=$|[\s;|&])/,
+      lookbehind: !0
+    },
+    boolean: {
+      pattern: /(^|[\s;|&])(?:true|false)(?=$|[\s;|&])/,
+      lookbehind: !0
+    },
+    operator: /&&?|\|\|?|==?|!=?|<<<?|>>|<=?|>=?|=~/,
+    punctuation: /\$?\(\(?|\)\)?|\.\.|[{}[\];]/
+  };
+  var A = i.variable[1].inside;
+  A.string = o.languages.bash.string, A.function = o.languages.bash.function, A.keyword = o.languages.bash.keyword, A.boolean = o.languages.bash.boolean, A.operator = o.languages.bash.operator, A.punctuation = o.languages.bash.punctuation, o.languages.shell = o.languages.bash;
+})(Prism);
+Prism.languages.c = Prism.languages.extend("clike", {
+  keyword: /\b(?:_Alignas|_Alignof|_Atomic|_Bool|_Complex|_Generic|_Imaginary|_Noreturn|_Static_assert|_Thread_local|asm|typeof|inline|auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|int|long|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while)\b/,
+  operator: /-[>-]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|\|?|[~^%?*\/]/,
+  number: /(?:\b0x[\da-f]+|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?)[ful]*/i
+});
+Prism.languages.insertBefore("c", "string", {
+  macro: {
+    // allow for multiline macro definitions
+    // spaces after the # character compile fine with gcc
+    pattern: /(^\s*)#\s*[a-z]+(?:[^\r\n\\]|\\(?:\r\n|[\s\S]))*/im,
+    lookbehind: !0,
+    alias: "property",
+    inside: {
+      // highlight the path of the include statement as a string
+      string: {
+        pattern: /(#\s*include\s*)(?:<.+?>|("|')(?:\\?.)+?\2)/,
+        lookbehind: !0
+      },
+      // highlight macro directives as keywords
+      directive: {
+        pattern: /(#\s*)\b(?:define|defined|elif|else|endif|error|ifdef|ifndef|if|import|include|line|pragma|undef|using)\b/,
+        lookbehind: !0,
+        alias: "keyword"
+      }
+    }
+  },
+  // highlight predefined macros as constants
+  constant: /\b(?:__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|__func__|EOF|NULL|SEEK_CUR|SEEK_END|SEEK_SET|stdin|stdout|stderr)\b/
+});
+delete Prism.languages.c["class-name"];
+delete Prism.languages.c.boolean;
+Prism.languages.clike = {
+  comment: [
+    {
+      pattern: /(^|[^\\])\/\*[\s\S]*?(?:\*\/|$)/,
+      lookbehind: !0
+    },
+    {
+      pattern: /(^|[^\\:])\/\/.*/,
+      lookbehind: !0,
+      greedy: !0
+    }
+  ],
+  string: {
+    pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+    greedy: !0
+  },
+  "class-name": {
+    pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[\w.\\]+/i,
+    lookbehind: !0,
+    inside: {
+      punctuation: /[.\\]/
+    }
+  },
+  keyword: /\b(?:if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,
+  boolean: /\b(?:true|false)\b/,
+  function: /[a-z0-9_]+(?=\()/i,
+  number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?/i,
+  operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,
+  punctuation: /[{}[\];(),.:]/
+};
+(function(o) {
+  var i = /#(?!\{).+/, A = {
+    pattern: /#\{[^}]+\}/,
+    alias: "variable"
+  };
+  o.languages.coffeescript = o.languages.extend("javascript", {
+    comment: i,
+    string: [
+      // Strings are multiline
+      {
+        pattern: /'(?:\\[\s\S]|[^\\'])*'/,
+        greedy: !0
+      },
+      {
+        // Strings are multiline
+        pattern: /"(?:\\[\s\S]|[^\\"])*"/,
+        greedy: !0,
+        inside: {
+          interpolation: A
+        }
+      }
+    ],
+    keyword: /\b(?:and|break|by|catch|class|continue|debugger|delete|do|each|else|extend|extends|false|finally|for|if|in|instanceof|is|isnt|let|loop|namespace|new|no|not|null|of|off|on|or|own|return|super|switch|then|this|throw|true|try|typeof|undefined|unless|until|when|while|window|with|yes|yield)\b/,
+    "class-member": {
+      pattern: /@(?!\d)\w+/,
+      alias: "variable"
+    }
+  }), o.languages.insertBefore("coffeescript", "comment", {
+    "multiline-comment": {
+      pattern: /###[\s\S]+?###/,
+      alias: "comment"
+    },
+    // Block regexp can contain comments and interpolation
+    "block-regex": {
+      pattern: /\/{3}[\s\S]*?\/{3}/,
+      alias: "regex",
+      inside: {
+        comment: i,
+        interpolation: A
+      }
+    }
+  }), o.languages.insertBefore("coffeescript", "string", {
+    "inline-javascript": {
+      pattern: /`(?:\\[\s\S]|[^\\`])*`/,
+      inside: {
+        delimiter: {
+          pattern: /^`|`$/,
+          alias: "punctuation"
+        },
+        rest: o.languages.javascript
+      }
+    },
+    // Block strings
+    "multiline-string": [
+      {
+        pattern: /'''[\s\S]*?'''/,
+        greedy: !0,
+        alias: "string"
+      },
+      {
+        pattern: /"""[\s\S]*?"""/,
+        greedy: !0,
+        alias: "string",
+        inside: {
+          interpolation: A
+        }
+      }
+    ]
+  }), o.languages.insertBefore("coffeescript", "keyword", {
+    // Object property
+    property: /(?!\d)\w+(?=\s*:(?!:))/
+  }), delete o.languages.coffeescript["template-string"];
+})(Prism);
+Prism.languages.cpp = Prism.languages.extend("c", {
+  keyword: /\b(?:alignas|alignof|asm|auto|bool|break|case|catch|char|char16_t|char32_t|class|compl|const|constexpr|const_cast|continue|decltype|default|delete|do|double|dynamic_cast|else|enum|explicit|export|extern|float|for|friend|goto|if|inline|int|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|long|mutable|namespace|new|noexcept|nullptr|operator|private|protected|public|register|reinterpret_cast|return|short|signed|sizeof|static|static_assert|static_cast|struct|switch|template|this|thread_local|throw|try|typedef|typeid|typename|union|unsigned|using|virtual|void|volatile|wchar_t|while)\b/,
+  boolean: /\b(?:true|false)\b/,
+  operator: /--?|\+\+?|!=?|<{1,2}=?|>{1,2}=?|->|:{1,2}|={1,2}|\^|~|%|&{1,2}|\|\|?|\?|\*|\/|\b(?:and|and_eq|bitand|bitor|not|not_eq|or|or_eq|xor|xor_eq)\b/
+});
+Prism.languages.insertBefore("cpp", "keyword", {
+  "class-name": {
+    pattern: /(class\s+)\w+/i,
+    lookbehind: !0
+  }
+});
+Prism.languages.insertBefore("cpp", "string", {
+  "raw-string": {
+    pattern: /R"([^()\\ ]{0,16})\([\s\S]*?\)\1"/,
+    alias: "string",
+    greedy: !0
+  }
+});
+Prism.languages.csharp = Prism.languages.extend("clike", {
+  keyword: /\b(?:abstract|add|alias|as|ascending|async|await|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|descending|do|double|dynamic|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|from|get|global|goto|group|if|implicit|in|int|interface|internal|into|is|join|let|lock|long|namespace|new|null|object|operator|orderby|out|override|params|partial|private|protected|public|readonly|ref|remove|return|sbyte|sealed|select|set|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|value|var|virtual|void|volatile|where|while|yield)\b/,
+  string: [
+    {
+      pattern: /@("|')(?:\1\1|\\[\s\S]|(?!\1)[^\\])*\1/,
+      greedy: !0
+    },
+    {
+      pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*?\1/,
+      greedy: !0
+    }
+  ],
+  "class-name": [
+    {
+      // (Foo bar, Bar baz)
+      pattern: /\b[A-Z]\w*(?:\.\w+)*\b(?=\s+\w+)/,
+      inside: {
+        punctuation: /\./
+      }
+    },
+    {
+      // [Foo]
+      pattern: /(\[)[A-Z]\w*(?:\.\w+)*\b/,
+      lookbehind: !0,
+      inside: {
+        punctuation: /\./
+      }
+    },
+    {
+      // class Foo : Bar
+      pattern: /(\b(?:class|interface)\s+[A-Z]\w*(?:\.\w+)*\s*:\s*)[A-Z]\w*(?:\.\w+)*\b/,
+      lookbehind: !0,
+      inside: {
+        punctuation: /\./
+      }
+    },
+    {
+      // class Foo
+      pattern: /((?:\b(?:class|interface|new)\s+)|(?:catch\s+\())[A-Z]\w*(?:\.\w+)*\b/,
+      lookbehind: !0,
+      inside: {
+        punctuation: /\./
+      }
+    }
+  ],
+  number: /\b0x[\da-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)f?/i
+});
+Prism.languages.insertBefore("csharp", "class-name", {
+  "generic-method": {
+    pattern: /\w+\s*<[^>\r\n]+?>\s*(?=\()/,
+    inside: {
+      function: /^\w+/,
+      "class-name": {
+        pattern: /\b[A-Z]\w*(?:\.\w+)*\b/,
+        inside: {
+          punctuation: /\./
+        }
+      },
+      keyword: Prism.languages.csharp.keyword,
+      punctuation: /[<>(),.:]/
+    }
+  },
+  preprocessor: {
+    pattern: /(^\s*)#.*/m,
+    lookbehind: !0,
+    alias: "property",
+    inside: {
+      // highlight preprocessor directives as keywords
+      directive: {
+        pattern: /(\s*#)\b(?:define|elif|else|endif|endregion|error|if|line|pragma|region|undef|warning)\b/,
+        lookbehind: !0,
+        alias: "keyword"
+      }
+    }
+  }
+});
+Prism.languages.dotnet = Prism.languages.csharp;
+Prism.languages.css = {
+  comment: /\/\*[\s\S]*?\*\//,
+  atrule: {
+    pattern: /@[\w-]+?.*?(?:;|(?=\s*\{))/i,
+    inside: {
+      rule: /@[\w-]+/
+      // See rest below
+    }
+  },
+  url: /url\((?:(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|.*?)\)/i,
+  selector: /[^{}\s][^{};]*?(?=\s*\{)/,
+  string: {
+    pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+    greedy: !0
+  },
+  property: /[-_a-z\xA0-\uFFFF][-\w\xA0-\uFFFF]*(?=\s*:)/i,
+  important: /\B!important\b/i,
+  function: /[-a-z0-9]+(?=\()/i,
+  punctuation: /[(){};:]/
+};
+Prism.languages.css.atrule.inside.rest = Prism.languages.css;
+Prism.languages.markup && (Prism.languages.insertBefore("markup", "tag", {
+  style: {
+    pattern: /(<style[\s\S]*?>)[\s\S]*?(?=<\/style>)/i,
+    lookbehind: !0,
+    inside: Prism.languages.css,
+    alias: "language-css",
+    greedy: !0
+  }
+}), Prism.languages.insertBefore("inside", "attr-value", {
+  "style-attr": {
+    pattern: /\s*style=("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/i,
+    inside: {
+      "attr-name": {
+        pattern: /^\s*style/i,
+        inside: Prism.languages.markup.tag.inside
+      },
+      punctuation: /^\s*=\s*['"]|['"]\s*$/,
+      "attr-value": {
+        pattern: /.+/i,
+        inside: Prism.languages.css
+      }
+    },
+    alias: "language-css"
+  }
+}, Prism.languages.markup.tag));
+Prism.languages.css.selector = {
+  pattern: /[^{}\s][^{}]*(?=\s*\{)/,
+  inside: {
+    "pseudo-element": /:(?:after|before|first-letter|first-line|selection)|::[-\w]+/,
+    "pseudo-class": /:[-\w]+(?:\(.*\))?/,
+    class: /\.[-:.\w]+/,
+    id: /#[-:.\w]+/,
+    attribute: /\[[^\]]+\]/
+  }
+};
+Prism.languages.insertBefore("css", "function", {
+  hexcode: /#[\da-f]{3,8}/i,
+  entity: /\\[\da-f]{1,8}/i,
+  number: /[\d%.]+/
+});
+Prism.languages.docker = {
+  keyword: {
+    pattern: /(^\s*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)/mi,
+    lookbehind: !0
+  },
+  string: /("|')(?:(?!\1)[^\\\r\n]|\\(?:\r\n|[\s\S]))*\1/,
+  comment: /#.*/,
+  punctuation: /---|\.\.\.|[:[\]{}\-,|>?]/
+};
+Prism.languages.dockerfile = Prism.languages.docker;
+Prism.languages.git = {
+  /*
+   * A simple one line comment like in a git status command
+   * For instance:
+   * $ git status
+   * # On branch infinite-scroll
+   * # Your branch and 'origin/sharedBranches/frontendTeam/infinite-scroll' have diverged,
+   * # and have 1 and 2 different commits each, respectively.
+   * nothing to commit (working directory clean)
+   */
+  comment: /^#.*/m,
+  /*
+   * Regexp to match the changed lines in a git diff output. Check the example below.
+   */
+  deleted: /^[-–].*/m,
+  inserted: /^\+.*/m,
+  /*
+   * a string (double and simple quote)
+   */
+  string: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/m,
+  /*
+   * a git command. It starts with a random prompt finishing by a $, then "git" then some other parameters
+   * For instance:
+   * $ git add file.txt
+   */
+  command: {
+    pattern: /^.*\$ git .*$/m,
+    inside: {
+      /*
+       * A git command can contain a parameter starting by a single or a double dash followed by a string
+       * For instance:
+       * $ git diff --cached
+       * $ git log -p
+       */
+      parameter: /\s--?\w+/m
+    }
+  },
+  /*
+   * Coordinates displayed in a git diff command
+   * For instance:
+   * $ git diff
+   * diff --git file.txt file.txt
+   * index 6214953..1d54a52 100644
+   * --- file.txt
+   * +++ file.txt
+   * @@ -1 +1,2 @@
+   * -Here's my tetx file
+   * +Here's my text file
+   * +And this is the second line
+   */
+  coord: /^@@.*@@$/m,
+  /*
+   * Match a "commit [SHA1]" line in a git log output.
+   * For instance:
+   * $ git log
+   * commit a11a14ef7e26f2ca62d4b35eac455ce636d0dc09
+   * Author: lgiraudel
+   * Date:   Mon Feb 17 11:18:34 2014 +0100
+   *
+   *     Add of a new line
+   */
+  commit_sha1: /^commit \w{40}$/m
+};
+Prism.languages.go = Prism.languages.extend("clike", {
+  keyword: /\b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(?:to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/,
+  builtin: /\b(?:bool|byte|complex(?:64|128)|error|float(?:32|64)|rune|string|u?int(?:8|16|32|64)?|uintptr|append|cap|close|complex|copy|delete|imag|len|make|new|panic|print(?:ln)?|real|recover)\b/,
+  boolean: /\b(?:_|iota|nil|true|false)\b/,
+  operator: /[*\/%^!=]=?|\+[=+]?|-[=-]?|\|[=|]?|&(?:=|&|\^=?)?|>(?:>=?|=)?|<(?:<=?|=|-)?|:=|\.\.\./,
+  number: /(?:\b0x[a-f\d]+|(?:\b\d+\.?\d*|\B\.\d+)(?:e[-+]?\d+)?)i?/i,
+  string: {
+    pattern: /(["'`])(\\[\s\S]|(?!\1)[^\\])*\1/,
+    greedy: !0
+  }
+});
+delete Prism.languages.go["class-name"];
+Prism.languages.graphql = {
+  comment: /#.*/,
+  string: {
+    pattern: /"(?:\\.|[^\\"\r\n])*"/,
+    greedy: !0
+  },
+  number: /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
+  boolean: /\b(?:true|false)\b/,
+  variable: /\$[a-z_]\w*/i,
+  directive: {
+    pattern: /@[a-z_]\w*/i,
+    alias: "function"
+  },
+  "attr-name": /[a-z_]\w*(?=\s*:)/i,
+  keyword: [
+    {
+      pattern: /(fragment\s+(?!on)[a-z_]\w*\s+|\.{3}\s*)on\b/,
+      lookbehind: !0
+    },
+    /\b(?:query|fragment|mutation)\b/
+  ],
+  operator: /!|=|\.{3}/,
+  punctuation: /[!(){}\[\]:=,]/
+};
+Prism.languages.groovy = Prism.languages.extend("clike", {
+  keyword: /\b(?:as|def|in|abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|trait|transient|try|void|volatile|while)\b/,
+  string: [
+    {
+      pattern: /("""|''')[\s\S]*?\1|(?:\$\/)(?:\$\/\$|[\s\S])*?\/\$/,
+      greedy: !0
+    },
+    {
+      pattern: /(["'\/])(?:\\.|(?!\1)[^\\\r\n])*\1/,
+      greedy: !0
+    }
+  ],
+  number: /\b(?:0b[01_]+|0x[\da-f_]+(?:\.[\da-f_p\-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?[\d]+)?)[glidf]?\b/i,
+  operator: {
+    pattern: /(^|[^.])(?:~|==?~?|\?[.:]?|\*(?:[.=]|\*=?)?|\.[@&]|\.\.<|\.{1,2}(?!\.)|-[-=>]?|\+[+=]?|!=?|<(?:<=?|=>?)?|>(?:>>?=?|=)?|&[&=]?|\|[|=]?|\/=?|\^=?|%=?)/,
+    lookbehind: !0
+  },
+  punctuation: /\.+|[{}[\];(),:$]/
+});
+Prism.languages.insertBefore("groovy", "string", {
+  shebang: {
+    pattern: /#!.+/,
+    alias: "comment"
+  }
+});
+Prism.languages.insertBefore("groovy", "punctuation", {
+  "spock-block": /\b(?:setup|given|when|then|and|cleanup|expect|where):/
+});
+Prism.languages.insertBefore("groovy", "function", {
+  annotation: {
+    alias: "punctuation",
+    pattern: /(^|[^.])@\w+/,
+    lookbehind: !0
+  }
+});
+Prism.hooks.add("wrap", function(o) {
+  if (o.language === "groovy" && o.type === "string") {
+    var i = o.content[0];
+    if (i != "'") {
+      var A = /([^\\])(?:\$(?:\{.*?\}|[\w.]+))/;
+      i === "$" && (A = /([^\$])(?:\$(?:\{.*?\}|[\w.]+))/), o.content = o.content.replace(/&lt;/g, "<").replace(/&amp;/g, "&"), o.content = Prism.highlight(o.content, {
+        expression: {
+          pattern: A,
+          lookbehind: !0,
+          inside: Prism.languages.groovy
+        }
+      }), o.classes.push(i === "/" ? "regex" : "gstring");
+    }
+  }
+});
+(function(o) {
+  o.languages.haml = {
+    // Multiline stuff should appear before the rest
+    "multiline-comment": {
+      pattern: /((?:^|\r?\n|\r)([\t ]*))(?:\/|-#).*(?:(?:\r?\n|\r)\2[\t ]+.+)*/,
+      lookbehind: !0,
+      alias: "comment"
+    },
+    "multiline-code": [
+      {
+        pattern: /((?:^|\r?\n|\r)([\t ]*)(?:[~-]|[&!]?=)).*,[\t ]*(?:(?:\r?\n|\r)\2[\t ]+.*,[\t ]*)*(?:(?:\r?\n|\r)\2[\t ]+.+)/,
+        lookbehind: !0,
+        inside: {
+          rest: o.languages.ruby
+        }
+      },
+      {
+        pattern: /((?:^|\r?\n|\r)([\t ]*)(?:[~-]|[&!]?=)).*\|[\t ]*(?:(?:\r?\n|\r)\2[\t ]+.*\|[\t ]*)*/,
+        lookbehind: !0,
+        inside: {
+          rest: o.languages.ruby
+        }
+      }
+    ],
+    // See at the end of the file for known filters
+    filter: {
+      pattern: /((?:^|\r?\n|\r)([\t ]*)):[\w-]+(?:(?:\r?\n|\r)(?:\2[\t ]+.+|\s*?(?=\r?\n|\r)))+/,
+      lookbehind: !0,
+      inside: {
+        "filter-name": {
+          pattern: /^:[\w-]+/,
+          alias: "variable"
+        }
+      }
+    },
+    markup: {
+      pattern: /((?:^|\r?\n|\r)[\t ]*)<.+/,
+      lookbehind: !0,
+      inside: {
+        rest: o.languages.markup
+      }
+    },
+    doctype: {
+      pattern: /((?:^|\r?\n|\r)[\t ]*)!!!(?: .+)?/,
+      lookbehind: !0
+    },
+    tag: {
+      // Allows for one nested group of braces
+      pattern: /((?:^|\r?\n|\r)[\t ]*)[%.#][\w\-#.]*[\w\-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^}])+\}|\[[^\]]+\])*[\/<>]*/,
+      lookbehind: !0,
+      inside: {
+        attributes: [
+          {
+            // Lookbehind tries to prevent interpolations from breaking it all
+            // Allows for one nested group of braces
+            pattern: /(^|[^#])\{(?:\{[^}]+\}|[^}])+\}/,
+            lookbehind: !0,
+            inside: {
+              rest: o.languages.ruby
+            }
+          },
+          {
+            pattern: /\([^)]+\)/,
+            inside: {
+              "attr-value": {
+                pattern: /(=\s*)(?:"(?:\\.|[^\\"\r\n])*"|[^)\s]+)/,
+                lookbehind: !0
+              },
+              "attr-name": /[\w:-]+(?=\s*!?=|\s*[,)])/,
+              punctuation: /[=(),]/
+            }
+          },
+          {
+            pattern: /\[[^\]]+\]/,
+            inside: {
+              rest: o.languages.ruby
+            }
+          }
+        ],
+        punctuation: /[<>]/
+      }
+    },
+    code: {
+      pattern: /((?:^|\r?\n|\r)[\t ]*(?:[~-]|[&!]?=)).+/,
+      lookbehind: !0,
+      inside: {
+        rest: o.languages.ruby
+      }
+    },
+    // Interpolations in plain text
+    interpolation: {
+      pattern: /#\{[^}]+\}/,
+      inside: {
+        delimiter: {
+          pattern: /^#\{|\}$/,
+          alias: "punctuation"
+        },
+        rest: o.languages.ruby
+      }
+    },
+    punctuation: {
+      pattern: /((?:^|\r?\n|\r)[\t ]*)[~=\-&!]+/,
+      lookbehind: !0
+    }
+  };
+  for (var i = "((?:^|\\r?\\n|\\r)([\\t ]*)):{{filter_name}}(?:(?:\\r?\\n|\\r)(?:\\2[\\t ]+.+|\\s*?(?=\\r?\\n|\\r)))+", A = [
+    "css",
+    { filter: "coffee", language: "coffeescript" },
+    "erb",
+    "javascript",
+    "less",
+    "markdown",
+    "ruby",
+    "scss",
+    "textile"
+  ], a = {}, _ = 0, I = A.length; _ < I; _++) {
+    var S = A[_];
+    S = typeof S == "string" ? { filter: S, language: S } : S, o.languages[S.language] && (a["filter-" + S.filter] = {
+      pattern: RegExp(i.replace("{{filter_name}}", S.filter)),
+      lookbehind: !0,
+      inside: {
+        "filter-name": {
+          pattern: /^:[\w-]+/,
+          alias: "variable"
+        },
+        rest: o.languages[S.language]
+      }
+    });
+  }
+  o.languages.insertBefore("haml", "filter", a);
+})(Prism);
+(function(o) {
+  o.languages.handlebars = {
+    comment: /\{\{![\s\S]*?\}\}/,
+    delimiter: {
+      pattern: /^\{\{\{?|\}\}\}?$/i,
+      alias: "punctuation"
+    },
+    string: /(["'])(?:\\.|(?!\1)[^\\\r\n])*\1/,
+    number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
+    boolean: /\b(?:true|false)\b/,
+    block: {
+      pattern: /^(\s*~?\s*)[#\/]\S+?(?=\s*~?\s*$|\s)/i,
+      lookbehind: !0,
+      alias: "keyword"
+    },
+    brackets: {
+      pattern: /\[[^\]]+\]/,
+      inside: {
+        punctuation: /\[|\]/,
+        variable: /[\s\S]+/
+      }
+    },
+    punctuation: /[!"#%&'()*+,.\/;<=>@\[\\\]^`{|}~]/,
+    variable: /[^!"#%&'()*+,.\/;<=>@\[\\\]^`{|}~\s]+/
+  }, o.hooks.add("before-tokenize", function(i) {
+    var A = /\{\{\{[\s\S]+?\}\}\}|\{\{[\s\S]+?\}\}/g;
+    o.languages["markup-templating"].buildPlaceholders(i, "handlebars", A);
+  }), o.hooks.add("after-tokenize", function(i) {
+    o.languages["markup-templating"].tokenizePlaceholders(i, "handlebars");
+  });
+})(Prism);
+Prism.languages.http = {
+  "request-line": {
+    pattern: /^(?:POST|GET|PUT|DELETE|OPTIONS|PATCH|TRACE|CONNECT)\shttps?:\/\/\S+\sHTTP\/[0-9.]+/m,
+    inside: {
+      // HTTP Verb
+      property: /^(?:POST|GET|PUT|DELETE|OPTIONS|PATCH|TRACE|CONNECT)\b/,
+      // Path or query argument
+      "attr-name": /:\w+/
+    }
+  },
+  "response-status": {
+    pattern: /^HTTP\/1.[01] \d+.*/m,
+    inside: {
+      // Status, e.g. 200 OK
+      property: {
+        pattern: /(^HTTP\/1.[01] )\d+.*/i,
+        lookbehind: !0
+      }
+    }
+  },
+  // HTTP header name
+  "header-name": {
+    pattern: /^[\w-]+:(?=.)/m,
+    alias: "keyword"
+  }
+};
+var X = {
+  "application/json": Prism.languages.javascript,
+  "application/xml": Prism.languages.markup,
+  "text/xml": Prism.languages.markup,
+  "text/html": Prism.languages.markup
+};
+for (var K in X)
+  if (X[K]) {
+    var Q = {};
+    Q[K] = {
+      pattern: new RegExp("(content-type:\\s*" + K + "[\\w\\W]*?)(?:\\r?\\n|\\r){2}[\\w\\W]*", "i"),
+      lookbehind: !0,
+      inside: {
+        rest: X[K]
+      }
+    }, Prism.languages.insertBefore("http", "header-name", Q);
+  }
+Prism.languages.java = Prism.languages.extend("clike", {
+  keyword: /\b(?:abstract|continue|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|protected|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|strictfp|volatile|const|float|native|super|while)\b/,
+  number: /\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp-]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:e[+-]?\d+)?[df]?/i,
+  operator: {
+    pattern: /(^|[^.])(?:\+[+=]?|-[-=]?|!=?|<<?=?|>>?>?=?|==?|&[&=]?|\|[|=]?|\*=?|\/=?|%=?|\^=?|[?:~])/m,
+    lookbehind: !0
+  }
+});
+Prism.languages.insertBefore("java", "function", {
+  annotation: {
+    alias: "punctuation",
+    pattern: /(^|[^.])@\w+/,
+    lookbehind: !0
+  }
+});
+Prism.languages.insertBefore("java", "class-name", {
+  generics: {
+    pattern: /<\s*\w+(?:\.\w+)?(?:\s*,\s*\w+(?:\.\w+)?)*>/i,
+    alias: "function",
+    inside: {
+      keyword: Prism.languages.java.keyword,
+      punctuation: /[<>(),.:]/
+    }
+  }
+});
+Prism.languages.javascript = Prism.languages.extend("clike", {
+  keyword: /\b(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/,
+  number: /\b(?:0[xX][\dA-Fa-f]+|0[bB][01]+|0[oO][0-7]+|NaN|Infinity)\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
+  // Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
+  function: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*\()/i,
+  operator: /-[-=]?|\+[+=]?|!=?=?|<<?=?|>>?>?=?|=(?:==?|>)?|&[&=]?|\|[|=]?|\*\*?=?|\/=?|~|\^=?|%=?|\?|\.{3}/
+});
+Prism.languages.insertBefore("javascript", "keyword", {
+  regex: {
+    pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s])\s*)\/(\[[^\]\r\n]+]|\\.|[^/\\\[\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/,
+    lookbehind: !0,
+    greedy: !0
+  },
+  // This must be declared before keyword because we use "function" inside the look-forward
+  "function-variable": {
+    pattern: /[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*=\s*(?:function\b|(?:\([^()]*\)|[_$a-z\xA0-\uFFFF][$\w\xA0-\uFFFF]*)\s*=>))/i,
+    alias: "function"
+  },
+  constant: /\b[A-Z][A-Z\d_]*\b/
+});
+Prism.languages.insertBefore("javascript", "string", {
+  "template-string": {
+    pattern: /`(?:\\[\s\S]|[^\\`])*`/,
+    greedy: !0,
+    inside: {
+      interpolation: {
+        pattern: /\$\{[^}]+\}/,
+        inside: {
+          "interpolation-punctuation": {
+            pattern: /^\$\{|\}$/,
+            alias: "punctuation"
+          },
+          rest: Prism.languages.javascript
+        }
+      },
+      string: /[\s\S]+/
+    }
+  }
+});
+Prism.languages.markup && Prism.languages.insertBefore("markup", "tag", {
+  script: {
+    pattern: /(<script[\s\S]*?>)[\s\S]*?(?=<\/script>)/i,
+    lookbehind: !0,
+    inside: Prism.languages.javascript,
+    alias: "language-javascript",
+    greedy: !0
+  }
+});
+Prism.languages.js = Prism.languages.javascript;
+Prism.languages.json = {
+  property: /"(?:\\.|[^\\"\r\n])*"(?=\s*:)/i,
+  string: {
+    pattern: /"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
+    greedy: !0
+  },
+  number: /\b0x[\dA-Fa-f]+\b|(?:\b\d+\.?\d*|\B\.\d+)(?:[Ee][+-]?\d+)?/,
+  punctuation: /[{}[\]);,]/,
+  operator: /:/g,
+  boolean: /\b(?:true|false)\b/i,
+  null: /\bnull\b/i
+};
+Prism.languages.jsonp = Prism.languages.json;
+(function(o) {
+  var i = o.util.clone(o.languages.javascript);
+  o.languages.jsx = o.languages.extend("markup", i), o.languages.jsx.tag.pattern = /<\/?[\w.:-]+\s*(?:\s+(?:[\w.:-]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s{'">=]+|\{(?:\{[^}]*\}|[^{}])+\}))?|\{\.{3}[a-z_$][\w$]*(?:\.[a-z_$][\w$]*)*\}))*\s*\/?>/i, o.languages.jsx.tag.inside["attr-value"].pattern = /=(?!\{)(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">]+)/i, o.languages.insertBefore("inside", "attr-name", {
+    spread: {
+      pattern: /\{\.{3}[a-z_$][\w$]*(?:\.[a-z_$][\w$]*)*\}/,
+      inside: {
+        punctuation: /\.{3}|[{}.]/,
+        "attr-value": /\w+/
+      }
+    }
+  }, o.languages.jsx.tag), o.languages.insertBefore("inside", "attr-value", {
+    script: {
+      // Allow for one level of nesting
+      pattern: /=(\{(?:\{[^}]*\}|[^}])+\})/i,
+      inside: {
+        "script-punctuation": {
+          pattern: /^=(?={)/,
+          alias: "punctuation"
+        },
+        rest: o.languages.jsx
+      },
+      alias: "language-javascript"
+    }
+  }, o.languages.jsx.tag);
+  var A = function(_) {
+    return typeof _ == "string" ? _ : typeof _.content == "string" ? _.content : _.content.map(A).join("");
+  }, a = function(_) {
+    for (var I = [], S = 0; S < _.length; S++) {
+      var k = _[S], c = !1;
+      if (typeof k != "string" && (k.type === "tag" && k.content[0] && k.content[0].type === "tag" ? k.content[0].content[0].content === "</" ? I.length > 0 && I[I.length - 1].tagName === A(k.content[0].content[1]) && I.pop() : k.content[k.content.length - 1].content === "/>" || I.push({
+        tagName: A(k.content[0].content[1]),
+        openedBraces: 0
+      }) : I.length > 0 && k.type === "punctuation" && k.content === "{" ? I[I.length - 1].openedBraces++ : I.length > 0 && I[I.length - 1].openedBraces > 0 && k.type === "punctuation" && k.content === "}" ? I[I.length - 1].openedBraces-- : c = !0), (c || typeof k == "string") && I.length > 0 && I[I.length - 1].openedBraces === 0) {
+        var b = A(k);
+        S < _.length - 1 && (typeof _[S + 1] == "string" || _[S + 1].type === "plain-text") && (b += A(_[S + 1]), _.splice(S + 1, 1)), S > 0 && (typeof _[S - 1] == "string" || _[S - 1].type === "plain-text") && (b = A(_[S - 1]) + b, _.splice(S - 1, 1), S--), _[S] = new o.Token("plain-text", b, null, b);
+      }
+      k.content && typeof k.content != "string" && a(k.content);
+    }
+  };
+  o.hooks.add("after-tokenize", function(_) {
+    _.language !== "jsx" && _.language !== "tsx" || a(_.tokens);
+  });
+})(Prism);
+(function(o) {
+  o.languages.kotlin = o.languages.extend("clike", {
+    keyword: {
+      // The lookbehind prevents wrong highlighting of e.g. kotlin.properties.get
+      pattern: /(^|[^.])\b(?:abstract|annotation|as|break|by|catch|class|companion|const|constructor|continue|crossinline|data|do|else|enum|final|finally|for|fun|get|if|import|in|init|inline|inner|interface|internal|is|lateinit|noinline|null|object|open|out|override|package|private|protected|public|reified|return|sealed|set|super|tailrec|this|throw|to|try|val|var|when|where|while)\b/,
+      lookbehind: !0
+    },
+    function: [
+      /\w+(?=\s*\()/,
+      {
+        pattern: /(\.)\w+(?=\s*\{)/,
+        lookbehind: !0
+      }
+    ],
+    number: /\b(?:0[bx][\da-fA-F]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?[fFL]?)\b/,
+    operator: /\+[+=]?|-[-=>]?|==?=?|!(?:!|==?)?|[\/*%<>]=?|[?:]:?|\.\.|&&|\|\||\b(?:and|inv|or|shl|shr|ushr|xor)\b/
+  }), delete o.languages.kotlin["class-name"], o.languages.insertBefore("kotlin", "string", {
+    "raw-string": {
+      pattern: /("""|''')[\s\S]*?\1/,
+      alias: "string"
+      // See interpolation below
+    }
+  }), o.languages.insertBefore("kotlin", "keyword", {
+    annotation: {
+      pattern: /\B@(?:\w+:)?(?:[A-Z]\w*|\[[^\]]+\])/,
+      alias: "builtin"
+    }
+  }), o.languages.insertBefore("kotlin", "function", {
+    label: {
+      pattern: /\w+@|@\w+/,
+      alias: "symbol"
+    }
+  });
+  var i = [
+    {
+      pattern: /\$\{[^}]+\}/,
+      inside: {
+        delimiter: {
+          pattern: /^\$\{|\}$/,
+          alias: "variable"
+        },
+        rest: o.languages.kotlin
+      }
+    },
+    {
+      pattern: /\$\w+/,
+      alias: "variable"
+    }
+  ];
+  o.languages.kotlin.string.inside = o.languages.kotlin["raw-string"].inside = {
+    interpolation: i
+  };
+})(Prism);
+(function(o) {
+  var i = /\\(?:[^a-z()[\]]|[a-z*]+)/i, A = {
+    "equation-command": {
+      pattern: i,
+      alias: "regex"
+    }
+  };
+  o.languages.latex = {
+    comment: /%.*/m,
+    // the verbatim environment prints whitespace to the document
+    cdata: {
+      pattern: /(\\begin\{((?:verbatim|lstlisting)\*?)\})[\s\S]*?(?=\\end\{\2\})/,
+      lookbehind: !0
+    },
+    /*
+     * equations can be between $ $ or \( \) or \[ \]
+     * (all are multiline)
+     */
+    equation: [
+      {
+        pattern: /\$(?:\\[\s\S]|[^\\$])*\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/,
+        inside: A,
+        alias: "string"
+      },
+      {
+        pattern: /(\\begin\{((?:equation|math|eqnarray|align|multline|gather)\*?)\})[\s\S]*?(?=\\end\{\2\})/,
+        lookbehind: !0,
+        inside: A,
+        alias: "string"
+      }
+    ],
+    /*
+     * arguments which are keywords or references are highlighted
+     * as keywords
+     */
+    keyword: {
+      pattern: /(\\(?:begin|end|ref|cite|label|usepackage|documentclass)(?:\[[^\]]+\])?\{)[^}]+(?=\})/,
+      lookbehind: !0
+    },
+    url: {
+      pattern: /(\\url\{)[^}]+(?=\})/,
+      lookbehind: !0
+    },
+    /*
+     * section or chapter headlines are highlighted as bold so that
+     * they stand out more
+     */
+    headline: {
+      pattern: /(\\(?:part|chapter|section|subsection|frametitle|subsubsection|paragraph|subparagraph|subsubparagraph|subsubsubparagraph)\*?(?:\[[^\]]+\])?\{)[^}]+(?=\}(?:\[[^\]]+\])?)/,
+      lookbehind: !0,
+      alias: "class-name"
+    },
+    function: {
+      pattern: i,
+      alias: "selector"
+    },
+    punctuation: /[[\]{}&]/
+  };
+})(Prism);
+Prism.languages.less = Prism.languages.extend("css", {
+  comment: [
+    /\/\*[\s\S]*?\*\//,
+    {
+      pattern: /(^|[^\\])\/\/.*/,
+      lookbehind: !0
+    }
+  ],
+  atrule: {
+    pattern: /@[\w-]+?(?:\([^{}]+\)|[^(){};])*?(?=\s*\{)/i,
+    inside: {
+      punctuation: /[:()]/
+    }
+  },
+  // selectors and mixins are considered the same
+  selector: {
+    pattern: /(?:@\{[\w-]+\}|[^{};\s@])(?:@\{[\w-]+\}|\([^{}]*\)|[^{};@])*?(?=\s*\{)/,
+    inside: {
+      // mixin parameters
+      variable: /@+[\w-]+/
+    }
+  },
+  property: /(?:@\{[\w-]+\}|[\w-])+(?:\+_?)?(?=\s*:)/i,
+  punctuation: /[{}();:,]/,
+  operator: /[+\-*\/]/
+});
+Prism.languages.insertBefore("less", "punctuation", {
+  function: Prism.languages.less.function
+});
+Prism.languages.insertBefore("less", "property", {
+  variable: [
+    // Variable declaration (the colon must be consumed!)
+    {
+      pattern: /@[\w-]+\s*:/,
+      inside: {
+        punctuation: /:/
+      }
+    },
+    // Variable usage
+    /@@?[\w-]+/
+  ],
+  "mixin-usage": {
+    pattern: /([{;]\s*)[.#](?!\d)[\w-]+.*?(?=[(;])/,
+    lookbehind: !0,
+    alias: "function"
+  }
+});
+Prism.languages.markdown = Prism.languages.extend("markup", {});
+Prism.languages.insertBefore("markdown", "prolog", {
+  blockquote: {
+    // > ...
+    pattern: /^>(?:[\t ]*>)*/m,
+    alias: "punctuation"
+  },
+  code: [
+    {
+      // Prefixed by 4 spaces or 1 tab
+      pattern: /^(?: {4}|\t).+/m,
+      alias: "keyword"
+    },
+    {
+      // `code`
+      // ``code``
+      pattern: /``.+?``|`[^`\n]+`/,
+      alias: "keyword"
+    }
+  ],
+  title: [
+    {
+      // title 1
+      // =======
+      // title 2
+      // -------
+      pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/,
+      alias: "important",
+      inside: {
+        punctuation: /==+$|--+$/
+      }
+    },
+    {
+      // # title 1
+      // ###### title 6
+      pattern: /(^\s*)#+.+/m,
+      lookbehind: !0,
+      alias: "important",
+      inside: {
+        punctuation: /^#+|#+$/
+      }
+    }
+  ],
+  hr: {
+    // ***
+    // ---
+    // * * *
+    // -----------
+    pattern: /(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,
+    lookbehind: !0,
+    alias: "punctuation"
+  },
+  list: {
+    // * item
+    // + item
+    // - item
+    // 1. item
+    pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
+    lookbehind: !0,
+    alias: "punctuation"
+  },
+  "url-reference": {
+    // [id]: http://example.com "Optional title"
+    // [id]: http://example.com 'Optional title'
+    // [id]: http://example.com (Optional title)
+    // [id]: <http://example.com> "Optional title"
+    pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,
+    inside: {
+      variable: {
+        pattern: /^(!?\[)[^\]]+/,
+        lookbehind: !0
+      },
+      string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
+      punctuation: /^[\[\]!:]|[<>]/
+    },
+    alias: "url"
+  },
+  bold: {
+    // **strong**
+    // __strong__
+    // Allow only one line break
+    pattern: /(^|[^\\])(\*\*|__)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
+    lookbehind: !0,
+    inside: {
+      punctuation: /^\*\*|^__|\*\*$|__$/
+    }
+  },
+  italic: {
+    // *em*
+    // _em_
+    // Allow only one line break
+    pattern: /(^|[^\\])([*_])(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
+    lookbehind: !0,
+    inside: {
+      punctuation: /^[*_]|[*_]$/
+    }
+  },
+  url: {
+    // [example](http://example.com "Optional title")
+    // [example] [id]
+    pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/,
+    inside: {
+      variable: {
+        pattern: /(!?\[)[^\]]+(?=\]$)/,
+        lookbehind: !0
+      },
+      string: {
+        pattern: /"(?:\\.|[^"\\])*"(?=\)$)/
+      }
+    }
+  }
+});
+Prism.languages.markdown.bold.inside.url = Prism.languages.markdown.url;
+Prism.languages.markdown.italic.inside.url = Prism.languages.markdown.url;
+Prism.languages.markdown.bold.inside.italic = Prism.languages.markdown.italic;
+Prism.languages.markdown.italic.inside.bold = Prism.languages.markdown.bold;
+Prism.languages.markup = {
+  comment: /<!--[\s\S]*?-->/,
+  prolog: /<\?[\s\S]+?\?>/,
+  doctype: /<!DOCTYPE[\s\S]+?>/i,
+  cdata: /<!\[CDATA\[[\s\S]*?]]>/i,
+  tag: {
+    pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i,
+    greedy: !0,
+    inside: {
+      tag: {
+        pattern: /^<\/?[^\s>\/]+/i,
+        inside: {
+          punctuation: /^<\/?/,
+          namespace: /^[^\s>\/:]+:/
+        }
+      },
+      "attr-value": {
+        pattern: /=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+)/i,
+        inside: {
+          punctuation: [
+            /^=/,
+            {
+              pattern: /(^|[^\\])["']/,
+              lookbehind: !0
+            }
+          ]
+        }
+      },
+      punctuation: /\/?>/,
+      "attr-name": {
+        pattern: /[^\s>\/]+/,
+        inside: {
+          namespace: /^[^\s>\/:]+:/
+        }
+      }
+    }
+  },
+  entity: /&#?[\da-z]{1,8};/i
+};
+Prism.languages.markup.tag.inside["attr-value"].inside.entity = Prism.languages.markup.entity;
+Prism.hooks.add("wrap", function(o) {
+  o.type === "entity" && (o.attributes.title = o.content.replace(/&amp;/, "&"));
+});
+Prism.languages.xml = Prism.languages.markup;
+Prism.languages.html = Prism.languages.markup;
+Prism.languages.mathml = Prism.languages.markup;
+Prism.languages.svg = Prism.languages.markup;
+Prism.languages["markup-templating"] = {};
+Object.defineProperties(Prism.languages["markup-templating"], {
+  buildPlaceholders: {
+    // Tokenize all inline templating expressions matching placeholderPattern
+    // If the replaceFilter function is provided, it will be called with every match.
+    // If it returns false, the match will not be replaced.
+    value: function(o, i, A, a) {
+      o.language === i && (o.tokenStack = [], o.code = o.code.replace(A, function(_) {
+        if (typeof a == "function" && !a(_))
+          return _;
+        for (var I = o.tokenStack.length; o.code.indexOf("___" + i.toUpperCase() + I + "___") !== -1; )
+          ++I;
+        return o.tokenStack[I] = _, "___" + i.toUpperCase() + I + "___";
+      }), o.grammar = Prism.languages.markup);
+    }
+  },
+  tokenizePlaceholders: {
+    // Replace placeholders with proper tokens after tokenizing
+    value: function(o, i) {
+      if (!(o.language !== i || !o.tokenStack)) {
+        o.grammar = Prism.languages[i];
+        var A = 0, a = Object.keys(o.tokenStack), _ = function(I) {
+          if (!(A >= a.length))
+            for (var S = 0; S < I.length; S++) {
+              var k = I[S];
+              if (typeof k == "string" || k.content && typeof k.content == "string") {
+                var c = a[A], b = o.tokenStack[c], P = typeof k == "string" ? k : k.content, y = P.indexOf("___" + i.toUpperCase() + c + "___");
+                if (y > -1) {
+                  ++A;
+                  var L = P.substring(0, y), N = new Prism.Token(i, Prism.tokenize(b, o.grammar, i), "language-" + i, b), j = P.substring(y + ("___" + i.toUpperCase() + c + "___").length), T;
+                  if (L || j ? (T = [L, N, j].filter(function(O) {
+                    return !!O;
+                  }), _(T)) : T = N, typeof k == "string" ? Array.prototype.splice.apply(I, [S, 1].concat(T)) : k.content = T, A >= a.length)
+                    break;
+                }
+              } else k.content && typeof k.content != "string" && _(k.content);
+            }
+        };
+        _(o.tokens);
+      }
+    }
+  }
+});
+Prism.languages.nginx = Prism.languages.extend("clike", {
+  comment: {
+    pattern: /(^|[^"{\\])#.*/,
+    lookbehind: !0
+  },
+  keyword: /\b(?:CONTENT_|DOCUMENT_|GATEWAY_|HTTP_|HTTPS|if_not_empty|PATH_|QUERY_|REDIRECT_|REMOTE_|REQUEST_|SCGI|SCRIPT_|SERVER_|http|events|accept_mutex|accept_mutex_delay|access_log|add_after_body|add_before_body|add_header|addition_types|aio|alias|allow|ancient_browser|ancient_browser_value|auth|auth_basic|auth_basic_user_file|auth_http|auth_http_header|auth_http_timeout|autoindex|autoindex_exact_size|autoindex_localtime|break|charset|charset_map|charset_types|chunked_transfer_encoding|client_body_buffer_size|client_body_in_file_only|client_body_in_single_buffer|client_body_temp_path|client_body_timeout|client_header_buffer_size|client_header_timeout|client_max_body_size|connection_pool_size|create_full_put_path|daemon|dav_access|dav_methods|debug_connection|debug_points|default_type|deny|devpoll_changes|devpoll_events|directio|directio_alignment|disable_symlinks|empty_gif|env|epoll_events|error_log|error_page|expires|fastcgi_buffer_size|fastcgi_buffers|fastcgi_busy_buffers_size|fastcgi_cache|fastcgi_cache_bypass|fastcgi_cache_key|fastcgi_cache_lock|fastcgi_cache_lock_timeout|fastcgi_cache_methods|fastcgi_cache_min_uses|fastcgi_cache_path|fastcgi_cache_purge|fastcgi_cache_use_stale|fastcgi_cache_valid|fastcgi_connect_timeout|fastcgi_hide_header|fastcgi_ignore_client_abort|fastcgi_ignore_headers|fastcgi_index|fastcgi_intercept_errors|fastcgi_keep_conn|fastcgi_max_temp_file_size|fastcgi_next_upstream|fastcgi_no_cache|fastcgi_param|fastcgi_pass|fastcgi_pass_header|fastcgi_read_timeout|fastcgi_redirect_errors|fastcgi_send_timeout|fastcgi_split_path_info|fastcgi_store|fastcgi_store_access|fastcgi_temp_file_write_size|fastcgi_temp_path|flv|geo|geoip_city|geoip_country|google_perftools_profiles|gzip|gzip_buffers|gzip_comp_level|gzip_disable|gzip_http_version|gzip_min_length|gzip_proxied|gzip_static|gzip_types|gzip_vary|if|if_modified_since|ignore_invalid_headers|image_filter|image_filter_buffer|image_filter_jpeg_quality|image_filter_sharpen|image_filter_transparency|imap_capabilities|imap_client_buffer|include|index|internal|ip_hash|keepalive|keepalive_disable|keepalive_requests|keepalive_timeout|kqueue_changes|kqueue_events|large_client_header_buffers|limit_conn|limit_conn_log_level|limit_conn_zone|limit_except|limit_rate|limit_rate_after|limit_req|limit_req_log_level|limit_req_zone|limit_zone|lingering_close|lingering_time|lingering_timeout|listen|location|lock_file|log_format|log_format_combined|log_not_found|log_subrequest|map|map_hash_bucket_size|map_hash_max_size|master_process|max_ranges|memcached_buffer_size|memcached_connect_timeout|memcached_next_upstream|memcached_pass|memcached_read_timeout|memcached_send_timeout|merge_slashes|min_delete_depth|modern_browser|modern_browser_value|mp4|mp4_buffer_size|mp4_max_buffer_size|msie_padding|msie_refresh|multi_accept|open_file_cache|open_file_cache_errors|open_file_cache_min_uses|open_file_cache_valid|open_log_file_cache|optimize_server_names|override_charset|pcre_jit|perl|perl_modules|perl_require|perl_set|pid|pop3_auth|pop3_capabilities|port_in_redirect|post_action|postpone_output|protocol|proxy|proxy_buffer|proxy_buffer_size|proxy_buffering|proxy_buffers|proxy_busy_buffers_size|proxy_cache|proxy_cache_bypass|proxy_cache_key|proxy_cache_lock|proxy_cache_lock_timeout|proxy_cache_methods|proxy_cache_min_uses|proxy_cache_path|proxy_cache_use_stale|proxy_cache_valid|proxy_connect_timeout|proxy_cookie_domain|proxy_cookie_path|proxy_headers_hash_bucket_size|proxy_headers_hash_max_size|proxy_hide_header|proxy_http_version|proxy_ignore_client_abort|proxy_ignore_headers|proxy_intercept_errors|proxy_max_temp_file_size|proxy_method|proxy_next_upstream|proxy_no_cache|proxy_pass|proxy_pass_error_message|proxy_pass_header|proxy_pass_request_body|proxy_pass_request_headers|proxy_read_timeout|proxy_redirect|proxy_redirect_errors|proxy_send_lowat|proxy_send_timeout|proxy_set_body|proxy_set_header|proxy_ssl_session_reuse|proxy_store|proxy_store_access|proxy_temp_file_write_size|proxy_temp_path|proxy_timeout|proxy_upstream_fail_timeout|proxy_upstream_max_fails|random_index|read_ahead|real_ip_header|recursive_error_pages|request_pool_size|reset_timedout_connection|resolver|resolver_timeout|return|rewrite|root|rtsig_overflow_events|rtsig_overflow_test|rtsig_overflow_threshold|rtsig_signo|satisfy|satisfy_any|secure_link_secret|send_lowat|send_timeout|sendfile|sendfile_max_chunk|server|server_name|server_name_in_redirect|server_names_hash_bucket_size|server_names_hash_max_size|server_tokens|set|set_real_ip_from|smtp_auth|smtp_capabilities|so_keepalive|source_charset|split_clients|ssi|ssi_silent_errors|ssi_types|ssi_value_length|ssl|ssl_certificate|ssl_certificate_key|ssl_ciphers|ssl_client_certificate|ssl_crl|ssl_dhparam|ssl_engine|ssl_prefer_server_ciphers|ssl_protocols|ssl_session_cache|ssl_session_timeout|ssl_verify_client|ssl_verify_depth|starttls|stub_status|sub_filter|sub_filter_once|sub_filter_types|tcp_nodelay|tcp_nopush|timeout|timer_resolution|try_files|types|types_hash_bucket_size|types_hash_max_size|underscores_in_headers|uninitialized_variable_warn|upstream|use|user|userid|userid_domain|userid_expires|userid_name|userid_p3p|userid_path|userid_service|valid_referers|variables_hash_bucket_size|variables_hash_max_size|worker_connections|worker_cpu_affinity|worker_priority|worker_processes|worker_rlimit_core|worker_rlimit_nofile|worker_rlimit_sigpending|working_directory|xclient|xml_entities|xslt_entities|xslt_stylesheet|xslt_types)\b/i
+});
+Prism.languages.insertBefore("nginx", "keyword", {
+  variable: /\$[a-z_]+/i
+});
+Prism.languages.objectivec = Prism.languages.extend("c", {
+  keyword: /\b(?:asm|typeof|inline|auto|break|case|char|const|continue|default|do|double|else|enum|extern|float|for|goto|if|int|long|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|while|in|self|super)\b|(?:@interface|@end|@implementation|@protocol|@class|@public|@protected|@private|@property|@try|@catch|@finally|@throw|@synthesize|@dynamic|@selector)\b/,
+  string: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|@"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"/,
+  operator: /-[->]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|\|?|[~^%?*\/@]/
+});
+(function(o) {
+  o.languages.php = o.languages.extend("clike", {
+    keyword: /\b(?:and|or|xor|array|as|break|case|cfunction|class|const|continue|declare|default|die|do|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|for|foreach|function|include|include_once|global|if|new|return|static|switch|use|require|require_once|var|while|abstract|interface|public|implements|private|protected|parent|throw|null|echo|print|trait|namespace|final|yield|goto|instanceof|finally|try|catch)\b/i,
+    constant: /\b[A-Z0-9_]{2,}\b/,
+    comment: {
+      pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|\/\/.*)/,
+      lookbehind: !0
+    }
+  }), o.languages.insertBefore("php", "string", {
+    "shell-comment": {
+      pattern: /(^|[^\\])#.*/,
+      lookbehind: !0,
+      alias: "comment"
+    }
+  }), o.languages.insertBefore("php", "keyword", {
+    delimiter: {
+      pattern: /\?>|<\?(?:php|=)?/i,
+      alias: "important"
+    },
+    variable: /\$+(?:\w+\b|(?={))/i,
+    package: {
+      pattern: /(\\|namespace\s+|use\s+)[\w\\]+/,
+      lookbehind: !0,
+      inside: {
+        punctuation: /\\/
+      }
+    }
+  }), o.languages.insertBefore("php", "operator", {
+    property: {
+      pattern: /(->)[\w]+/,
+      lookbehind: !0
+    }
+  }), o.languages.insertBefore("php", "string", {
+    "nowdoc-string": {
+      pattern: /<<<'([^']+)'(?:\r\n?|\n)(?:.*(?:\r\n?|\n))*?\1;/,
+      greedy: !0,
+      alias: "string",
+      inside: {
+        delimiter: {
+          pattern: /^<<<'[^']+'|[a-z_]\w*;$/i,
+          alias: "symbol",
+          inside: {
+            punctuation: /^<<<'?|[';]$/
+          }
+        }
+      }
+    },
+    "heredoc-string": {
+      pattern: /<<<(?:"([^"]+)"(?:\r\n?|\n)(?:.*(?:\r\n?|\n))*?\1;|([a-z_]\w*)(?:\r\n?|\n)(?:.*(?:\r\n?|\n))*?\2;)/i,
+      greedy: !0,
+      alias: "string",
+      inside: {
+        delimiter: {
+          pattern: /^<<<(?:"[^"]+"|[a-z_]\w*)|[a-z_]\w*;$/i,
+          alias: "symbol",
+          inside: {
+            punctuation: /^<<<"?|[";]$/
+          }
+        },
+        interpolation: null
+        // See below
+      }
+    },
+    "single-quoted-string": {
+      pattern: /'(?:\\[\s\S]|[^\\'])*'/,
+      greedy: !0,
+      alias: "string"
+    },
+    "double-quoted-string": {
+      pattern: /"(?:\\[\s\S]|[^\\"])*"/,
+      greedy: !0,
+      alias: "string",
+      inside: {
+        interpolation: null
+        // See below
+      }
+    }
+  }), delete o.languages.php.string;
+  var i = {
+    pattern: /{\$(?:{(?:{[^{}]+}|[^{}]+)}|[^{}])+}|(^|[^\\{])\$+(?:\w+(?:\[.+?]|->\w+)*)/,
+    lookbehind: !0,
+    inside: {
+      rest: o.languages.php
+    }
+  };
+  o.languages.php["heredoc-string"].inside.interpolation = i, o.languages.php["double-quoted-string"].inside.interpolation = i, o.hooks.add("before-tokenize", function(A) {
+    if (/(?:<\?php|<\?)/ig.test(A.code)) {
+      var a = /(?:<\?php|<\?)[\s\S]*?(?:\?>|$)/ig;
+      o.languages["markup-templating"].buildPlaceholders(A, "php", a);
+    }
+  }), o.hooks.add("after-tokenize", function(A) {
+    o.languages["markup-templating"].tokenizePlaceholders(A, "php");
+  });
+})(Prism);
+Prism.languages.insertBefore("php", "variable", {
+  this: /\$this\b/,
+  global: /\$(?:_(?:SERVER|GET|POST|FILES|REQUEST|SESSION|ENV|COOKIE)|GLOBALS|HTTP_RAW_POST_DATA|argc|argv|php_errormsg|http_response_header)\b/,
+  scope: {
+    pattern: /\b[\w\\]+::/,
+    inside: {
+      keyword: /static|self|parent/,
+      punctuation: /::|\\/
+    }
+  }
+});
+Prism.languages.powershell = {
+  comment: [
+    {
+      pattern: /(^|[^`])<#[\s\S]*?#>/,
+      lookbehind: !0
+    },
+    {
+      pattern: /(^|[^`])#.*/,
+      lookbehind: !0
+    }
+  ],
+  string: [
+    {
+      pattern: /"(?:`[\s\S]|[^`"])*"/,
+      greedy: !0,
+      inside: {
+        function: {
+          pattern: /(^|[^`])\$\(.*?\)/,
+          lookbehind: !0,
+          // Populated at end of file
+          inside: {}
+        }
+      }
+    },
+    {
+      pattern: /'(?:[^']|'')*'/,
+      greedy: !0
+    }
+  ],
+  // Matches name spaces as well as casts, attribute decorators. Force starting with letter to avoid matching array indices
+  // Supports two levels of nested brackets (e.g. `[OutputType([System.Collections.Generic.List[int]])]`)
+  namespace: /\[[a-z](?:\[(?:\[[^\]]*]|[^\[\]])*]|[^\[\]])*]/i,
+  boolean: /\$(?:true|false)\b/i,
+  variable: /\$\w+\b/i,
+  // Cmdlets and aliases. Aliases should come last, otherwise "write" gets preferred over "write-host" for example
+  // Get-Command | ?{ $_.ModuleName -match "Microsoft.PowerShell.(Util|Core|Management)" }
+  // Get-Alias | ?{ $_.ReferencedCommand.Module.Name -match "Microsoft.PowerShell.(Util|Core|Management)" }
+  function: [
+    /\b(?:Add-(?:Computer|Content|History|Member|PSSnapin|Type)|Checkpoint-Computer|Clear-(?:Content|EventLog|History|Item|ItemProperty|Variable)|Compare-Object|Complete-Transaction|Connect-PSSession|ConvertFrom-(?:Csv|Json|StringData)|Convert-Path|ConvertTo-(?:Csv|Html|Json|Xml)|Copy-(?:Item|ItemProperty)|Debug-Process|Disable-(?:ComputerRestore|PSBreakpoint|PSRemoting|PSSessionConfiguration)|Disconnect-PSSession|Enable-(?:ComputerRestore|PSBreakpoint|PSRemoting|PSSessionConfiguration)|Enter-PSSession|Exit-PSSession|Export-(?:Alias|Clixml|Console|Csv|FormatData|ModuleMember|PSSession)|ForEach-Object|Format-(?:Custom|List|Table|Wide)|Get-(?:Alias|ChildItem|Command|ComputerRestorePoint|Content|ControlPanelItem|Culture|Date|Event|EventLog|EventSubscriber|FormatData|Help|History|Host|HotFix|Item|ItemProperty|Job|Location|Member|Module|Process|PSBreakpoint|PSCallStack|PSDrive|PSProvider|PSSession|PSSessionConfiguration|PSSnapin|Random|Service|TraceSource|Transaction|TypeData|UICulture|Unique|Variable|WmiObject)|Group-Object|Import-(?:Alias|Clixml|Csv|LocalizedData|Module|PSSession)|Invoke-(?:Command|Expression|History|Item|RestMethod|WebRequest|WmiMethod)|Join-Path|Limit-EventLog|Measure-(?:Command|Object)|Move-(?:Item|ItemProperty)|New-(?:Alias|Event|EventLog|Item|ItemProperty|Module|ModuleManifest|Object|PSDrive|PSSession|PSSessionConfigurationFile|PSSessionOption|PSTransportOption|Service|TimeSpan|Variable|WebServiceProxy)|Out-(?:Default|File|GridView|Host|Null|Printer|String)|Pop-Location|Push-Location|Read-Host|Receive-(?:Job|PSSession)|Register-(?:EngineEvent|ObjectEvent|PSSessionConfiguration|WmiEvent)|Remove-(?:Computer|Event|EventLog|Item|ItemProperty|Job|Module|PSBreakpoint|PSDrive|PSSession|PSSnapin|TypeData|Variable|WmiObject)|Rename-(?:Computer|Item|ItemProperty)|Reset-ComputerMachinePassword|Resolve-Path|Restart-(?:Computer|Service)|Restore-Computer|Resume-(?:Job|Service)|Save-Help|Select-(?:Object|String|Xml)|Send-MailMessage|Set-(?:Alias|Content|Date|Item|ItemProperty|Location|PSBreakpoint|PSDebug|PSSessionConfiguration|Service|StrictMode|TraceSource|Variable|WmiInstance)|Show-(?:Command|ControlPanelItem|EventLog)|Sort-Object|Split-Path|Start-(?:Job|Process|Service|Sleep|Transaction)|Stop-(?:Computer|Job|Process|Service)|Suspend-(?:Job|Service)|Tee-Object|Test-(?:ComputerSecureChannel|Connection|ModuleManifest|Path|PSSessionConfigurationFile)|Trace-Command|Unblock-File|Undo-Transaction|Unregister-(?:Event|PSSessionConfiguration)|Update-(?:FormatData|Help|List|TypeData)|Use-Transaction|Wait-(?:Event|Job|Process)|Where-Object|Write-(?:Debug|Error|EventLog|Host|Output|Progress|Verbose|Warning))\b/i,
+    /\b(?:ac|cat|chdir|clc|cli|clp|clv|compare|copy|cp|cpi|cpp|cvpa|dbp|del|diff|dir|ebp|echo|epal|epcsv|epsn|erase|fc|fl|ft|fw|gal|gbp|gc|gci|gcs|gdr|gi|gl|gm|gp|gps|group|gsv|gu|gv|gwmi|iex|ii|ipal|ipcsv|ipsn|irm|iwmi|iwr|kill|lp|ls|measure|mi|mount|move|mp|mv|nal|ndr|ni|nv|ogv|popd|ps|pushd|pwd|rbp|rd|rdr|ren|ri|rm|rmdir|rni|rnp|rp|rv|rvpa|rwmi|sal|saps|sasv|sbp|sc|select|set|shcm|si|sl|sleep|sls|sort|sp|spps|spsv|start|sv|swmi|tee|trcm|type|write)\b/i
+  ],
+  // per http://technet.microsoft.com/en-us/library/hh847744.aspx
+  keyword: /\b(?:Begin|Break|Catch|Class|Continue|Data|Define|Do|DynamicParam|Else|ElseIf|End|Exit|Filter|Finally|For|ForEach|From|Function|If|InlineScript|Parallel|Param|Process|Return|Sequence|Switch|Throw|Trap|Try|Until|Using|Var|While|Workflow)\b/i,
+  operator: {
+    pattern: /(\W?)(?:!|-(eq|ne|gt|ge|lt|le|sh[lr]|not|b?(?:and|x?or)|(?:Not)?(?:Like|Match|Contains|In)|Replace|Join|is(?:Not)?|as)\b|-[-=]?|\+[+=]?|[*\/%]=?)/i,
+    lookbehind: !0
+  },
+  punctuation: /[|{}[\];(),.]/
+};
+Prism.languages.powershell.string[0].inside.boolean = Prism.languages.powershell.boolean;
+Prism.languages.powershell.string[0].inside.variable = Prism.languages.powershell.variable;
+Prism.languages.powershell.string[0].inside.function.inside = Prism.languages.powershell;
+Prism.languages.properties = {
+  comment: /^[ \t]*[#!].*$/m,
+  "attr-value": {
+    pattern: /(^[ \t]*(?:\\(?:\r\n|[\s\S])|[^\\\s:=])+?(?: *[=:] *| ))(?:\\(?:\r\n|[\s\S])|[^\\\r\n])+/m,
+    lookbehind: !0
+  },
+  "attr-name": /^[ \t]*(?:\\(?:\r\n|[\s\S])|[^\\\s:=])+?(?= *[=:] *| )/m,
+  punctuation: /[=:]/
+};
+Prism.languages.python = {
+  comment: {
+    pattern: /(^|[^\\])#.*/,
+    lookbehind: !0
+  },
+  "triple-quoted-string": {
+    pattern: /("""|''')[\s\S]+?\1/,
+    greedy: !0,
+    alias: "string"
+  },
+  string: {
+    pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+    greedy: !0
+  },
+  function: {
+    pattern: /((?:^|\s)def[ \t]+)[a-zA-Z_]\w*(?=\s*\()/g,
+    lookbehind: !0
+  },
+  "class-name": {
+    pattern: /(\bclass\s+)\w+/i,
+    lookbehind: !0
+  },
+  keyword: /\b(?:as|assert|async|await|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|nonlocal|pass|print|raise|return|try|while|with|yield)\b/,
+  builtin: /\b(?:__import__|abs|all|any|apply|ascii|basestring|bin|bool|buffer|bytearray|bytes|callable|chr|classmethod|cmp|coerce|compile|complex|delattr|dict|dir|divmod|enumerate|eval|execfile|file|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|intern|isinstance|issubclass|iter|len|list|locals|long|map|max|memoryview|min|next|object|oct|open|ord|pow|property|range|raw_input|reduce|reload|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unichr|unicode|vars|xrange|zip)\b/,
+  boolean: /\b(?:True|False|None)\b/,
+  number: /(?:\b(?=\d)|\B(?=\.))(?:0[bo])?(?:(?:\d|0x[\da-f])[\da-f]*\.?\d*|\.\d+)(?:e[+-]?\d+)?j?\b/i,
+  operator: /[-+%=]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]|\b(?:or|and|not)\b/,
+  punctuation: /[{}[\];(),.:]/
+};
+(function(o) {
+  o.languages.sass = o.languages.extend("css", {
+    // Sass comments don't need to be closed, only indented
+    comment: {
+      pattern: /^([ \t]*)\/[\/*].*(?:(?:\r?\n|\r)\1[ \t]+.+)*/m,
+      lookbehind: !0
+    }
+  }), o.languages.insertBefore("sass", "atrule", {
+    // We want to consume the whole line
+    "atrule-line": {
+      // Includes support for = and + shortcuts
+      pattern: /^(?:[ \t]*)[@+=].+/m,
+      inside: {
+        atrule: /(?:@[\w-]+|[+=])/m
+      }
+    }
+  }), delete o.languages.sass.atrule;
+  var i = /\$[-\w]+|#\{\$[-\w]+\}/, A = [
+    /[+*\/%]|[=!]=|<=?|>=?|\b(?:and|or|not)\b/,
+    {
+      pattern: /(\s+)-(?=\s)/,
+      lookbehind: !0
+    }
+  ];
+  o.languages.insertBefore("sass", "property", {
+    // We want to consume the whole line
+    "variable-line": {
+      pattern: /^[ \t]*\$.+/m,
+      inside: {
+        punctuation: /:/,
+        variable: i,
+        operator: A
+      }
+    },
+    // We want to consume the whole line
+    "property-line": {
+      pattern: /^[ \t]*(?:[^:\s]+ *:.*|:[^:\s]+.*)/m,
+      inside: {
+        property: [
+          /[^:\s]+(?=\s*:)/,
+          {
+            pattern: /(:)[^:\s]+/,
+            lookbehind: !0
+          }
+        ],
+        punctuation: /:/,
+        variable: i,
+        operator: A,
+        important: o.languages.sass.important
+      }
+    }
+  }), delete o.languages.sass.property, delete o.languages.sass.important, delete o.languages.sass.selector, o.languages.insertBefore("sass", "punctuation", {
+    selector: {
+      pattern: /([ \t]*)\S(?:,?[^,\r\n]+)*(?:,(?:\r?\n|\r)\1[ \t]+\S(?:,?[^,\r\n]+)*)*/,
+      lookbehind: !0
+    }
+  });
+})(Prism);
+Prism.languages.scala = Prism.languages.extend("java", {
+  keyword: /<-|=>|\b(?:abstract|case|catch|class|def|do|else|extends|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|self|super|this|throw|trait|try|type|val|var|while|with|yield)\b/,
+  string: [
+    {
+      pattern: /"""[\s\S]*?"""/,
+      greedy: !0
+    },
+    {
+      pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+      greedy: !0
+    }
+  ],
+  builtin: /\b(?:String|Int|Long|Short|Byte|Boolean|Double|Float|Char|Any|AnyRef|AnyVal|Unit|Nothing)\b/,
+  number: /\b0x[\da-f]*\.?[\da-f]+|(?:\b\d+\.?\d*|\B\.\d+)(?:e\d+)?[dfl]?/i,
+  symbol: /'[^\d\s\\]\w*/
+});
+delete Prism.languages.scala["class-name"];
+delete Prism.languages.scala.function;
+Prism.languages.scss = Prism.languages.extend("css", {
+  comment: {
+    pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|\/\/.*)/,
+    lookbehind: !0
+  },
+  atrule: {
+    pattern: /@[\w-]+(?:\([^()]+\)|[^(])*?(?=\s+[{;])/,
+    inside: {
+      rule: /@[\w-]+/
+      // See rest below
+    }
+  },
+  // url, compassified
+  url: /(?:[-a-z]+-)*url(?=\()/i,
+  // CSS selector regex is not appropriate for Sass
+  // since there can be lot more things (var, @ directive, nesting..)
+  // a selector must start at the end of a property or after a brace (end of other rules or nesting)
+  // it can contain some characters that aren't used for defining rules or end of selector, & (parent selector), or interpolated variable
+  // the end of a selector is found when there is no rules in it ( {} or {\s}) or if there is a property (because an interpolated var
+  // can "pass" as a selector- e.g: proper#{$erty})
+  // this one was hard to do, so please be careful if you edit this one :)
+  selector: {
+    // Initial look-ahead is used to prevent matching of blank selectors
+    pattern: /(?=\S)[^@;{}()]?(?:[^@;{}()]|&|#\{\$[-\w]+\})+(?=\s*\{(?:\}|\s|[^}]+[:{][^}]+))/m,
+    inside: {
+      parent: {
+        pattern: /&/,
+        alias: "important"
+      },
+      placeholder: /%[-\w]+/,
+      variable: /\$[-\w]+|#\{\$[-\w]+\}/
+    }
+  }
+});
+Prism.languages.insertBefore("scss", "atrule", {
+  keyword: [
+    /@(?:if|else(?: if)?|for|each|while|import|extend|debug|warn|mixin|include|function|return|content)/i,
+    {
+      pattern: /( +)(?:from|through)(?= )/,
+      lookbehind: !0
+    }
+  ]
+});
+Prism.languages.scss.property = {
+  pattern: /(?:[\w-]|\$[-\w]+|#\{\$[-\w]+\})+(?=\s*:)/i,
+  inside: {
+    variable: /\$[-\w]+|#\{\$[-\w]+\}/
+  }
+};
+Prism.languages.insertBefore("scss", "important", {
+  // var and interpolated vars
+  variable: /\$[-\w]+|#\{\$[-\w]+\}/
+});
+Prism.languages.insertBefore("scss", "function", {
+  placeholder: {
+    pattern: /%[-\w]+/,
+    alias: "selector"
+  },
+  statement: {
+    pattern: /\B!(?:default|optional)\b/i,
+    alias: "keyword"
+  },
+  boolean: /\b(?:true|false)\b/,
+  null: /\bnull\b/,
+  operator: {
+    pattern: /(\s)(?:[-+*\/%]|[=!]=|<=?|>=?|and|or|not)(?=\s)/,
+    lookbehind: !0
+  }
+});
+Prism.languages.scss.atrule.inside.rest = Prism.languages.scss;
+Prism.languages.sql = {
+  comment: {
+    pattern: /(^|[^\\])(?:\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*)/,
+    lookbehind: !0
+  },
+  string: {
+    pattern: /(^|[^@\\])("|')(?:\\[\s\S]|(?!\2)[^\\])*\2/,
+    greedy: !0,
+    lookbehind: !0
+  },
+  variable: /@[\w.$]+|@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
+  function: /\b(?:AVG|COUNT|FIRST|FORMAT|LAST|LCASE|LEN|MAX|MID|MIN|MOD|NOW|ROUND|SUM|UCASE)(?=\s*\()/i,
+  // Should we highlight user defined functions too?
+  keyword: /\b(?:ACTION|ADD|AFTER|ALGORITHM|ALL|ALTER|ANALYZE|ANY|APPLY|AS|ASC|AUTHORIZATION|AUTO_INCREMENT|BACKUP|BDB|BEGIN|BERKELEYDB|BIGINT|BINARY|BIT|BLOB|BOOL|BOOLEAN|BREAK|BROWSE|BTREE|BULK|BY|CALL|CASCADED?|CASE|CHAIN|CHAR(?:ACTER|SET)?|CHECK(?:POINT)?|CLOSE|CLUSTERED|COALESCE|COLLATE|COLUMNS?|COMMENT|COMMIT(?:TED)?|COMPUTE|CONNECT|CONSISTENT|CONSTRAINT|CONTAINS(?:TABLE)?|CONTINUE|CONVERT|CREATE|CROSS|CURRENT(?:_DATE|_TIME|_TIMESTAMP|_USER)?|CURSOR|CYCLE|DATA(?:BASES?)?|DATE(?:TIME)?|DAY|DBCC|DEALLOCATE|DEC|DECIMAL|DECLARE|DEFAULT|DEFINER|DELAYED|DELETE|DELIMITERS?|DENY|DESC|DESCRIBE|DETERMINISTIC|DISABLE|DISCARD|DISK|DISTINCT|DISTINCTROW|DISTRIBUTED|DO|DOUBLE|DROP|DUMMY|DUMP(?:FILE)?|DUPLICATE|ELSE(?:IF)?|ENABLE|ENCLOSED|END|ENGINE|ENUM|ERRLVL|ERRORS|ESCAPED?|EXCEPT|EXEC(?:UTE)?|EXISTS|EXIT|EXPLAIN|EXTENDED|FETCH|FIELDS|FILE|FILLFACTOR|FIRST|FIXED|FLOAT|FOLLOWING|FOR(?: EACH ROW)?|FORCE|FOREIGN|FREETEXT(?:TABLE)?|FROM|FULL|FUNCTION|GEOMETRY(?:COLLECTION)?|GLOBAL|GOTO|GRANT|GROUP|HANDLER|HASH|HAVING|HOLDLOCK|HOUR|IDENTITY(?:_INSERT|COL)?|IF|IGNORE|IMPORT|INDEX|INFILE|INNER|INNODB|INOUT|INSERT|INT|INTEGER|INTERSECT|INTERVAL|INTO|INVOKER|ISOLATION|ITERATE|JOIN|KEYS?|KILL|LANGUAGE|LAST|LEAVE|LEFT|LEVEL|LIMIT|LINENO|LINES|LINESTRING|LOAD|LOCAL|LOCK|LONG(?:BLOB|TEXT)|LOOP|MATCH(?:ED)?|MEDIUM(?:BLOB|INT|TEXT)|MERGE|MIDDLEINT|MINUTE|MODE|MODIFIES|MODIFY|MONTH|MULTI(?:LINESTRING|POINT|POLYGON)|NATIONAL|NATURAL|NCHAR|NEXT|NO|NONCLUSTERED|NULLIF|NUMERIC|OFF?|OFFSETS?|ON|OPEN(?:DATASOURCE|QUERY|ROWSET)?|OPTIMIZE|OPTION(?:ALLY)?|ORDER|OUT(?:ER|FILE)?|OVER|PARTIAL|PARTITION|PERCENT|PIVOT|PLAN|POINT|POLYGON|PRECEDING|PRECISION|PREPARE|PREV|PRIMARY|PRINT|PRIVILEGES|PROC(?:EDURE)?|PUBLIC|PURGE|QUICK|RAISERROR|READS?|REAL|RECONFIGURE|REFERENCES|RELEASE|RENAME|REPEAT(?:ABLE)?|REPLACE|REPLICATION|REQUIRE|RESIGNAL|RESTORE|RESTRICT|RETURNS?|REVOKE|RIGHT|ROLLBACK|ROUTINE|ROW(?:COUNT|GUIDCOL|S)?|RTREE|RULE|SAVE(?:POINT)?|SCHEMA|SECOND|SELECT|SERIAL(?:IZABLE)?|SESSION(?:_USER)?|SET(?:USER)?|SHARE|SHOW|SHUTDOWN|SIMPLE|SMALLINT|SNAPSHOT|SOME|SONAME|SQL|START(?:ING)?|STATISTICS|STATUS|STRIPED|SYSTEM_USER|TABLES?|TABLESPACE|TEMP(?:ORARY|TABLE)?|TERMINATED|TEXT(?:SIZE)?|THEN|TIME(?:STAMP)?|TINY(?:BLOB|INT|TEXT)|TOP?|TRAN(?:SACTIONS?)?|TRIGGER|TRUNCATE|TSEQUAL|TYPES?|UNBOUNDED|UNCOMMITTED|UNDEFINED|UNION|UNIQUE|UNLOCK|UNPIVOT|UNSIGNED|UPDATE(?:TEXT)?|USAGE|USE|USER|USING|VALUES?|VAR(?:BINARY|CHAR|CHARACTER|YING)|VIEW|WAITFOR|WARNINGS|WHEN|WHERE|WHILE|WITH(?: ROLLUP|IN)?|WORK|WRITE(?:TEXT)?|YEAR)\b/i,
+  boolean: /\b(?:TRUE|FALSE|NULL)\b/i,
+  number: /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
+  operator: /[-+*\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|LIKE|NOT|OR|IS|DIV|REGEXP|RLIKE|SOUNDS LIKE|XOR)\b/i,
+  punctuation: /[;[\]()`,.]/
+};
+(function(o) {
+  var i = {
+    url: /url\((["']?).*?\1\)/i,
+    string: {
+      pattern: /("|')(?:(?!\1)[^\\\r\n]|\\(?:\r\n|[\s\S]))*\1/,
+      greedy: !0
+    },
+    interpolation: null,
+    // See below
+    func: null,
+    // See below
+    important: /\B!(?:important|optional)\b/i,
+    keyword: {
+      pattern: /(^|\s+)(?:(?:if|else|for|return|unless)(?=\s+|$)|@[\w-]+)/,
+      lookbehind: !0
+    },
+    hexcode: /#[\da-f]{3,6}/i,
+    number: /\b\d+(?:\.\d+)?%?/,
+    boolean: /\b(?:true|false)\b/,
+    operator: [
+      // We want non-word chars around "-" because it is
+      // accepted in property names.
+      /~|[+!\/%<>?=]=?|[-:]=|\*[*=]?|\.+|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/
+    ],
+    punctuation: /[{}()\[\];:,]/
+  };
+  i.interpolation = {
+    pattern: /\{[^\r\n}:]+\}/,
+    alias: "variable",
+    inside: {
+      delimiter: {
+        pattern: /^{|}$/,
+        alias: "punctuation"
+      },
+      rest: i
+    }
+  }, i.func = {
+    pattern: /[\w-]+\([^)]*\).*/,
+    inside: {
+      function: /^[^(]+/,
+      rest: i
+    }
+  }, o.languages.stylus = {
+    comment: {
+      pattern: /(^|[^\\])(\/\*[\s\S]*?\*\/|\/\/.*)/,
+      lookbehind: !0
+    },
+    "atrule-declaration": {
+      pattern: /(^\s*)@.+/m,
+      lookbehind: !0,
+      inside: {
+        atrule: /^@[\w-]+/,
+        rest: i
+      }
+    },
+    "variable-declaration": {
+      pattern: /(^[ \t]*)[\w$-]+\s*.?=[ \t]*(?:(?:\{[^}]*\}|.+)|$)/m,
+      lookbehind: !0,
+      inside: {
+        variable: /^\S+/,
+        rest: i
+      }
+    },
+    statement: {
+      pattern: /(^[ \t]*)(?:if|else|for|return|unless)[ \t]+.+/m,
+      lookbehind: !0,
+      inside: {
+        keyword: /^\S+/,
+        rest: i
+      }
+    },
+    // A property/value pair cannot end with a comma or a brace
+    // It cannot have indented content unless it ended with a semicolon
+    "property-declaration": {
+      pattern: /((?:^|\{)([ \t]*))(?:[\w-]|\{[^}\r\n]+\})+(?:\s*:\s*|[ \t]+)[^{\r\n]*(?:;|[^{\r\n,](?=$)(?!(\r?\n|\r)(?:\{|\2[ \t]+)))/m,
+      lookbehind: !0,
+      inside: {
+        property: {
+          pattern: /^[^\s:]+/,
+          inside: {
+            interpolation: i.interpolation
+          }
+        },
+        rest: i
+      }
+    },
+    // A selector can contain parentheses only as part of a pseudo-element
+    // It can span multiple lines.
+    // It must end with a comma or an accolade or have indented content.
+    selector: {
+      pattern: /(^[ \t]*)(?:(?=\S)(?:[^{}\r\n:()]|::?[\w-]+(?:\([^)\r\n]*\))?|\{[^}\r\n]+\})+)(?:(?:\r?\n|\r)(?:\1(?:(?=\S)(?:[^{}\r\n:()]|::?[\w-]+(?:\([^)\r\n]*\))?|\{[^}\r\n]+\})+)))*(?:,$|\{|(?=(?:\r?\n|\r)(?:\{|\1[ \t]+)))/m,
+      lookbehind: !0,
+      inside: {
+        interpolation: i.interpolation,
+        punctuation: /[{},]/
+      }
+    },
+    func: i.func,
+    string: i.string,
+    interpolation: i.interpolation,
+    punctuation: /[{}()\[\];:.]/
+  };
+})(Prism);
+Prism.languages.swift = Prism.languages.extend("clike", {
+  string: {
+    pattern: /("|')(\\(?:\((?:[^()]|\([^)]+\))+\)|\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+    greedy: !0,
+    inside: {
+      interpolation: {
+        pattern: /\\\((?:[^()]|\([^)]+\))+\)/,
+        inside: {
+          delimiter: {
+            pattern: /^\\\(|\)$/,
+            alias: "variable"
+          }
+          // See rest below
+        }
+      }
+    }
+  },
+  keyword: /\b(?:as|associativity|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic(?:Type)?|else|enum|extension|fallthrough|final|for|func|get|guard|if|import|in|infix|init|inout|internal|is|lazy|left|let|mutating|new|none|nonmutating|operator|optional|override|postfix|precedence|prefix|private|Protocol|public|repeat|required|rethrows|return|right|safe|self|Self|set|static|struct|subscript|super|switch|throws?|try|Type|typealias|unowned|unsafe|var|weak|where|while|willSet|__(?:COLUMN__|FILE__|FUNCTION__|LINE__))\b/,
+  number: /\b(?:[\d_]+(?:\.[\de_]+)?|0x[a-f0-9_]+(?:\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\b/i,
+  constant: /\b(?:nil|[A-Z_]{2,}|k[A-Z][A-Za-z_]+)\b/,
+  atrule: /@\b(?:IB(?:Outlet|Designable|Action|Inspectable)|class_protocol|exported|noreturn|NS(?:Copying|Managed)|objc|UIApplicationMain|auto_closure)\b/,
+  builtin: /\b(?:[A-Z]\S+|abs|advance|alignof(?:Value)?|assert|contains|count(?:Elements)?|debugPrint(?:ln)?|distance|drop(?:First|Last)|dump|enumerate|equal|filter|find|first|getVaList|indices|isEmpty|join|last|lexicographicalCompare|map|max(?:Element)?|min(?:Element)?|numericCast|overlaps|partition|print(?:ln)?|reduce|reflect|reverse|sizeof(?:Value)?|sort(?:ed)?|split|startsWith|stride(?:of(?:Value)?)?|suffix|swap|toDebugString|toString|transcode|underestimateCount|unsafeBitCast|with(?:ExtendedLifetime|Unsafe(?:MutablePointers?|Pointers?)|VaList))\b/
+});
+Prism.languages.swift.string.inside.interpolation.inside.rest = Prism.languages.swift;
+Prism.languages.typescript = Prism.languages.extend("javascript", {
+  // From JavaScript Prism keyword list and TypeScript language spec: https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#221-reserved-words
+  keyword: /\b(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield|module|declare|constructor|namespace|abstract|require|type)\b/,
+  builtin: /\b(?:string|Function|any|number|boolean|Array|symbol|console)\b/
+});
+Prism.languages.ts = Prism.languages.typescript;
+Prism.languages.wiki = Prism.languages.extend("markup", {
+  "block-comment": {
+    pattern: /(^|[^\\])\/\*[\s\S]*?\*\//,
+    lookbehind: !0,
+    alias: "comment"
+  },
+  heading: {
+    pattern: /^(=+).+?\1/m,
+    inside: {
+      punctuation: /^=+|=+$/,
+      important: /.+/
+    }
+  },
+  emphasis: {
+    // TODO Multi-line
+    pattern: /('{2,5}).+?\1/,
+    inside: {
+      "bold italic": {
+        pattern: /(''''').+?(?=\1)/,
+        lookbehind: !0
+      },
+      bold: {
+        pattern: /(''')[^'](?:.*?[^'])?(?=\1)/,
+        lookbehind: !0
+      },
+      italic: {
+        pattern: /('')[^'](?:.*?[^'])?(?=\1)/,
+        lookbehind: !0
+      },
+      punctuation: /^''+|''+$/
+    }
+  },
+  hr: {
+    pattern: /^-{4,}/m,
+    alias: "punctuation"
+  },
+  url: [
+    /ISBN +(?:97[89][ -]?)?(?:\d[ -]?){9}[\dx]\b|(?:RFC|PMID) +\d+/i,
+    /\[\[.+?\]\]|\[.+?\]/
+  ],
+  variable: [
+    /__[A-Z]+__/,
+    // FIXME Nested structures should be handled
+    // {{formatnum:{{#expr:{{{3}}}}}}}
+    /\{{3}.+?\}{3}/,
+    /\{\{.+?\}\}/
+  ],
+  symbol: [
+    /^#redirect/im,
+    /~{3,5}/
+  ],
+  // Handle table attrs:
+  // {|
+  // ! style="text-align:left;"| Item
+  // |}
+  "table-tag": {
+    pattern: /((?:^|[|!])[|!])[^|\r\n]+\|(?!\|)/m,
+    lookbehind: !0,
+    inside: {
+      "table-bar": {
+        pattern: /\|$/,
+        alias: "punctuation"
+      },
+      rest: Prism.languages.markup.tag.inside
+    }
+  },
+  punctuation: /^(?:\{\||\|\}|\|-|[*#:;!|])|\|\||!!/m
+});
+Prism.languages.insertBefore("wiki", "tag", {
+  // Prevent highlighting inside <nowiki>, <source> and <pre> tags
+  nowiki: {
+    pattern: /<(nowiki|pre|source)\b[\s\S]*?>[\s\S]*?<\/\1>/i,
+    inside: {
+      tag: {
+        pattern: /<(?:nowiki|pre|source)\b[\s\S]*?>|<\/(?:nowiki|pre|source)>/i,
+        inside: Prism.languages.markup.tag.inside
+      }
+    }
+  }
+});
+Prism.languages.yaml = {
+  scalar: {
+    pattern: /([\-:]\s*(?:![^\s]+)?[ \t]*[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)[^\r\n]+(?:\2[^\r\n]+)*)/,
+    lookbehind: !0,
+    alias: "string"
+  },
+  comment: /#.*/,
+  key: {
+    pattern: /(\s*(?:^|[:\-,[{\r\n?])[ \t]*(?:![^\s]+)?[ \t]*)[^\r\n{[\]},#\s]+?(?=\s*:\s)/,
+    lookbehind: !0,
+    alias: "atrule"
+  },
+  directive: {
+    pattern: /(^[ \t]*)%.+/m,
+    lookbehind: !0,
+    alias: "important"
+  },
+  datetime: {
+    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)(?:\d{4}-\d\d?-\d\d?(?:[tT]|[ \t]+)\d\d?:\d{2}:\d{2}(?:\.\d*)?[ \t]*(?:Z|[-+]\d\d?(?::\d{2})?)?|\d{4}-\d{2}-\d{2}|\d\d?:\d{2}(?::\d{2}(?:\.\d*)?)?)(?=[ \t]*(?:$|,|]|}))/m,
+    lookbehind: !0,
+    alias: "number"
+  },
+  boolean: {
+    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)(?:true|false)[ \t]*(?=$|,|]|})/im,
+    lookbehind: !0,
+    alias: "important"
+  },
+  null: {
+    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)(?:null|~)[ \t]*(?=$|,|]|})/im,
+    lookbehind: !0,
+    alias: "important"
+  },
+  string: {
+    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)("|')(?:(?!\2)[^\\\r\n]|\\.)*\2(?=[ \t]*(?:$|,|]|}))/m,
+    lookbehind: !0,
+    greedy: !0
+  },
+  number: {
+    pattern: /([:\-,[{]\s*(?:![^\s]+)?[ \t]*)[+-]?(?:0x[\da-f]+|0o[0-7]+|(?:\d+\.?\d*|\.?\d+)(?:e[+-]?\d+)?|\.inf|\.nan)[ \t]*(?=$|,|]|})/im,
+    lookbehind: !0
+  },
+  tag: /![^\s]+/,
+  important: /[&*][\w]+/,
+  punctuation: /---|[:[\]{}\-,|>?]|\.\.\./
+};
+class se {
+  /**
+   * @constructor
+   */
+  constructor() {
+    this.highlighter = ie;
+  }
+  /**
+   *
+   * @returns {Prism} - syntax highlighter
+   */
+  get getHighlighter() {
+    return this.highlighter;
+  }
+}
+class Ae {
+  /**
+   * Represents ShowdownConverter
+   *
+   * @param {String} flavor - flavor of the converter
+  	 */
+  constructor(i = "github") {
+    this.converter = new de.Converter(), this.setFlavor(i), this.codeHighlighter = new se().getHighlighter;
+  }
+  /**
+   * Get the showdown converter
+   *
+   * @returns {showdown.Converter} - showdown markdown converter
+   */
+  get getConverter() {
+    return this.converter;
+  }
+  /**
+   * Set the flavor of the showdown converter
+   *
+   * @param {String} flavor - flavor of the converter
+   */
+  setFlavor(i) {
+    this.converter.setFlavor(i);
+  }
+  /**
+   * Generate html from the markdown
+   *
+   * @param {String} markdown - markdown from the editor
+   * @returns {String} - the generated html
+   */
+  makeHtml(i) {
+    const A = this.converter.makeHtml(i);
+    return this.codeHighlighter == null ? A : this.addCodeHighlighting(A);
+  }
+  /**
+   * Get a syntax highlighted version of the given html code tags
+   *
+   * @param {String} html - the generated html
+   * @returns {String} - the generated html with syntax highlight
+   */
+  addCodeHighlighting(i) {
+    const A = document.createElement("div");
+    A.innerHTML = i;
+    const a = A.getElementsByTagName("code");
+    for (let _ = 0; _ < a.length; _++)
+      this.codeHighlighter.highlightElement(a[_]);
+    return A.innerHTML;
+  }
+}
+class Z {
+  /**
+   * Represents a HTMLElement
+   *
+   * @constructor
+   * @param {String} type - the string value of the html tag
+   * @param {String} className - the name of the html element
+   * @param {Element} parent - the parent element of the created element
+   * @param {Object} params - additional parameters for the created element
+   */
+  constructor(i, A, a, _ = {}) {
+    this.init(i, A, a, _);
+  }
+  /**
+   * Initialize HTML element
+   * Get a type, a className and additional params to create a html element
+   * and append the created element to the parent
+   *
+   * @param {String} type - the string value of the html tag
+   * @param {String} className - the name of the html element
+   * @param {Element} parent - the parent element of the created element
+   * @param {Object} params - additional parameters for the created element
+   */
+  init(i, A, a, _) {
+    const I = Z.createElement(i, A, _);
+    a && Z.appendElementToParent(I, a), this.setElementByClassName(A);
+  }
+  /**
+   * Get the element
+   *
+   * @returns {Element} - the element
+   */
+  get getElement() {
+    return this.element;
+  }
+  /**
+   * Set the element
+   *
+   * @param {Element} element - the new value of the element
+   */
+  set setElement(i) {
+    this.element = i;
+  }
+  /**
+   * Get the element by the class name with querySelector
+   *
+   * @param {String} className - the string value of the class name without dot
+   */
+  setElementByClassName(i) {
+    const A = i.split(" ").join(".");
+    this.element = document.querySelector(`.${A}`);
+  }
+  /**
+   * Create an eventListener for the html element
+   *
+   * @param {String} event - the string value of the event name
+   * @param {Function} callback - the function that should be run when the event is fired
+   */
+  addEventListener(i, A) {
+    this.element.addEventListener(i, A);
+  }
+  /**
+   * Create a new element of given type with class name and parameters
+   *
+   * @param {String} type - the string value of type of the new element
+   * @param {String} className - the string value of the class attribute of the element without dot
+   * @param {Object} params - parameter object to set attribute of the element
+   * @returns {Element} - return a new element
+   */
+  static createElement(i, A, a) {
+    const _ = document.createElement(i);
+    _.className = A;
+    for (const I of Object.keys(a))
+      _[I] = a[I];
+    return _;
+  }
+  /**
+   * Append the element to the parent element as a child
+   *
+   * @param {Element} element - the element that will be appended to the parent
+   * @param {Element} parent - the parent element that will contain the given element
+   */
+  static appendElementToParent(i, A) {
+    A.appendChild(i);
+  }
+  /**
+   *
+   * @param type
+   * @param className
+   * @param parent
+   * @param params
+   * @returns {HTMLElement}
+   */
+  static create(i, A, a = null, _ = {}) {
+    return new Z(i, A, a, _);
+  }
+}
+class oe extends Z {
+  /**
+   * Represents TextareaEditor
+   *
+   * @constructor
+   * @param {String} className
+   * @param {Element} parent
+   */
+  constructor(i, A) {
+    super("textarea", i, A);
+  }
+  /**
+   * Get the initialized editor element
+   *
+   * @returns {Element} - element of the editor
+   */
+  get getEditor() {
+    return this.element;
+  }
+  /**
+   * Get the content of the editor
+   *
+   * @returns {String} - the content of editor
+   */
+  getContent() {
+    return this.element.value;
+  }
+  /**
+   * Set the content of the editor
+   *
+   * @param {String} content - content for the editor
+   */
+  setContent(i) {
+    this.element.value = i;
+  }
+  /**
+   * Alternative for getContent()
+   * @see getContent
+   *
+   * @returns {String} - the content of editor
+   */
+  getMarkdown() {
+    return this.getContent();
+  }
+  /**
+   * Alternative for setContent()
+   * @see setContent
+   *
+   * @param {String} markdown - content for the editor
+   */
+  setMarkdown(i) {
+    this.setContent(i);
+  }
+  /**
+   * Append the given value to the content of the editor
+   *
+   * @param {String} content - additional content for the editor
+   */
+  appendContent(i) {
+    this.element.value = this.editor.value + i;
+  }
+  /**
+   * Prepend the given value to the content of the editor
+   *
+   * @param {String} content - additional content for the editor
+   */
+  prependContent(i) {
+    this.element.value = i + this.editor.value;
+  }
+  /**
+   * Refresh preview automatically if the editor content is changed
+   *
+   * @param {Element|Array} element - contains the compiled html content
+   * @param {Converter} converter - converts the markdown to html
+   */
+  convertMarkdownToHtmlEventListener(i, A) {
+    this.addEventListener("input", () => {
+      const a = A.makeHtml(this.getContent());
+      if (i instanceof Array)
+        for (const _ of i)
+          _.innerHTML = a;
+      else
+        i.innerHTML = a;
+    });
+  }
+  /**
+   * Copy content of editor to hidden input automatically
+   *
+   * @param {Element} element - this element gets the content of the editor
+   */
+  copyMarkdownContentToHiddenInputEventListener(i) {
+    this.addEventListener("input", () => {
+      i.innerHTML = this.getContent();
+    });
+  }
+  /**
+   *
+   * @returns {string}
+   */
+  getSelectedContent() {
+    const i = this.element.selectionStart, A = this.element.selectionEnd;
+    return this.element.value.substring(i, A);
+  }
+  /**
+   *
+   * @param content
+   */
+  setSelectedContent(i) {
+    const A = this.element.selectionStart, a = this.element.selectionEnd;
+    this.element.value = this.element.value.substring(0, A) + i + this.element.value.substring(a);
+  }
+  /**
+   *
+   * @returns {Number}
+   */
+  getCursorPosition() {
+    return this.element.selectionStart;
+  }
+  /**
+   *
+   * @param {Number} position
+   */
+  setCursorPosition(i) {
+    this.element.selectionStart = i, this.element.selectionEnd = i;
+  }
+  /**
+   * Process the content by triggering the input event
+   */
+  processContent() {
+    const i = new Event("input");
+    this.element.dispatchEvent(i);
+  }
+}
+class Ce extends Z {
+  /**
+   * Represents Preview
+   *
+   * @constructor
+   * @param className
+   * @param parent
+   */
+  constructor(i, A) {
+    super("div", i, A);
+  }
+  /**
+   * Get the preview element
+   *
+   * @returns {Element} - the preview element
+   */
+  get getPreview() {
+    return this.element;
+  }
+}
+var re = { exports: {} };
+(function(o) {
+  (function(i, A, a) {
+    if (!i)
+      return;
+    for (var _ = {
+      8: "backspace",
+      9: "tab",
+      13: "enter",
+      16: "shift",
+      17: "ctrl",
+      18: "alt",
+      20: "capslock",
+      27: "esc",
+      32: "space",
+      33: "pageup",
+      34: "pagedown",
+      35: "end",
+      36: "home",
+      37: "left",
+      38: "up",
+      39: "right",
+      40: "down",
+      45: "ins",
+      46: "del",
+      91: "meta",
+      93: "meta",
+      224: "meta"
+    }, I = {
+      106: "*",
+      107: "+",
+      109: "-",
+      110: ".",
+      111: "/",
+      186: ";",
+      187: "=",
+      188: ",",
+      189: "-",
+      190: ".",
+      191: "/",
+      192: "`",
+      219: "[",
+      220: "\\",
+      221: "]",
+      222: "'"
+    }, S = {
+      "~": "`",
+      "!": "1",
+      "@": "2",
+      "#": "3",
+      $: "4",
+      "%": "5",
+      "^": "6",
+      "&": "7",
+      "*": "8",
+      "(": "9",
+      ")": "0",
+      _: "-",
+      "+": "=",
+      ":": ";",
+      '"': "'",
+      "<": ",",
+      ">": ".",
+      "?": "/",
+      "|": "\\"
+    }, k = {
+      option: "alt",
+      command: "meta",
+      return: "enter",
+      escape: "esc",
+      plus: "+",
+      mod: /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? "meta" : "ctrl"
+    }, c, b = 1; b < 20; ++b)
+      _[111 + b] = "f" + b;
+    for (b = 0; b <= 9; ++b)
+      _[b + 96] = b.toString();
+    function P(n, g, s) {
+      if (n.addEventListener) {
+        n.addEventListener(g, s, !1);
+        return;
+      }
+      n.attachEvent("on" + g, s);
+    }
+    function y(n) {
+      if (n.type == "keypress") {
+        var g = String.fromCharCode(n.which);
+        return n.shiftKey || (g = g.toLowerCase()), g;
+      }
+      return _[n.which] ? _[n.which] : I[n.which] ? I[n.which] : String.fromCharCode(n.which).toLowerCase();
+    }
+    function L(n, g) {
+      return n.sort().join(",") === g.sort().join(",");
+    }
+    function N(n) {
+      var g = [];
+      return n.shiftKey && g.push("shift"), n.altKey && g.push("alt"), n.ctrlKey && g.push("ctrl"), n.metaKey && g.push("meta"), g;
+    }
+    function j(n) {
+      if (n.preventDefault) {
+        n.preventDefault();
+        return;
+      }
+      n.returnValue = !1;
+    }
+    function T(n) {
+      if (n.stopPropagation) {
+        n.stopPropagation();
+        return;
+      }
+      n.cancelBubble = !0;
+    }
+    function O(n) {
+      return n == "shift" || n == "ctrl" || n == "alt" || n == "meta";
+    }
+    function U() {
+      if (!c) {
+        c = {};
+        for (var n in _)
+          n > 95 && n < 112 || _.hasOwnProperty(n) && (c[_[n]] = n);
+      }
+      return c;
+    }
+    function x(n, g, s) {
+      return s || (s = U()[n] ? "keydown" : "keypress"), s == "keypress" && g.length && (s = "keydown"), s;
+    }
+    function H(n) {
+      return n === "+" ? ["+"] : (n = n.replace(/\+{2}/g, "+plus"), n.split("+"));
+    }
+    function e(n, g) {
+      var s, u, C, w = [];
+      for (s = H(n), C = 0; C < s.length; ++C)
+        u = s[C], k[u] && (u = k[u]), g && g != "keypress" && S[u] && (u = S[u], w.push("shift")), O(u) && w.push(u);
+      return g = x(u, w, g), {
+        key: u,
+        modifiers: w,
+        action: g
+      };
+    }
+    function t(n, g) {
+      return n === null || n === A ? !1 : n === g ? !0 : t(n.parentNode, g);
+    }
+    function r(n) {
+      var g = this;
+      if (n = n || A, !(g instanceof r))
+        return new r(n);
+      g.target = n, g._callbacks = {}, g._directMap = {};
+      var s = {}, u, C = !1, w = !1, p = !1;
+      function l(m) {
+        m = m || {};
+        var R = !1, M;
+        for (M in s) {
+          if (m[M]) {
+            R = !0;
+            continue;
+          }
+          s[M] = 0;
+        }
+        R || (p = !1);
+      }
+      function h(m, R, M, D, B, V) {
+        var F, G, Y = [], W = M.type;
+        if (!g._callbacks[m])
+          return [];
+        for (W == "keyup" && O(m) && (R = [m]), F = 0; F < g._callbacks[m].length; ++F)
+          if (G = g._callbacks[m][F], !(!D && G.seq && s[G.seq] != G.level) && W == G.action && (W == "keypress" && !M.metaKey && !M.ctrlKey || L(R, G.modifiers))) {
+            var ae = !D && G.combo == B, ne = D && G.seq == D && G.level == V;
+            (ae || ne) && g._callbacks[m].splice(F, 1), Y.push(G);
+          }
+        return Y;
+      }
+      function d(m, R, M, D) {
+        g.stopCallback(R, R.target || R.srcElement, M, D) || m(R, M) === !1 && (j(R), T(R));
+      }
+      g._handleKey = function(m, R, M) {
+        var D = h(m, R, M), B, V = {}, F = 0, G = !1;
+        for (B = 0; B < D.length; ++B)
+          D[B].seq && (F = Math.max(F, D[B].level));
+        for (B = 0; B < D.length; ++B) {
+          if (D[B].seq) {
+            if (D[B].level != F)
+              continue;
+            G = !0, V[D[B].seq] = 1, d(D[B].callback, M, D[B].combo, D[B].seq);
+            continue;
+          }
+          G || d(D[B].callback, M, D[B].combo);
+        }
+        var Y = M.type == "keypress" && w;
+        M.type == p && !O(m) && !Y && l(V), w = G && M.type == "keydown";
+      };
+      function f(m) {
+        typeof m.which != "number" && (m.which = m.keyCode);
+        var R = y(m);
+        if (R) {
+          if (m.type == "keyup" && C === R) {
+            C = !1;
+            return;
+          }
+          g.handleKey(R, N(m), m);
+        }
+      }
+      function v() {
+        clearTimeout(u), u = setTimeout(l, 1e3);
+      }
+      function E(m, R, M, D) {
+        s[m] = 0;
+        function B(W) {
+          return function() {
+            p = W, ++s[m], v();
+          };
+        }
+        function V(W) {
+          d(M, W, m), D !== "keyup" && (C = y(W)), setTimeout(l, 10);
+        }
+        for (var F = 0; F < R.length; ++F) {
+          var G = F + 1 === R.length, Y = G ? V : B(D || e(R[F + 1]).action);
+          z(R[F], Y, D, m, F);
+        }
+      }
+      function z(m, R, M, D, B) {
+        g._directMap[m + ":" + M] = R, m = m.replace(/\s+/g, " ");
+        var V = m.split(" "), F;
+        if (V.length > 1) {
+          E(m, V, R, M);
+          return;
+        }
+        F = e(m, M), g._callbacks[F.key] = g._callbacks[F.key] || [], h(F.key, F.modifiers, { type: F.action }, D, m, B), g._callbacks[F.key][D ? "unshift" : "push"]({
+          callback: R,
+          modifiers: F.modifiers,
+          action: F.action,
+          seq: D,
+          level: B,
+          combo: m
+        });
+      }
+      g._bindMultiple = function(m, R, M) {
+        for (var D = 0; D < m.length; ++D)
+          z(m[D], R, M);
+      }, P(n, "keypress", f), P(n, "keydown", f), P(n, "keyup", f);
+    }
+    r.prototype.bind = function(n, g, s) {
+      var u = this;
+      return n = n instanceof Array ? n : [n], u._bindMultiple.call(u, n, g, s), u;
+    }, r.prototype.unbind = function(n, g) {
+      var s = this;
+      return s.bind.call(s, n, function() {
+      }, g);
+    }, r.prototype.trigger = function(n, g) {
+      var s = this;
+      return s._directMap[n + ":" + g] && s._directMap[n + ":" + g]({}, n), s;
+    }, r.prototype.reset = function() {
+      var n = this;
+      return n._callbacks = {}, n._directMap = {}, n;
+    }, r.prototype.stopCallback = function(n, g) {
+      var s = this;
+      return (" " + g.className + " ").indexOf(" mousetrap ") > -1 || t(g, s.target) ? !1 : g.tagName == "INPUT" || g.tagName == "SELECT" || g.tagName == "TEXTAREA" || g.isContentEditable;
+    }, r.prototype.handleKey = function() {
+      var n = this;
+      return n._handleKey.apply(n, arguments);
+    }, r.addKeycodes = function(n) {
+      for (var g in n)
+        n.hasOwnProperty(g) && (_[g] = n[g]);
+      c = null;
+    }, r.init = function() {
+      var n = r(A);
+      for (var g in n)
+        g.charAt(0) !== "_" && (r[g] = /* @__PURE__ */ function(s) {
+          return function() {
+            return n[s].apply(n, arguments);
+          };
+        }(g));
+    }, r.init(), i.Mousetrap = r, o.exports && (o.exports = r);
+  })(typeof window < "u" ? window : null, typeof window < "u" ? document : null);
+})(re);
+var Ie = re.exports;
+const ce = /* @__PURE__ */ J(Ie);
+(function(o) {
+  var i = {}, A = o.prototype.stopCallback;
+  o.prototype.stopCallback = function(a, _, I, S) {
+    var k = this;
+    return k.paused ? !0 : i[I] || i[S] ? !1 : A.call(k, a, _, I);
+  }, o.prototype.bindGlobal = function(a, _, I) {
+    var S = this;
+    if (S.bind(a, _, I), a instanceof Array) {
+      for (var k = 0; k < a.length; k++)
+        i[a[k]] = !0;
+      return;
+    }
+    i[a] = !0;
+  }, o.init();
+})(Mousetrap);
+class te {
+  /**
+   * Represents UserInteraction
+   *
+   * @constructor
+   * @param {Element} element
+   */
+  constructor(i = null) {
+    this.mousetrap = new ce(i);
+  }
+  /**
+   *
+   * @param key
+   * @param callback
+   */
+  keyboardEvent(i, A) {
+    this.mousetrap.bind(i, A);
+  }
+  /**
+   *
+   * @param key
+   * @param callback
+   */
+  keyboardEventGlobal(i, A) {
+    this.mousetrap.bindGlobal(i, A);
+  }
+}
+class le extends te {
+  /**
+   * Represents EditorUserInteraction
+   *
+   * @constructor
+   * @param {TextareaEditor} editor
+   */
+  constructor(i) {
+    super(i.getEditor), this.editor = i;
+  }
+  /**
+   *
+   * @param key
+   * @param prefix
+   * @param suffix
+   */
+  insertKeyboardEvent(i, A = "", a = "") {
+    this.keyboardEvent(i, (_) => {
+      _.preventDefault();
+      const I = this.editor.getCursorPosition(), S = this.editor.getSelectedContent();
+      this.editor.setSelectedContent(A + S + a);
+      const k = S.length === 0 ? I + A.length : I + (A + S + a).length;
+      this.editor.setCursorPosition(k), this.editor.processContent();
+    });
+  }
+}
+const fe = {
+  helpDialog: {
+    title: "Keyboard commands",
+    button: "Press ctr+h",
+    content: [
+      {
+        code: "ctrl+b",
+        description: "Insert bold"
+      },
+      {
+        code: "ctrl+i",
+        description: "Insert italic"
+      },
+      {
+        code: "ctrl+u",
+        description: "Insert strikethrough"
+      },
+      {
+        code: "tab",
+        description: "Insert tab"
+      },
+      {
+        code: "ctrl+shift+i",
+        description: "Insert imagelink"
+      },
+      {
+        code: "ctrl+l",
+        description: "Insert link"
+      },
+      {
+        code: "ctrl+k",
+        description: "Insert codeblock"
+      },
+      {
+        code: "ctrl+shift+k",
+        description: "Insert code"
+      },
+      {
+        code: "ctrl+h",
+        description: "Show help"
+      },
+      {
+        code: "alt+1",
+        description: "Show editor and preview areas"
+      },
+      {
+        code: "alt+2",
+        description: "Show only editor area"
+      },
+      {
+        code: "alt+3",
+        description: "Show only preview area"
+      },
+      {
+        code: "alt+enter",
+        description: "Toggle to full screen"
+      }
+    ]
+  }
+};
+class pe extends Z {
+  /**
+   * Represents Preview
+   *
+   * @constructor
+   * @param className
+   * @param parent
+   */
+  constructor(i, A) {
+    super("div", i, A), this.initHelpDialogContent();
+  }
+  /**
+   * Get the help dialog element
+   *
+   * @returns {Element} - the help dialog element
+   */
+  get getHelpDialog() {
+    return this.element;
+  }
+  /**
+   * Initialize Help Dialog
+   */
+  initHelpDialogContent() {
+    const { title: i, content: A, button: a } = fe.helpDialog;
+    this.initTitle(i), this.initContent(A), this.initButton(a);
+  }
+  /**
+   * Initialize help dialog button
+   *
+   * @param button {@type String}
+   */
+  initButton(i) {
+    const A = Z.create("div", "cd-help-dialog-button", this.element.parentNode);
+    A.element.innerHTML = `<span>?</span><span>${i}</span>`;
+  }
+  /**
+   * Initialize help dialog title
+   *
+   * @param title {@type String}
+   */
+  initTitle(i) {
+    const A = Z.create("h2", "cd-help-dialog__title", this.element);
+    A.element.innerText = i;
+  }
+  /**
+   * Initialize help dialog content
+   *
+   * @param content {@type Object}
+   */
+  initContent(i) {
+    const A = Z.create("ul", "cd-help-dialog__command-list", this.element);
+    i.forEach((a) => {
+      const _ = Z.create(
+        "li",
+        "cd-help-dialog__command-item cd-help-dialog__command-item--" + a.code.replace(/\+/g, "-"),
+        A.element
+      );
+      _.element.innerHTML = "<strong>" + a.code + "</strong> - " + a.description;
+    });
+  }
+}
+class he {
+  /**
+   * Represents Calmdown
+   *
+   * @constructor
+   * @param {Object} settings
+   */
+  constructor(i = {}) {
+    this.setDefaults(i), this.init();
+  }
+  /**
+   * Set the default values for the Calmdown properties
+   *
+   * @param {Object} settings
+   */
+  setDefaults(i) {
+    this.settings = Object.assign(ge, i), this.calmdown = document.querySelector(`.${this.settings.selector}`), this.calmdown.style = `width: ${this.settings.width}; height: ${this.settings.height};`;
+  }
+  /**
+   * Initialize Calmdown
+   */
+  init() {
+    this.initDefaultTheme(), this.initDefaultLayout(), this.initCodeHightlight(), this.initConverter(), this.initDefaultContent(), this.initResize(), this.initEditor(), this.initPreview(), this.initHiddenHtmlInput(), this.initHiddenMarkdownInput(), this.initHelpDialog(), this.initUserInteraction(), this.initEventListeners(), this.triggerEvents();
+  }
+  /**
+   * Initialize code higlighting
+   */
+  initDefaultTheme() {
+    this.calmdown.classList.add(this.settings.defaultThemeSelector);
+  }
+  /**
+   * Initialize code higlighting
+   */
+  initDefaultLayout() {
+    this.calmdown.classList.add(this.settings.defaultLayoutSelector);
+  }
+  /**
+   * Initialize code higlighting
+   */
+  initCodeHightlight() {
+    this.calmdown.classList.add(this.settings.codeHighlightStyle);
+  }
+  /**
+   * Initialize toolbar
+   */
+  initToolbar() {
+    this.toolbar = new Z("div", this.settings.bodySelector, this.calmdown).getElement;
+  }
+  /**
+   * Initialize resizer div
+   */
+  initResize() {
+    this.resize = new Z("div", "cd-resize", this.calmdown).getElement, Z.create("span", "cd-bars", this.resize);
+    let i = !1;
+    this.resize.addEventListener("mousedown", (A) => {
+      A.preventDefault(), i = !0;
+    }), document.addEventListener("mousemove", (A) => {
+      i && (this.settings.height = `${A.clientY - this.calmdown.offsetTop + this.resize.offsetHeight / 2}px`, this.calmdown.style.height = this.settings.height);
+    }), document.addEventListener("mouseup", (A) => {
+      A.preventDefault(), i = !1;
+    });
+  }
+  /**
+   * Initialize hidden html input
+   *
+   * This textarea value can be sent through some http methods
+   * to the server for further processing.
+   */
+  initHiddenHtmlInput() {
+    this.settings.htmlInputSelector != null && (this.htmlInputElement = new Z(
+      "textarea",
+      this.settings.htmlInputSelector,
+      this.calmdown,
+      {
+        name: this.settings.htmlInputSelector,
+        style: "display: none;"
+      }
+    ).getElement);
+  }
+  /**
+   * Initialize hidden markdown input
+   *
+   * This textarea value can be sent through some http methods
+   * to the server for further processing.
+   */
+  initHiddenMarkdownInput() {
+    this.settings.markdownInputSelector != null && (this.markdownInputElement = new Z(
+      "textarea",
+      this.settings.markdownInputSelector,
+      this.calmdown,
+      {
+        name: this.settings.markdownInputSelector,
+        style: "display: none;"
+      }
+    ).getElement);
+  }
+  /**
+   * Initialize markdown converter
+   */
+  initConverter() {
+    this.converter = new Ae();
+  }
+  /**
+   * Initialize default value
+   */
+  initDefaultContent() {
+    const i = this.calmdown.hasAttribute("data-cd-content") ? this.calmdown.getAttribute("data-cd-content") : "", A = this.calmdown.textContent.length <= 0 ? "" : this.calmdown.textContent, a = this.settings.defaultContent.length <= 0 ? "" : this.settings.defaultContent;
+    if (A.length > 0 && (this.calmdown.textContent = ""), i.length > 0) {
+      this.content = i, A.length > 0 && console.warn("Attribute data-cd-content is set. HTML content will be ignored!"), a.length > 0 && console.warn("Attribute data-cd-content is set. Settings content will be ignored!");
+      return;
+    }
+    if (A.length > 0) {
+      this.content = A, a.length > 0 && console.warn("HTML content is set. Settings content will be ignored!");
+      return;
+    }
+    this.content = a;
+  }
+  /**
+   * Initialize editor area
+   */
+  initEditor() {
+    this.editor = new oe(this.settings.editorSelector, this.calmdown), this.editor.getEditor.value = this.content;
+  }
+  /**
+   * Initialize preview area
+   */
+  initPreview() {
+    this.preview = new Ce(this.settings.previewSelector, this.calmdown);
+  }
+  /**
+   * Initialize help dialog
+   */
+  initHelpDialog() {
+    this.helpDialog = new pe(this.settings.helpDialogSelector, this.calmdown);
+  }
+  /**
+   *
+   */
+  initUserInteraction() {
+    this.globalUserInteraction = new te(), this.editorUserInteraction = new le(this.editor);
+  }
+  /**
+   * Initialize event listeners
+   */
+  initEventListeners() {
+    this.editor.convertMarkdownToHtmlEventListener(
+      [this.preview.getPreview, this.htmlInputElement],
+      this.converter
+    ), this.editor.copyMarkdownContentToHiddenInputEventListener(this.markdownInputElement), this.editorUserInteraction.insertKeyboardEvent("ctrl+b", "**", "**"), this.editorUserInteraction.insertKeyboardEvent("ctrl+i", "_", "_"), this.editorUserInteraction.insertKeyboardEvent("ctrl+u", "~~", "~~"), this.editorUserInteraction.insertKeyboardEvent("tab", "	"), this.editorUserInteraction.insertKeyboardEvent("ctrl+shift+i", "![", "]()"), this.editorUserInteraction.insertKeyboardEvent("ctrl+l", "[", "]()"), this.editorUserInteraction.insertKeyboardEvent("ctrl+k", "```", "\n```"), this.editorUserInteraction.insertKeyboardEvent("ctrl+shift+k", "`", "`"), this.viewChangeEvents();
+  }
+  /**
+   * Set the view to show editor or preview or both
+   */
+  viewChangeEvents() {
+    let i = this.settings.defaultLayoutSelector;
+    const A = "cd-layout-editor", a = "cd-layout-preview", _ = "cd-layout-both", I = "cd-layout-full", S = "cd-layout-help-dialog";
+    this.globalUserInteraction.keyboardEventGlobal("alt+1", (k) => {
+      k.preventDefault(), this.calmdown.classList.remove(S), this.calmdown.classList.remove(A), this.calmdown.classList.remove(a), this.calmdown.classList.add(_), i = _, this.editor.getEditor.focus();
+    }), this.globalUserInteraction.keyboardEventGlobal("alt+2", (k) => {
+      k.preventDefault(), this.calmdown.classList.remove(S), this.calmdown.classList.remove(a), this.calmdown.classList.remove(_), this.calmdown.classList.add(A), i = A, this.editor.getEditor.focus();
+    }), this.globalUserInteraction.keyboardEventGlobal("alt+3", (k) => {
+      k.preventDefault(), this.calmdown.classList.remove(S), this.calmdown.classList.remove(_), this.calmdown.classList.remove(A), this.calmdown.classList.add(a), i = a;
+    }), this.globalUserInteraction.keyboardEventGlobal("alt+enter", (k) => {
+      k.preventDefault(), this.calmdown.classList.toggle(I);
+    }), this.globalUserInteraction.keyboardEventGlobal("ctrl+h", (k) => {
+      k.preventDefault(), this.calmdown.classList.remove(_), this.calmdown.classList.remove(A), this.calmdown.classList.remove(a), this.calmdown.classList.toggle(S), this.calmdown.classList.contains(S) || this.calmdown.classList.add(i);
+    });
+  }
+  /**
+   * Trigger the processing event
+   */
+  triggerEvents() {
+    this.editor.processContent();
+  }
+  /**
+   * Get the editor content
+   *
+   * @returns {String} -  the string value of the editor content
+   */
+  getContent() {
+    return this.editor.getContent();
+  }
+  /**
+   *  Set the editor content
+   *
+   * @param {String} content - the new value of the editor
+   */
+  setContent(i) {
+    this.editor.setContent(i), this.editor.processContent();
+  }
+}
+export {
+  he as default
+};
+//# sourceMappingURL=calmdown.min.mjs.map
