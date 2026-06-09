@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
 // Vite library-mode build for Calmdown.
@@ -25,16 +25,13 @@ export default defineConfig({
 			entry: resolve(__dirname, 'src/ts/main.ts'),
 			name: 'Calmdown',
 			formats: ['umd', 'es'],
-			fileName: (format) =>
-				format === 'es' ? 'js/calmdown.min.mjs' : 'js/calmdown.min.js',
+			fileName: (format) => (format === 'es' ? 'js/calmdown.min.mjs' : 'js/calmdown.min.js'),
 		},
 		rollupOptions: {
 			output: {
 				// Route the extracted stylesheet to its historical path.
 				assetFileNames: (assetInfo) =>
-					assetInfo.name && assetInfo.name.endsWith('.css')
-						? 'css/calmdown.min.css'
-						: 'assets/[name][extname]',
+					assetInfo.name?.endsWith('.css') ? 'css/calmdown.min.css' : 'assets/[name][extname]',
 			},
 		},
 	},

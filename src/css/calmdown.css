@@ -89,7 +89,7 @@
 		border: 1px solid var(--cd-border);
 		border-radius: 15px;
 		padding: 5px;
-		transition: all .2s linear;
+		transition: all 0.2s linear;
 		overflow: hidden;
 
 		&:hover {
@@ -117,7 +117,7 @@
 			&:last-of-type {
 				margin: 0 5px;
 				opacity: 0;
-				transition: opacity .2s linear .2s;
+				transition: opacity 0.2s linear 0.2s;
 			}
 		}
 	}
@@ -145,7 +145,7 @@
 		border-left-width: 0;
 		border-bottom-width: 0;
 
-		&:nth-of-type(3n-2) {
+		&:nth-of-type(3n - 2) {
 			border-left-width: 1px;
 		}
 
@@ -253,7 +253,9 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	/* biome-ignore lint/complexity/noImportantStyles: overrides the inline width/height set on the root for full-screen layout */
 	width: 100% !important;
+	/* biome-ignore lint/complexity/noImportantStyles: overrides the inline width/height set on the root for full-screen layout */
 	height: 100% !important;
 	z-index: 9999;
 

@@ -1,5 +1,5 @@
-import UserInteraction from './UserInteraction';
 import type TextareaEditor from './TextareaEditor';
+import UserInteraction from './UserInteraction';
 export default class EditorUserInteraction extends UserInteraction {
     private readonly editor;
     constructor(editor: TextareaEditor);

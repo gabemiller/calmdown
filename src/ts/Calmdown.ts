@@ -1,19 +1,18 @@
 // Config
-import CONFIG, { type CalmdownSettings } from './Config';
 
-// Components
-import MarkdownConverter from './MarkdownConverter';
-import TextareaEditor from './TextareaEditor';
-import Preview from './Preview';
 import CdElement from './CdElement';
-import UserInteraction from './UserInteraction';
+import CONFIG, { type CalmdownSettings } from './Config';
 import EditorUserInteraction from './EditorUserInteraction';
 import HelpDialog from './HelpDialog';
+// Components
+import MarkdownConverter from './MarkdownConverter';
+import Preview from './Preview';
+import TextareaEditor from './TextareaEditor';
+import UserInteraction from './UserInteraction';
 
 export type { CalmdownSettings } from './Config';
 
 export default class Calmdown {
-
 	private settings!: CalmdownSettings;
 	private calmdown!: HTMLElement;
 	private content!: string;
@@ -40,7 +39,10 @@ export default class Calmdown {
 	setDefaults(settings: Partial<CalmdownSettings>): void {
 		this.settings = Object.assign(CONFIG, settings);
 		this.calmdown = document.querySelector<HTMLElement>(`.${this.settings.selector}`)!;
-		this.calmdown.setAttribute('style', `width: ${this.settings.width}; height: ${this.settings.height};`);
+		this.calmdown.setAttribute(
+			'style',
+			`width: ${this.settings.width}; height: ${this.settings.height};`,
+		);
 	}
 
 	/**
@@ -90,7 +92,7 @@ export default class Calmdown {
 		});
 		document.addEventListener('mousemove', (e) => {
 			if (isResizing) {
-				this.settings.height = `${(e.clientY - this.calmdown.offsetTop) + (this.resize.offsetHeight / 2)}px`;
+				this.settings.height = `${e.clientY - this.calmdown.offsetTop + this.resize.offsetHeight / 2}px`;
 				this.calmdown.style.height = this.settings.height;
 			}
 		});
@@ -105,12 +107,15 @@ export default class Calmdown {
 	 */
 	initHiddenHtmlInput(): void {
 		if (this.settings.htmlInputSelector != null) {
-			this.htmlInputElement = new CdElement('textarea',
+			this.htmlInputElement = new CdElement(
+				'textarea',
 				this.settings.htmlInputSelector,
-				this.calmdown, {
+				this.calmdown,
+				{
 					name: this.settings.htmlInputSelector,
 					style: 'display: none;',
-				}).getElement;
+				},
+			).getElement;
 		}
 	}
 
@@ -119,12 +124,15 @@ export default class Calmdown {
 	 */
 	initHiddenMarkdownInput(): void {
 		if (this.settings.markdownInputSelector != null) {
-			this.markdownInputElement = new CdElement('textarea',
+			this.markdownInputElement = new CdElement(
+				'textarea',
 				this.settings.markdownInputSelector,
-				this.calmdown, {
+				this.calmdown,
+				{
 					name: this.settings.markdownInputSelector,
 					style: 'display: none;',
-				}).getElement;
+				},
+			).getElement;
 		}
 	}
 
@@ -142,7 +150,8 @@ export default class Calmdown {
 		const attributeContent = this.calmdown.getAttribute('data-cd-content') ?? '';
 		const text = this.calmdown.textContent ?? '';
 		const htmlContent = text.length <= 0 ? '' : text;
-		const settingsContent = this.settings.defaultContent.length <= 0 ? '' : this.settings.defaultContent;
+		const settingsContent =
+			this.settings.defaultContent.length <= 0 ? '' : this.settings.defaultContent;
 
 		if (htmlContent.length > 0) {
 			this.calmdown.textContent = '';
@@ -208,7 +217,8 @@ export default class Calmdown {
 		// Convert markdown to html
 		this.editor.convertMarkdownToHtmlEventListener(
 			[this.preview.getPreview, this.htmlInputElement!],
-			this.converter);
+			this.converter,
+		);
 
 		// Copy markdown to hidden input
 		// This is useful when you do not want to send data through AJAX
@@ -233,7 +243,6 @@ export default class Calmdown {
 	 * full screen, and the help dialog.
 	 */
 	viewChangeEvents(): void {
-
 		let selectedLayout = this.settings.defaultLayoutSelector;
 		const cdLayoutEditor = 'cd-layout-editor';
 		const cdLayoutPreview = 'cd-layout-preview';
@@ -313,5 +322,4 @@ export default class Calmdown {
 		this.editor.setContent(content);
 		this.editor.processContent();
 	}
-
 }

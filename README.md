@@ -1,6 +1,6 @@
 # Calmdown
 
-![npm](https://img.shields.io/badge/npm-0.6.0-blue.svg?style=flat-square) [![GitHub issues](https://img.shields.io/github/issues/gabemiller/calmdown.svg?style=flat-square)](https://github.com/gabemiller/calmdown/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/gabemiller/calmdown/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/url/https/github.com/gabemiller/calmdown.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20Calmdown%2C%20an%20awesome%2C%20lightweight%20markdown%20editor&url=https%3A%2F%2Fgithub.com%2Fgabemiller%2Fcalmdown)
+![npm](https://img.shields.io/badge/npm-1.0.0-blue.svg?style=flat-square) [![GitHub issues](https://img.shields.io/github/issues/gabemiller/calmdown.svg?style=flat-square)](https://github.com/gabemiller/calmdown/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/gabemiller/calmdown/master/LICENSE.md) [![Twitter](https://img.shields.io/twitter/url/https/github.com/gabemiller/calmdown.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20out%20Calmdown%2C%20an%20awesome%2C%20lightweight%20markdown%20editor&url=https%3A%2F%2Fgithub.com%2Fgabemiller%2Fcalmdown)
 
 Calmdown is a lightweight markdown editor based on marked with a bite of github flavor.
 
@@ -76,6 +76,25 @@ highlight.js theme stylesheet in your page (it styles the `.hljs` classes), e.g.
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/atom-one-dark.css">
 ```
+
+## Development
+
+Calmdown is built with [Vite](https://vitejs.dev) (library mode) and written in TypeScript.
+
+```shell
+npm install        # install dependencies (also installs the git hooks)
+npm run dev        # start the Vite dev server with HMR
+npm run build      # build the library + type declarations into dist/
+npm run typecheck  # type-check with tsc
+npm run check      # lint + format check with Biome
+npm run check:fix  # auto-fix lint + formatting
+```
+
+Tooling:
+
+- **[Biome](https://biomejs.dev)** handles linting and formatting (`biome.json`).
+- A **pre-commit** hook runs `biome check` on staged files.
+- Commit messages must follow **[Conventional Commits](https://www.conventionalcommits.org)** — enforced by a `commit-msg` hook via [commitlint](https://commitlint.js.org).
 
 ## Contribute
 

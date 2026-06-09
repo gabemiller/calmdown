@@ -54,15 +54,24 @@ function keyToCode(key: string): string {
  * @param combo - the combo string
  */
 function parseCombo(combo: string): ParsedCombo {
-	const result: ParsedCombo = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false, code: null };
-	combo.toLowerCase().split('+').forEach((rawPart) => {
-		const part = rawPart.trim();
-		if (MODIFIERS[part]) {
-			result[MODIFIERS[part]] = true;
-		} else if (part) {
-			result.code = keyToCode(part);
-		}
-	});
+	const result: ParsedCombo = {
+		ctrlKey: false,
+		shiftKey: false,
+		altKey: false,
+		metaKey: false,
+		code: null,
+	};
+	combo
+		.toLowerCase()
+		.split('+')
+		.forEach((rawPart) => {
+			const part = rawPart.trim();
+			if (MODIFIERS[part]) {
+				result[MODIFIERS[part]] = true;
+			} else if (part) {
+				result.code = keyToCode(part);
+			}
+		});
 	return result;
 }
 
@@ -71,15 +80,16 @@ function parseCombo(combo: string): ParsedCombo {
  * exactly so e.g. ctrl+k and ctrl+shift+k stay distinct.
  */
 function matches(combo: ParsedCombo, event: KeyboardEvent): boolean {
-	return event.code === combo.code
-		&& event.ctrlKey === combo.ctrlKey
-		&& event.shiftKey === combo.shiftKey
-		&& event.altKey === combo.altKey
-		&& event.metaKey === combo.metaKey;
+	return (
+		event.code === combo.code &&
+		event.ctrlKey === combo.ctrlKey &&
+		event.shiftKey === combo.shiftKey &&
+		event.altKey === combo.altKey &&
+		event.metaKey === combo.metaKey
+	);
 }
 
 export default class UserInteraction {
-
 	private readonly target: Document | Element;
 
 	/**
@@ -119,5 +129,4 @@ export default class UserInteraction {
 	keyboardEventGlobal(key: string, callback: KeyboardCallback): void {
 		this.bindKey(document, key, callback);
 	}
-
 }

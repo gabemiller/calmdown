@@ -1,9 +1,8 @@
-import { Marked } from 'marked';
 import type { HLJSApi } from 'highlight.js';
+import { Marked } from 'marked';
 import SyntaxHighlighter from './SyntaxHighlighter';
 
 export default class MarkdownConverter {
-
 	private readonly converter: Marked;
 	private readonly codeHighlighter: HLJSApi;
 

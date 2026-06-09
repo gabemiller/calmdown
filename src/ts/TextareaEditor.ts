@@ -2,7 +2,6 @@ import CdElement from './CdElement';
 import type MarkdownConverter from './MarkdownConverter';
 
 export default class TextareaEditor extends CdElement<HTMLTextAreaElement> {
-
 	constructor(className: string, parent: Node | null) {
 		super('textarea', className, parent);
 	}
@@ -64,7 +63,10 @@ export default class TextareaEditor extends CdElement<HTMLTextAreaElement> {
 	 * @param element - element(s) that receive the compiled html
 	 * @param converter - converts the markdown to html
 	 */
-	convertMarkdownToHtmlEventListener(element: Element | Element[], converter: MarkdownConverter): void {
+	convertMarkdownToHtmlEventListener(
+		element: Element | Element[],
+		converter: MarkdownConverter,
+	): void {
 		this.addEventListener('input', () => {
 			const html = converter.makeHtml(this.getContent());
 			if (Array.isArray(element)) {
@@ -83,7 +85,9 @@ export default class TextareaEditor extends CdElement<HTMLTextAreaElement> {
 	 * @param element - element that receives the editor content
 	 */
 	copyMarkdownContentToHiddenInputEventListener(element: Element): void {
-		this.addEventListener('input', () => { element.innerHTML = this.getContent(); });
+		this.addEventListener('input', () => {
+			element.innerHTML = this.getContent();
+		});
 	}
 
 	/**
@@ -102,9 +106,7 @@ export default class TextareaEditor extends CdElement<HTMLTextAreaElement> {
 		const start = this.element.selectionStart;
 		const end = this.element.selectionEnd;
 		this.element.value =
-			this.element.value.substring(0, start)
-			+ content
-			+ this.element.value.substring(end);
+			this.element.value.substring(0, start) + content + this.element.value.substring(end);
 	}
 
 	/**

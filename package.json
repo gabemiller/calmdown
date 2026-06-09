@@ -1,54 +1,63 @@
 {
-  "name": "calmdown",
-  "description": "Lightweight markdown editor",
-  "version": "0.6.2",
-  "keywords": [
-    "markdown",
-    "markdowneditor",
-    "editor",
-    "wysiwyg",
-    "marked",
-    "syntaxhighlight"
-  ],
-  "author": "Gabor Molnar <gabormolnar92@gmail.com>",
-  "license": "MIT",
-  "type": "module",
-  "main": "dist/js/calmdown.min.js",
-  "module": "dist/js/calmdown.min.mjs",
-  "types": "dist/js/Calmdown.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/js/Calmdown.d.ts",
-      "import": "./dist/js/calmdown.min.mjs",
-      "require": "./dist/js/calmdown.min.js"
-    },
-    "./css": "./dist/css/calmdown.min.css",
-    "./dist/*": "./dist/*"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && tsc -p tsconfig.build.json",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "typescript": "^6.0.3",
-    "vite": "^5.4.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gabemiller/calmdown.git"
-  },
-  "bugs": {
-    "url": "https://github.com/gabemiller/calmdown/issues"
-  },
-  "homepage": "https://github.com/gabemiller/calmdown#readme",
-  "dependencies": {
-    "highlight.js": "^11.11.1",
-    "marked": "^18.0.5",
-    "normalize.css": "8.0.0"
-  }
+	"name": "calmdown",
+	"description": "Lightweight markdown editor",
+	"version": "1.0.0",
+	"keywords": [
+		"markdown",
+		"markdowneditor",
+		"editor",
+		"wysiwyg",
+		"marked",
+		"syntaxhighlight"
+	],
+	"author": "Gabor Molnar <gabormolnar92@gmail.com>",
+	"license": "MIT",
+	"type": "module",
+	"main": "dist/js/calmdown.min.js",
+	"module": "dist/js/calmdown.min.mjs",
+	"types": "dist/js/Calmdown.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/js/Calmdown.d.ts",
+			"import": "./dist/js/calmdown.min.mjs",
+			"require": "./dist/js/calmdown.min.js"
+		},
+		"./css": "./dist/css/calmdown.min.css",
+		"./dist/*": "./dist/*"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build && tsc -p tsconfig.build.json",
+		"preview": "vite preview",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint",
+		"format": "biome format --write",
+		"check": "biome check",
+		"check:fix": "biome check --write",
+		"prepare": "husky"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.16",
+		"@commitlint/cli": "^21.0.2",
+		"@commitlint/config-conventional": "^21.0.2",
+		"husky": "^9.1.7",
+		"typescript": "^6.0.3",
+		"vite": "^5.4.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gabemiller/calmdown.git"
+	},
+	"bugs": {
+		"url": "https://github.com/gabemiller/calmdown/issues"
+	},
+	"homepage": "https://github.com/gabemiller/calmdown#readme",
+	"dependencies": {
+		"highlight.js": "^11.11.1",
+		"marked": "^18.0.5",
+		"normalize.css": "8.0.0"
+	}
 }

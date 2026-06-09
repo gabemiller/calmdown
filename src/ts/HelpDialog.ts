@@ -2,7 +2,6 @@ import CdElement from './CdElement';
 import { EN, type HelpCommand } from './lang/en';
 
 export default class HelpDialog extends CdElement<HTMLElement> {
-
 	constructor(className: string, parent: Node | null) {
 		super('div', className, parent);
 		this.initHelpDialogContent();
@@ -47,12 +46,13 @@ export default class HelpDialog extends CdElement<HTMLElement> {
 	initContent(content: HelpCommand[]): void {
 		const ul = CdElement.create('ul', 'cd-help-dialog__command-list', this.element);
 
-		content
-			.forEach(command => {
-				const li = CdElement.create('li',
-					'cd-help-dialog__command-item cd-help-dialog__command-item--' + command.code.replace(/\+/g, '-'),
-					ul.element);
-				li.element.innerHTML = '<strong>' + command.code + '</strong> - ' + command.description;
-			});
+		content.forEach((command) => {
+			const li = CdElement.create(
+				'li',
+				`cd-help-dialog__command-item cd-help-dialog__command-item--${command.code.replace(/\+/g, '-')}`,
+				ul.element,
+			);
+			li.element.innerHTML = `<strong>${command.code}</strong> - ${command.description}`;
+		});
 	}
 }

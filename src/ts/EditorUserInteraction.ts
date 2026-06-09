@@ -1,8 +1,7 @@
-import UserInteraction from './UserInteraction';
 import type TextareaEditor from './TextareaEditor';
+import UserInteraction from './UserInteraction';
 
 export default class EditorUserInteraction extends UserInteraction {
-
 	private readonly editor: TextareaEditor;
 
 	constructor(editor: TextareaEditor) {
@@ -22,13 +21,12 @@ export default class EditorUserInteraction extends UserInteraction {
 			this.editor.setSelectedContent(prefix + value + suffix);
 
 			const position =
-				value.length === 0 ?
-					actualPosition + prefix.length :
-					actualPosition + (prefix + value + suffix).length;
+				value.length === 0
+					? actualPosition + prefix.length
+					: actualPosition + (prefix + value + suffix).length;
 			this.editor.setCursorPosition(position);
 
 			this.editor.processContent();
 		});
 	}
-
 }

@@ -6,7 +6,6 @@
  * NB: named CdElement to avoid colliding with the global DOM `HTMLElement`.
  */
 export default class CdElement<T extends Element = HTMLElement> {
-
 	element!: T;
 
 	/**
@@ -15,14 +14,24 @@ export default class CdElement<T extends Element = HTMLElement> {
 	 * @param parent - parent the created element is appended to (or null)
 	 * @param params - additional properties to set on the created element
 	 */
-	constructor(type: string, className: string, parent: Node | null, params: Record<string, unknown> = {}) {
+	constructor(
+		type: string,
+		className: string,
+		parent: Node | null,
+		params: Record<string, unknown> = {},
+	) {
 		this.init(type, className, parent, params);
 	}
 
 	/**
 	 * Create the element, append it to the parent, then resolve it from the DOM.
 	 */
-	init(type: string, className: string, parent: Node | null, params: Record<string, unknown>): void {
+	init(
+		type: string,
+		className: string,
+		parent: Node | null,
+		params: Record<string, unknown>,
+	): void {
 		const element = CdElement.createElement(type, className, params);
 
 		if (parent) {
@@ -66,7 +75,11 @@ export default class CdElement<T extends Element = HTMLElement> {
 	/**
 	 * Create a new element of the given type, with class name and properties.
 	 */
-	static createElement(type: string, className: string, params: Record<string, unknown>): HTMLElement {
+	static createElement(
+		type: string,
+		className: string,
+		params: Record<string, unknown>,
+	): HTMLElement {
 		const element = document.createElement(type);
 		element.className = className;
 
@@ -87,8 +100,12 @@ export default class CdElement<T extends Element = HTMLElement> {
 	/**
 	 * Convenience factory returning a wrapped element.
 	 */
-	static create(type: string, className: string, parent: Node | null = null, params: Record<string, unknown> = {}): CdElement {
+	static create(
+		type: string,
+		className: string,
+		parent: Node | null = null,
+		params: Record<string, unknown> = {},
+	): CdElement {
 		return new CdElement(type, className, parent, params);
 	}
-
 }
