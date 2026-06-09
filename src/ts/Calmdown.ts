@@ -49,7 +49,6 @@ export default class Calmdown {
 	init(): void {
 		this.initDefaultTheme();
 		this.initDefaultLayout();
-		this.initCodeHightlight();
 		this.initConverter();
 		this.initDefaultContent();
 		this.initResize();
@@ -75,13 +74,6 @@ export default class Calmdown {
 	 */
 	initDefaultLayout(): void {
 		this.calmdown.classList.add(this.settings.defaultLayoutSelector);
-	}
-
-	/**
-	 * Apply the code highlight theme class.
-	 */
-	initCodeHightlight(): void {
-		this.calmdown.classList.add(this.settings.codeHighlightStyle);
 	}
 
 	/**

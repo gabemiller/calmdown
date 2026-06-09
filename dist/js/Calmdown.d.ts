@@ -33,10 +33,6 @@ export default class Calmdown {
      */
     initDefaultLayout(): void;
     /**
-     * Apply the code highlight theme class.
-     */
-    initCodeHightlight(): void;
-    /**
      * Initialize the resizer handle.
      */
     initResize(): void;

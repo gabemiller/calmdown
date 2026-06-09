@@ -13,20 +13,14 @@ import { defineConfig } from 'vite';
 //   dist/js/calmdown.min.mjs (ESM)
 //   dist/css/calmdown.min.css
 export default defineConfig({
-	css: {
-		preprocessorOptions: {
-			scss: {
-				// Lets SCSS resolve bare `@import "highlight.js/styles/..."` from
-				// node_modules (replaces webpack's `~` prefix convention).
-				loadPaths: ['node_modules'],
-			},
-		},
-	},
 	build: {
 		// Do NOT wipe dist/ — it also holds the committed demo page
 		// (dist/index.html, dist/demo/) that is not produced by this build.
 		emptyOutDir: false,
 		sourcemap: true,
+		// Plain CSS authored with native nesting; esbuild lowers the nesting
+		// to flat CSS for these targets (no Sass/PostCSS needed).
+		cssTarget: ['chrome87', 'firefox78', 'safari14', 'edge88'],
 		lib: {
 			entry: resolve(__dirname, 'src/ts/main.ts'),
 			name: 'Calmdown',

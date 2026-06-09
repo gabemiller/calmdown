@@ -6,7 +6,6 @@ import Calmdown from '../src/ts/main';
 new Calmdown({
 	width: '1280px',
 	height: '768px',
-	codeHighlightStyle: 'cd-highlight-tomorrow',
 });
 
 // Dark/light theme toggle (mirrors dist/demo/calmdown.demo.js).

@@ -46,6 +46,37 @@ or reset before use Calmdown. In the demo project I used normalize.css.
     </script>
    ```
 
+## Theming
+
+Calmdown's appearance is driven by CSS custom properties, so you can re-theme it
+from your own stylesheet — no build step required. Override any of these on the
+`.calmdown` element (or `:root`):
+
+```css
+.calmdown {
+  --cd-bg: #0b1021;            /* editor / preview / dialog background */
+  --cd-text: #e6e6e6;          /* editor / preview text */
+  --cd-border: #2a2a40;        /* borders */
+  --cd-toolbar-bg: #11162a;    /* toolbar background */
+  --cd-help-button-bg: #1a2036;/* help dialog button background */
+  --cd-resize-bg: #11162a;     /* resize handle bar background */
+  --cd-resize-border: #0b1021; /* resize handle top border */
+  --cd-resize-handle: #2a2a40; /* resize grip lines */
+}
+```
+
+A bundled **dark** theme is available as a class — toggle `cd-theme-dark` on the
+`.calmdown` element. Defining your own named theme is just a class that sets the
+same variables.
+
+**Code highlighting** uses [highlight.js](https://github.com/highlightjs/highlight.js).
+The `github` theme is bundled by default; to use a different one, import another
+highlight.js theme stylesheet in your page (it styles the `.hljs` classes), e.g.
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/atom-one-dark.css">
+```
+
 ## Contribute
 
 First things first, thank all of you who spend your time to check out Calmdown. If you find a _problem_ or have

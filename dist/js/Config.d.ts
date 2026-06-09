@@ -33,11 +33,6 @@ export interface CalmdownSettings {
     defaultThemeSelector: string;
     /** Default layout class: cd-layout-both, cd-layout-editor, cd-layout-preview. */
     defaultLayoutSelector: string;
-    /**
-     * Code highlight theme class (highlight.js based): cd-highlight-[name],
-     * name: default, coy, dark, funky, okaidia, solarizedlight, tomorrow, twilight.
-     */
-    codeHighlightStyle: string;
     /** Markdown editor type. Supported types: textarea. */
     editorType: string;
     /** Default content of the editor. */

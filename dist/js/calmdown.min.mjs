@@ -14,7 +14,6 @@ const Or = {
   htmlInputSelector: "cd-html-input",
   defaultThemeSelector: "cd-theme-default",
   defaultLayoutSelector: "cd-layout-both",
-  codeHighlightStyle: "cd-highlight-default",
   editorType: "textarea",
   defaultContent: ""
 };
@@ -46,8 +45,8 @@ var Mr = ((n = "") => {
   } catch {
     return !1;
   }
-})(), ne = { codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm, outputLinkReplace: /\\([\[\]])/g, indentCodeCompensation: /^(\s+)(?:```)/, beginningSpace: /^\s+/, endingHash: /#$/, startingSpaceChar: /^ /, endingSpaceChar: / $/, nonSpaceChar: /[^ ]/, newLineCharGlobal: /\n/g, tabCharGlobal: /\t/g, multipleSpaceGlobal: /\s+/g, blankLine: /^[ \t]*$/, doubleBlankLine: /\n[ \t]*\n[ \t]*$/, blockquoteStart: /^ {0,3}>/, blockquoteSetextReplace: /\n {0,3}((?:=+|-+) *)(?=\n|$)/g, blockquoteSetextReplace2: /^ {0,3}>[ \t]?/gm, listReplaceNesting: /^ {1,4}(?=( {4})*[^ ])/g, listIsTask: /^\[[ xX]\] +\S/, listReplaceTask: /^\[[ xX]\] +/, listTaskCheckbox: /\[[ xX]\]/, anyLine: /\n.*\n/, hrefBrackets: /^<(.*)>$/, tableDelimiter: /[:|]/, tableAlignChars: /^\||\| *$/g, tableRowBlankLine: /\n[ \t]*$/, tableAlignRight: /^ *-+: *$/, tableAlignCenter: /^ *:-+: *$/, tableAlignLeft: /^ *:-+ *$/, startATag: /^<a /i, endATag: /^<\/a>/i, startPreScriptTag: /^<(pre|code|kbd|script)(\s|>)/i, endPreScriptTag: /^<\/(pre|code|kbd|script)(\s|>)/i, startAngleBracket: /^</, endAngleBracket: />$/, pedanticHrefTitle: /^([^'"]*[^\s])\s+(['"])(.*)\2/, unicodeAlphaNumeric: /[\p{L}\p{N}]/u, escapeTest: /[&<>"']/, escapeReplace: /[&<>"']/g, escapeTestNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/, escapeReplaceNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g, caret: /(^|[^\[])\^/g, percentDecode: /%25/g, findPipe: /\|/g, splitPipe: / \|/, slashPipe: /\\\|/g, carriageReturn: /\r\n|\r/g, spaceLine: /^ +$/gm, notSpaceStart: /^\S*/, endingNewline: /\n$/, listItemRegex: (n) => new RegExp(`^( {0,3}${n})((?:[	 ][^\\n]*)?(?:\\n|$))`), nextBulletRegex: xe((n) => new RegExp(`^ {0,${n}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`)), hrRegex: xe((n) => new RegExp(`^ {0,${n}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`)), fencesBeginRegex: xe((n) => new RegExp(`^ {0,${n}}(?:\`\`\`|~~~)`)), headingBeginRegex: xe((n) => new RegExp(`^ {0,${n}}#`)), htmlBeginRegex: xe((n) => new RegExp(`^ {0,${n}}<(?:[a-z].*>|!--)`, "i")), blockquoteBeginRegex: xe((n) => new RegExp(`^ {0,${n}}>`)) }, Ir = /^(?:[ \t]*(?:\n|$))+/, Cr = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, Lr = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, $e = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, Dr = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, Ft = / {0,3}(?:[*+-]|\d{1,9}[.)])/, Jn = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, jn = D(Jn).replace(/bull/g, Ft).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), Br = D(Jn).replace(/bull/g, Ft).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), Kt = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, Pr = /^[^\n]+/, Ht = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, Ur = D(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", Ht).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), $r = D(/^(bull)([ \t][^\n]*?)?(?:\n|$)/).replace(/bull/g, Ft).getRegex(), Qe = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", qt = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, zr = D("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", qt).replace("tag", Qe).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), er = D(Kt).replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]+[^ \\t\\n]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex(), Fr = D(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", er).getRegex(), Gt = { blockquote: Fr, code: Cr, def: Ur, fences: Lr, heading: Dr, hr: $e, html: zr, lheading: jn, list: $r, newline: Ir, paragraph: er, table: ke, text: Pr }, jt = D("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex(), Kr = { ...Gt, lheading: Br, table: jt, paragraph: D(Kt).replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", jt).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]+[^ \\t\\n]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex() }, Hr = { ...Gt, html: D(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", qt).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(), def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/, heading: /^(#{1,6})(.*)(?:\n+|$)/, fences: ke, lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/, paragraph: D(Kt).replace("hr", $e).replace("heading", ` *#{1,6} *[^
-]`).replace("lheading", jn).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() }, qr = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, Gr = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, tr = /^( {2,}|\\)\n(?!\s*$)/, Zr = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, Oe = /[\p{P}\p{S}]/u, Ve = /[\s\p{P}\p{S}]/u, Zt = /[^\s\p{P}\p{S}]/u, Wr = D(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, Ve).getRegex(), nr = /(?!~)[\p{P}\p{S}]/u, Yr = /(?!~)[\s\p{P}\p{S}]/u, Xr = /(?:[^\s\p{P}\p{S}]|~)/u, Qr = D(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", Mr ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), rr = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, Vr = D(rr, "u").replace(/punct/g, Oe).getRegex(), Jr = D(rr, "u").replace(/punct/g, nr).getRegex(), ir = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", jr = D(ir, "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ei = D(ir, "gu").replace(/notPunctSpace/g, Xr).replace(/punctSpace/g, Yr).replace(/punct/g, nr).getRegex(), ti = D("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ni = D(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, Oe).getRegex(), ri = "^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", ii = D(ri, "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ai = D(/\\(punct)/, "gu").replace(/punct/g, Oe).getRegex(), si = D(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), oi = D(qt).replace("(?:-->|$)", "-->").getRegex(), ci = D("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", oi).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), Ze = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, li = D(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", Ze).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), ar = D(/^!?\[(label)\]\[(ref)\]/).replace("label", Ze).replace("ref", Ht).getRegex(), sr = D(/^!?\[(ref)\](?:\[\])?/).replace("ref", Ht).getRegex(), di = D("reflink|nolink(?!\\()", "g").replace("reflink", ar).replace("nolink", sr).getRegex(), en = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, Wt = { _backpedal: ke, anyPunctuation: ai, autolink: si, blockSkip: Qr, br: tr, code: Gr, del: ke, delLDelim: ke, delRDelim: ke, emStrongLDelim: Vr, emStrongRDelimAst: jr, emStrongRDelimUnd: ti, escape: qr, link: li, nolink: sr, punctuation: Wr, reflink: ar, reflinkSearch: di, tag: ci, text: Zr, url: ke }, ui = { ...Wt, link: D(/^!?\[(label)\]\((.*?)\)/).replace("label", Ze).getRegex(), reflink: D(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", Ze).getRegex() }, Pt = { ...Wt, emStrongRDelimAst: ei, emStrongLDelim: Jr, delLDelim: ni, delRDelim: ii, url: D(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", en).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/, text: D(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", en).getRegex() }, gi = { ...Pt, br: D(tr).replace("{2,}", "*").getRegex(), text: D(Pt.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() }, He = { normal: Gt, gfm: Kr, pedantic: Hr }, De = { normal: Wt, gfm: Pt, breaks: gi, pedantic: ui }, pi = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }, tn = (n) => pi[n];
+})(), ne = { codeRemoveIndent: /^(?: {1,4}| {0,3}\t)/gm, outputLinkReplace: /\\([\[\]])/g, indentCodeCompensation: /^(\s+)(?:```)/, beginningSpace: /^\s+/, endingHash: /#$/, startingSpaceChar: /^ /, endingSpaceChar: / $/, nonSpaceChar: /[^ ]/, newLineCharGlobal: /\n/g, tabCharGlobal: /\t/g, multipleSpaceGlobal: /\s+/g, blankLine: /^[ \t]*$/, doubleBlankLine: /\n[ \t]*\n[ \t]*$/, blockquoteStart: /^ {0,3}>/, blockquoteSetextReplace: /\n {0,3}((?:=+|-+) *)(?=\n|$)/g, blockquoteSetextReplace2: /^ {0,3}>[ \t]?/gm, listReplaceNesting: /^ {1,4}(?=( {4})*[^ ])/g, listIsTask: /^\[[ xX]\] +\S/, listReplaceTask: /^\[[ xX]\] +/, listTaskCheckbox: /\[[ xX]\]/, anyLine: /\n.*\n/, hrefBrackets: /^<(.*)>$/, tableDelimiter: /[:|]/, tableAlignChars: /^\||\| *$/g, tableRowBlankLine: /\n[ \t]*$/, tableAlignRight: /^ *-+: *$/, tableAlignCenter: /^ *:-+: *$/, tableAlignLeft: /^ *:-+ *$/, startATag: /^<a /i, endATag: /^<\/a>/i, startPreScriptTag: /^<(pre|code|kbd|script)(\s|>)/i, endPreScriptTag: /^<\/(pre|code|kbd|script)(\s|>)/i, startAngleBracket: /^</, endAngleBracket: />$/, pedanticHrefTitle: /^([^'"]*[^\s])\s+(['"])(.*)\2/, unicodeAlphaNumeric: /[\p{L}\p{N}]/u, escapeTest: /[&<>"']/, escapeReplace: /[&<>"']/g, escapeTestNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/, escapeReplaceNoEncode: /[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/g, caret: /(^|[^\[])\^/g, percentDecode: /%25/g, findPipe: /\|/g, splitPipe: / \|/, slashPipe: /\\\|/g, carriageReturn: /\r\n|\r/g, spaceLine: /^ +$/gm, notSpaceStart: /^\S*/, endingNewline: /\n$/, listItemRegex: (n) => new RegExp(`^( {0,3}${n})((?:[	 ][^\\n]*)?(?:\\n|$))`), nextBulletRegex: xe((n) => new RegExp(`^ {0,${n}}(?:[*+-]|\\d{1,9}[.)])((?:[ 	][^\\n]*)?(?:\\n|$))`)), hrRegex: xe((n) => new RegExp(`^ {0,${n}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`)), fencesBeginRegex: xe((n) => new RegExp(`^ {0,${n}}(?:\`\`\`|~~~)`)), headingBeginRegex: xe((n) => new RegExp(`^ {0,${n}}#`)), htmlBeginRegex: xe((n) => new RegExp(`^ {0,${n}}<(?:[a-z].*>|!--)`, "i")), blockquoteBeginRegex: xe((n) => new RegExp(`^ {0,${n}}>`)) }, Ir = /^(?:[ \t]*(?:\n|$))+/, Cr = /^((?: {4}| {0,3}\t)[^\n]+(?:\n(?:[ \t]*(?:\n|$))*)?)+/, Lr = /^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/, $e = /^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/, Dr = /^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/, Ft = / {0,3}(?:[*+-]|\d{1,9}[.)])/, Jn = /^(?!bull |blockCode|fences|blockquote|heading|html|table)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html|table))+?)\n {0,3}(=+|-+) *(?:\n+|$)/, jn = D(Jn).replace(/bull/g, Ft).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/\|table/g, "").getRegex(), Br = D(Jn).replace(/bull/g, Ft).replace(/blockCode/g, /(?: {4}| {0,3}\t)/).replace(/fences/g, / {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g, / {0,3}>/).replace(/heading/g, / {0,3}#{1,6}/).replace(/html/g, / {0,3}<[^\n>]+>\n/).replace(/table/g, / {0,3}\|?(?:[:\- ]*\|)+[\:\- ]*\n/).getRegex(), Kt = /^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/, Pr = /^[^\n]+/, qt = /(?!\s*\])(?:\\[\s\S]|[^\[\]\\])+/, Ur = D(/^ {0,3}\[(label)\]: *(?:\n[ \t]*)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n[ \t]*)?| *\n[ \t]*)(title))? *(?:\n+|$)/).replace("label", qt).replace("title", /(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(), $r = D(/^(bull)([ \t][^\n]*?)?(?:\n|$)/).replace(/bull/g, Ft).getRegex(), Qe = "address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul", Ht = /<!--(?:-?>|[\s\S]*?(?:-->|$))/, zr = D("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n[ 	]*)+\\n|$))", "i").replace("comment", Ht).replace("tag", Qe).replace("attribute", / +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(), er = D(Kt).replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("|table", "").replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]+[^ \\t\\n]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex(), Fr = D(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph", er).getRegex(), Gt = { blockquote: Fr, code: Cr, def: Ur, fences: Lr, heading: Dr, hr: $e, html: zr, lheading: jn, list: $r, newline: Ir, paragraph: er, table: ke, text: Pr }, jt = D("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("blockquote", " {0,3}>").replace("code", "(?: {4}| {0,3}	)[^\\n]").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex(), Kr = { ...Gt, lheading: Br, table: jt, paragraph: D(Kt).replace("hr", $e).replace("heading", " {0,3}#{1,6}(?:\\s|$)").replace("|lheading", "").replace("table", jt).replace("blockquote", " {0,3}>").replace("fences", " {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list", " {0,3}(?:[*+-]|1[.)])[ \\t]+[^ \\t\\n]").replace("html", "</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag", Qe).getRegex() }, qr = { ...Gt, html: D(`^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:"[^"]*"|'[^']*'|\\s[^'"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))`).replace("comment", Ht).replace(/tag/g, "(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(), def: /^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/, heading: /^(#{1,6})(.*)(?:\n+|$)/, fences: ke, lheading: /^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/, paragraph: D(Kt).replace("hr", $e).replace("heading", ` *#{1,6} *[^
+]`).replace("lheading", jn).replace("|table", "").replace("blockquote", " {0,3}>").replace("|fences", "").replace("|list", "").replace("|html", "").replace("|tag", "").getRegex() }, Hr = /^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/, Gr = /^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/, tr = /^( {2,}|\\)\n(?!\s*$)/, Zr = /^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/, Oe = /[\p{P}\p{S}]/u, Ve = /[\s\p{P}\p{S}]/u, Zt = /[^\s\p{P}\p{S}]/u, Wr = D(/^((?![*_])punctSpace)/, "u").replace(/punctSpace/g, Ve).getRegex(), nr = /(?!~)[\p{P}\p{S}]/u, Yr = /(?!~)[\s\p{P}\p{S}]/u, Xr = /(?:[^\s\p{P}\p{S}]|~)/u, Qr = D(/link|precode-code|html/, "g").replace("link", /\[(?:[^\[\]`]|(?<a>`+)[^`]+\k<a>(?!`))*?\]\((?:\\[\s\S]|[^\\\(\)]|\((?:\\[\s\S]|[^\\\(\)])*\))*\)/).replace("precode-", Mr ? "(?<!`)()" : "(^^|[^`])").replace("code", /(?<b>`+)[^`]+\k<b>(?!`)/).replace("html", /<(?! )[^<>]*?>/).getRegex(), rr = /^(?:\*+(?:((?!\*)punct)|([^\s*]))?)|^_+(?:((?!_)punct)|([^\s_]))?/, Vr = D(rr, "u").replace(/punct/g, Oe).getRegex(), Jr = D(rr, "u").replace(/punct/g, nr).getRegex(), ir = "^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)punct(\\*+)(?=[\\s]|$)|notPunctSpace(\\*+)(?!\\*)(?=punctSpace|$)|(?!\\*)punctSpace(\\*+)(?=notPunctSpace)|[\\s](\\*+)(?!\\*)(?=punct)|(?!\\*)punct(\\*+)(?!\\*)(?=punct)|notPunctSpace(\\*+)(?=notPunctSpace)", jr = D(ir, "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ei = D(ir, "gu").replace(/notPunctSpace/g, Xr).replace(/punctSpace/g, Yr).replace(/punct/g, nr).getRegex(), ti = D("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)punct(_+)(?=[\\s]|$)|notPunctSpace(_+)(?!_)(?=punctSpace|$)|(?!_)punctSpace(_+)(?=notPunctSpace)|[\\s](_+)(?!_)(?=punct)|(?!_)punct(_+)(?!_)(?=punct)", "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ni = D(/^~~?(?:((?!~)punct)|[^\s~])/, "u").replace(/punct/g, Oe).getRegex(), ri = "^[^~]+(?=[^~])|(?!~)punct(~~?)(?=[\\s]|$)|notPunctSpace(~~?)(?!~)(?=punctSpace|$)|(?!~)punctSpace(~~?)(?=notPunctSpace)|[\\s](~~?)(?!~)(?=punct)|(?!~)punct(~~?)(?!~)(?=punct)|notPunctSpace(~~?)(?=notPunctSpace)", ii = D(ri, "gu").replace(/notPunctSpace/g, Zt).replace(/punctSpace/g, Ve).replace(/punct/g, Oe).getRegex(), ai = D(/\\(punct)/, "gu").replace(/punct/g, Oe).getRegex(), si = D(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme", /[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email", /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(), oi = D(Ht).replace("(?:-->|$)", "-->").getRegex(), ci = D("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment", oi).replace("attribute", /\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(), Ze = /(?:\[(?:\\[\s\S]|[^\[\]\\])*\]|\\[\s\S]|`+(?!`)[^`]*?`+(?!`)|``+(?=\])|[^\[\]\\`])*?/, li = D(/^!?\[(label)\]\(\s*(href)(?:(?:[ \t]+(?:\n[ \t]*)?|\n[ \t]*)(title))?\s*\)/).replace("label", Ze).replace("href", /<(?:\\.|[^\n<>\\])+>|[^ \t\n\x00-\x1f]*/).replace("title", /"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(), ar = D(/^!?\[(label)\]\[(ref)\]/).replace("label", Ze).replace("ref", qt).getRegex(), sr = D(/^!?\[(ref)\](?:\[\])?/).replace("ref", qt).getRegex(), di = D("reflink|nolink(?!\\()", "g").replace("reflink", ar).replace("nolink", sr).getRegex(), en = /[hH][tT][tT][pP][sS]?|[fF][tT][pP]/, Wt = { _backpedal: ke, anyPunctuation: ai, autolink: si, blockSkip: Qr, br: tr, code: Gr, del: ke, delLDelim: ke, delRDelim: ke, emStrongLDelim: Vr, emStrongRDelimAst: jr, emStrongRDelimUnd: ti, escape: Hr, link: li, nolink: sr, punctuation: Wr, reflink: ar, reflinkSearch: di, tag: ci, text: Zr, url: ke }, ui = { ...Wt, link: D(/^!?\[(label)\]\((.*?)\)/).replace("label", Ze).getRegex(), reflink: D(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label", Ze).getRegex() }, Pt = { ...Wt, emStrongRDelimAst: ei, emStrongLDelim: Jr, delLDelim: ni, delRDelim: ii, url: D(/^((?:protocol):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/).replace("protocol", en).replace("email", /[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(), _backpedal: /(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/, del: /^(~~?)(?=[^\s~])((?:\\[\s\S]|[^\\])*?(?:\\[\s\S]|[^\s~\\]))\1(?=[^~]|$)/, text: D(/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|protocol:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/).replace("protocol", en).getRegex() }, gi = { ...Pt, br: D(tr).replace("{2,}", "*").getRegex(), text: D(Pt.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex() }, qe = { normal: Gt, gfm: Kr, pedantic: qr }, De = { normal: Wt, gfm: Pt, breaks: gi, pedantic: ui }, pi = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }, tn = (n) => pi[n];
 function he(n, e) {
   if (e) {
     if (ne.escapeTest.test(n)) return n.replace(ne.escapeReplace, tn);
@@ -453,11 +452,11 @@ ${l}` : l;
     x(this, "inlineQueue");
     x(this, "tokenizer");
     this.tokens = [], this.tokens.links = /* @__PURE__ */ Object.create(null), this.options = e || Ne, this.options.tokenizer = this.options.tokenizer || new We(), this.tokenizer = this.options.tokenizer, this.tokenizer.options = this.options, this.tokenizer.lexer = this, this.inlineQueue = [], this.state = { inLink: !1, inRawBlock: !1, top: !0 };
-    let t = { other: ne, block: He.normal, inline: De.normal };
-    this.options.pedantic ? (t.block = He.pedantic, t.inline = De.pedantic) : this.options.gfm && (t.block = He.gfm, this.options.breaks ? t.inline = De.breaks : t.inline = De.gfm), this.tokenizer.rules = t;
+    let t = { other: ne, block: qe.normal, inline: De.normal };
+    this.options.pedantic ? (t.block = qe.pedantic, t.inline = De.pedantic) : this.options.gfm && (t.block = qe.gfm, this.options.breaks ? t.inline = De.breaks : t.inline = De.gfm), this.tokenizer.rules = t;
   }
   static get rules() {
-    return { block: He, inline: De };
+    return { block: qe, inline: De };
   }
   static lex(e, t) {
     return new Ut(t).lex(e);
@@ -1560,7 +1559,7 @@ const xi = /\b\B/, gr = "[a-zA-Z]\\w*", Jt = "[a-zA-Z_]\\w*", pr = "\\b\\d+(\\.\
   // excludes method names from keyword processing
   begin: "\\.\\s*" + Jt,
   relevance: 0
-}, Hi = function(n) {
+}, qi = function(n) {
   return Object.assign(
     n,
     {
@@ -1575,7 +1574,7 @@ const xi = /\b\B/, gr = "[a-zA-Z]\\w*", Jt = "[a-zA-Z_]\\w*", pr = "\\b\\d+(\\.\
     }
   );
 };
-var qe = /* @__PURE__ */ Object.freeze({
+var He = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   APOS_STRING_MODE: Oi,
   BACKSLASH_ESCAPE: Ue,
@@ -1586,7 +1585,7 @@ var qe = /* @__PURE__ */ Object.freeze({
   C_LINE_COMMENT_MODE: Ci,
   C_NUMBER_MODE: Pi,
   C_NUMBER_RE: br,
-  END_SAME_AS_BEGIN: Hi,
+  END_SAME_AS_BEGIN: qi,
   HASH_COMMENT_MODE: Di,
   IDENT_RE: gr,
   MATCH_NOTHING_RE: xi,
@@ -1602,14 +1601,14 @@ var qe = /* @__PURE__ */ Object.freeze({
   UNDERSCORE_IDENT_RE: Jt,
   UNDERSCORE_TITLE_MODE: Fi
 });
-function qi(n, e) {
+function Hi(n, e) {
   n.input[n.index - 1] === "." && e.ignoreMatch();
 }
 function Gi(n, e) {
   n.className !== void 0 && (n.scope = n.className, delete n.className);
 }
 function Zi(n, e) {
-  e && n.beginKeywords && (n.begin = "\\b(" + n.beginKeywords.split(" ").join("|") + ")(?!\\.)(?=\\b|\\s)", n.__beforeBegin = qi, n.keywords = n.keywords || n.beginKeywords, delete n.beginKeywords, n.relevance === void 0 && (n.relevance = 0));
+  e && n.beginKeywords && (n.begin = "\\b(" + n.beginKeywords.split(" ").join("|") + ")(?!\\.)(?=\\b|\\s)", n.__beforeBegin = Hi, n.keywords = n.keywords || n.beginKeywords, delete n.beginKeywords, n.relevance === void 0 && (n.relevance = 0));
 }
 function Wi(n, e) {
   Array.isArray(n.illegal) && (n.illegal = Qt(...n.illegal));
@@ -1862,19 +1861,19 @@ const et = lr, gn = Ee, pn = Symbol("nomatch"), la = 7, Er = function(n) {
     return E.split(/\s+/).find((B) => a(B) || v(B));
   }
   function l(b, E, S) {
-    let B = "", H = "";
-    typeof E == "object" ? (B = b, S = E.ignoreIllegals, H = E.language) : (Re("10.7.0", "highlight(lang, code, ...args) has been deprecated."), Re("10.7.0", `Please use highlight(code, options) instead.
-https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === void 0 && (S = !0);
+    let B = "", q = "";
+    typeof E == "object" ? (B = b, S = E.ignoreIllegals, q = E.language) : (Re("10.7.0", "highlight(lang, code, ...args) has been deprecated."), Re("10.7.0", `Please use highlight(code, options) instead.
+https://github.com/highlightjs/highlight.js/issues/2277`), q = b, B = E), S === void 0 && (S = !0);
     const V = {
       code: B,
-      language: H
+      language: q
     };
     ee("before:highlight", V);
     const re = V.result ? V.result : u(V.language, V.code, S);
     return re.code = V.code, ee("after:highlight", re), re;
   }
   function u(b, E, S, B) {
-    const H = /* @__PURE__ */ Object.create(null);
+    const q = /* @__PURE__ */ Object.create(null);
     function V(m, y) {
       return m.keywords[y];
     }
@@ -1891,7 +1890,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
         const P = le.case_insensitive ? y[0].toLowerCase() : y[0], X = V(T, P);
         if (X) {
           const [de, Fe] = X;
-          if (J.addText(O), O = "", H[P] = (H[P] || 0) + 1, H[P] <= la && (Te += Fe), de.startsWith("_"))
+          if (J.addText(O), O = "", q[P] = (q[P] || 0) + 1, q[P] <= la && (Te += Fe), de.startsWith("_"))
             O += y[0];
           else {
             const je = le.classNameAliases[de] || de;
@@ -1938,7 +1937,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
     function W(m, y) {
       return m.scope && typeof m.scope == "string" && J.openNode(le.classNameAliases[m.scope] || m.scope), m.beginScope && (m.beginScope._wrap ? (Y(U, le.classNameAliases[m.beginScope._wrap] || m.beginScope._wrap), U = "") : m.beginScope._multi && (be(m.beginScope, y), U = "")), T = Object.create(m, { parent: { value: T } }), T;
     }
-    function q(m, y, O) {
+    function H(m, y, O) {
       let P = Si(m.endRe, O);
       if (P) {
         if (m["on:end"]) {
@@ -1952,7 +1951,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
         }
       }
       if (m.endsWithParent)
-        return q(m.parent, y, O);
+        return H(m.parent, y, O);
     }
     function te(m) {
       return T.matcher.regexIndex === 0 ? (U += m[0], 1) : (me = !0, 0);
@@ -1965,7 +1964,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
       return O.skip ? U += y : (O.excludeBegin && (U += y), Z(), !O.returnBegin && !O.excludeBegin && (U = y)), W(O, m), O.returnBegin ? 0 : y.length;
     }
     function ae(m) {
-      const y = m[0], O = E.substring(m.index), P = q(T, m, O);
+      const y = m[0], O = E.substring(m.index), P = H(T, m, O);
       if (!P)
         return pn;
       const X = T;
@@ -2084,7 +2083,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
       (Z) => u(Z, b, !1)
     );
     B.unshift(S);
-    const H = B.sort((Z, Y) => {
+    const q = B.sort((Z, Y) => {
       if (Z.relevance !== Y.relevance) return Y.relevance - Z.relevance;
       if (Z.language && Y.language) {
         if (v(Z.language).supersetOf === Y.language)
@@ -2093,7 +2092,7 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
           return -1;
       }
       return 0;
-    }), [V, re] = H, pe = V;
+    }), [V, re] = q, pe = V;
     return pe.secondBest = re, pe;
   }
   function g(b, E, S) {
@@ -2117,16 +2116,16 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
         b.innerHTML
       );
     E = b;
-    const B = E.textContent, H = S ? l(B, { language: S, ignoreIllegals: !0 }) : h(B);
-    b.innerHTML = H.value, b.dataset.highlighted = "yes", g(b, S, H.language), b.result = {
-      language: H.language,
+    const B = E.textContent, q = S ? l(B, { language: S, ignoreIllegals: !0 }) : h(B);
+    b.innerHTML = q.value, b.dataset.highlighted = "yes", g(b, S, q.language), b.result = {
+      language: q.language,
       // TODO: remove with version 11.0
-      re: H.relevance,
-      relevance: H.relevance
-    }, H.secondBest && (b.secondBest = {
-      language: H.secondBest.language,
-      relevance: H.secondBest.relevance
-    }), ee("after:highlightElement", { el: b, result: H, text: B });
+      re: q.relevance,
+      relevance: q.relevance
+    }, q.secondBest && (b.secondBest = {
+      language: q.secondBest.language,
+      relevance: q.secondBest.relevance
+    }), ee("after:highlightElement", { el: b, result: q, text: B });
   }
   function f(b) {
     o = gn(o, b);
@@ -2238,9 +2237,9 @@ https://github.com/highlightjs/highlight.js/issues/2277`), H = b, B = E), S === 
     optional: Ni,
     anyNumberOfTimes: yi
   };
-  for (const b in qe)
-    typeof qe[b] == "object" && cr(qe[b]);
-  return Object.assign(n, qe), n;
+  for (const b in He)
+    typeof He[b] == "object" && cr(He[b]);
+  return Object.assign(n, He), n;
 }, Ae = Er({});
 Ae.newInstance = () => Er({});
 var da = Ae;
@@ -6361,9 +6360,9 @@ function va() {
     i
   );
   function a(d) {
-    const l = d.regex, u = (W, { after: q }) => {
+    const l = d.regex, u = (W, { after: H }) => {
       const te = "</" + W[0].slice(1);
-      return W.input.indexOf(te, q) !== -1;
+      return W.input.indexOf(te, H) !== -1;
     }, p = n, h = {
       begin: "<>",
       end: "</>"
@@ -6374,7 +6373,7 @@ function va() {
        * @param {RegExpMatchArray} match
        * @param {CallbackResponse} response
        */
-      isTrulyOpeningTag: (W, q) => {
+      isTrulyOpeningTag: (W, H) => {
         const te = W[0].length + W.index, ie = W.input[te];
         if (
           // HTML should not include another raw `<` inside a tag
@@ -6384,18 +6383,18 @@ function va() {
           // `<T, A extends keyof T, V>`
           ie === ","
         ) {
-          q.ignoreMatch();
+          H.ignoreMatch();
           return;
         }
-        ie === ">" && (u(W, { after: te }) || q.ignoreMatch());
+        ie === ">" && (u(W, { after: te }) || H.ignoreMatch());
         let ae;
         const ce = W.input.substring(te);
         if (ae = ce.match(/^\s*=/)) {
-          q.ignoreMatch();
+          H.ignoreMatch();
           return;
         }
         if ((ae = ce.match(/^\s+extends\s+/)) && ae.index === 0) {
-          q.ignoreMatch();
+          H.ignoreMatch();
           return;
         }
       }
@@ -6647,7 +6646,7 @@ function va() {
       label: "func.def",
       contains: [G],
       illegal: /%/
-    }, H = {
+    }, q = {
       relevance: 0,
       match: /\b[A-Z][A-Z_0-9]+\b/,
       className: "variable.constant"
@@ -6859,7 +6858,7 @@ function va() {
           contains: [G]
         },
         re,
-        H,
+        q,
         b,
         Z,
         {
@@ -11491,10 +11490,10 @@ function $a() {
   }
   return At = a, At;
 }
-var Ot, Hn;
+var Ot, qn;
 function za() {
-  if (Hn) return Ot;
-  Hn = 1;
+  if (qn) return Ot;
+  qn = 1;
   function n(e) {
     return {
       name: "Shell Session",
@@ -11519,10 +11518,10 @@ function za() {
   }
   return Ot = n, Ot;
 }
-var Mt, qn;
+var Mt, Hn;
 function Fa() {
-  if (qn) return Mt;
-  qn = 1;
+  if (Hn) return Mt;
+  Hn = 1;
   function n(e) {
     const t = e.regex, r = e.COMMENT("--", "$"), i = {
       scope: "string",
@@ -12516,12 +12515,12 @@ function Ka() {
       // Consume .built_in to prevent highlighting properties and methods.
       match: t(/\./, i(...h)),
       relevance: 0
-    }, H = {
+    }, q = {
       className: "built_in",
       match: t(/\b/, i(...h), /(?=\()/)
     }, V = [
       B,
-      H
+      q
     ], re = {
       // Prevent -> from being highlighting as an operator.
       match: /->/,
@@ -12554,7 +12553,7 @@ function Ka() {
         // binary-literal
         { match: /\b0b([01]_*)+\b/ }
       ]
-    }, q = (F = "") => ({
+    }, H = (F = "") => ({
       className: "subst",
       variants: [
         { match: t(/\\/, F, /[0\\tnr"']/) },
@@ -12572,7 +12571,7 @@ function Ka() {
       begin: t(F, /"""/),
       end: t(/"""/, F),
       contains: [
-        q(F),
+        H(F),
         te(F),
         ie(F)
       ]
@@ -12580,7 +12579,7 @@ function Ka() {
       begin: t(F, /"/),
       end: t(/"/, F),
       contains: [
-        q(F),
+        H(F),
         ie(F)
       ]
     }), oe = {
@@ -12940,7 +12939,7 @@ function Ka() {
   return It = C, It;
 }
 var Ct, Zn;
-function Ha() {
+function qa() {
   if (Zn) return Ct;
   Zn = 1;
   function n(e) {
@@ -13126,7 +13125,7 @@ function Ha() {
   return Ct = n, Ct;
 }
 var Lt, Wn;
-function qa() {
+function Ha() {
   if (Wn) return Lt;
   Wn = 1;
   const n = "[A-Za-z$_][0-9A-Za-z$_]*", e = [
@@ -13276,9 +13275,9 @@ function qa() {
     i
   );
   function a(l) {
-    const u = l.regex, p = (q, { after: te }) => {
-      const ie = "</" + q[0].slice(1);
-      return q.input.indexOf(ie, te) !== -1;
+    const u = l.regex, p = (H, { after: te }) => {
+      const ie = "</" + H[0].slice(1);
+      return H.input.indexOf(ie, te) !== -1;
     }, h = n, g = {
       begin: "<>",
       end: "</>"
@@ -13289,8 +13288,8 @@ function qa() {
        * @param {RegExpMatchArray} match
        * @param {CallbackResponse} response
        */
-      isTrulyOpeningTag: (q, te) => {
-        const ie = q[0].length + q.index, ae = q.input[ie];
+      isTrulyOpeningTag: (H, te) => {
+        const ie = H[0].length + H.index, ae = H.input[ie];
         if (
           // HTML should not include another raw `<` inside a tag
           // nested type?
@@ -13302,9 +13301,9 @@ function qa() {
           te.ignoreMatch();
           return;
         }
-        ae === ">" && (p(q, { after: ie }) || te.ignoreMatch());
+        ae === ">" && (p(H, { after: ie }) || te.ignoreMatch());
         let ce;
-        const oe = q.input.substring(ie);
+        const oe = H.input.substring(ie);
         if (ce = oe.match(/^\s*=/)) {
           te.ignoreMatch();
           return;
@@ -13537,7 +13536,7 @@ function qa() {
       className: "meta",
       relevance: 10,
       begin: /^\s*['"]use (strict|asm)['"]/
-    }, H = {
+    }, q = {
       variants: [
         {
           match: [
@@ -13567,8 +13566,8 @@ function qa() {
       match: /\b[A-Z][A-Z_0-9]+\b/,
       className: "variable.constant"
     };
-    function re(q) {
-      return u.concat("(?!", q.join("|"), ")");
+    function re(H) {
+      return u.concat("(?!", H.join("|"), ")");
     }
     const pe = {
       match: u.concat(
@@ -13577,7 +13576,7 @@ function qa() {
           ...s,
           "super",
           "import"
-        ].map((q) => `${q}\\s*\\(`)),
+        ].map((H) => `${H}\\s*\\(`)),
         h,
         u.lookahead(/\s*\(/)
       ),
@@ -13736,7 +13735,7 @@ function qa() {
             }
           ]
         },
-        H,
+        q,
         {
           // prevent this from getting swallowed up by function
           // since they appear "function like"
@@ -14156,8 +14155,8 @@ M.registerLanguage("scss", $a());
 M.registerLanguage("shell", za());
 M.registerLanguage("sql", Fa());
 M.registerLanguage("swift", Ka());
-M.registerLanguage("yaml", Ha());
-M.registerLanguage("typescript", qa());
+M.registerLanguage("yaml", qa());
+M.registerLanguage("typescript", Ha());
 M.registerLanguage("vbnet", Ga());
 M.registerLanguage("wasm", Za());
 M.HighlightJS = M;
@@ -14579,7 +14578,7 @@ class os {
    * Initialize Calmdown.
    */
   init() {
-    this.initDefaultTheme(), this.initDefaultLayout(), this.initCodeHightlight(), this.initConverter(), this.initDefaultContent(), this.initResize(), this.initEditor(), this.initPreview(), this.initHiddenHtmlInput(), this.initHiddenMarkdownInput(), this.initHelpDialog(), this.initUserInteraction(), this.initEventListeners(), this.triggerEvents();
+    this.initDefaultTheme(), this.initDefaultLayout(), this.initConverter(), this.initDefaultContent(), this.initResize(), this.initEditor(), this.initPreview(), this.initHiddenHtmlInput(), this.initHiddenMarkdownInput(), this.initHelpDialog(), this.initUserInteraction(), this.initEventListeners(), this.triggerEvents();
   }
   /**
    * Apply the default theme class.
@@ -14592,12 +14591,6 @@ class os {
    */
   initDefaultLayout() {
     this.calmdown.classList.add(this.settings.defaultLayoutSelector);
-  }
-  /**
-   * Apply the code highlight theme class.
-   */
-  initCodeHightlight() {
-    this.calmdown.classList.add(this.settings.codeHighlightStyle);
   }
   /**
    * Initialize the resizer handle.

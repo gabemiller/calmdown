@@ -35,7 +35,6 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "sass": "^1.77.0",
     "typescript": "^6.0.3",
     "vite": "^5.4.0"
   },
