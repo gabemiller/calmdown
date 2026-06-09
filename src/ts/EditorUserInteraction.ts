@@ -1,25 +1,20 @@
 import UserInteraction from './UserInteraction';
+import type TextareaEditor from './TextareaEditor';
 
 export default class EditorUserInteraction extends UserInteraction {
 
-	/**
-	 * Represents EditorUserInteraction
-	 *
-	 * @constructor
-	 * @param {TextareaEditor} editor
-	 */
-	constructor(editor) {
+	private readonly editor: TextareaEditor;
+
+	constructor(editor: TextareaEditor) {
 		super(editor.getEditor);
 		this.editor = editor;
 	}
 
 	/**
-	 *
-	 * @param key
-	 * @param prefix
-	 * @param suffix
+	 * Bind a combo that wraps the current selection with `prefix`/`suffix`
+	 * (e.g. '**' … '**' for bold) and reprocesses the content.
 	 */
-	insertKeyboardEvent(key, prefix = '', suffix = '') {
+	insertKeyboardEvent(key: string, prefix = '', suffix = ''): void {
 		this.keyboardEvent(key, (e) => {
 			e.preventDefault();
 			const actualPosition = this.editor.getCursorPosition();

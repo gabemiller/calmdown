@@ -9,14 +9,14 @@ import { defineConfig } from 'vite';
 //
 // Output paths are kept identical to the webpack era so the README, the
 // published npm package, and dist/index.html keep working:
-//   dist/js/calmdown.min.js   (UMD)
-//   dist/js/calmdown.min.mjs  (ESM)
+//   dist/js/calmdown.min.js (UMD)
+//   dist/js/calmdown.min.mjs (ESM)
 //   dist/css/calmdown.min.css
 export default defineConfig({
 	css: {
 		preprocessorOptions: {
 			scss: {
-				// Lets SCSS resolve bare `@import "prismjs/themes/..."` from
+				// Lets SCSS resolve bare `@import "highlight.js/styles/..."` from
 				// node_modules (replaces webpack's `~` prefix convention).
 				loadPaths: ['node_modules'],
 			},
@@ -28,7 +28,7 @@ export default defineConfig({
 		emptyOutDir: false,
 		sourcemap: true,
 		lib: {
-			entry: resolve(__dirname, 'src/js/Calmdown.js'),
+			entry: resolve(__dirname, 'src/ts/main.ts'),
 			name: 'Calmdown',
 			formats: ['umd', 'es'],
 			fileName: (format) =>

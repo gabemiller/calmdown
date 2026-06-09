@@ -2,20 +2,20 @@
 // Lighter than the full build and auto-detects languages, so there is no
 // curated language list to maintain.
 import hljs from 'highlight.js/lib/common';
+import type { HLJSApi } from 'highlight.js';
 
 export default class SyntaxHighlighter {
-	/**
-	 * @constructor
-	 */
+
+	private readonly highlighter: HLJSApi;
+
 	constructor() {
 		this.highlighter = hljs;
 	}
 
 	/**
-	 *
-	 * @returns {hljs} - syntax highlighter
+	 * @returns the highlight.js instance
 	 */
-	get getHighlighter() {
+	get getHighlighter(): HLJSApi {
 		return this.highlighter;
 	}
 }

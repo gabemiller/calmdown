@@ -1,46 +1,52 @@
-// Styles
-import '../scss/calmdown.scss';
-
 // Config
-import CONFIG from './Config';
+import CONFIG, { type CalmdownSettings } from './Config';
 
 // Components
 import MarkdownConverter from './MarkdownConverter';
 import TextareaEditor from './TextareaEditor';
 import Preview from './Preview';
-import HTMLElement from './HTMLElement';
+import CdElement from './CdElement';
 import UserInteraction from './UserInteraction';
 import EditorUserInteraction from './EditorUserInteraction';
-import HelpDialog from "./HelpDialog";
+import HelpDialog from './HelpDialog';
+
+export type { CalmdownSettings } from './Config';
 
 export default class Calmdown {
 
+	private settings!: CalmdownSettings;
+	private calmdown!: HTMLElement;
+	private content!: string;
+	private converter!: MarkdownConverter;
+	private editor!: TextareaEditor;
+	private preview!: Preview;
+	private resize!: HTMLElement;
+	private globalUserInteraction!: UserInteraction;
+	private editorUserInteraction!: EditorUserInteraction;
+	private htmlInputElement?: HTMLElement;
+	private markdownInputElement?: HTMLElement;
+
 	/**
-	 * Represents Calmdown
-	 *
-	 * @constructor
-	 * @param {Object} settings
+	 * @param settings - partial configuration; missing keys fall back to CONFIG
 	 */
-	constructor(settings = {}) {
+	constructor(settings: Partial<CalmdownSettings> = {}) {
 		this.setDefaults(settings);
 		this.init();
 	}
 
 	/**
-	 * Set the default values for the Calmdown properties
-	 *
-	 * @param {Object} settings
+	 * Merge the given settings over the defaults and resolve the root element.
 	 */
-	setDefaults(settings) {
+	setDefaults(settings: Partial<CalmdownSettings>): void {
 		this.settings = Object.assign(CONFIG, settings);
-		this.calmdown = document.querySelector(`.${this.settings.selector}`);
-		this.calmdown.style = `width: ${this.settings.width}; height: ${this.settings.height};`;
+		this.calmdown = document.querySelector<HTMLElement>(`.${this.settings.selector}`)!;
+		this.calmdown.setAttribute('style', `width: ${this.settings.width}; height: ${this.settings.height};`);
 	}
 
 	/**
-	 * Initialize Calmdown
+	 * Initialize Calmdown.
 	 */
-	init() {
+	init(): void {
 		this.initDefaultTheme();
 		this.initDefaultLayout();
 		this.initCodeHightlight();
@@ -58,39 +64,32 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Initialize code higlighting
+	 * Apply the default theme class.
 	 */
-	initDefaultTheme() {
+	initDefaultTheme(): void {
 		this.calmdown.classList.add(this.settings.defaultThemeSelector);
 	}
 
 	/**
-	 * Initialize code higlighting
+	 * Apply the default layout class.
 	 */
-	initDefaultLayout() {
+	initDefaultLayout(): void {
 		this.calmdown.classList.add(this.settings.defaultLayoutSelector);
 	}
 
 	/**
-	 * Initialize code higlighting
+	 * Apply the code highlight theme class.
 	 */
-	initCodeHightlight() {
+	initCodeHightlight(): void {
 		this.calmdown.classList.add(this.settings.codeHighlightStyle);
 	}
 
 	/**
-	 * Initialize toolbar
+	 * Initialize the resizer handle.
 	 */
-	initToolbar() {
-		this.toolbar = new HTMLElement('div', this.settings.bodySelector, this.calmdown).getElement;
-	}
-
-	/**
-	 * Initialize resizer div
-	 */
-	initResize() {
-		this.resize = new HTMLElement('div', 'cd-resize', this.calmdown).getElement;
-		HTMLElement.create('span', 'cd-bars', this.resize);
+	initResize(): void {
+		this.resize = new CdElement('div', 'cd-resize', this.calmdown).getElement;
+		CdElement.create('span', 'cd-bars', this.resize);
 
 		let isResizing = false;
 		this.resize.addEventListener('mousedown', (e) => {
@@ -110,14 +109,11 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Initialize hidden html input
-	 *
-	 * This textarea value can be sent through some http methods
-	 * to the server for further processing.
+	 * Initialize the hidden html input. Its value can be posted to the server.
 	 */
-	initHiddenHtmlInput() {
+	initHiddenHtmlInput(): void {
 		if (this.settings.htmlInputSelector != null) {
-			this.htmlInputElement = new HTMLElement('textarea',
+			this.htmlInputElement = new CdElement('textarea',
 				this.settings.htmlInputSelector,
 				this.calmdown, {
 					name: this.settings.htmlInputSelector,
@@ -127,14 +123,11 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Initialize hidden markdown input
-	 *
-	 * This textarea value can be sent through some http methods
-	 * to the server for further processing.
+	 * Initialize the hidden markdown input. Its value can be posted to the server.
 	 */
-	initHiddenMarkdownInput() {
+	initHiddenMarkdownInput(): void {
 		if (this.settings.markdownInputSelector != null) {
-			this.markdownInputElement = new HTMLElement('textarea',
+			this.markdownInputElement = new CdElement('textarea',
 				this.settings.markdownInputSelector,
 				this.calmdown, {
 					name: this.settings.markdownInputSelector,
@@ -144,38 +137,39 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Initialize markdown converter
+	 * Initialize the markdown converter.
 	 */
-	initConverter() {
+	initConverter(): void {
 		this.converter = new MarkdownConverter();
 	}
 
 	/**
-	 * Initialize default value
+	 * Resolve the initial editor content (data attribute > html > settings).
 	 */
-	initDefaultContent(){
-		const attributeContent = !this.calmdown.hasAttribute('data-cd-content') ? '' : this.calmdown.getAttribute('data-cd-content');
-		const htmlContent = this.calmdown.textContent.length <= 0 ? '' : this.calmdown.textContent;
+	initDefaultContent(): void {
+		const attributeContent = this.calmdown.getAttribute('data-cd-content') ?? '';
+		const text = this.calmdown.textContent ?? '';
+		const htmlContent = text.length <= 0 ? '' : text;
 		const settingsContent = this.settings.defaultContent.length <= 0 ? '' : this.settings.defaultContent;
 
-		if(htmlContent.length > 0){
+		if (htmlContent.length > 0) {
 			this.calmdown.textContent = '';
 		}
 
-		if(attributeContent.length > 0){
+		if (attributeContent.length > 0) {
 			this.content = attributeContent;
-			if(htmlContent.length > 0){
+			if (htmlContent.length > 0) {
 				console.warn('Attribute data-cd-content is set. HTML content will be ignored!');
 			}
-			if(settingsContent.length > 0){
+			if (settingsContent.length > 0) {
 				console.warn('Attribute data-cd-content is set. Settings content will be ignored!');
 			}
 			return;
 		}
 
-		if(htmlContent.length > 0){
+		if (htmlContent.length > 0) {
 			this.content = htmlContent;
-			if(settingsContent.length > 0){
+			if (settingsContent.length > 0) {
 				console.warn('HTML content is set. Settings content will be ignored!');
 			}
 			return;
@@ -185,47 +179,48 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Initialize editor area
+	 * Initialize the editor area.
 	 */
-	initEditor() {
+	initEditor(): void {
 		this.editor = new TextareaEditor(this.settings.editorSelector, this.calmdown);
 		this.editor.getEditor.value = this.content;
 	}
 
 	/**
-	 * Initialize preview area
+	 * Initialize the preview area.
 	 */
-	initPreview() {
+	initPreview(): void {
 		this.preview = new Preview(this.settings.previewSelector, this.calmdown);
 	}
 
 	/**
-	 * Initialize help dialog
+	 * Initialize the help dialog.
 	 */
-	initHelpDialog(){
-		this.helpDialog = new HelpDialog(this.settings.helpDialogSelector,this.calmdown);
+	initHelpDialog(): void {
+		// Constructed for its DOM side effects; the instance is not retained.
+		new HelpDialog(this.settings.helpDialogSelector, this.calmdown);
 	}
 
 	/**
-	 *
+	 * Initialize the user-interaction (keyboard) handlers.
 	 */
-	initUserInteraction() {
+	initUserInteraction(): void {
 		this.globalUserInteraction = new UserInteraction();
 		this.editorUserInteraction = new EditorUserInteraction(this.editor);
 	}
 
 	/**
-	 * Initialize event listeners
+	 * Wire up the editor and keyboard event listeners.
 	 */
-	initEventListeners() {
+	initEventListeners(): void {
 		// Convert markdown to html
 		this.editor.convertMarkdownToHtmlEventListener(
-			[this.preview.getPreview, this.htmlInputElement],
+			[this.preview.getPreview, this.htmlInputElement!],
 			this.converter);
 
 		// Copy markdown to hidden input
 		// This is useful when you do not want to send data through AJAX
-		this.editor.copyMarkdownContentToHiddenInputEventListener(this.markdownInputElement);
+		this.editor.copyMarkdownContentToHiddenInputEventListener(this.markdownInputElement!);
 
 		// Initialize insert keyboard events
 		this.editorUserInteraction.insertKeyboardEvent('ctrl+b', '**', '**');
@@ -242,9 +237,10 @@ export default class Calmdown {
 	}
 
 	/**
-	 * Set the view to show editor or preview or both
+	 * Bind the keyboard shortcuts that switch between editor/preview/both,
+	 * full screen, and the help dialog.
 	 */
-	viewChangeEvents() {
+	viewChangeEvents(): void {
 
 		let selectedLayout = this.settings.defaultLayoutSelector;
 		const cdLayoutEditor = 'cd-layout-editor';
@@ -298,34 +294,30 @@ export default class Calmdown {
 			this.calmdown.classList.remove(cdLayoutEditor);
 			this.calmdown.classList.remove(cdLayoutPreview);
 			this.calmdown.classList.toggle(cdLayoutHelpDialog);
-			if(!this.calmdown.classList.contains(cdLayoutHelpDialog)){
+			if (!this.calmdown.classList.contains(cdLayoutHelpDialog)) {
 				this.calmdown.classList.add(selectedLayout);
 			}
 		});
 	}
 
 	/**
-	 * Trigger the processing event
+	 * Trigger the processing event.
 	 */
-	triggerEvents() {
+	triggerEvents(): void {
 		this.editor.processContent();
 	}
 
 	/**
-	 * Get the editor content
-	 *
-	 * @returns {String} -  the string value of the editor content
+	 * Get the editor content.
 	 */
-	getContent() {
+	getContent(): string {
 		return this.editor.getContent();
 	}
 
 	/**
-	 *  Set the editor content
-	 *
-	 * @param {String} content - the new value of the editor
+	 * Set the editor content.
 	 */
-	setContent(content) {
+	setContent(content: string): void {
 		this.editor.setContent(content);
 		this.editor.processContent();
 	}

@@ -15,8 +15,10 @@
   "type": "module",
   "main": "dist/js/calmdown.min.js",
   "module": "dist/js/calmdown.min.mjs",
+  "types": "dist/js/Calmdown.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/js/Calmdown.d.ts",
       "import": "./dist/js/calmdown.min.mjs",
       "require": "./dist/js/calmdown.min.js"
     },
@@ -28,11 +30,13 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "sass": "^1.77.0",
+    "typescript": "^6.0.3",
     "vite": "^5.4.0"
   },
   "repository": {

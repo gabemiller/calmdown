@@ -1,5 +1,17 @@
+type ModifierFlag = 'ctrlKey' | 'shiftKey' | 'altKey' | 'metaKey';
+
+export type KeyboardCallback = (event: KeyboardEvent) => void;
+
+interface ParsedCombo {
+	ctrlKey: boolean;
+	shiftKey: boolean;
+	altKey: boolean;
+	metaKey: boolean;
+	code: string | null;
+}
+
 // Modifier token -> KeyboardEvent boolean property.
-const MODIFIERS = {
+const MODIFIERS: Record<string, ModifierFlag> = {
 	ctrl: 'ctrlKey',
 	control: 'ctrlKey',
 	shift: 'shiftKey',
@@ -11,7 +23,7 @@ const MODIFIERS = {
 };
 
 // Named (non-character) keys -> KeyboardEvent.code.
-const NAMED_KEYS = {
+const NAMED_KEYS: Record<string, string> = {
 	tab: 'Tab',
 	enter: 'Enter',
 	space: 'Space',
@@ -22,10 +34,10 @@ const NAMED_KEYS = {
 /**
  * Map a single key token to its layout-independent KeyboardEvent.code.
  *
- * @param {String} key - a single key token, e.g. 'b', '1', 'tab'
- * @returns {String} - the matching KeyboardEvent.code
+ * @param key - a single key token, e.g. 'b', '1', 'tab'
+ * @returns the matching KeyboardEvent.code
  */
-function keyToCode(key) {
+function keyToCode(key: string): string {
 	if (/^[a-z]$/.test(key)) {
 		return `Key${key.toUpperCase()}`;
 	}
@@ -39,11 +51,10 @@ function keyToCode(key) {
  * Parse a combo string (e.g. 'ctrl+shift+i') into the modifier flags and
  * the target key code.
  *
- * @param {String} combo - the combo string
- * @returns {Object} - { ctrlKey, shiftKey, altKey, metaKey, code }
+ * @param combo - the combo string
  */
-function parseCombo(combo) {
-	const result = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false, code: null };
+function parseCombo(combo: string): ParsedCombo {
+	const result: ParsedCombo = { ctrlKey: false, shiftKey: false, altKey: false, metaKey: false, code: null };
 	combo.toLowerCase().split('+').forEach((rawPart) => {
 		const part = rawPart.trim();
 		if (MODIFIERS[part]) {
@@ -58,12 +69,8 @@ function parseCombo(combo) {
 /**
  * Test whether a keydown event matches a parsed combo. Modifiers must match
  * exactly so e.g. ctrl+k and ctrl+shift+k stay distinct.
- *
- * @param {Object} combo - parsed combo
- * @param {KeyboardEvent} event - the keydown event
- * @returns {Boolean}
  */
-function matches(combo, event) {
+function matches(combo: ParsedCombo, event: KeyboardEvent): boolean {
 	return event.code === combo.code
 		&& event.ctrlKey === combo.ctrlKey
 		&& event.shiftKey === combo.shiftKey
@@ -73,28 +80,27 @@ function matches(combo, event) {
 
 export default class UserInteraction {
 
+	private readonly target: Document | Element;
+
 	/**
-	 * Represents UserInteraction
-	 *
-	 * @constructor
-	 * @param {Element|null} element - element to scope key bindings to;
-	 *   defaults to the whole document (global bindings)
+	 * @param element - element to scope key bindings to; defaults to the
+	 *   whole document (global bindings)
 	 */
-	constructor(element = null) {
+	constructor(element: Element | null = null) {
 		this.target = element || document;
 	}
 
 	/**
 	 * Bind a combo to a callback on the given target.
 	 *
-	 * @param {EventTarget} target
-	 * @param {String} key - combo string, e.g. 'ctrl+b'
-	 * @param {Function} callback - receives the KeyboardEvent
+	 * @param target - event target to bind on
+	 * @param key - combo string, e.g. 'ctrl+b'
+	 * @param callback - receives the KeyboardEvent
 	 */
-	bindKey(target, key, callback) {
+	bindKey(target: EventTarget, key: string, callback: KeyboardCallback): void {
 		const combo = parseCombo(key);
-		target.addEventListener('keydown', (event) => {
-			if (matches(combo, event)) {
+		target.addEventListener('keydown', (event: Event) => {
+			if (event instanceof KeyboardEvent && matches(combo, event)) {
 				callback(event);
 			}
 		});
@@ -102,21 +108,15 @@ export default class UserInteraction {
 
 	/**
 	 * Bind a combo scoped to this instance's element.
-	 *
-	 * @param {String} key
-	 * @param {Function} callback
 	 */
-	keyboardEvent(key, callback) {
+	keyboardEvent(key: string, callback: KeyboardCallback): void {
 		this.bindKey(this.target, key, callback);
 	}
 
 	/**
 	 * Bind a combo globally (document level), firing regardless of focus.
-	 *
-	 * @param {String} key
-	 * @param {Function} callback
 	 */
-	keyboardEventGlobal(key, callback) {
+	keyboardEventGlobal(key: string, callback: KeyboardCallback): void {
 		this.bindKey(document, key, callback);
 	}
 
