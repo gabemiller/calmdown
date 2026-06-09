@@ -1,4 +1,9 @@
-.idea
-.sass-cache
-.publish
+# Dependencies
 node_modules
+
+# Editors / OS
+.idea
+.DS_Store
+
+# TypeScript incremental build info
+*.tsbuildinfo

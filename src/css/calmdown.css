@@ -1,0 +1,289 @@
+/*
+ * Calmdown styles.
+ *
+ * Theming is driven by the `--cd-*` custom properties declared on `.calmdown`
+ * below. To re-theme, override any of them in your own stylesheet, e.g.
+ *
+ *   .calmdown { --cd-bg: #0b1021; --cd-text: #e6e6e6; --cd-border: #2a2a40; }
+ *
+ * A named theme is just a class that overrides the same variables — see
+ * `.cd-theme-dark`. Syntax-highlighting colors come from a highlight.js theme
+ * loaded separately (a default is bundled; swap it by importing another).
+ */
+
+.calmdown {
+	/* Theme contract — light defaults. Override these to re-theme. */
+	--cd-bg: #fff;
+	--cd-text: #4d4d4d;
+	--cd-border: #d1d1d1;
+	--cd-toolbar-bg: #f8f8f8;
+	--cd-help-button-bg: #fff;
+	--cd-resize-bg: #f8f8f8;
+	--cd-resize-border: #d1d1d1;
+	--cd-resize-handle: #d1d1d1;
+
+	display: flex;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--cd-border);
+	background-color: var(--cd-bg);
+
+	.cd-toolbar {
+		padding: 5px;
+		background-color: var(--cd-toolbar-bg);
+		border-bottom: 1px solid var(--cd-border);
+	}
+
+	.cd-editor {
+		padding: 10px;
+		margin: 35px 0 10px;
+		border: 0;
+		border-top: 1px solid var(--cd-border);
+		border-right: 1px solid var(--cd-border);
+		color: var(--cd-text);
+		background-color: var(--cd-bg);
+		resize: none;
+		height: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
+
+		&:focus {
+			outline: 0;
+		}
+	}
+
+	.cd-preview {
+		padding: 10px;
+		margin: 35px 0 10px;
+		border-top: 1px solid var(--cd-border);
+		color: var(--cd-text);
+		background-color: var(--cd-bg);
+		word-wrap: break-word;
+		height: auto;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.cd-help-dialog {
+		padding: 45px;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-color: var(--cd-bg);
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.cd-help-dialog-button {
+		cursor: default;
+		display: flex;
+		max-width: 30px;
+		height: 30px;
+		align-items: center;
+		position: absolute;
+		top: 2.5px;
+		right: 2.5px;
+		z-index: 9999;
+		background-color: var(--cd-help-button-bg);
+		border: 1px solid var(--cd-border);
+		border-radius: 15px;
+		padding: 5px;
+		transition: all 0.2s linear;
+		overflow: hidden;
+
+		&:hover {
+			max-width: 200px;
+			justify-content: flex-start;
+
+			span:last-of-type {
+				opacity: 1;
+			}
+		}
+
+		span {
+			white-space: nowrap;
+
+			&:first-of-type {
+				flex-shrink: 0;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 18px;
+				height: 30px;
+				font-weight: bold;
+			}
+
+			&:last-of-type {
+				margin: 0 5px;
+				opacity: 0;
+				transition: opacity 0.2s linear 0.2s;
+			}
+		}
+	}
+
+	.cd-help-dialog__title {
+		align-self: center;
+	}
+
+	.cd-help-dialog__command-list {
+		align-self: stretch;
+		display: flex;
+		align-items: center;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		flex-wrap: wrap;
+		border-collapse: collapse;
+	}
+
+	.cd-help-dialog__command-item {
+		flex: 1 0 calc(100% / 3);
+		padding: 13px 18px;
+		text-align: center;
+		border: 1px solid var(--cd-border);
+		border-left-width: 0;
+		border-bottom-width: 0;
+
+		&:nth-of-type(3n - 2) {
+			border-left-width: 1px;
+		}
+
+		&:last-of-type {
+			border-bottom-width: 1px;
+		}
+	}
+
+	.cd-resize {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 10px;
+		cursor: s-resize;
+		background-color: var(--cd-resize-bg);
+		border-top: 1px solid var(--cd-resize-border);
+
+		.cd-bars {
+			width: 25px;
+			height: 1px;
+			position: relative;
+			background-color: var(--cd-resize-handle);
+
+			&:before,
+			&:after {
+				content: '';
+				display: block;
+				position: absolute;
+				width: 25px;
+				height: 1px;
+				background-color: var(--cd-resize-handle);
+			}
+
+			&:before {
+				top: -2px;
+			}
+
+			&:after {
+				bottom: -2px;
+			}
+		}
+	}
+}
+
+/* Bundled default theme: dark. Just variable overrides. */
+.cd-theme-dark {
+	--cd-bg: #222;
+	--cd-text: #fff;
+	--cd-border: #444;
+	--cd-toolbar-bg: #1d1d1d;
+	--cd-help-button-bg: #444;
+	--cd-resize-bg: #444;
+	--cd-resize-border: #222;
+	--cd-resize-handle: #222;
+}
+
+/* Layout: which of editor / preview / help-dialog are shown. */
+.cd-layout-both {
+	.cd-editor {
+		flex: 0 0 50%;
+	}
+
+	.cd-preview {
+		flex: 0 0 50%;
+	}
+
+	.cd-help-dialog {
+		display: none;
+	}
+}
+
+.cd-layout-editor {
+	.cd-editor {
+		flex: 0 0 100%;
+	}
+
+	.cd-preview {
+		display: none;
+	}
+
+	.cd-help-dialog {
+		display: none;
+	}
+}
+
+.cd-layout-preview {
+	.cd-editor {
+		display: none;
+	}
+
+	.cd-preview {
+		flex: 0 0 100%;
+	}
+
+	.cd-help-dialog {
+		display: none;
+	}
+}
+
+.cd-layout-full {
+	position: fixed;
+	top: 0;
+	left: 0;
+	/* biome-ignore lint/complexity/noImportantStyles: overrides the inline width/height set on the root for full-screen layout */
+	width: 100% !important;
+	/* biome-ignore lint/complexity/noImportantStyles: overrides the inline width/height set on the root for full-screen layout */
+	height: 100% !important;
+	z-index: 9999;
+
+	.cd-resize {
+		display: none;
+	}
+
+	.cd-editor,
+	.cd-preview,
+	.cd-help-dialog {
+		margin-bottom: 0;
+	}
+}
+
+.cd-layout-help-dialog {
+	.cd-editor {
+		display: none;
+	}
+
+	.cd-preview {
+		display: none;
+	}
+
+	.cd-help-dialog {
+		flex: 0 0 100%;
+	}
+
+	.cd-help-dialog-button {
+		display: none;
+	}
+}
